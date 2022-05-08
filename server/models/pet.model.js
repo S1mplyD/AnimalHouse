@@ -1,16 +1,19 @@
-const Schema = require("mongoose").Schema;
+const { default: mongoose } = require("mongoose");
+const Schema = require("mongoose");
 
-const petSchema = new Schema(
+const petSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     race: { type: String, required: true },
-    owner: { type: String, required: true },
+    owner: { type: String, required: true, unique: true },
+    age: { type: Number },
+    premium: { type: Boolean, required: true },
   },
   {
-    collection: "product-data",
+    collection: "pet-data",
   }
 );
 
-const productModel = mongoose.model("productData", productSchema);
+const petModel = mongoose.model("pet-data", petSchema);
 
-module.exports = productModel;
+module.exports = petModel;
