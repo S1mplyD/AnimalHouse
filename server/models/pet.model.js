@@ -6,7 +6,7 @@ const petSchema = new mongoose.Schema(
     name: { type: String, required: true },
     type: { type: String },
     race: { type: String },
-    owner: { type: String, required: true },
+    owner: { type: String, required: true }, //owenr username
     age: { type: Number },
     premium: { type: Boolean, required: true },
   },
