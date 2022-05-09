@@ -9,6 +9,7 @@ const petSchema = new mongoose.Schema(
     owner: { type: String, required: true }, //owenr username
     age: { type: Number },
     premium: { type: Boolean, required: true },
+    pictures: { type: [String] }, //path to images in FS
   },
   {
     collection: "pet-data",
