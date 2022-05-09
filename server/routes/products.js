@@ -15,6 +15,8 @@ router
    * POST
    * Create a new product
    */
+
+  //TODO add discounted price
   .post(async (req, res) => {
     try {
       await Product.create({
