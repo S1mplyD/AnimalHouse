@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema(
     mail: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     ownedAnimals: { type: [String] }, //_ids of owned animals
+    profilePicture: { type: String }, //Path to image on fs
   },
   {
     collection: "user-data",
