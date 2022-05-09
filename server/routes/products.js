@@ -16,13 +16,13 @@ router
    * Create a new product
    */
 
-  //TODO add discounted price
   .post(async (req, res) => {
     try {
       await Product.create({
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
+        discountedPrice: req.body.discountedPrice,
         categories: req.body.categories,
       });
       res.sendStatus(200);
