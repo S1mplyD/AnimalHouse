@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
-const aes256 = require("aes256");
 
 router
   .route("/")
@@ -45,12 +44,12 @@ router
    * @param userid Id of the user (uses _id field of mongodb)
    */
   .put(async (req, res) => {
-    //TODO think how to do it
-    if (req.body.password != null || req.body.password != "") {
-      const encryptedPassword = await bcrypt.hash(req.body.password, 10);
-    }
     try {
-      await User.findByIdAndUpdate(req.params.userid, req.body);
+      await User.findByIdAndUpdate(req.params.userid, {
+        name: req.body.name,
+        surname: req.body.surname,
+        ownedAnimals: req.body.ownedAnimals, //Ids of owned animals (use mongodb _id field of pet-data collection)
+      });
       res.status(200).json("User edited successfully");
     } catch (error) {
       res.json({ Error: "Error" + error });
@@ -72,7 +71,7 @@ router
   });
 
 router
-  .route("/:username")
+  .route("/:userfield")
   /**
    * GET
    * Get user by name
@@ -80,9 +79,15 @@ router
    * @param username name of the user we search for
    */
   .get(async (req, res) => {
-    //TODO make it to work with username, name, surname and mail. Maybe add more endpoints
     try {
-      const user = await User.findOne({ username: req.params.username });
+      const user = await User.findOne({
+        $or: [
+          { username: req.params.userfield },
+          { name: req.params.userfield },
+          { surname: req.params.userfield },
+          { mail: req.params.userfield },
+        ],
+      });
       res.status(200).json(user);
     } catch (error) {
       res.json({ Error: "Error" + error });
