@@ -1,4 +1,4 @@
-const Schema = require("mongoose");
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
@@ -7,9 +7,10 @@ const userSchema = new mongoose.Schema(
     username: { type: String, required: true, unique: true },
     mail: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    ownedAnimals: { type: [String] }, //_ids of owned animals
   },
   {
-    collation: "user-data",
+    collection: "user-data",
   }
 );
 
