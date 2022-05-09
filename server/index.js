@@ -3,6 +3,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config({ path: "../.env" });
 const productsRoute = require("./routes/products");
+const petsRoute = require("./routes/pets");
+const usersRoute = require("./routes/users");
 
 const app = express();
 
@@ -13,6 +15,8 @@ app.use(express.json());
 
 //Products routes
 app.use("/products", productsRoute);
+app.use("/pets", petsRoute);
+app.use("/users", usersRoute);
 
 mongoose.connect(process.env.MONGODB_PERSONAL_URI);
 
