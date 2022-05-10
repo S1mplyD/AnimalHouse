@@ -23,9 +23,10 @@ router
         name: req.body.name,
         surname: req.body.surname,
         username: req.body.username,
-        mail: req.body.mail, //Owner should be the user who is adding the pet
+        mail: req.body.mail,
         password: encryptedPassword, //Encrypt password using SHA512 hashing. Use bcrypt.compare(password,encryptedPassword) to get the plaintext password
         ownedAnimals: req.body.ownedAnimals, //Ids of owned animals (use mongodb _id field of pet-data collection)
+        //profilePicture: req.body.profilePicture, //When user upload an image, save them on fs and the save the path to the image in this field
       });
       res.sendStatus(200);
     } catch (error) {
@@ -38,8 +39,8 @@ router
   /**
    * PUT
    * Change one or more property of a user
-   * This should be used only to change NSFW names by the admins, passwords and other fields MUST not be
-   * edited by admins without user's consent
+   * This function should be used by frontend backoffice to change non sensible data of users. Passwords and mail should be an automated process
+   * requested by the user
    *
    * @param userid Id of the user (uses _id field of mongodb)
    */
@@ -48,7 +49,11 @@ router
       await User.findByIdAndUpdate(req.params.userid, {
         name: req.body.name,
         surname: req.body.surname,
+        username: req.body.username,
+        mail: req.body.mail,
+        password: req.body.password,
         ownedAnimals: req.body.ownedAnimals, //Ids of owned animals (use mongodb _id field of pet-data collection)
+        profilePicture: req.body.profilePicture,
       });
       res.status(200).json("User edited successfully");
     } catch (error) {

@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema(
     name: { type: String, required: true },
     surname: { type: String, required: true },
     username: { type: String, required: true, unique: true },
-    mail: { type: String, required: true, unique: true },
+    mail: { type: String, required: true, unique: true }, //login purpose only
     password: { type: String, required: true },
     ownedAnimals: { type: [String] }, //_ids of owned animals
     profilePicture: { type: String }, //Path to image on fs
