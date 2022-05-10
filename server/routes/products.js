@@ -5,7 +5,7 @@ router
   .route("/")
   /**
    * GET
-   * Get all products
+   * Ottiene tutti i prodotti
    */
   .get(async (req, res) => {
     const products = await Product.find();
@@ -13,7 +13,7 @@ router
   })
   /**
    * POST
-   * Create a new product
+   * Crea un nuovo prodotto
    */
 
   .post(async (req, res) => {
@@ -24,41 +24,42 @@ router
         price: req.body.price,
         discountedPrice: req.body.discountedPrice,
         categories: req.body.categories,
+        photos: req.body.photos,
       });
-      res.sendStatus(200);
+      res.json("Prodotto creato con successo");
     } catch (error) {
-      res.json({ Error: "Error" + error });
+      res.json({ Error: "Errore: " + error });
     }
   });
 
 router
   .route("/:productid")
   /**
-   * PUT
-   * Change a property of a product
+   * PATCH
+   * Cambia una o più proprietà di un prodotto
    *
-   * @param productid Id of the product (uses _id field of mongodb)
+   * @param productid Id del prodotto (usa il campo _id di mongo)
    */
   .put(async (req, res) => {
     try {
       await Product.findByIdAndUpdate(req.params.productid, req.body);
-      res.status(200).json("Product edited successfully");
+      res.status(200).json("Prodotto modificato correttamente");
     } catch (error) {
-      res.json({ Error: "Error" + error });
+      res.json({ Error: "Errore: " + error });
     }
   })
   /**
    * DELETE
-   * Delete an item with a specific id
+   * Cancella un prodotto con uno specifico id
    *
-   * @param productid Id of the product (uses _id field of mongodb)
+   * @param productid Id del prodotto (usa il campo _id di mongo)
    */
   .delete(async (req, res) => {
     try {
       await Product.findByIdAndDelete(req.params.productid);
-      res.status(200).json("Product deleted successfully");
+      res.status(200).json("Prodotto cancellato con successo");
     } catch (error) {
-      res.json({ Error: "Error" + error });
+      res.json({ Error: "Errore: " + error });
     }
   });
 
@@ -66,16 +67,16 @@ router
   .route("/:productname")
   /**
    * GET
-   * Get by product by name
+   * Ottiene un prodotto tramite nome
    *
-   * @param productname name of the product we search for
+   * @param productname nome del prodotto che stiamo cercando
    */
   .get(async (req, res) => {
     try {
       const product = await Product.findOne({ name: req.params.productname });
       res.status(200).json(product);
     } catch (error) {
-      res.json({ Error: "Error" + error });
+      res.json({ Error: "Errore: " + error });
     }
   });
 

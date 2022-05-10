@@ -5,7 +5,7 @@ router
   .route("/")
   /**
    * GET
-   * Get all pets
+   * Ottiene tutti gli animali
    */
   .get(async (req, res) => {
     const pets = await Pet.find();
@@ -13,7 +13,7 @@ router
   })
   /**
    * POST
-   * Create a new Pet
+   * Crea un nuovo animale
    */
   .post(async (req, res) => {
     try {
@@ -27,7 +27,7 @@ router
       });
       res.sendStatus(200);
     } catch (error) {
-      res.json({ Error: "Error" + error });
+      res.json({ Error: "Errore: " + error });
     }
   });
 
@@ -35,47 +35,48 @@ router
   .route("/:petid")
   /**
    * PUT
-   * Change one or more property of a Pet
+   * Cambia una o più proprietà di un animale
    *
-   * @param petid Id of the Pet (uses _id field of mongodb)
+   * @param petid Id dell´animale (usa il campo _id di mongo)
    */
-  .put(async (req, res) => {
+  .patch(async (req, res) => {
     try {
       await Pet.findByIdAndUpdate(req.params.petid, req.body);
-      res.status(200).json("Pet edited successfully");
+      res.status(200).json("Animale modificato con successo");
     } catch (error) {
-      res.json({ Error: "Error" + error });
+      res.json({ Error: "Errore: " + error });
     }
   })
   /**
    * DELETE
-   * Delete an item with a specific id
+   * Cancella un animale con uno specifico id
    *
-   * @param petid Id of the Pet (uses _id field of mongodb)
+   * @param petid Id dell´animale (usa il campo _id di mongo)
    */
   .delete(async (req, res) => {
     try {
       await Pet.findByIdAndDelete(req.params.petid);
-      res.status(200).json("Pet deleted successfully");
+      res.status(200).json("Animale eliminato con successo");
     } catch (error) {
-      res.json({ Error: "Error" + error });
+      res.json({ Error: "Errore: " + error });
     }
   });
 
+//TODO aggiungere più campi di ricerca
 router
   .route("/:petname")
   /**
    * GET
-   * Get Pet by name
+   * Ottiene l'animale con il nome inserito
    *
-   * @param petname name of the Pet we search for
+   * @param petname nome dell'animale che stiamo cercando
    */
   .get(async (req, res) => {
     try {
       const pet = await Pet.findOne({ name: req.params.petname });
       res.status(200).json(pet);
     } catch (error) {
-      res.json({ Error: "Error" + error });
+      res.json({ Error: "Errore: " + error });
     }
   });
 

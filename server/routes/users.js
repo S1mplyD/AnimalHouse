@@ -6,7 +6,7 @@ router
   .route("/")
   /**
    * GET
-   * Get all users
+   * Ottieni tutti gli utenti
    */
   .get(async (req, res) => {
     const users = await User.find();
@@ -14,7 +14,7 @@ router
   })
   /**
    * POST
-   * Create a new user
+   * Crea un nuovo utente
    */
   .post(async (req, res) => {
     const encryptedPassword = await bcrypt.hash(req.body.password, 10);
@@ -24,9 +24,9 @@ router
         surname: req.body.surname,
         username: req.body.username,
         mail: req.body.mail,
-        password: encryptedPassword, //Encrypt password using SHA512 hashing. Use bcrypt.compare(password,encryptedPassword) to get the plaintext password
-        ownedAnimals: req.body.ownedAnimals, //Ids of owned animals (use mongodb _id field of pet-data collection)
-        //profilePicture: req.body.profilePicture, //When user upload an image, save them on fs and the save the path to the image in this field
+        password: encryptedPassword, //Password criptata usando hash SHA512. Utilizzare bcrypt.compare(password,encryptedPassword) per ottenere il plaintext
+        ownedAnimals: req.body.ownedAnimals, //Id degli animali posseduti (Utilizza il campo _id di mongo)
+        profilePicture: req.body.profilePicture, //Array di path al filesystem dove sono contenute le immagini
       });
       res.sendStatus(200);
     } catch (error) {
@@ -37,41 +37,31 @@ router
 router
   .route("/:userid")
   /**
-   * PUT
-   * Change one or more property of a user
-   * This function should be used by frontend backoffice to change non sensible data of users. Passwords and mail should be an automated process
-   * requested by the user
+   * PATCH
+   * Cambia una o più proprietà di un utente
    *
-   * @param userid Id of the user (uses _id field of mongodb)
+   * @param userid Id dell'utente (Utilizza il campo _id di mongo)
    */
-  .put(async (req, res) => {
+  .patch(async (req, res) => {
     try {
-      await User.findByIdAndUpdate(req.params.userid, {
-        name: req.body.name,
-        surname: req.body.surname,
-        username: req.body.username,
-        mail: req.body.mail,
-        password: req.body.password,
-        ownedAnimals: req.body.ownedAnimals, //Ids of owned animals (use mongodb _id field of pet-data collection)
-        profilePicture: req.body.profilePicture,
-      });
-      res.status(200).json("User edited successfully");
+      await User.findByIdAndUpdate(req.params.userid, req.body);
+      res.status(200).json("Utente modificato con successo");
     } catch (error) {
-      res.json({ Error: "Error" + error });
+      res.json({ Error: "Errore: " + error });
     }
   })
   /**
    * DELETE
-   * Delete an item with a specific id
+   * Cancella un utente
    *
-   * @param userid Id of the user (uses _id field of mongodb)
+   * @param userid Id dell'utente (Utilizza il campo _id di mongo)
    */
   .delete(async (req, res) => {
     try {
       await User.findByIdAndDelete(req.params.userid);
-      res.status(200).json("User deleted successfully");
+      res.status(200).json("Utente cancellato con successo");
     } catch (error) {
-      res.json({ Error: "Error" + error });
+      res.json({ Error: "Errore: " + error });
     }
   });
 
@@ -79,9 +69,9 @@ router
   .route("/:userfield")
   /**
    * GET
-   * Get user by name
+   * Ottieni un utente dato un parametro
    *
-   * @param username name of the user we search for
+   * @param userfield parametro dell'utente
    */
   .get(async (req, res) => {
     try {
@@ -95,7 +85,7 @@ router
       });
       res.status(200).json(user);
     } catch (error) {
-      res.json({ Error: "Error" + error });
+      res.json({ Error: "Errore: " + error });
     }
   });
 

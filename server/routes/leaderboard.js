@@ -5,17 +5,15 @@ router
   .route("/")
   /**
    * GET
-   * Get all scores
-   *
-   * Sorting on client side, less work for the server
+   * Ottiene tutti i punteggi ordinati dal maggiore al minore
    */
   .get(async (req, res) => {
-    const leaderboard = await Leaderboard.find();
+    const leaderboard = await Leaderboard.find().sort({ score: -1 });
     res.send(leaderboard);
   })
   /**
    * POST
-   * Create new score
+   * Crea un nuovo punteggio
    */
   .post(async (req, res) => {
     try {
@@ -32,12 +30,12 @@ router
 router
   .route("/:playerName")
   /**
-   * PUT
-   * update the score of a player that is already in the leaderboard only if his new score is greater than the old one
+   * PATCH
+   * Aggiorna il punteggio del giocatore solo se è maggiore di quello precendente
    *
-   * @param playerName name of the player to update
+   * @param playerName nome del giocatore di cui aggiornare il punteggio
    */
-  .put(async (req, res) => {
+  .patch(async (req, res) => {
     try {
       const score = await Leaderboard.findOne({
         playerName: req.params.playerName,
@@ -47,7 +45,7 @@ router
           { playerName: req.params.playerName },
           { score: req.body.score }
         );
-        res.json("score updated");
+        res.json("Punteggio aggiornato");
       } else {
         res.json("new score is less or equal than older one");
       }
@@ -57,9 +55,9 @@ router
   })
   /**
    * DELETE
-   * Delete the score of a player from the leaderboard
+   * Cancella un giocatore dalla leaderboard
    *
-   * @params playerName name of the player whose score is to be deleted
+   * @params playerName nome del giocatore da cancellare
    */
   .delete(async (req, res) => {
     try {
