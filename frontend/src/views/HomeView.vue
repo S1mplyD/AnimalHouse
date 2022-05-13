@@ -8,7 +8,7 @@
       <li><router-link to="/servizi">SERVIZI</router-link></li>
       <li><router-link to="/shop">SHOP</router-link></li>
     </ul>
-    <nav>
+    <nav class="loginsection">
       <ul>
       <li>
     <router-link to="/login">
@@ -22,6 +22,33 @@
       </ul>
     </nav>
   </header>
+  <section class="body">
+    <nav class="Images">
+    <ul>
+      <li>
+         <p>Vuoi vedere altre immagini? <router-link :to="{name: 'gallery'}">Entra nella Galleria!</router-link></p>
+      </li>
+    </ul>
+    </nav>
+    <nav class="TopPosts">
+    <ul>
+      <li>
+         <p>Vuoi vedere altre news e post dal forum? <router-link :to="{name: 'forum'}">Entra nel Forum della comunità!</router-link></p>
+      </li>
+    </ul>
+    </nav>
+    <nav class="ADS">
+    <ul>
+      <li>
+        <router-link :to="{name: 'ads'}">
+          <div class="Adsblock">
+            <p>!!!ADS!!!</p>
+          </div>
+        </router-link>
+      </li>
+    </ul>
+    </nav>
+  </section>
   <footer class="cr">
     <p>Copyright &copy; {{ year }}</p>
   </footer>
@@ -55,7 +82,7 @@ export default {
     }
   }
 
-  nav {
+  .loginsection {
     margin-left: auto;
 
     ul {
@@ -69,5 +96,44 @@ export default {
   }
   .cr{
     bottom: 3px;
+    padding: 20px;
+    border: 1px solid #333;
   }
+  .body{
+    height: 800px;
+    border: 1px solid #333;
+  }
+  .Images {
+  float: left;
+  text-align: center;
+  width: 30%;
+  height:100%;
+  background: #ccc;
+  padding: 20px;
+}
+.TopPosts {
+  float: right;
+  text-align: center;
+  width: 30%;
+  height:100%;
+  background: #ccc;
+  padding: 20px;
+}
+.ADS {
+  margin: auto;
+  text-align: center;
+  width: 40%;
+  height:100%;
+  background: rgb(255, 255, 255);
+  padding: 20px;
+
+}
+.Adsblock{
+  float:center;
+  text-align: center;
+  width: 500px;
+  height:500px;
+  background: rgb(175, 22, 22);
+  padding: 20px;
+}
 </style>

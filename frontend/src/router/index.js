@@ -8,6 +8,8 @@ import ShopPage from '../views/ShopPage.vue'
 import ServiziPage from '../views/ServiziPage.vue'
 import NewsPage from '../views/NewsPage.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
+import GalleryPage from '../views/GalleryPage.vue'
+import AdsPage from '../views/AdsPage.vue'
 const routes = [
   {
     path: '/',
@@ -53,6 +55,16 @@ const routes = [
     path: '/passworddimenticata',
     name: 'passworddimenticata',
     component: ForgotPassword
+  },
+  {
+    path: '/gallery',
+    name: 'gallery',
+    component: GalleryPage
+  },
+  {
+    path: '/ads',
+    name: 'ads',
+    component: AdsPage
   }
 
 ]
