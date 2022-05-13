@@ -5,7 +5,11 @@ require("dotenv").config({ path: "../../.env" });
 const passport = require("passport");
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
+const LocalStrategy = require("passport-local");
 
+/**
+ * Autenticazione con google
+ */
 passport.use(
   new GoogleStrategy(
     {
@@ -34,6 +38,23 @@ passport.use(
   )
 );
 
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  function (req, res) {
+    res.redirect("/");
+  }
+);
+
+/**
+ * Autenticazione con twitter
+ */
+
 passport.use(
   new TwitterStrategy(
     {
@@ -61,37 +82,6 @@ passport.use(
   )
 );
 
-passport.deserializeUser((id, done) => {
-  User.findById(id).then((user) => {
-    done(null, user);
-  });
-});
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-/**
- * Google
- * Login tramite google
- */
-
-router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["email", "profile"] })
-);
-
-router.get(
-  "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  function (req, res) {
-    res.redirect("/");
-  }
-);
-/**
- * Twitter
- * Login tramite twitter
- */
 router.get(
   "/twitter",
   passport.authenticate("twitter", { scope: ["profile"] })
@@ -105,19 +95,51 @@ router.get(
   }
 );
 
-router.post("/login", async (req, res) => {
-  User.findOne({ username: req.body.login }).then(async (user) => {
-    let decryptedPassword = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
+/**
+ * Autenticazione normale
+ */
 
-    if (decryptedPassword) {
-      res.json("login successfull");
-    } else {
-      res.send("login failed");
-    }
+passport.use(
+  new LocalStrategy((username, password, done) => {
+    User.findOne({ username: username }, async (err, user) => {
+      if (err) return done(err);
+      if (!user) return done(null, false);
+      if (!(await bcrypt.compare(password, user.password)))
+        return done(null, false);
+      return done(null, user);
+    });
+  })
+);
+
+router.post(
+  "/login",
+  passport.authenticate("local", { failureRedirect: "/" }),
+  function (req, res) {
+    //res.send("login avvenuto con successo");
+    res.redirect("http://localhost:8080/");
+  }
+);
+
+router.post("/register", async (req, res) => {
+  const encryptedPassword = await bcrypt.hash(req.body.password, 10);
+  User.create({
+    name: req.body.name,
+    surname: req.body.surname,
+    username: req.body.username,
+    mail: req.body.mail,
+    password: encryptedPassword,
   });
+  res.json("registrazione avvenuta con successo");
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id).then((user) => {
+    done(null, user);
+  });
+});
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
 });
 
 router.get("/logout", (req, res) => {
