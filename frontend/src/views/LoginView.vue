@@ -4,11 +4,11 @@
             <h3>ACCEDI</h3>
             <div class="form-group">
                 <label>Indirizzo e-mail</label>
-                <input type="email" class="form-control form-control-lg" id="loginmail"/>
+                <input type="email" class="form-control form-control-lg" id="loginmail" v-model="mail"/>
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" class="form-control form-control-lg" id="loginpsw"/>
+                <input type="password" class="form-control form-control-lg" id="loginpsw" v-model="password"/>
             </div>
             <button type="submit" class="btn btn-dark btn-lg btn-block">Accedi</button>
             <p class="forgot-password text-right mt-2 mb-4">
@@ -28,12 +28,19 @@ import axios from 'axios'
 
 export default {
   data () {
-    return {}
+    return {
+      mail: '',
+      password: ''
+    }
   },
   methods: {
     login () {
       const self = this
-      axios.post('http://localhost:8000/auth/login', { mail: '#loginmail', password: '#loginpsw' }).then((res) => { self.$router.push('home') })
+      axios.post('http://localhost:8000/auth/login', { username: self.mail, password: self.password }).then((res) => {
+        if (res.status === 200) {
+          self.$router.push('/')
+        }
+      })
     }
   }
 }
