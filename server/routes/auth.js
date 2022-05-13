@@ -101,24 +101,25 @@ router.get(
 
 passport.use(
   new LocalStrategy((username, password, done) => {
-    User.findOne({ username: username }, async (err, user) => {
-      if (err) return done(err);
-      if (!user) return done(null, false);
-      if (!(await bcrypt.compare(password, user.password)))
+    User.findOne({ mail: username }, async (err, user) => {
+      if (err) {
+        console.log(err);
+        return done(err);
+      }
+      if (!user) {
         return done(null, false);
+      }
+      if (!(await bcrypt.compare(password, user.password))) {
+        return done(null, false);
+      }
       return done(null, user);
     });
   })
 );
 
-router.post(
-  "/login",
-  passport.authenticate("local", { failureRedirect: "/" }),
-  function (req, res) {
-    //res.send("login avvenuto con successo");
-    res.redirect("http://localhost:8080/");
-  }
-);
+router.post("/login", passport.authenticate("local"), function (req, res) {
+  res.json();
+});
 
 router.post("/register", async (req, res) => {
   const encryptedPassword = await bcrypt.hash(req.body.password, 10);
