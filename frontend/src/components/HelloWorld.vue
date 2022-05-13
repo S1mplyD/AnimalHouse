@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <img alt="logo sito" src="../assets/logo.png" height="80">
+    <router-link to="/"><img alt="logo sito" src="../assets/logo.png" height="80"></router-link>
     <h1>{{ msg }}</h1>
   </div>
 </template>
@@ -17,7 +17,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
  .hello {
-   width: 15em;
+   height: 11em;
+   width: 11em;
   border: 1px solid #333;
   box-shadow: 8px 8px 5px #444;
   padding: 8px 12px;

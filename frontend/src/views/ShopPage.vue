@@ -1,12 +1,12 @@
 <template>
-  <header class="home">
+  <header class="shop">
      <ul>
       <li><HelloWorld msg="ANIMAL HOUSE" /></li>
+      <li><router-link to="/" >HOME</router-link></li>
       <li><router-link to="/gioca">GIOCHI</router-link></li>
-      <li><router-link to="forum">FORUM</router-link></li>
+      <li><router-link to="/forum">FORUM</router-link></li>
       <li><router-link to="/news">NEWS</router-link></li>
       <li><router-link to="/servizi">SERVIZI</router-link></li>
-      <li><router-link to="/shop">SHOP</router-link></li>
     </ul>
     <nav>
       <ul>
@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .home {
+  .shop {
     display: flex;
     border-bottom: 1px solid #ccc;
     padding: .5rem 1rem;
@@ -70,4 +70,4 @@ export default {
   .cr{
     bottom: 3px;
   }
-</style>
+</style>>

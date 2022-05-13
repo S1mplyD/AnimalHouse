@@ -1,10 +1,9 @@
 <template>
-  <header class="home">
+  <header class="news">
      <ul>
       <li><HelloWorld msg="ANIMAL HOUSE" /></li>
       <li><router-link to="/gioca">GIOCHI</router-link></li>
-      <li><router-link to="forum">FORUM</router-link></li>
-      <li><router-link to="/news">NEWS</router-link></li>
+      <li><router-link to="/forum">FORUM</router-link></li>
       <li><router-link to="/servizi">SERVIZI</router-link></li>
       <li><router-link to="/shop">SHOP</router-link></li>
     </ul>
@@ -16,7 +15,7 @@
     </router-link></li>
       <li>
           <router-link to="/registrarsi">
-              <button type="submit" class="btn btn-dark btn-lg btn-block">CREA UN ACCOUNT</button>
+                      <button type="submit" class="btn btn-dark btn-lg btn-block">CREA UN ACCOUNT</button>
             </router-link>
         </li>
       </ul>
@@ -45,7 +44,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .home {
+  .news {
     display: flex;
     border-bottom: 1px solid #ccc;
     padding: .5rem 1rem;
@@ -70,4 +69,4 @@ export default {
   .cr{
     bottom: 3px;
   }
-</style>
+</style>>
