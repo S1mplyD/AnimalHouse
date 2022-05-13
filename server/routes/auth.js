@@ -100,8 +100,8 @@ router.get(
  */
 
 passport.use(
-  new LocalStrategy((username, password, done) => {
-    User.findOne({ username: username }, async (err, user) => {
+  new LocalStrategy((mail, password, done) => {
+    User.findOne({ mail: mail }, async (err, user) => {
       if (err) return done(err);
       if (!user) return done(null, false);
       if (!(await bcrypt.compare(password, user.password)))
@@ -115,8 +115,8 @@ router.post(
   "/login",
   passport.authenticate("local", { failureRedirect: "/" }),
   function (req, res) {
-    //res.send("login avvenuto con successo");
-    res.redirect("http://localhost:8080/");
+    res.send("login avvenuto con successo");
+    //res.redirect("/");
   }
 );
 

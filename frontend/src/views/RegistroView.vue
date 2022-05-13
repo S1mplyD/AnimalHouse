@@ -4,15 +4,15 @@
             <h3>CREA UN ACCOUNT</h3>
             <div class="form-group">
                 <label>Nome e cognome</label>
-                <input type="text" class="form-control form-control-lg"/>
+                <input type="text" class="form-control form-control-lg" id="signuname"/>
             </div>
             <div class="form-group">
                 <label>Indirizzo e-mail</label>
-                <input type="email" class="form-control form-control-lg" />
+                <input type="email" class="form-control form-control-lg" id="signupmail"/>
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" class="form-control form-control-lg" />
+                <input type="password" class="form-control form-control-lg" id="signuppsw"/>
             </div>
             <button type="submit" class="btn btn-dark btn-lg btn-block">Sign Up</button>
             <p class="forgot-password text-right">

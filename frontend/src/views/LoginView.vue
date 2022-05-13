@@ -1,14 +1,14 @@
 <template>
     <div class="login">
-        <form>
+        <form @submit.prevent="login">
             <h3>ACCEDI</h3>
             <div class="form-group">
                 <label>Indirizzo e-mail</label>
-                <input type="email" class="form-control form-control-lg" />
+                <input type="email" class="form-control form-control-lg" id="loginmail"/>
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" class="form-control form-control-lg" />
+                <input type="password" class="form-control form-control-lg" id="loginpsw"/>
             </div>
             <button type="submit" class="btn btn-dark btn-lg btn-block">Accedi</button>
             <p class="forgot-password text-right mt-2 mb-4">
@@ -24,9 +24,17 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
   data () {
     return {}
+  },
+  methods: {
+    login () {
+      const self = this
+      axios.post('http://localhost:8000/auth/login', { mail: '#loginmail', password: '#loginpsw' }).then((res) => { self.$router.push('home') })
+    }
   }
 }
 </script>
