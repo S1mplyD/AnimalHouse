@@ -10,6 +10,7 @@ const getHolidays = require("./utilities/holidays").getHolidays;
 const authRoute = require("./server/routes/auth");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
+const imagesRoute = require("./server/routes/images");
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use("/api/products", productsRoute);
 app.use("/api/pets", petsRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/leaderboard", leaderboardRoute);
+app.use("api/images", imagesRoute);
 app.use("/auth", authRoute);
 app.get("/api/getHolidays", async (req, res) => {
   const holiday = await getHolidays(
