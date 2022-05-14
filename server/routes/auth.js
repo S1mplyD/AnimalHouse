@@ -103,7 +103,6 @@ passport.use(
   new LocalStrategy((username, password, done) => {
     User.findOne({ mail: username }, async (err, user) => {
       if (err) {
-        console.log(err);
         return done(err);
       }
       if (!user) {
