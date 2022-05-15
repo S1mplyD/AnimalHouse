@@ -14,11 +14,9 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
-
 router.post("/avatar", async (req, res) => {
   if (req.user != null) {
-    var upload = multer({ storage: storage }).single("image");
+    const upload = multer({ storage: storage }).single("image");
     upload(req, res, async function (err) {
       if (err) {
         console.log(err);
@@ -41,17 +39,27 @@ router.post("/avatar", async (req, res) => {
 //TODO aggiungi l'immagine solo all'animale specifico con controllo dell'utente
 router.post("/petPhotos/:petid", async (req, res) => {
   if (req.user != null) {
-    await Pet.findOneAndUpdate(
-      { owner: req.user.username },
-      {
-        profilePicture: "http://localhost:8000/api/images/" + req.file.filename,
+    const upload = multer({ storage: storage }).array("images", 10);
+    upload(req, res, async (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.req.files.forEach((element) => {
+          console.log(element.filename);
+        });
+        // await Pet.findOneAndUpdate(
+        //   { $and: [{ owner: req.user.username }, { _id: req.params.petid }] },
+        //   {
+        //     profilePicture: "http://localhost:8000/api/images/" + res.req.files,
+        //   }
+        // );
       }
-    );
+    });
+
     res.json("immagine profilo aggiornata");
   } else {
     res.json("non loggato");
   }
-  res.json("Immagine caricata con successo");
 });
 
 router.get("/avatar", async (req, res) => {
