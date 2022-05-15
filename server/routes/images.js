@@ -16,11 +16,33 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post("/avatar", upload.single("image"), async (req, res) => {
-  console.log(req.file);
+router.post("/avatar", async (req, res) => {
   if (req.user != null) {
-    await User.findOneAndUpdate(
-      { username: req.user.username },
+    var upload = multer({ storage: storage }).single("image");
+    upload(req, res, async function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        await User.findOneAndUpdate(
+          { username: req.user.username },
+          {
+            profilePicture: res.req.file.filename,
+          }
+        );
+      }
+    });
+
+    res.redirect(200, "/");
+  } else {
+    res.json("non loggato");
+  }
+});
+
+//TODO aggiungi l'immagine solo all'animale specifico con controllo dell'utente
+router.post("/petPhotos/:petid", async (req, res) => {
+  if (req.user != null) {
+    await Pet.findOneAndUpdate(
+      { owner: req.user.username },
       {
         profilePicture: "http://localhost:8000/api/images/" + req.file.filename,
       }
@@ -29,40 +51,14 @@ router.post("/avatar", upload.single("image"), async (req, res) => {
   } else {
     res.json("non loggato");
   }
-
-  res.redirect("/");
+  res.json("Immagine caricata con successo");
 });
 
-//TODO aggiungi l'immagine solo all'animale specifico con controllo dell'utente
-router.post(
-  "/petPhotos/:petid",
-  upload.array("images", 10),
-  async (req, res) => {
-    if (req.user != null) {
-      await Pet.findOneAndUpdate(
-        { owner: req.user.username },
-        {
-          profilePicture:
-            "http://localhost:8000/api/images/" + req.file.filename,
-        }
-      );
-      res.json("immagine profilo aggiornata");
-    } else {
-      res.json("non loggato");
-    }
-    res.json("Immagine caricata con successo");
-  }
-);
-
-router.get("/:imageName", async (req, res) => {
-  console.log(req.user);
-  // const image = await fs.readFile(
-  //   __foldername + "/server/Images/" + req.params.imageName
-  // );
+router.get("/avatar", async (req, res) => {
   if (req.user != null) {
     await User.findOne({ username: req.user.username }).then((user) => {
       if (user) {
-        res.sendFile(__foldername + "/server/Images/" + req.params.imageName);
+        res.sendFile(__foldername + "/server/Images/" + user.profilePicture);
       } else {
         res.json("not authorized");
       }
