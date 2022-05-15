@@ -32,7 +32,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(__dirname + "/client/backoffice"));
+app.use(express.static(__foldername + "/test"));
 /**
  * API routes
  */
