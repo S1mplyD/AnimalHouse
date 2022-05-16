@@ -5,6 +5,9 @@ const fs = require("fs");
 const User = require("../models/user.model");
 const Pet = require("../models/pet.model");
 
+/**
+ * Storage delle immagini con regole sul come salvarle
+ */
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, __foldername + "/server/Images");
@@ -14,8 +17,15 @@ const storage = multer.diskStorage({
   },
 });
 
+/**
+ * Router per la gestione delle immagini profilo degli utenti
+ */
 router
   .route("/avatar")
+  /**
+   * GET
+   * Ritorna l'immagine profilo di un utente
+   */
   .get(async (req, res) => {
     if (req.user != null) {
       await User.findOne({ username: req.user.username }).then((user) => {
@@ -29,6 +39,14 @@ router
       res.json("not logged in");
     }
   })
+  /**
+   * POST
+   * Carica una nuova immagine profilo rimuovendo la precendente dal server e
+   * dal database.
+   * Questa funzione carica una singola immagine in quanto un utente può avere una sola
+   * immagine profilo
+   *
+   */
   .post(async (req, res) => {
     if (req.user != null) {
       const upload = multer({ storage: storage }).single("image");
@@ -58,6 +76,24 @@ router
       res.redirect(200, "/");
     } else {
       res.json("non loggato");
+    }
+  })
+  /**
+   * DELETE
+   * Rimuove l'immagine profilo di un utente.
+   * Funzione per gli utenti
+   */
+  .delete(async (req, res) => {
+    if (req.user != null) {
+      await User.findOneAndUpdate(
+        {
+          username: req.user.username,
+        },
+        { profilePicture: "" }
+      );
+      res.send(200);
+    } else {
+      res.send("utente non loggato");
     }
   });
 
@@ -101,6 +137,18 @@ router
       });
     } else {
       res.json("non loggato");
+    }
+  })
+  .delete(async (req, res) => {
+    if (req.user != null) {
+      await Pet.findOneAndUpdate(
+        {
+          $and: [{ owner: req.user.username }, { _id: req.params.petid }],
+        },
+        { $pull: { pictures: req.body.pictures } }
+      );
+    } else {
+      res.send("utente non loggato");
     }
   });
 
