@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1 id="log status"></h1>
+    <h1>immagini</h1>
+    <form
+      action="/api/images/petPhotos/62814f7009f4f4de1cbed9c4"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="file" name="images" multiple />
+      <input type="submit" />
+    </form>
+    <h1>avatar</h1>
+    <form
+      action="/api/images/avatar"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="file" name="image" />
+      <input type="submit" />
+    </form>
+    <h1>login</h1>
+    <form>
+      <input type="text" name="mail" id="mail" placeholder="mail" />
+      <input type="password" name="password" id="pass" placeholder="password" />
+      <input type="button" value="login" onclick="login()" />
+    </form>
+    <h1>immagine salvata</h1>
+    <img src="" id="img" />
+    <button onclick="showImage()">mostra immagine</button>
+    <button onclick="showImages()">mostra immagini</button>
+
+    <h1>logout</h1>
+    <a href="/auth/logout">logout</a>
+    <h1>google</h1>
+    <a href="/auth/google">google login</a>
+    <h1>Twitter</h1>
+    <a href="/auth/twitter">twitter login</a>
+    <div id="imgs"></div>
+    <script>
+      async function login() {
+        const data = {
+          username: document.getElementById("mail").value,
+          password: document.getElementById("pass").value,
+        };
+        fetch("/auth/login", {
+          method: "post",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }).then((res) => {
+          console.log(res);
+        });
+      }
+
+      async function showImage() {
+        fetch("/api/images/avatar", {
+          method: "get",
+        }).then(async (response) => {
+          const el = await response.text();
+          console.log(el);
+          document.getElementById("img").src = "http://localhost:8000/" + el;
+        });
+      }
+      async function showImages() {
+        await fetch("/api/images/petPhotos/62814f7009f4f4de1cbed9c4", {
+          method: "get",
+        }).then(async (response) => {
+          let els = await response.json();
+          els.forEach((element) => {
+            const elem = document.createElement("img");
+            elem.src = "http://localhost:8000/" + element;
+            document.getElementById("imgs").appendChild(elem);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
