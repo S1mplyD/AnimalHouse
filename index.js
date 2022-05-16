@@ -12,6 +12,8 @@ const cookieSession = require("cookie-session");
 const passport = require("passport");
 const imagesRoute = require("./server/routes/images");
 
+global.__foldername = __dirname;
+
 const app = express();
 
 const port = 8000;
@@ -31,7 +33,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(__dirname + "/client/backoffice"));
+app.use(express.static(__foldername + "/test"));
+app.use(express.static(__foldername + "/server/Images"));
 /**
  * API routes
  */
@@ -39,7 +42,7 @@ app.use("/api/products", productsRoute);
 app.use("/api/pets", petsRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/leaderboard", leaderboardRoute);
-app.use("api/images", imagesRoute);
+app.use("/api/images", imagesRoute);
 app.use("/auth", authRoute);
 app.get("/api/getHolidays", async (req, res) => {
   const holiday = await getHolidays(

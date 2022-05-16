@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Pet = require("../models/pet.model");
+const User = require("../models/user.model");
 
 router
   .route("/")
@@ -16,15 +17,24 @@ router
    * Crea un nuovo animale
    */
   .post(async (req, res) => {
+    console.log(req.user);
     try {
-      await Pet.create({
-        name: req.body.name,
-        type: req.body.type,
-        race: req.body.race,
-        owner: req.body.owner, //Owner should be the user who is adding the pet
-        age: req.body.age,
-        premium: req.body.premium,
-      });
+      if (req.user != null) {
+        await Pet.create({
+          name: req.body.name,
+          type: req.body.type,
+          race: req.body.race,
+          owner: req.user.username, //Owner should be the user who is adding the pet
+          age: req.body.age,
+          premium: req.body.premium,
+        }).then(async (pet) => {
+          await User.findOneAndUpdate(
+            { username: req.user.username },
+            { $push: { ownedAnimals: pet._id } }
+          );
+        });
+      }
+
       res.sendStatus(200);
     } catch (error) {
       res.json({ Error: "Errore: " + error });
