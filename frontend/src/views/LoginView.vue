@@ -16,8 +16,8 @@
             </p>
             <div class="social-icons">
                 <ul>
-                    <li><a href="#"><i class="fa fa-google"></i></a></li>
-                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li style= "padding-right:2em"><a href="#"><i class="fa fa-google"></i></a></li>
+                    <li style= "padding-right:2em"><a href="#"><i class="fa fa-twitter"></i></a></li>
                 </ul>
             </div>
         </form>
@@ -36,4 +36,10 @@ export default {
     margin: auto;
     width: 50%;
   }
+.social-icons{
+  ul {
+    display: inline-flex;
+    list-style-type: none;
+  }
+}
 </style>>

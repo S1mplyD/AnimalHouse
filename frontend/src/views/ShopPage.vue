@@ -1,45 +1,16 @@
 <template>
-  <header class="shop">
-     <ul>
-      <li><HelloWorld msg="ANIMAL HOUSE" /></li>
-      <li><router-link to="/" >HOME</router-link></li>
-      <li><router-link to="/gioca">GIOCHI</router-link></li>
-      <li><router-link to="/forum">FORUM</router-link></li>
-      <li><router-link to="/news">NEWS</router-link></li>
-      <li><router-link to="/servizi">SERVIZI</router-link></li>
-    </ul>
-    <nav>
-      <ul>
-      <li>
-    <router-link to="/login">
-        <button type="submit" class="btn btn-dark btn-lg btn-block">LOGIN</button>
-    </router-link></li>
-      <li>
-          <router-link to="/registrarsi">
-              <button type="submit" class="btn btn-dark btn-lg btn-block">CREA UN ACCOUNT</button>
-            </router-link>
-        </li>
-      </ul>
-    </nav>
-  </header>
-  <footer class="cr">
-    <p>Copyright &copy; {{ year }}</p>
-  </footer>
+<ShopHeaderVue />
+<SiteFooterVue />
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-import { computed } from 'vue'
-
+import ShopHeaderVue from '@/components/headers/ShopHeader.vue'
+import SiteFooterVue from '@/components/SiteFooter.vue'
 export default {
-  name: 'HomeView',
+  name: 'ShopPage',
   components: {
-    HelloWorld
-  },
-  setup () {
-    const year = computed(() => new Date().getFullYear())
-    return { year }
+    ShopHeaderVue,
+    SiteFooterVue
   }
 }
 </script>
