@@ -1,5 +1,3 @@
-const { response } = require("express");
-
 const axios = require("axios").default;
 require("dotenv").config();
 
