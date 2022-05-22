@@ -6,11 +6,12 @@ const productsRoute = require("./server/routes/products");
 const petsRoute = require("./server/routes/pets");
 const usersRoute = require("./server/routes/users");
 const leaderboardRoute = require("./server/routes/leaderboard");
-const getHolidays = require("./utilities/holidays").getHolidays;
+const getHolidays = require("./server/APIs/holidays").getHolidays;
 const authRoute = require("./server/routes/auth");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
 const imagesRoute = require("./server/routes/images");
+const getTrivia = require("./server/APIs/trivia").getTrivia;
 
 global.__foldername = __dirname;
 
@@ -50,6 +51,11 @@ app.get("/api/getHolidays", async (req, res) => {
     req.body.year
   );
   res.json(holiday);
+});
+app.get("/api/getTrivia/:difficulty", async (req, res) => {
+  await getTrivia(req.params.difficulty).then((response) => {
+    res.json(response);
+  });
 });
 
 mongoose.connect(process.env.MONGODB_PERSONAL_URI);
