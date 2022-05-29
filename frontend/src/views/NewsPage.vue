@@ -1,6 +1,6 @@
 <template>
 <NewsHeaderVue />
-<SiteFooterVue />
+<SiteFooterVue/>
 </template>
 
 <script>

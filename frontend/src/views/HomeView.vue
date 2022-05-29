@@ -3,46 +3,74 @@
   <section class="body">
     <nav class="Images">
     <ul>
-      <li>
-         <p>Vuoi vedere altre immagini? <router-link :to="{name: 'gallery'}">Entra nella Galleria!</router-link></p>
+      <li class="gallery">
+         <p>Vuoi vedere altre immagini? <router-link :to="{name: 'gallery'}" class="routerlink">Entra nella Galleria!</router-link></p>
       </li>
     </ul>
     </nav>
     <nav class="TopPosts">
     <ul>
       <li>
-         <p>Vuoi vedere altre news e post dal forum? <router-link :to="{name: 'forum'}">Entra nel Forum della comunità!</router-link></p>
+         <p>Vuoi vedere altre news e post dal forum? <router-link :to="{name: 'forum'}" class="routerlink">Entra nel Forum della comunità!</router-link></p>
       </li>
     </ul>
     </nav>
     <nav class="ADS">
-    <ul>
-      <li>
-        <router-link :to="{name: 'ads'}">
-          <div class="Adsblock">
-            <p>!!!ADS!!!</p>
+      <CarouselMain
+        navigation="true"
+        :pagination="true"
+        :startAutoPlay="false"
+        :timeout="5000"
+        class="carousel"
+        v-slot="{ currentSlide }"
+      >
+        <SlideImage v-for="(slide, index) in carouselSlides" :key="index">
+          <div v-show="currentSlide === index + 1" class="slide-info">
+            <section class="slidebody">
+              <img :src="require(`../assets/${slide}.jpg`)" alt="" class="image" />
+              <nav class="shoplink">
+                <ul>
+                  <li>
+                    <p>Oggetto numero {{currentSlide}}</p>
+                  </li>
+                  <li>
+                   <router-link :to="{path: '/shop'}" class="routerlink">=> VAI ALLO SHOP</router-link>
+                  </li>
+                </ul>
+              </nav>
+            </section>
           </div>
-        </router-link>
-      </li>
-    </ul>
+        </SlideImage>
+      </CarouselMain>
     </nav>
   </section>
-  <SiteFooterVue />
+  <SiteFooterVue/>
 </template>
 
 <script>
 import HomeHeaderVue from '@/components/headers/HomeHeader.vue'
 import SiteFooterVue from '@/components/SiteFooter.vue'
+import CarouselMain from '@/components/carousel/CarouselMain.vue'
+import SlideImage from '@/components/carousel/SlideImage.vue'
 export default {
   name: 'HomeView',
-  components: { HomeHeaderVue, SiteFooterVue }
+  components: { HomeHeaderVue, SiteFooterVue, CarouselMain, SlideImage },
+  setup () {
+    const carouselSlides = ['bg-1', 'bg-2', 'bg-3', 'bg-4', 'bg-5']
+    return { carouselSlides }
+  },
+  methods: {
+    goToShop () {
+      return this.$router.push('/shop')
+    }
+  }
 }
 </script>
 
 <style lang="scss">
   .home {
     display: flex;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid rgb(3, 3, 3);
     padding: .5rem 1rem;
 
     p {
@@ -62,11 +90,7 @@ export default {
       margin-left: 1rem;
     }
   }
-  .cr{
-    bottom: 3px;
-    padding: 20px;
-    border: 1px solid #333;
-  }
+
   .body{
     height: 800px;
     border: 1px solid #333;
@@ -76,7 +100,7 @@ export default {
   text-align: center;
   width: 30%;
   height:100%;
-  background: #ccc;
+  background: rgb(60, 121, 150);
   padding: 20px;
 }
 .TopPosts {
@@ -84,7 +108,7 @@ export default {
   text-align: center;
   width: 30%;
   height:100%;
-  background: #ccc;
+  background: rgb(60, 121, 150);
   padding: 20px;
 }
 .ADS {
@@ -92,16 +116,29 @@ export default {
   text-align: center;
   width: 40%;
   height:100%;
-  background: rgb(255, 255, 255);
+  background: rgb(47, 39, 148);
   padding: 20px;
-
 }
-.Adsblock{
-  float:center;
-  text-align: center;
+.carousel{
+  position: relative;
+}
+.slide-info{
+  position: absolute;
   width: 500px;
   height:500px;
-  background: rgb(175, 22, 22);
   padding: 20px;
+}
+.slidebody{
+  float:center;
+  width: 680px;
+  height: 500px;
+  padding: 20px;
+  border: 3px solid rgb(0, 0, 0);
+  background: rgb(39, 192, 103);
+  .image{
+   margin-right: 3px;
+   width: 638px;
+   height: 390px;
+  }
 }
 </style>

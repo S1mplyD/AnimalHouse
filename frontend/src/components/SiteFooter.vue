@@ -14,3 +14,12 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+footer{
+  bottom: 4px;
+  height: 100%;
+  background-color: rgb(0, 68, 40);
+  padding-top: 47px;
+  padding-bottom: 40px ;
+}
+</style>

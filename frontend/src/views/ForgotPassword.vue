@@ -1,5 +1,5 @@
 <template>
-    <div class="vue-tempalte">
+    <div class="vue-template">
         <form>
             <h3>Password dimenticata?</h3>
             <div class="form-group">

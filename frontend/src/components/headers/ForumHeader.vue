@@ -4,11 +4,11 @@
     <p>ANIMAL HOUSE</p>
     <nav>
       <ul>
-        <li><router-link to="/">HOME</router-link></li>
-        <li><router-link to="/gioca">GIOCHI</router-link></li>
-        <li><router-link to="/news">NEWS</router-link></li>
-        <li><router-link to="/servizi">SERVIZI</router-link></li>
-        <li><router-link to="/shop">SHOP</router-link></li>
+        <li><router-link to="/" class="routerlink">HOME</router-link></li>
+        <li><router-link to="/gioca" class="routerlink">GIOCHI</router-link></li>
+        <li><router-link to="/news" class="routerlink">NEWS</router-link></li>
+        <li><router-link to="/servizi" class="routerlink">SERVIZI</router-link></li>
+        <li><router-link to="/shop" class="routerlink">SHOP</router-link></li>
         </ul>
     </nav>
     <nav id="loginsection">
@@ -30,7 +30,8 @@
 <style lang="scss">
 header {
     display: flex;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid rgb(3, 3, 3);
+    background-color: rgb(0, 68, 40);
     padding: .5rem 1rem;
 
     p {

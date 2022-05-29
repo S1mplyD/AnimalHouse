@@ -1,5 +1,5 @@
-<template>
-    <div class="login">
+<template class="log">
+    <div class="vue-template">
         <form>
             <h3>ACCEDI</h3>
             <div class="form-group">
@@ -12,7 +12,7 @@
             </div>
             <button type="submit" class="btn btn-dark btn-lg btn-block">Accedi</button>
             <p class="forgot-password text-right mt-2 mb-4">
-                <router-link to="/passworddimenticata">Hai dimenticato la password ?</router-link>
+                <router-link to="/passworddimenticata" class="routerlink">Hai dimenticato la password ?</router-link>
             </p>
             <div class="social-icons">
                 <ul>

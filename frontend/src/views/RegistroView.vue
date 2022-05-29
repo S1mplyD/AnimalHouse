@@ -1,5 +1,5 @@
 <template>
-    <div class="vue-tempalte">
+    <div class="vue-template">
         <form>
             <h3>CREA UN ACCOUNT</h3>
             <div class="form-group">
@@ -14,10 +14,10 @@
                 <label>Password</label>
                 <input type="password" class="form-control form-control-lg" />
             </div>
-            <button type="submit" class="btn btn-dark btn-lg btn-block">Sign Up</button>
+            <button type="submit" class="btn btn-dark btn-lg btn-block">Registrati</button>
             <p class="forgot-password text-right">
                 Questo account esiste già
-                <router-link :to="{name: 'login'}">Accedi?</router-link>
+                <router-link :to="{name: 'login'}" class="routerlink">Accedi?</router-link>
             </p>
         </form>
     </div>
@@ -30,8 +30,8 @@ export default {
 }
 </script>
 
-/script>
 <style lang="scss">
+  .fo
   .form-group{
     position: relative;
     margin: auto;

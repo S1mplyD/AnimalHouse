@@ -1,6 +1,6 @@
 <template>
  <ForumHeaderVue />
- <SiteFooterVue />
+ <SiteFooterVue/>
 </template>
 
 <script>
@@ -26,7 +26,6 @@ export default {
       margin-left: 1rem;
     }
   }
-
   nav {
     margin-left: auto;
 

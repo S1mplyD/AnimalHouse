@@ -1,6 +1,6 @@
 <template>
 <GamesHeaderVue />
-<SiteFooterVue />
+<SiteFooterVue/>
 </template>
 
 <script>
