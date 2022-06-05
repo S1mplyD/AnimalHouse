@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: white;
+  border-radius: 20px;
+  width: fit-content;
+  margin: 0px auto;
+}
+
+.submitForm {
+  margin: 40px;
+  width: fit-content;
+  min-height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  border: 5px solid grey;
+  padding: 20px;
+  background-color: white;
+}
+
+.submitScore {
+  background-color: white;
+}
+
+.score {
+  background-color: white;
+}
+
+.text {
+  background-color: white;
+}
+
+.submit {
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.submitF {
+  display: flex;
+  background-color: white;
+  justify-content: space-between;
+  flex-direction: column;
+}
