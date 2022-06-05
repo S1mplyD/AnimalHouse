@@ -4,13 +4,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import Quiz from "./components/Quiz";
 import Home from "./components/Home";
+import Result from "./components/Result";
 
 function App() {
   const [questions, setQuestions] = useState([]);
   const [score, setScore] = useState(0);
   const getQuestions = async () => {
     const rawData = await axios.get(
-      "http://localhost:8000/api/getTrivia/medium"
+      "http://192.168.8.176:8000/api/getTrivia/medium"
     );
     setQuestions(rawData.data);
   };
@@ -43,6 +44,7 @@ function App() {
               />
             }
           />
+          <Route path="/result" element={<Result score={score} />} />
         </Routes>
       </div>
     </Router>
