@@ -6,6 +6,12 @@
       <li class="gallery">
          <p>Vuoi vedere altre immagini? <router-link :to="{name: 'gallery'}" class="routerlink">Entra nella Galleria!</router-link></p>
       </li>
+      <li v-for="photo in photos" :key="photo" >
+        <img class="Imageshow1" v-if="photo.id==0" :src="thumbUrl(photo.filename)"/>
+      </li>
+      <li v-for="photo in photos" :key="photo" >
+        <img class="Imageshow2" v-if="photo.id==1" :src="thumbUrl(photo.filename)"/>
+      </li>
     </ul>
     </nav>
     <nav class="TopPosts">
@@ -33,11 +39,9 @@
                   <li>
                     <p>Oggetto numero {{currentSlide}}</p>
                   </li>
-                  <li>
-                   <router-link :to="{path: '/shop'}" class="routerlink">=> VAI ALLO SHOP</router-link>
-                  </li>
                 </ul>
               </nav>
+              <p>Vuoi vedere altri prodotti? <router-link :to="{name: 'shop'}" class="routerlink">Vai allo shop</router-link> per vedere le offerte della settimana!</p>
             </section>
           </div>
         </SlideImage>
@@ -52,9 +56,15 @@ import HomeHeaderVue from '@/components/headers/HomeHeader.vue'
 import SiteFooterVue from '@/components/SiteFooter.vue'
 import CarouselMain from '@/components/carousel/CarouselMain.vue'
 import SlideImage from '@/components/carousel/SlideImage.vue'
+import photos from '@/photos.json'
 export default {
   name: 'HomeView',
   components: { HomeHeaderVue, SiteFooterVue, CarouselMain, SlideImage },
+  data () {
+    return {
+      photos
+    }
+  },
   setup () {
     const carouselSlides = ['bg-1', 'bg-2', 'bg-3', 'bg-4', 'bg-5']
     return { carouselSlides }
@@ -62,6 +72,9 @@ export default {
   methods: {
     goToShop () {
       return this.$router.push('/shop')
+    },
+    thumbUrl (filename) {
+      return require(`@/assets/images/thumbnails/${filename}`)
     }
   }
 }
@@ -102,6 +115,23 @@ export default {
   height:100%;
   background: rgb(60, 121, 150);
   padding: 20px;
+  .gallery{
+    transform: translateY(-100%);
+  }
+  .Imageshow1{
+   width: 55%;
+   height: 55%;
+   object-fit: cover;
+   transform: translate(40%, -40%);
+   border-radius: 0.75rem;
+  }
+  .Imageshow2{
+   width: 55%;
+   height: 55%;
+   object-fit: cover;
+   transform: translate(40%, -40%);
+   border-radius: 0.75rem;
+  }
 }
 .TopPosts {
   float: right;
@@ -131,6 +161,7 @@ export default {
 .slidebody{
   float:center;
   width: 680px;
+  border-radius: 0.75rem;
   height: 500px;
   padding: 20px;
   border: 3px solid rgb(0, 0, 0);

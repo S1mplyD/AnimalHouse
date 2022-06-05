@@ -10,6 +10,7 @@ import NewsPage from '../views/NewsPage.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import GalleryPage from '../views/GalleryPage.vue'
 import AdsPage from '../views/AdsPage.vue'
+import PhotoView from '../views/PhotoView.vue'
 const routes = [
   {
     path: '/',
@@ -65,6 +66,11 @@ const routes = [
     path: '/ads',
     name: 'ads',
     component: AdsPage
+  },
+  {
+    path: '/gallery/:id',
+    name: 'photo',
+    component: PhotoView
   }
 
 ]
