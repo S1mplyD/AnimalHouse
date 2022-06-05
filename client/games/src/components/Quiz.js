@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Question from "./Question";
-import decode from "html-encoder-decoder";
+import { CircularProgress } from "@material-ui/core";
+import "../componentsCss/Quiz.css";
 
 function Quiz({ questions, setQuestions, score, setScore }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -19,13 +20,29 @@ function Quiz({ questions, setQuestions, score, setScore }) {
   };
 
   return (
-    <div>
-      {decode.decode(questions[currentQuestion].question)}
-      <div>
-        {options.map((i) => (
-          <p>{i}</p>
-        ))}
-      </div>
+    <div className="quiz">
+      {questions ? (
+        <>
+          {console.log(questions[currentQuestion].correct_answer)}
+          <Question
+            currentQuestion={currentQuestion}
+            setCurrentQuestion={setCurrentQuestion}
+            questions={questions}
+            options={options}
+            correct={questions[currentQuestion].correct_answer}
+            score={score}
+            setScore={setScore}
+            setQuestions={setQuestions}
+          />
+        </>
+      ) : (
+        <CircularProgress
+          style={{ margin: 100 }}
+          color="inherit"
+          size={150}
+          thickness={1}
+        />
+      )}
     </div>
   );
 }
