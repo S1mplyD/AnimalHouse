@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import "../componentsCss/Result.css";
+import "../../componentsCss/Quiz/Result.css";
 
 function Result({ score }) {
   const submitScore = async () => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import "../componentsCss/Question.css";
+import "../../componentsCss/Quiz/Question.css";
 import decode from "html-encoder-decoder";
 
 const Question = ({
