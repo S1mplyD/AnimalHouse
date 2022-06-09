@@ -1,4 +1,4 @@
-<template>
+<template lang="it">
 <HomeHeaderVue />
   <section class="body">
     <nav class="Images">
@@ -16,8 +16,24 @@
     </nav>
     <nav class="TopPosts">
     <ul>
-      <li>
-         <p>Vuoi vedere altre news e post dal forum? <router-link :to="{name: 'forum'}" class="routerlink">Entra nel Forum della comunità!</router-link></p>
+      <li><p>Vuoi vedere altre news e post dal forum? <router-link :to="{name: 'forum'}" class="routerlink">Entra nel Forum della comunità!</router-link></p></li>
+      <li class="Postshow1" >
+        <div v-for="post in posts" :key="post"  >
+         <p  v-if="post.id==0"><b>{{post.title}}:</b> </p>
+         <p  v-if="post.id==0">{{post.post_summary}}</p>
+        </div>
+      </li>
+      <li class="Postshow2">
+        <div v-for="post in posts" :key="post">
+         <p v-if="post.id==1"><b>{{post.title}}:</b> </p>
+         <p v-if="post.id==1">{{post.post_summary}}</p>
+        </div>
+      </li>
+      <li class="Postshow3">
+        <div v-for="post in posts" :key="post">
+         <p v-if="post.id==2"><b>{{post.title}}:</b> </p>
+         <p v-if="post.id==2">{{post.post_summary}}</p>
+        </div>
       </li>
     </ul>
     </nav>
@@ -57,12 +73,14 @@ import SiteFooterVue from '@/components/SiteFooter.vue'
 import CarouselMain from '@/components/carousel/CarouselMain.vue'
 import SlideImage from '@/components/carousel/SlideImage.vue'
 import photos from '@/photos.json'
+import posts from '@/posts.json'
 export default {
   name: 'HomeView',
   components: { HomeHeaderVue, SiteFooterVue, CarouselMain, SlideImage },
   data () {
     return {
-      photos
+      photos,
+      posts
     }
   },
   setup () {
@@ -140,7 +158,32 @@ export default {
   height:100%;
   background: rgb(60, 121, 150);
   padding: 20px;
+  .Postshow1{
+    display: flex;
+   border: 1px solid rgb(3, 3, 3);
+  font-size: 200%;
+  background-color: rgb(117, 117, 117);
+  padding: .5rem 1rem;
+  border-radius: 0.75rem;
+  }
+  .Postshow2{
+  display: flex;
+  border: 1px solid rgb(3, 3, 3);
+  font-size: 200%;
+  background-color: rgb(117, 117, 117);
+  padding: .5rem 1rem;
+  border-radius: 0.75rem;
+  }
+  .Postshow3{
+  display: flex;
+  border: 1px solid rgb(3, 3, 3);
+  font-size: 200%;
+  background-color: rgb(117, 117, 117);
+  padding: .5rem 1rem;
+  border-radius: 0.75rem;
+  }
 }
+
 .ADS {
   margin: auto;
   text-align: center;

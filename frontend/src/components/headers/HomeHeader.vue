@@ -1,7 +1,7 @@
-<template>
+<template lang="it">
   <header>
     <img alt="Vue logo" src="@/assets/logo.png" height="50">
-    <p>ANIMAL HOUSE</p>
+    <b><p>ANIMAL HOUSE</p></b>
     <nav>
       <ul>
         <li><router-link to="/gioca" class="routerlink">GIOCHI</router-link></li>

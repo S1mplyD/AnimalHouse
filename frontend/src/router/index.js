@@ -11,6 +11,7 @@ import ForgotPassword from '../views/ForgotPassword.vue'
 import GalleryPage from '../views/GalleryPage.vue'
 import AdsPage from '../views/AdsPage.vue'
 import PhotoView from '../views/PhotoView.vue'
+import PostView from '../views/PostView.vue'
 const routes = [
   {
     path: '/',
@@ -71,6 +72,11 @@ const routes = [
     path: '/gallery/:id',
     name: 'photo',
     component: PhotoView
+  },
+  {
+    path: '/forum/:id',
+    name: 'post',
+    component: PostView
   }
 
 ]

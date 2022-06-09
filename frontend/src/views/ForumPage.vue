@@ -1,16 +1,19 @@
-<template>
+<template lang="it">
  <ForumHeaderVue />
+ <ForumComponent class="forum-view"/>
  <SiteFooterVue/>
 </template>
 
 <script>
 // @ is an alias to /src
 import ForumHeaderVue from '@/components/headers/ForumHeader.vue'
+import ForumComponent from '@/components/forum/ForumComponent.vue'
 import SiteFooterVue from '@/components/SiteFooter.vue'
 export default {
   name: 'ForumPage',
   components: {
     ForumHeaderVue,
+    ForumComponent,
     SiteFooterVue
   }
 }

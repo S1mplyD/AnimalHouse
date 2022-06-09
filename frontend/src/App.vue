@@ -1,4 +1,4 @@
-<template>
+<template lang="it">
 <!-- Qui si gestisce il router, che permette di cambiare le schermate del sito rimanendo su una stessa pagina. Vue fa uso di un sistema
 basato su Single Page Applications, quindi non fa altro che aggiornare l'unica pagina-->
   <router-view/>

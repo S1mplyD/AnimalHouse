@@ -1,4 +1,4 @@
-<template>
+<template lang="it">
     <div class="vue-template">
         <form>
             <h3>CREA UN ACCOUNT</h3>

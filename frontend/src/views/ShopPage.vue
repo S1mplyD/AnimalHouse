@@ -1,4 +1,4 @@
-<template>
+<template lang="it">
 <ShopHeaderVue />
 <SiteFooterVue />
 </template>

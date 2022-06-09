@@ -1,4 +1,4 @@
-<template>
+<template lang="it">
  <div>
   <ResultsComponent />
   <PhotoComponent />

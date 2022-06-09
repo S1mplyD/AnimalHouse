@@ -1,4 +1,4 @@
-<template class="gallery-main">
+<template class="gallery-main" lang="it">
   <GalleryHeader />
   <ResultsComponent class="gallery-view"/>
   <SiteFooter />

@@ -1,4 +1,4 @@
-<template class="log">
+<template class="log" lang="it">
     <div class="vue-template">
         <form>
             <h3>ACCEDI</h3>

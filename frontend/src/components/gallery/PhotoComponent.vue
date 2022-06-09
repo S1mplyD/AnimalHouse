@@ -1,4 +1,4 @@
-<template>
+<template lang="it">
   <div class="lightbox" @click.self="closeLightbox">
 
     <img :src="photoUrl(photo.filename)">

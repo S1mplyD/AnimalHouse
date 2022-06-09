@@ -1,6 +1,6 @@
-<template>
+<template lang="it">
   <footer>
-    <p>Copyright &copy; {{ year }}</p>
+    <b><p>Copyright &copy; {{ year }}</p></b>
   </footer>
 </template>
 
