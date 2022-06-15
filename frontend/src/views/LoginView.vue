@@ -1,18 +1,19 @@
-<template class="log" lang="it">
+<template class="log" lang="it" >
+<body class="bodymain">
     <div class="vue-template">
         <form>
-            <h3>ACCEDI</h3>
+            <h3>LOG IN</h3>
             <div class="form-group">
-                <label>Indirizzo e-mail</label>
+                <label>E-mail adrress</label>
                 <input type="email" class="form-control form-control-lg" />
             </div>
             <div class="form-group">
                 <label>Password</label>
                 <input type="password" class="form-control form-control-lg" />
             </div>
-            <button type="submit" class="btn btn-dark btn-lg btn-block">Accedi</button>
+            <button type="submit" class="btn btn-dark btn-lg btn-block">Sign in</button>
             <p class="forgot-password text-right mt-2 mb-4">
-                <router-link to="/passworddimenticata" class="routerlink">Hai dimenticato la password ?</router-link>
+                <router-link to="/passworddimenticata" class="routerlink">Did you forget your password?</router-link>
             </p>
             <div class="social-icons">
                 <ul>
@@ -22,6 +23,7 @@
             </div>
         </form>
     </div>
+  </body>
 </template>
 <script>
 export default {

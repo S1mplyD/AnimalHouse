@@ -1,7 +1,9 @@
 <template class="gallery-main" lang="it">
+<body class="bodymain">
   <GalleryHeader />
   <ResultsComponent class="gallery-view"/>
   <SiteFooter />
+</body>
 </template>
 
 <script>

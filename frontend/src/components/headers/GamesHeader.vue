@@ -4,10 +4,10 @@
     <b><p>ANIMAL HOUSE</p></b>
     <nav>
       <ul>
-        <li><router-link to="/" class="routerlink">HOME</router-link></li>
+        <li><router-link to="/" class="routerlink">HOMEPAGE</router-link></li>
         <li><router-link to="forum" class="routerlink">FORUM</router-link></li>
         <li><router-link to="/news" class="routerlink">NEWS</router-link></li>
-        <li><router-link to="/servizi" class="routerlink">SERVIZI</router-link></li>
+        <li><router-link to="/servizi" class="routerlink">SERVICES</router-link></li>
         <li><router-link to="/shop" class="routerlink">SHOP</router-link></li>
         </ul>
     </nav>
@@ -15,11 +15,11 @@
       <ul>
       <li>
     <router-link to="/login">
-        <button type="submit" class="btn btn-dark btn-lg btn-block">LOGIN</button>
+        <button type="submit" class="btn btn-dark btn-lg btn-block">LOG IN</button>
     </router-link></li>
       <li>
           <router-link to="/registrarsi">
-              <button type="submit" class="btn btn-dark btn-lg btn-block">CREA UN ACCOUNT</button>
+              <button type="submit" class="btn btn-dark btn-lg btn-block">CREATE AN ACCOUNT</button>
             </router-link>
         </li>
       </ul>

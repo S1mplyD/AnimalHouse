@@ -1,21 +1,21 @@
 <template lang="it">
   <header>
     <img alt="Vue logo" src="@/assets/logo.png" height="50">
-    <b><p>ANIMAL HOUSE</p></b>
+    <b><p>ANIMAL HOUSE Gallery</p></b>
     <nav>
       <ul>
-        <li><router-link to="/" class="routerlink">Torna alla HOME</router-link></li>
+        <li><router-link to="/" class="routerlink">Go back to the HOMEPAGE</router-link></li>
         </ul>
     </nav>
     <nav id="loginsection">
       <ul>
       <li>
     <router-link to="/login">
-        <button type="submit" class="btn btn-dark btn-lg btn-block">LOGIN</button>
+        <button type="submit" class="btn btn-dark btn-lg btn-block">LOG IN</button>
     </router-link></li>
       <li>
           <router-link to="/registrarsi">
-              <button type="submit" class="btn btn-dark btn-lg btn-block">CREA UN ACCOUNT</button>
+              <button type="submit" class="btn btn-dark btn-lg btn-block">CREATE AN ACCOUNT</button>
             </router-link>
         </li>
       </ul>

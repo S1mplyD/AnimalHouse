@@ -12,6 +12,8 @@ import GalleryPage from '../views/GalleryPage.vue'
 import AdsPage from '../views/AdsPage.vue'
 import PhotoView from '../views/PhotoView.vue'
 import PostView from '../views/PostView.vue'
+import ItemView from '../views/ItemView.vue'
+import PostNewsView from '../views/PostNewsView.vue'
 const routes = [
   {
     path: '/',
@@ -77,6 +79,16 @@ const routes = [
     path: '/forum/:id',
     name: 'post',
     component: PostView
+  },
+  {
+    path: '/shop/:id',
+    name: 'item',
+    component: ItemView
+  },
+  {
+    path: '/news/:id',
+    name: 'newspost',
+    component: PostNewsView
   }
 
 ]

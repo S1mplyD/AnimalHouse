@@ -1,14 +1,16 @@
 <template lang="it">
+  <body class="bodymain">
     <div class="vue-template">
         <form>
-            <h3>Password dimenticata?</h3>
+            <h3>Forgot your password?</h3>
             <div class="form-group">
-                <label>Indirizzo e-mail</label>
+                <label>E-mail address</label>
                 <input type="email" class="form-control form-control-lg" />
             </div>
-            <button type="submit" class="btn btn-dark btn-lg btn-block">Resetta la password</button>
+            <button type="submit" class="btn btn-dark btn-lg btn-block">Create a new password</button>
         </form>
     </div>
+  </body>
 </template>
 <script>
 export default {

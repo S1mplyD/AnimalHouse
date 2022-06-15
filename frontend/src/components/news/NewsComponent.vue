@@ -12,25 +12,25 @@
   </div>
 </template>
 <script>
-import posts from '@/posts.json'
+import news from '@/news.json'
 
 export default {
   name: 'PostComponent',
   data () {
     return {
-      posts
+      news
     }
   },
   computed: {
     post () {
-      return this.posts.find((post) => {
+      return this.news.find((post) => {
         return post.id === Number(this.$route.params.id)
       })
     }
   },
   methods: {
     closeLightbox () {
-      this.$router.push('/forum')
+      this.$router.push('/news')
     }
   }
 }

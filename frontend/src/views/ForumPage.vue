@@ -1,7 +1,9 @@
 <template lang="it">
+<body class="bodymain">
  <ForumHeaderVue />
  <ForumComponent class="forum-view"/>
  <SiteFooterVue/>
+ </body>
 </template>
 
 <script>

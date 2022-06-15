@@ -1,6 +1,8 @@
 <template lang="it">
+<body class="bodymain">
 <GamesHeaderVue />
 <SiteFooterVue/>
+</body>
 </template>
 
 <script>

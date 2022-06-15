@@ -1,10 +1,10 @@
 <template lang="it">
   <h1>Welcome to our Forum!</h1>
-  <div class="forum">
+  <div class="news">
     <ul>
       <li>
-        <div v-for="post in posts" :key="post.id" class="postinfo">
-          <router-link :to="`/forum/${post.id}`" class="routerlink"> <p>{{post.title}} by {{post.user}}</p> </router-link>
+        <div v-for="post in news" :key="post.id" class="newsinfo">
+          <router-link :to="`/news/${post.id}`" class="routerlink"> <p>{{post.title}} by {{post.user}}</p> </router-link>
           <p>{{post.post_summary}}</p>
         </div>
      </li>
@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import posts from '@/posts.json'
+import news from '@/news.json'
 
 export default {
   name: 'ForumComponent',
   data () {
     return {
-      posts
+      news
     }
   }
 }
@@ -29,10 +29,10 @@ export default {
   h1 {
     color:#09ff00;
   }
-  .forum ul {
+  .news ul {
     list-style: none;
   }
-  .postinfo{
+  .newsinfo{
     display: flex;
     border: 1px solid rgb(3, 3, 3);
     background-color: rgb(117, 117, 117);

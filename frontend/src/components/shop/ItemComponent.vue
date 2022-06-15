@@ -1,36 +1,34 @@
 <template lang="it">
   <div class="lightbox" @click.self="closeLightbox">
-
     <div class="lightbox-info">
       <div class="lightbox-info-inner">
-        <p v-if="post.title"><b>{{ post.title }}</b> by {{post.user}}</p>
-        <p v-if="post.post">{{ post.post }}</p>
-        <p v-if="post.date">Post date: {{ post.date }}</p>
+        <p v-if="item.title"><b>{{ item.title }}</b> <br> {{item.price}}</p>
+        <p v-if="item.info">{{ item.info }}</p>
       </div>
     </div>
 
   </div>
 </template>
 <script>
-import posts from '@/posts.json'
+import products from '@/shop.json'
 
 export default {
-  name: 'PostComponent',
+  name: 'ItemComponent',
   data () {
     return {
-      posts
+      products
     }
   },
   computed: {
-    post () {
-      return this.posts.find((post) => {
-        return post.id === Number(this.$route.params.id)
+    item () {
+      return this.products.find((item) => {
+        return item.id === Number(this.$route.params.id)
       })
     }
   },
   methods: {
     closeLightbox () {
-      this.$router.push('/forum')
+      this.$router.push('/shop')
     }
   }
 }
@@ -52,7 +50,7 @@ export default {
 
   .lightbox-info-inner {
     font-size: 200%;
-    transform: translate(110%, -40%);
+    transform: translate(110%, 5%);
     background-color: #FFFFFF;
     display: inline-block;
     padding: 2rem;

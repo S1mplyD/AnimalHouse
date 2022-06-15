@@ -11,7 +11,7 @@ export default {
 </script>
 <!--Definisco lo stile che sarà visibile nella maggior parte degli elementi della app, come font e colore dei link. Stili precisi vengono poi definiti nei singoli componenti e nelle singole view -->
 <style lang="scss">
-#app {
+#app{
   @import url('https://fonts.googleapis.com/css?family=Roboto');
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -23,6 +23,9 @@ export default {
   &:hover{
     color:#a6ff00;
   }
+}
+.bodymain{
+  background-color: rgb(60, 121, 150);
 }
 header {
   top: 10px;

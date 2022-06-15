@@ -1,6 +1,8 @@
 <template lang="it">
+<body class="bodymain">
 <ServiziHeaderVue />
 <SiteFooterVue />
+</body>
 </template>
 
 <script>

@@ -1,16 +1,21 @@
 <template lang="it">
+<body class="bodymain">
 <NewsHeaderVue />
+<NewsPageComponent class="news-view"/>
 <SiteFooterVue/>
+</body>
 </template>
 
 <script>
 import NewsHeaderVue from '@/components/headers/NewsHeader.vue'
+import NewsPageComponent from '@/components/news/NewsPageComponent.vue'
 import SiteFooterVue from '@/components/SiteFooter.vue'
 export default {
   name: 'NewsPage',
   components: {
     NewsHeaderVue,
-    SiteFooterVue
+    SiteFooterVue,
+    NewsPageComponent
   }
 }
 </script>

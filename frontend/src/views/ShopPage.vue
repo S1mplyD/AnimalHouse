@@ -1,15 +1,20 @@
 <template lang="it">
+<body class="bodymain">
 <ShopHeaderVue />
+<ShopComponent />
 <SiteFooterVue />
+</body>
 </template>
 
 <script>
 import ShopHeaderVue from '@/components/headers/ShopHeader.vue'
+import ShopComponent from '@/components/shop/ShopComponent.vue'
 import SiteFooterVue from '@/components/SiteFooter.vue'
 export default {
   name: 'ShopPage',
   components: {
     ShopHeaderVue,
+    ShopComponent,
     SiteFooterVue
   }
 }
