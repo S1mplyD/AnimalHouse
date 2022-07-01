@@ -105,3 +105,5 @@ dist
 
 #Images
 /server/Images
+
+*.jpg
