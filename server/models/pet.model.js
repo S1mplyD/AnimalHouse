@@ -1,5 +1,4 @@
 const { default: mongoose } = require("mongoose");
-const Schema = require("mongoose");
 
 const petSchema = new mongoose.Schema(
   {

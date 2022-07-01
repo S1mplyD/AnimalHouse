@@ -23,11 +23,22 @@ function App() {
       "https://zoo-animal-api.herokuapp.com/animals/rand/8"
     );
     let memoryImages = [];
-    data.data.map((i) => {
-      memoryImages.push({ image: i.image_link, state: "" });
-      memoryImages.push({ image: i.image_link, state: "" });
+    data.data.map((i, index) => {
+      memoryImages.push({
+        id: index,
+        image: i.image_link,
+        state: "",
+        name: i.name,
+      });
+      memoryImages.push({
+        id: index,
+        image: i.image_link,
+        state: "",
+        name: i.name,
+      });
     });
     memoryImages.sort(() => Math.random() - 0.5);
+    console.log(memoryImages);
     setImages(memoryImages);
   };
 
@@ -61,7 +72,10 @@ function App() {
             }
           />
           <Route path="/result" element={<Result score={score} />} />
-          <Route path="/memory" element={<Memory images={images} />}></Route>
+          <Route
+            path="/memory"
+            element={<Memory images={images} setImages={setImages} />}
+          ></Route>
         </Routes>
       </div>
     </Router>

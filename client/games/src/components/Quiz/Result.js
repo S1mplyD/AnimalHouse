@@ -14,9 +14,9 @@ function Result({ score }) {
     <div className="container">
       test
       <div className="submitForm">
-        <div className="score">Il tuo punteggio è {score}</div>
+        <div className="score">Your score is: {score}</div>
         <div className="submitScore">
-          <h1 className="text">Salva il tuo punteggio</h1>
+          <h1 className="text">Save your score</h1>
           <form className="submitF">
             <input
               type="text"

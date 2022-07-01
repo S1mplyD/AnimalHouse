@@ -12,6 +12,7 @@ const cookieSession = require("cookie-session");
 const passport = require("passport");
 const imagesRoute = require("./server/routes/images");
 const getTrivia = require("./server/APIs/trivia").getTrivia;
+const postRoute = require("./server/routes/posts");
 
 global.__foldername = __dirname;
 
@@ -44,6 +45,7 @@ app.use("/api/users", usersRoute);
 app.use("/api/leaderboard", leaderboardRoute);
 app.use("/api/images", imagesRoute);
 app.use("/auth", authRoute);
+app.use("/api/posts", postRoute);
 app.get("/api/getHolidays", async (req, res) => {
   const holiday = await getHolidays(
     req.body.day,

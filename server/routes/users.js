@@ -27,6 +27,7 @@ router
         password: encryptedPassword, //Password criptata usando hash SHA512. Utilizzare bcrypt.compare(password,encryptedPassword) per ottenere il plaintext
         ownedAnimals: req.body.ownedAnimals, //Id degli animali posseduti (Utilizza il campo _id di mongo)
         profilePicture: req.body.profilePicture, //Array di path al filesystem dove sono contenute le immagini
+        admin: false, //Il privilegio di admin deve essere dato da un superiore
       });
       res.sendStatus(200);
     } catch (error) {
