@@ -13,7 +13,7 @@ function App() {
   const [images, setImages] = useState([]);
   const getQuestions = async () => {
     const rawData = await axios.get(
-      "http://192.168.8.176:8000/api/getTrivia/medium"
+      "http://localhost:8000/api/getTrivia/medium"
     );
     setQuestions(rawData.data);
   };

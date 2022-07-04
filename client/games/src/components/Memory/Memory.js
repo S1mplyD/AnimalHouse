@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import "../../componentsCss/Memory/Memory.css";
 import Card from "./Card";
 
 function Memory({ images, setImages }) {
+  const navigate = useNavigate();
+
   const [show, setShow] = useState(false);
   let loaded = 0;
   const handleLoad = () => {
@@ -18,14 +21,17 @@ function Memory({ images, setImages }) {
   //-1 nessuna carta selezionata, altrimenti id della carta
   const [prec, setPrec] = useState(-1);
   const [clickable, setClickable] = useState(true);
+  //TODO metterlo in App e passarlo a result
   const [score, setScore] = useState(0);
   const [correct, setCorrect] = useState(-1);
 
   const handleClick = (index) => {
     console.log("prec: " + prec + " state: " + images[index].state);
     console.log(correct);
-    if (correct > 6) {
+    if (correct >= 7) {
       console.log("endgame");
+
+      navigate("/result");
     } else if (prec === -1) {
       if (images[index].state != "correct") {
         images[index].state = "active";

@@ -49,8 +49,7 @@
 @media screen and (min-width: 600px) {
   .container {
     display: flex;
-    margin: opx auto;
-    visibility: hidden;
+    margin: 0px auto;
   }
 
   .canvas {

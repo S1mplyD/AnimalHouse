@@ -4,7 +4,7 @@ import "../../componentsCss/Quiz/Result.css";
 
 function Result({ score }) {
   const submitScore = async () => {
-    await axios.post("http://192.168.8.176:8000/api/leaderboard", {
+    await axios.post("http://localhost:8000/api/leaderboard", {
       playerName: document.getElementById("username").value,
       score: score,
     });
