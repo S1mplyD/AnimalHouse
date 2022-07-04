@@ -71,10 +71,20 @@ function App() {
               />
             }
           />
-          <Route path="/result" element={<Result score={score} />} />
+          <Route
+            path="/result"
+            element={<Result score={score} setScore={setScore} />}
+          />
           <Route
             path="/memory"
-            element={<Memory images={images} setImages={setImages} />}
+            element={
+              <Memory
+                images={images}
+                setImages={setImages}
+                score={score}
+                setScore={setScore}
+              />
+            }
           ></Route>
         </Routes>
       </div>

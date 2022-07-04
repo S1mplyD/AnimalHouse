@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import "../../componentsCss/Memory/Memory.css";
 import Card from "./Card";
 
-function Memory({ images, setImages }) {
+function Memory({ images, setImages, score, setScore }) {
   const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
@@ -21,8 +21,6 @@ function Memory({ images, setImages }) {
   //-1 nessuna carta selezionata, altrimenti id della carta
   const [prec, setPrec] = useState(-1);
   const [clickable, setClickable] = useState(true);
-  //TODO metterlo in App e passarlo a result
-  const [score, setScore] = useState(0);
   const [correct, setCorrect] = useState(-1);
 
   const handleClick = (index) => {
