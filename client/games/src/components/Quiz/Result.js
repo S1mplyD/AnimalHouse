@@ -1,13 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import axios from "axios";
 import "../../componentsCss/Quiz/Result.css";
 
-function Result({ score }) {
+function Result({ score, setScore }) {
+  const navigate = useNavigate();
   const submitScore = async () => {
     await axios.post("http://localhost:8000/api/leaderboard", {
       playerName: document.getElementById("username").value,
       score: score,
     });
+    setScore(0);
+    //TODO fixare la navigazione alla homepage
+    navigate("/");
   };
 
   return (
