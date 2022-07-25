@@ -6,27 +6,31 @@ function Home({ getQuestions, setScore, setQuestions, images, getImages }) {
   const navigate = useNavigate();
   const handleQuiz = async () => {
     await getQuestions();
-    navigate("/quiz");
+    navigate("/games/quiz");
   };
   const handleMemory = async () => {
     await getImages();
-    navigate("/memory");
+    navigate("/games/memory");
   };
 
   return (
     <div className="games">
-      <img
-        className="image"
-        src={require("../1652541244672.png")}
-        alt="quiz"
-        onClick={handleQuiz}
-      />
-      <img
-        className="image"
-        src={require("../animali-selvatici.jpg")}
-        alt="memory"
-        onClick={handleMemory}
-      />
+      <a href="#">
+        <img
+          className="image"
+          src={require("../1652541244672.png")}
+          alt="quiz"
+          onClick={handleQuiz}
+        />
+      </a>
+      <a href="#">
+        <img
+          className="image"
+          src={require("../animali-selvatici.jpg")}
+          alt="memory"
+          onClick={handleMemory}
+        />
+      </a>
     </div>
   );
 }

@@ -11,13 +11,10 @@ function Result({ score, setScore }) {
       score: score,
     });
     setScore(0);
-    //TODO fixare la navigazione alla homepage
-    navigate("/");
   };
 
   return (
     <div className="container">
-      test
       <div className="submitForm">
         <div className="score">Your score is: {score}</div>
         <div className="submitScore">
@@ -30,14 +27,15 @@ function Result({ score, setScore }) {
               id="username"
               className="submit"
             />
-            <button
+            <input
+              type="submit"
               className="submit"
+              value="submit"
               onClick={() => {
                 submitScore();
+                navigate("/games");
               }}
-            >
-              Submit
-            </button>
+            />
           </form>
         </div>
       </div>

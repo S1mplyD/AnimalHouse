@@ -1,4 +1,5 @@
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
@@ -45,12 +46,12 @@ function App() {
   return (
     <Router>
       <div>
-        <Link to="/">
+        <Link to="/games">
           <h1 id="title">Animal House Games</h1>
         </Link>
         <Routes>
           <Route
-            path="/"
+            path="/games"
             element={
               <Home
                 setQuestions={setQuestions}
@@ -61,7 +62,7 @@ function App() {
             }
           />
           <Route
-            path="/quiz"
+            path="/games/quiz"
             element={
               <Quiz
                 questions={questions}
@@ -76,7 +77,7 @@ function App() {
             element={<Result score={score} setScore={setScore} />}
           />
           <Route
-            path="/memory"
+            path="/games/memory"
             element={
               <Memory
                 images={images}
