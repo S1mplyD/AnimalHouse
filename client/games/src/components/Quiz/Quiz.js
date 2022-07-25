@@ -20,7 +20,7 @@ function Quiz({ questions, setQuestions, score, setScore }) {
   };
 
   return (
-    <div className="quiz">
+    <div className="d-flex flex-column align-items-center">
       {questions ? (
         <>
           {console.log(questions[currentQuestion].correct_answer)}

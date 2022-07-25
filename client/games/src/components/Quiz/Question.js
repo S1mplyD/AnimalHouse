@@ -19,9 +19,9 @@ const Question = ({
   const navigate = useNavigate();
 
   const handleSelect = (i) => {
-    if (selected === i && selected === correct) return "select";
-    else if (selected === i && selected !== correct) return "wrong";
-    else if (i === correct) return "select";
+    if (selected === i && selected === correct) return "btn-success";
+    else if (selected === i && selected !== correct) return "btn-danger";
+    else if (i === correct) return "btn-success";
   };
 
   const handleCheck = (i) => {
@@ -45,17 +45,22 @@ const Question = ({
   };
 
   return (
-    <div className="question">
-      <h1 className="questionNumber">Question {currentQuestion + 1} :</h1>
-      <div className="singleQuestion">
-        <h2 className="questionNumber">
+    <div className="d-flex flex-column align-items-center bg-white rounded p-2 mt-5">
+      <h1 className="bg-white">Question {currentQuestion + 1} :</h1>
+      <div
+        className="m-5 p-5 d-flex flex-column align-items-center justify-content-around border border-3 border-secondary
+       rounded bg-white"
+      >
+        <h2 className="bg-white">
           {decode.decode(questions[currentQuestion].question)}
         </h2>
-        <div className="options">
+        <div className="d-flex flex-wrap align-items-center justify-content-evenly bg-white w-100 m-1">
           {options &&
             options.map((i) => (
               <button
-                className={`singleOption  ${selected && handleSelect(i)}`}
+                className={`btn btn-primary m-1 ${
+                  selected && handleSelect(i)
+                } `}
                 key={i}
                 onClick={() => handleCheck(i)}
                 disabled={selected}
@@ -64,18 +69,21 @@ const Question = ({
               </button>
             ))}
         </div>
-        <div className="controls">
+        <div className="d-flex bg-white rounded justify-content-evenly ">
           <button
-            className="btnControl"
+            className="btn btn-primary rounded w-50 p-2 m-1"
             onClick={() => {
-              window.location.href = "/";
+              window.location.href = "/games";
               handleQuit();
             }}
           >
             Quit
           </button>
 
-          <button className="btnControl" onClick={handleNext}>
+          <button
+            className="btn btn-primary rounded w-50 p-2 m-1"
+            onClick={handleNext}
+          >
             {currentQuestion > 3 ? "Submit" : "Next Question"}
           </button>
         </div>
