@@ -8,9 +8,13 @@ router
    * Get all posts
    */
   .get(async (req, res) => {
-    await Post.find().then((posts) => {
-      res.send(posts);
-    });
+    try {
+      await Post.find().then((posts) => {
+        res.send(posts);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   })
   /**
    * POST
@@ -42,7 +46,7 @@ router
         res.json("Unauthorized");
       }
     } catch (error) {
-      res.json("Error: " + error);
+      console.log(error);
     }
   })
   /**
@@ -69,7 +73,7 @@ router
         res.json("Unauthorized");
       }
     } catch (error) {
-      res.json("Error: " + error);
+      console.log(error);
     }
   })
   /**
@@ -87,7 +91,9 @@ router
       } else {
         res.json("Unauthorized");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   });
 
 module.exports = router;
