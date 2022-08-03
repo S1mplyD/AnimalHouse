@@ -13,7 +13,8 @@ const passport = require("passport");
 const imagesRoute = require("./server/routes/images");
 const getTrivia = require("./server/APIs/trivia").getTrivia;
 const postRoute = require("./server/routes/posts");
-
+const newsRoute = require("./server/routes/news");
+const galleryRoute = require("./server/routes/gallery");
 global.__foldername = __dirname;
 
 const app = express();
@@ -46,6 +47,8 @@ app.use("/api/leaderboard", leaderboardRoute);
 app.use("/api/images", imagesRoute);
 app.use("/auth", authRoute);
 app.use("/api/posts", postRoute);
+app.use("/api/news", newsRoute);
+app.use("/api/gallery", galleryRoute);
 app.get("/api/getHolidays", async (req, res) => {
   const holiday = await getHolidays(
     req.body.day,
