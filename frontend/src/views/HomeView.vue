@@ -108,25 +108,20 @@ export default {
     display: flex;
     border-bottom: 1px solid rgb(3, 3, 3);
     padding: .5rem 1rem;
-
     p {
       margin-left: 1rem;
     }
   }
-
   .loginsection {
     margin-left: auto;
-
     ul {
       list-style: none;
     }
-
     ul li {
       display: inline-flex;
       margin-left: 1rem;
     }
   }
-
   .body{
     height: 800px;
     border: 1px solid #333;
@@ -188,7 +183,6 @@ export default {
   border-radius: 0.75rem;
   }
 }
-
 .ADS {
   margin: auto;
   text-align: center;

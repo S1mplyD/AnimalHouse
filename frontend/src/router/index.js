@@ -7,6 +7,7 @@ import GamePage from '../views/GamePage.vue'
 import ShopPage from '../views/ShopPage.vue'
 import ServiziPage from '../views/ServiziPage.vue'
 import NewsPage from '../views/NewsPage.vue'
+import SelectionPage from '../views/SelectionPage.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import GalleryPage from '../views/GalleryPage.vue'
 import AdsPage from '../views/AdsPage.vue'
@@ -54,6 +55,11 @@ const routes = [
     path: '/servizi',
     name: 'servizi',
     component: ServiziPage
+  },
+  {
+    path: '/servizi/selection',
+    name: 'selection',
+    component: SelectionPage
   },
   {
     path: '/passworddimenticata',
