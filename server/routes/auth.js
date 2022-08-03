@@ -147,7 +147,7 @@ passport.serializeUser((user, done) => {
 router.get("/logout", (req, res) => {
   try {
     req.logout();
-    res.status(200);
+    res.status(200).redirect("/");
   } catch (error) {
     console.log(error);
   }
