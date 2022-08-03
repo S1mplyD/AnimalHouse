@@ -7,11 +7,13 @@ import Quiz from "./components/Quiz/Quiz";
 import Home from "./components/Home";
 import Result from "./components/Quiz/Result";
 import Memory from "./components/Memory/Memory";
+import Hangman from "./components/Impiccato/hangman";
 
 function App() {
   const [questions, setQuestions] = useState([]);
   const [score, setScore] = useState(0);
   const [images, setImages] = useState([]);
+  const [word, setWord] = useState();
   const getQuestions = async () => {
     const rawData = await axios.get(
       "http://localhost:8000/api/getTrivia/medium"
@@ -43,6 +45,23 @@ function App() {
     setImages(memoryImages);
   };
 
+  const getWords = async () => {
+    await axios
+      .get("https://zoo-animal-api.herokuapp.com/animals/rand")
+      .then((data) => {
+        console.log(data.data);
+        let ran = Math.floor(Math.random() * 3);
+        console.log(ran);
+        if (ran == 0) {
+          setWord(data.data.name.replace(" ", ""));
+        } else if (ran == 1) {
+          setWord(data.data.latin_name.replace(" ", ""));
+        } else {
+          setWord(data.data.animal_type.replace(" ", ""));
+        }
+      });
+  };
+
   return (
     <Router>
       <div>
@@ -58,6 +77,7 @@ function App() {
                 getQuestions={getQuestions}
                 setScore={setScore}
                 getImages={getImages}
+                getWords={getWords}
               />
             }
           />
@@ -86,6 +106,10 @@ function App() {
                 setScore={setScore}
               />
             }
+          ></Route>
+          <Route
+            path="/games/hangman"
+            element={<Hangman word={word} setWord={setWord}></Hangman>}
           ></Route>
         </Routes>
       </div>
