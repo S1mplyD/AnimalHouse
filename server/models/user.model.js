@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String },
     ownedAnimals: { type: [String] }, //Id degli animali posseduti (_id di mongo)
     profilePicture: { type: String }, //Path alle immagini su filesystem
-    admin: { type: Boolean, required: true },
+    admin: { type: Boolean, required: true, default: false },
   },
   {
     collection: "user-data",
