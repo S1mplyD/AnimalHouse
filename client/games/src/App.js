@@ -1,5 +1,4 @@
 import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
@@ -66,7 +65,9 @@ function App() {
     <Router>
       <div>
         <Link to="/games">
-          <h1 id="title">Animal House Games</h1>
+          <h1 className="text-white flex flex-col items-center">
+            Animal House Games
+          </h1>
         </Link>
         <Routes>
           <Route
