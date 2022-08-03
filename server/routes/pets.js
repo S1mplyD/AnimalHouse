@@ -37,24 +37,21 @@ router
 
       res.sendStatus(200);
     } catch (error) {
-      res.json({ Error: "Errore: " + error });
+      console.log(error);
     }
-  });
-
-router
-  .route("/:petid")
+  })
   /**
-   * PUT
+   * PATCH
    * Cambia una o più proprietà di un animale
    *
    * @param petid Id dell´animale (usa il campo _id di mongo)
    */
   .patch(async (req, res) => {
     try {
-      await Pet.findByIdAndUpdate(req.params.petid, req.body);
+      await Pet.findByIdAndUpdate(req.query.petid, req.body);
       res.status(200).json("Animale modificato con successo");
     } catch (error) {
-      res.json({ Error: "Errore: " + error });
+      console.log(error);
     }
   })
   /**
@@ -65,16 +62,15 @@ router
    */
   .delete(async (req, res) => {
     try {
-      await Pet.findByIdAndDelete(req.params.petid);
+      await Pet.findByIdAndDelete(req.query.petid);
       res.status(200).json("Animale eliminato con successo");
     } catch (error) {
-      res.json({ Error: "Errore: " + error });
+      console.log(error);
     }
   });
 
-//TODO aggiungere più campi di ricerca
 router
-  .route("/:petname")
+  .route("/pet")
   /**
    * GET
    * Ottiene l'animale con il nome inserito
@@ -83,7 +79,7 @@ router
    */
   .get(async (req, res) => {
     try {
-      const pet = await Pet.findOne({ name: req.params.petname });
+      const pet = await Pet.findOne({ name: req.query.name });
       res.status(200).json(pet);
     } catch (error) {
       res.json({ Error: "Errore: " + error });
