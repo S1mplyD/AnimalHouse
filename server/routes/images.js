@@ -27,16 +27,20 @@ router
    * Ritorna l'immagine profilo di un utente
    */
   .get(async (req, res) => {
-    if (req.user != null) {
-      await User.findOne({ username: req.user.username }).then((user) => {
-        if (user) {
-          res.send(user.profilePicture);
-        } else {
-          res.json("not authorized");
-        }
-      });
-    } else {
-      res.json("not logged in");
+    try {
+      if (req.user != null) {
+        await User.findOne({ username: req.user.username }).then((user) => {
+          if (user) {
+            res.send(user.profilePicture);
+          } else {
+            res.json("not authorized");
+          }
+        });
+      } else {
+        res.status(401);
+      }
+    } catch (error) {
+      console.log(error);
     }
   })
   /**
@@ -48,34 +52,38 @@ router
    *
    */
   .post(async (req, res) => {
-    if (req.user != null) {
-      const upload = multer({ storage: storage }).single("image");
-      upload(req, res, async function (err) {
-        if (err) {
-          console.log(err);
-        } else {
-          await User.findOne({ username: req.user.username }).then(
-            async (user) => {
-              await fs.unlink(
-                __foldername + "/server/Images/" + user.profilePicture,
-                (err) => {
-                  if (err) console.log(err);
-                }
-              );
-            }
-          );
-          await User.findOneAndUpdate(
-            { username: req.user.username },
-            {
-              profilePicture: res.req.file.filename,
-            }
-          );
-        }
-      });
-
-      res.redirect(200, "/");
-    } else {
-      res.json("non loggato");
+    try {
+      if (req.user != null) {
+        const upload = multer({ storage: storage }).single("image");
+        upload(req, res, async function (err) {
+          if (err) {
+            console.log(err);
+          } else {
+            await User.findOne({ username: req.user.username }).then(
+              async (user) => {
+                await fs.unlink(
+                  __foldername + "/server/Images/" + user.profilePicture,
+                  (err) => {
+                    if (err) console.log(err);
+                  }
+                );
+              }
+            );
+            await User.findOneAndUpdate(
+              { username: req.user.username },
+              {
+                profilePicture: res.req.file.filename,
+              }
+            ).then(() => {
+              res.status(200).send("avatar uploaded correctly");
+            });
+          }
+        });
+      } else {
+        res.status(401).send("unauthorized");
+      }
+    } catch (error) {
+      console.log(error);
     }
   })
   /**
@@ -83,72 +91,123 @@ router
    * Rimuove l'immagine profilo di un utente.
    * Funzione per gli utenti
    */
+  //TODO: admin function
   .delete(async (req, res) => {
-    if (req.user != null) {
-      await User.findOneAndUpdate(
-        {
-          username: req.user.username,
-        },
-        { profilePicture: "" }
-      );
-      res.send(200);
-    } else {
-      res.send("utente non loggato");
+    try {
+      if (req.user != null) {
+        await User.findOne({ username: req.user.username })
+          .then(async (user) => {
+            await fs.unlink(
+              __foldername + "/server/Images/" + user.profilePicture,
+              (err) => {
+                if (err) console.log(err);
+              }
+            );
+          })
+          .then(async () => {
+            await User.findOneAndUpdate(
+              {
+                username: req.user.username,
+              },
+              { profilePicture: "" }
+            ).then(() => {
+              res.status(200).send("avatar deleted successfully");
+            });
+          });
+      } else {
+        res.status(401).send("unauthorized");
+      }
+    } catch (error) {
+      console.log(error);
     }
   });
 
 router
-  .route("/petPhotos/:petid")
+  .route("/petPhotos")
+  //TODO: admin
   .get(async (req, res) => {
-    if (req.user != null) {
-      await Pet.findOne({ _id: req.params.petid }).then((pet) => {
-        if (pet) {
-          res.send(pet.pictures);
-        }
-      });
+    try {
+      if (req.user != null) {
+        await Pet.findOne({ _id: req.query.id }).then((pet) => {
+          if (pet) {
+            res.send(pet.pictures);
+          }
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
   })
   .post(async (req, res) => {
-    if (req.user != null) {
-      const upload = multer({ storage: storage }).array("images", 10);
-      upload(req, res, async (err) => {
-        if (err) {
-          console.log(err);
-        } else {
-          res.req.files.forEach((element) => {
-            console.log(element.filename);
-          });
-          const imagesAddr = [];
-          res.req.files.forEach((element) => {
-            imagesAddr.push(element.filename);
-          });
-          await Pet.findOneAndUpdate(
-            { $and: [{ owner: req.user.username }, { _id: req.params.petid }] },
-            {
-              $push: {
-                pictures: {
-                  $each: imagesAddr,
-                },
+    try {
+      if (req.user != null) {
+        const upload = multer({ storage: storage }).array("images", 10);
+        upload(req, res, async (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.req.files.forEach((element) => {
+              console.log(element.filename);
+            });
+            const imagesAddr = [];
+            res.req.files.forEach((element) => {
+              imagesAddr.push(element.filename);
+            });
+            console.log(imagesAddr);
+            await Pet.findOneAndUpdate(
+              {
+                $and: [{ owner: req.user.username }, { _id: req.query.id }],
               },
-            }
-          );
-          res.redirect(200, "/");
-        }
-      });
-    } else {
-      res.json("non loggato");
+              {
+                $push: {
+                  pictures: {
+                    $each: imagesAddr,
+                  },
+                },
+              }
+            );
+            res.status(200).send("images uploaded correctly");
+          }
+        });
+      } else {
+        res.status(401);
+      }
+    } catch (error) {
+      console.log(error);
     }
   })
+  //TODO: admin
   .delete(async (req, res) => {
-    if (req.user != null) {
-      await Pet.findOneAndUpdate(
-        {
-          $and: [{ owner: req.user.username }, { _id: req.params.petid }],
-        },
-        { $pull: { pictures: req.body.pictures } }
-      );
-    } else {
-      res.send("utente non loggato");
+    try {
+      if (req.user != null) {
+        await Pet.findOne({ _id: req.query.id })
+          .then(async () => {
+            console.log(req.body);
+            req.body.forEach(async (el) => {
+              await fs.unlink(__foldername + "/server/Images/" + el, (err) => {
+                if (err) console.log(err);
+              });
+            });
+          })
+          .then(async () => {
+            await Pet.findOneAndUpdate(
+              {
+                $and: [{ owner: req.user.username }, { _id: req.query.id }],
+              },
+              {
+                $pull: {
+                  pictures: { $in: req.body },
+                },
+              }
+            ).then(() => {
+              res.status(200).send("images deleted successfully");
+            });
+          });
+      } else {
+        res.status(401).send("unauthorized");
+      }
+    } catch (error) {
+      console.log(error);
     }
   });
 
