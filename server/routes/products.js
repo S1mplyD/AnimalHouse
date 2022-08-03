@@ -8,8 +8,12 @@ router
    * Ottiene tutti i prodotti
    */
   .get(async (req, res) => {
-    const products = await Product.find();
-    res.send(products);
+    try {
+      const products = await Product.find();
+      res.send(products);
+    } catch (error) {
+      console.log(error);
+    }
   })
   /**
    * POST
@@ -28,21 +32,16 @@ router
       });
       res.json("Prodotto creato con successo");
     } catch (error) {
-      res.json({ Error: "Errore: " + error });
+      console.log(error);
     }
-  });
-
-router
-  .route("/:productid")
+  })
   /**
    * PATCH
    * Cambia una o più proprietà di un prodotto
-   *
-   * @param productid Id del prodotto (usa il campo _id di mongo)
    */
-  .put(async (req, res) => {
+  .patch(async (req, res) => {
     try {
-      await Product.findByIdAndUpdate(req.params.productid, req.body);
+      await Product.findByIdAndUpdate(req.query.id, req.body);
       res.status(200).json("Prodotto modificato correttamente");
     } catch (error) {
       res.json({ Error: "Errore: " + error });
@@ -56,7 +55,7 @@ router
    */
   .delete(async (req, res) => {
     try {
-      await Product.findByIdAndDelete(req.params.productid);
+      await Product.findByIdAndDelete(req.query.id);
       res.status(200).json("Prodotto cancellato con successo");
     } catch (error) {
       res.json({ Error: "Errore: " + error });
@@ -64,7 +63,7 @@ router
   });
 
 router
-  .route("/:productname")
+  .route("/product")
   /**
    * GET
    * Ottiene un prodotto tramite nome
@@ -73,10 +72,10 @@ router
    */
   .get(async (req, res) => {
     try {
-      const product = await Product.findOne({ name: req.params.productname });
+      const product = await Product.findOne({ name: req.query.name });
       res.status(200).json(product);
     } catch (error) {
-      res.json({ Error: "Errore: " + error });
+      console.log(error);
     }
   });
 
