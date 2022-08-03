@@ -7,10 +7,14 @@ router
    * GET
    * get all news
    */
-  .get(async () => {
-    await News.find().then((news) => {
-      res.send(news);
-    });
+  .get(async (req, res) => {
+    try {
+      await News.find().then((news) => {
+        res.send(news);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   })
   /**
    * POST
@@ -25,10 +29,10 @@ router
           if (!news) {
             await News.create({
               title: req.body.title,
-              post: req.body.description,
+              post: req.body.post,
               date: Date(),
               user: req.user.username,
-              post_summary: `${req.body.description.slice(0, 141)}...`,
+              post_summary: `${req.body.post.slice(0, 141)}...`,
             });
             res.json("news created successfully");
           } else {
@@ -39,12 +43,12 @@ router
         res.json("Unauthorized");
       }
     } catch (error) {
-      res.json("Error: " + error);
+      console.log(error);
     }
   })
   /**
    * PATCH
-   * edit an existing post
+   * edit an existing article
    */
   .patch(async (req, res) => {
     try {
@@ -55,9 +59,9 @@ router
           },
           {
             title: req.body.title,
-            post: req.body.description,
+            post: req.body.post,
             date: Date(),
-            post_summary: `${req.body.description.slice(0, 141)}...`,
+            post_summary: `${req.body.post.slice(0, 141)}...`,
           }
         ).then(() => {
           res.json("post updated correctly");
@@ -66,7 +70,7 @@ router
         res.json("Unauthorized");
       }
     } catch (error) {
-      res.json("Error: " + error);
+      console.log(error);
     }
   })
   /**
@@ -78,13 +82,33 @@ router
       if (req.user != null) {
         await News.findOneAndDelete({
           $and: [{ title: req.body.title }, { user: req.user.username }],
-        }).then(() => {
-          res.json("news delete successfully");
+        }).then((article) => {
+          if (article) {
+            res.json("news delete successfully");
+          } else {
+            res.status(404).send("article not found");
+          }
         });
       } else {
         res.json("Unauthorized");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   });
+
+router.route("/article").get(async (req, res) => {
+  try {
+    await News.findById(req.query.id).then((article) => {
+      if (article) {
+        res.status(200).send(article);
+      } else {
+        res.status(404).send("article not found");
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 module.exports = router;
