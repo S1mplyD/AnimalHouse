@@ -7,6 +7,7 @@ const postSchema = new mongoose.Schema(
     date: { type: Date, required: true },
     post: { type: String, required: true },
     post_summary: { type: String, maxlength: 144 },
+    photos: { type: [String] },
   },
   {
     collection: "post-data",
