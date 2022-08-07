@@ -2,10 +2,11 @@
 <body class="bodymain">
 <ServiziHeaderVue />
 <section class="body">
-<form>
+ <form>
   <div class="form-group">
     <label for="selectservice">List of our services</label>
-    <select class="form-control" id="selectservice" v-model="selected">
+    <br>
+    <select v-model="selected" class="form-control" id="selectservice">
       <option v-for="option in options" :value="option.value">
     {{ option.text }}
       </option>
@@ -14,11 +15,22 @@
   <br>
   <div class="form-group">
     <label for="Location">Location.</label>
-    <input type="email" class="form-control" id="Location" placeholder="Enter your location">
+    <br>
+    <input type="text" v-model="search" class="form-control" id="Location" placeholder="Enter your location">
   </div>
   <br>
-  <router-link to="/servizi/selection"><a class="btn btn-success" role="button">Go to see the choices you have near you!</a></router-link>
-</form>
+  </form>
+  <div class="overflow-auto" id="servicediv">
+    <ul class="services">
+      <li v-for="service in filteredServices">
+        <div  class="postinfo">
+          <p><b>{{service.name}}</b></p>
+          <p>{{service.info}}</p>
+        </div>
+        <br>
+     </li>
+    </ul>
+</div>
 </section>
 <SiteFooterVue />
 </body>
@@ -28,6 +40,7 @@
 // @ is an alias to /src
 import ServiziHeaderVue from '@/components/headers/ServiziHeader.vue'
 import SiteFooterVue from '@/components/SiteFooter.vue'
+import services from '@/services.json'
 
 export default {
   name: 'ServiziPage',
@@ -37,14 +50,33 @@ export default {
   },
   data () {
     return {
+      services,
       selected: '',
       options: [
-        { text: 'Select our services', value: '' },
         { text: 'Pet Boarding', value: 'boarding' },
         { text: 'Products shop', value: 'shop' },
         { text: 'Pet Spa', value: 'spa' },
         { text: 'Pet Training Facility', value: 'training' }
-      ]
+      ],
+      search: ''
+    }
+  },
+  computed: {
+    filteredServices: function () {
+      const filterType = this.selected
+      const searchedLoc = this.search
+      return this.services.filter((service) => {
+        let filtered = true
+        if (filterType && filterType.length > 0) {
+          filtered = service.type === filterType
+        }
+        if (filtered) {
+          if (searchedLoc && searchedLoc.length > 0) {
+            filtered = service.location === searchedLoc
+          }
+        }
+        return filtered
+      })
     }
   }
 }
@@ -76,4 +108,16 @@ export default {
   .cr{
     bottom: 3px;
   }
+  #servicediv{
+    max-height: 550px;
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+  }
+  .services{
+    list-style: none;
+  }
+#servicediv::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
+
 </style>>
