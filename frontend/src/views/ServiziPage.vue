@@ -4,6 +4,10 @@
 <section class="body">
  <form>
   <div class="form-group">
+    <label for="name">Name of the service</label>
+    <br>
+    <input type="text" v-model="name" class="form-control" id="name" placeholder="Enter the name of the service you are looking for">
+    <br>
     <label for="selectservice">List of our services</label>
     <br>
     <select v-model="selected" class="form-control" id="selectservice">
@@ -14,7 +18,7 @@
   </div>
   <br>
   <div class="form-group">
-    <label for="Location">Location.</label>
+    <label for="Location">Location</label>
     <br>
     <input type="text" v-model="search" class="form-control" id="Location" placeholder="Enter your location">
   </div>
@@ -52,6 +56,7 @@ export default {
     return {
       services,
       selected: '',
+      name: '',
       options: [
         { text: 'Pet Boarding', value: 'boarding' },
         { text: 'Products shop', value: 'shop' },
@@ -65,6 +70,7 @@ export default {
     filteredServices: function () {
       const filterType = this.selected
       const searchedLoc = this.search
+      const nameService = this.name
       return this.services.filter((service) => {
         let filtered = true
         if (filterType && filterType.length > 0) {
@@ -73,6 +79,11 @@ export default {
         if (filtered) {
           if (searchedLoc && searchedLoc.length > 0) {
             filtered = service.location === searchedLoc
+          }
+        }
+        if (filtered) {
+          if (nameService && nameService.length > 0) {
+            filtered = service.name === nameService
           }
         }
         return filtered
