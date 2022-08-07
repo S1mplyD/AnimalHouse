@@ -94,23 +94,15 @@ router
    */
   .get(async (req, res) => {
     try {
-      if (req.query.location != "" && req.query.type == "") {
-        await Service.find({ location: req.query.location }).then(
-          (services) => {
-            res.status(200).send(services);
-          }
-        );
-      } else if (req.query.location == "" && req.query.type != "") {
-        await Service.find({ type: req.query.type }).then((services) => {
-          res.status(200).send(services);
-        });
-      } else if (req.query.location != "" && req.query.type != "") {
-        await Service.find({
-          $and: [{ type: req.query.type }, { location: req.query.location }],
-        }).then((services) => {
-          res.status(200).send(services);
-        });
-      }
+      await Service.find({
+        $or: [
+          { location: req.query.location },
+          { type: req.query.type },
+          { name: req.query.name },
+        ],
+      }).then((services) => {
+        res.status(200).send(services);
+      });
     } catch (error) {
       console.log(error);
     }
