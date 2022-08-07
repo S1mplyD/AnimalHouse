@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Post = require("../models/posts.model");
-
+//TODO: add photos
 router
   .route("/")
   /**
@@ -24,26 +24,23 @@ router
     try {
       if (req.user != null) {
         await Post.findOne({
-          $and: [
-            { description: req.body.description },
-            { author: req.user.username },
-          ],
+          $and: [{ post: req.body.post }, { user: req.user.username }],
         }).then(async (post) => {
           if (!post) {
             await Post.create({
               title: req.body.title,
-              description: req.body.description,
+              user: req.user.username,
               date: Date(),
-              author: req.user.username,
-              shortDescription: `${req.body.description.slice(0, 141)}...`,
+              post: req.body.post,
+              post_summary: `${req.body.post.slice(0, 141)}...`,
             });
-            res.json("post created successfully");
+            res.sendStatus(201);
           } else {
-            res.json("Post already existing");
+            res.send("Post already existing");
           }
         });
       } else {
-        res.json("Unauthorized");
+        res.sendStatus(401);
       }
     } catch (error) {
       console.log(error);
@@ -62,15 +59,15 @@ router
           },
           {
             title: req.body.title,
-            description: req.body.description,
             date: Date(),
-            shortDescription: `${req.body.description.slice(0, 141)}...`,
+            post: req.body.post,
+            post_summary: `${req.body.post.slice(0, 141)}...`,
           }
         ).then(() => {
-          res.json("post updated correctly");
+          res.sendStatus(200);
         });
       } else {
-        res.json("Unauthorized");
+        res.sendStatus(401);
       }
     } catch (error) {
       console.log(error);
@@ -83,13 +80,21 @@ router
   .delete(async (req, res) => {
     try {
       if (req.user != null) {
-        await Post.findOneAndDelete({
-          $and: [{ title: req.body.title }, { author: req.user.username }],
-        }).then(() => {
-          res.json("post delete successfully");
-        });
+        if (req.user.admin) {
+          await Post.findOneAndDelete({ _id: req.query.id }).then(() => {
+            res.sendStatus(200);
+          });
+        } else {
+          await Post.findById(req.query.id).then(async (post) => {
+            if (post.user == req.user.username) {
+              await Post.deleteOne({ _id: req.query.id }).then(() => {
+                res.sendStatus(200);
+              });
+            }
+          });
+        }
       } else {
-        res.json("Unauthorized");
+        res.sendStatus(401);
       }
     } catch (error) {
       console.log(error);
