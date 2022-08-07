@@ -182,7 +182,6 @@ router
       if (req.user != null) {
         await Pet.findOne({ _id: req.query.id })
           .then(async () => {
-            console.log(req.body);
             req.body.forEach(async (el) => {
               await fs.unlink(__foldername + "/server/Images/" + el, (err) => {
                 if (err) console.log(err);
