@@ -26,7 +26,7 @@ function Memory({ images, setImages, score, setScore }) {
   const handleClick = (index) => {
     console.log("prec: " + prec + " state: " + images[index].state);
     console.log(correct);
-    if (correct >= 7) {
+    if (correct > 6) {
       console.log("endgame");
 
       navigate("/result");

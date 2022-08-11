@@ -6,7 +6,12 @@ export default function Card({ item, id, handleClick, handleLoad }) {
 
   return (
     <div className={"card" + itemClass} onClick={() => handleClick(id)}>
-      <img src={item.image} alt={item.name} onLoad={handleLoad} />
+      <img
+        className="w-25"
+        src={item.image}
+        alt={item.name}
+        onLoad={handleLoad}
+      />
     </div>
   );
 }

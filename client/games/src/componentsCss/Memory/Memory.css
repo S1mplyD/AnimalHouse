@@ -1,4 +1,4 @@
-.container {
+/* .container {
   margin: 0px auto;
 }
 
@@ -24,7 +24,7 @@
   transition: transform 0.5s;
 }
 
-.card img {
+.cards img {
   max-width: 80%;
   max-height: 80%;
   width: 5em;
@@ -95,4 +95,4 @@
   100% {
     transform: rotateY(180deg);
   }
-}
+} */
