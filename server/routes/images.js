@@ -91,10 +91,22 @@ router
    * Rimuove l'immagine profilo di un utente.
    * Funzione per gli utenti
    */
-  //TODO: admin function
+  //TODO: aggiungere controllo utente
   .delete(async (req, res) => {
     try {
       if (req.user != null) {
+        if (req.user.admin) {
+          await User.findOneAndUpdate({ _id: req.query.id }).then(
+            async (user) => {
+              await fs.unlink(
+                __foldername + "/server/Images/" + user.profilePicture,
+                (err) => {
+                  if (err) console.log(err);
+                }
+              );
+            }
+          );
+        }
         await User.findOne({ username: req.user.username })
           .then(async (user) => {
             await fs.unlink(
@@ -124,15 +136,26 @@ router
 
 router
   .route("/petPhotos")
-  //TODO: admin
   .get(async (req, res) => {
     try {
       if (req.user != null) {
-        await Pet.findOne({ _id: req.query.id }).then((pet) => {
-          if (pet) {
-            res.send(pet.pictures);
-          }
-        });
+        if (req.user.admin) {
+          await Pet.findOne({ _id: req.query.id }).then((pet) => {
+            if (pet) {
+              res.send(pet.pictures);
+            }
+          });
+        } else {
+          await Pet.findOne({ _id: req.query.id }).then((pet) => {
+            if (pet.owner == req.user.username) {
+              res.status(200).send(pet.pictures);
+            } else {
+              res.sendStatus(401);
+            }
+          });
+        }
+      } else {
+        res.sendStatus(401);
       }
     } catch (error) {
       console.log(error);
@@ -170,40 +193,70 @@ router
           }
         });
       } else {
-        res.status(401);
+        res.sendStatus(401);
       }
     } catch (error) {
       console.log(error);
     }
   })
-  //TODO: admin
   .delete(async (req, res) => {
     try {
       if (req.user != null) {
-        await Pet.findOne({ _id: req.query.id })
-          .then(async () => {
-            req.body.forEach(async (el) => {
-              await fs.unlink(__foldername + "/server/Images/" + el, (err) => {
-                if (err) console.log(err);
+        if (req.user.admin) {
+          await Pet.findOne({ _id: req.query.id })
+            .then(() => {
+              req.body.forEach(async (el) => {
+                await fs.unlink(
+                  __foldername + "/server/Images/" + el,
+                  (err) => {
+                    if (err) console.log(err);
+                  }
+                );
+              });
+            })
+            .then(async () => {
+              await Pet.findOneAndUpdate(
+                {
+                  $and: [{ owner: req.user.username }, { _id: req.query.id }],
+                },
+                {
+                  $pull: {
+                    pictures: { $in: req.body },
+                  },
+                }
+              ).then(() => {
+                res.status(200).send("images deleted successfully");
               });
             });
-          })
-          .then(async () => {
-            await Pet.findOneAndUpdate(
-              {
-                $and: [{ owner: req.user.username }, { _id: req.query.id }],
-              },
-              {
-                $pull: {
-                  pictures: { $in: req.body },
+        } else {
+          await Pet.findOne({ _id: req.query.id })
+            .then(async () => {
+              req.body.forEach(async (el) => {
+                await fs.unlink(
+                  __foldername + "/server/Images/" + el,
+                  (err) => {
+                    if (err) console.log(err);
+                  }
+                );
+              });
+            })
+            .then(async () => {
+              await Pet.findOneAndUpdate(
+                {
+                  $and: [{ owner: req.user.username }, { _id: req.query.id }],
                 },
-              }
-            ).then(() => {
-              res.status(200).send("images deleted successfully");
+                {
+                  $pull: {
+                    pictures: { $in: req.body },
+                  },
+                }
+              ).then(() => {
+                res.status(200).send("images deleted successfully");
+              });
             });
-          });
+        }
       } else {
-        res.status(401).send("unauthorized");
+        res.sendStatus(401);
       }
     } catch (error) {
       console.log(error);
