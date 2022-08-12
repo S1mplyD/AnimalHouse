@@ -1,6 +1,6 @@
 const GoogleStrategy = require("passport-google-oauth20");
-const TwitterStrategy = require("passport-twitter");
 const router = require("express").Router();
+const TwitterStrategy = require("passport-twitter").Strategy;
 require("dotenv").config({ path: "../../.env" });
 const passport = require("passport");
 const User = require("../models/user.model");
