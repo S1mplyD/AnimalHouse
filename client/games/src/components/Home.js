@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import React from "react";
-import "../componentsCss/Home.css";
+import React, { useState } from "react";
 
 function Home({
   getQuestions,
@@ -9,25 +8,29 @@ function Home({
   images,
   getImages,
   getWords,
+  setGame,
 }) {
   const navigate = useNavigate();
   const handleQuiz = async () => {
+    setGame("quiz");
     await getQuestions();
     navigate("/games/quiz");
   };
   const handleMemory = async () => {
+    setGame("memory");
     await getImages();
     navigate("/games/memory");
   };
   const handleHangMan = async () => {
+    setGame("hangman");
     await getWords();
     navigate("/games/hangman");
   };
 
   return (
     <div>
-      <div className="m-5 p-2 bg-white rounded">
-        <form>
+      <div className="m-5 p-2 bg-white rounded ">
+        <form className="bg-white flex flex-col items-center text-center">
           <div className="m-2 p-2 bg-white">
             <label htmlFor="specie" className="bg-white">
               Animal species:
@@ -59,11 +62,15 @@ function Home({
             <select
               name=""
               id="gender"
-              className="form-select rounded-xl"
+              className="form-select rounded-xl mx-2"
               defaultValue="M"
             >
-              <option value="M">Male</option>
-              <option value="F">Female</option>
+              <option value="M" className="bg-white">
+                Male
+              </option>
+              <option value="F" className="bg-white">
+                Female
+              </option>
             </select>
           </div>
           <div className="m-2 p-2 bg-white">
@@ -100,27 +107,27 @@ function Home({
           </div>
         </form>
       </div>
-      <div className="m-5 p-2 bg-white rounded">
-        <div className="card-group bg-white">
-          <div className="card">
+      <div className="m-5 bg-white rounded">
+        <div className="card-group bg-blue-500">
+          <div className="card p-2 ">
             <img
-              className="card-img game-selection"
+              className="card-img w-full h-80 object-cover bg-white cursor-pointer rounded-xl"
               src={require("../1652541244672.png")}
               alt="quiz game"
               onClick={handleQuiz}
             />
           </div>
-          <div className="card">
+          <div className="card p-2">
             <img
-              className="card-img game-selection"
+              className="card-img w-full h-80 object-cover bg-white cursor-pointer rounded-xl"
               src={require("../animali-selvatici.jpg")}
               alt="memory game"
               onClick={handleMemory}
             />
           </div>
-          <div className="card">
+          <div className="card p-2">
             <img
-              className="card-img game-selection"
+              className="card-img w-full h-80 object-cover bg-white cursor-pointer rounded-xl"
               src={require("../hangmanGame.jpg")}
               alt="hangman game"
               onClick={handleHangMan}

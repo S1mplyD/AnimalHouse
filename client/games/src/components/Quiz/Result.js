@@ -1,35 +1,35 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import "../../componentsCss/Quiz/Result.css";
 
-function Result({ score, setScore }) {
+function Result({ score, setScore, game }) {
   const navigate = useNavigate();
   const submitScore = async () => {
     await axios.post("http://localhost:8000/api/leaderboard", {
       playerName: document.getElementById("username").value,
       score: score,
+      game: game,
     });
     setScore(0);
   };
 
   return (
-    <div className="container">
-      <div className="submitForm">
-        <div className="score">Your score is: {score}</div>
-        <div className="submitScore">
-          <h1 className="text">Save your score</h1>
-          <form className="submitF">
+    <div className="flex flex-col items-center bg-white rounded w-fit m-auto mt-10">
+      <div className="m-10 w-fit h-80 flex flex-col items-center content-around border-gray-400 border-solid border-4 p-5 rounded-xl">
+        <div className="text-center">Your score is: {score}</div>
+        <div className="text-center my-5">
+          <h1>Save your score</h1>
+          <form className="mt-5 rounded-md">
             <input
               type="text"
               name="username"
               placeholder="username"
               id="username"
-              className="submit"
+              className="mt-5 rounded-md"
             />
             <input
               type="submit"
-              className="submit"
+              className="mt-5 rounded-lg bg-cyan-400 p-2 hover:bg-blue-500"
               value="submit"
               onClick={() => {
                 submitScore();

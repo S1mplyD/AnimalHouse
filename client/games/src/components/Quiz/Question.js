@@ -12,6 +12,7 @@ const Question = ({
   setScore,
   score,
   setQuestions,
+  setGame,
 }) => {
   const [selected, setSelected] = useState();
   const [error, setError] = useState(false);
@@ -19,9 +20,9 @@ const Question = ({
   const navigate = useNavigate();
 
   const handleSelect = (i) => {
-    if (selected === i && selected === correct) return "btn-success";
-    else if (selected === i && selected !== correct) return "btn-danger";
-    else if (i === correct) return "btn-success";
+    if (selected === i && selected === correct) return "bg-green-500";
+    else if (selected === i && selected !== correct) return "bg-red-600";
+    else if (i === correct) return "bg-green-500";
   };
 
   const handleCheck = (i) => {
@@ -40,25 +41,26 @@ const Question = ({
   };
 
   const handleQuit = () => {
+    setGame("");
     setCurrentQuestion(0);
     setQuestions();
   };
 
   return (
-    <div className="d-flex flex-column align-items-center bg-white rounded p-2 mt-5">
-      <h1 className="bg-white">Question {currentQuestion + 1} :</h1>
+    <div className="flex flex-col items-center bg-white rounded p-2 mt-5">
+      <h1 className="bg-white text-2xl">Question {currentQuestion + 1} :</h1>
       <div
-        className="m-5 p-5 d-flex flex-column align-items-center justify-content-around border border-3 border-secondary
-       rounded bg-white"
+        className="m-3 p-3 md:p-20 flex flex-col items-center rounded border-solid border-2 border-gray-400
+       bg-white"
       >
-        <h2 className="bg-white">
+        <h2 className="bg-white text-lg my-4">
           {decode.decode(questions[currentQuestion].question)}
         </h2>
-        <div className="d-flex flex-wrap align-items-center justify-content-evenly bg-white w-100 m-1">
+        <div className="md:grid md:grid-cols-2 md:gap-10 my-7 flex md:p-3 md:m-3 flex-col flex-wrap items-center content-evenly bg-white w-full">
           {options &&
             options.map((i) => (
               <button
-                className={`btn btn-primary m-1 ${
+                className={`bg-cyan-200 md:hover:bg-blue-600 rounded-md p-3 w-full m-1 ${
                   selected && handleSelect(i)
                 } `}
                 key={i}
@@ -69,9 +71,9 @@ const Question = ({
               </button>
             ))}
         </div>
-        <div className="d-flex bg-white rounded justify-content-evenly ">
+        <div className="flex bg-white rounded content-evenly items-center md:mt-10">
           <button
-            className="btn btn-primary rounded w-50 p-2 m-1"
+            className="bg-cyan-200 rounded w-50 p-2 m-1"
             onClick={() => {
               window.location.href = "/games";
               handleQuit();
@@ -81,7 +83,7 @@ const Question = ({
           </button>
 
           <button
-            className="btn btn-primary rounded w-50 p-2 m-1"
+            className="bg-cyan-200 rounded w-50 p-2 m-1"
             onClick={handleNext}
           >
             {currentQuestion > 3 ? "Submit" : "Next Question"}

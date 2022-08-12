@@ -3,7 +3,7 @@ import Question from "./Question";
 import { CircularProgress } from "@material-ui/core";
 import "../../componentsCss/Quiz/Quiz.css";
 
-function Quiz({ questions, setQuestions, score, setScore }) {
+function Quiz({ questions, setQuestions, score, setScore, setGame }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [options, setOptions] = useState([]);
   useEffect(() => {
@@ -20,7 +20,7 @@ function Quiz({ questions, setQuestions, score, setScore }) {
   };
 
   return (
-    <div className="d-flex flex-column align-items-center">
+    <div className="flex flex-col items-center ">
       {questions ? (
         <>
           {console.log(questions[currentQuestion].correct_answer)}
@@ -33,6 +33,7 @@ function Quiz({ questions, setQuestions, score, setScore }) {
             score={score}
             setScore={setScore}
             setQuestions={setQuestions}
+            setGame={setGame}
           />
         </>
       ) : (

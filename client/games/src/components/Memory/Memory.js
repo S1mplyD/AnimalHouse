@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import "../../componentsCss/Memory/Memory.css";
 import Card from "./Card";
 
 function Memory({ images, setImages, score, setScore }) {
@@ -73,15 +72,15 @@ function Memory({ images, setImages, score, setScore }) {
   };
 
   return (
-    <div
-      className="container"
-      style={{ visibility: show ? "visible" : "hidden" }}
-    >
-      <h1 style={{ display: show ? "none" : "initial", visibility: "visible" }}>
+    <div className="m-auto" style={{ visibility: show ? "visible" : "hidden" }}>
+      <h1
+        className="text-xl text-center"
+        style={{ display: show ? "none" : "initial", visibility: "visible" }}
+      >
         Loading
       </h1>
       <div
-        className="canvas"
+        className="grid grid-cols-4 grid-rows-4 gap-2 p-8 border-2 border-solid rounded-3xl bg-white"
         style={{ pointerEvents: clickable ? "" : "none" }}
       >
         {

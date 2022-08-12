@@ -1,4 +1,3 @@
-import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
@@ -13,6 +12,7 @@ function App() {
   const [score, setScore] = useState(0);
   const [images, setImages] = useState([]);
   const [word, setWord] = useState();
+  const [game, setGame] = useState("");
   const getQuestions = async () => {
     const rawData = await axios.get(
       "http://localhost:8000/api/getTrivia/medium"
@@ -63,9 +63,15 @@ function App() {
 
   return (
     <Router>
-      <div>
-        <Link to="/games">
-          <h1 className="text-white flex flex-col items-center">
+      <div className="bg-blue-500 overflow-auto h-screen">
+        <Link
+          to="/games"
+          onClick={() => {
+            setGame("");
+            console.log(game);
+          }}
+        >
+          <h1 className="text-white flex flex-col items-center text-3xl">
             Animal House Games
           </h1>
         </Link>
@@ -79,6 +85,7 @@ function App() {
                 setScore={setScore}
                 getImages={getImages}
                 getWords={getWords}
+                setGame={setGame}
               />
             }
           />
@@ -90,12 +97,13 @@ function App() {
                 setQuestions={setQuestions}
                 score={score}
                 setScore={setScore}
+                setGame={setGame}
               />
             }
           />
           <Route
             path="/result"
-            element={<Result score={score} setScore={setScore} />}
+            element={<Result score={score} setScore={setScore} game={game} />}
           />
           <Route
             path="/games/memory"
@@ -110,6 +118,7 @@ function App() {
           ></Route>
           <Route
             path="/games/hangman"
+            game={game}
             element={<Hangman word={word} setWord={setWord}></Hangman>}
           ></Route>
         </Routes>
