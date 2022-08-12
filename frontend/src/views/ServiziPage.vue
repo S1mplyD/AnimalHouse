@@ -27,9 +27,11 @@
   <div class="overflow-auto" id="servicediv">
     <ul class="services">
       <li v-for="service in filteredServices">
-        <div  class="postinfo">
-          <p><b>{{service.name}}</b></p>
-          <p>{{service.info}}</p>
+        <div  class="card">
+          <div class="card-body">
+              <h5 class="card-title">{{service.name}}</h5>
+              <p class="card-text">{{service.info}}</p>
+          </div>
         </div>
         <br>
      </li>
@@ -120,9 +122,10 @@ export default {
     bottom: 3px;
   }
   #servicediv{
-    max-height: 550px;
+    max-height: 500px;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
+    border-style: double;
   }
   .services{
     list-style: none;
