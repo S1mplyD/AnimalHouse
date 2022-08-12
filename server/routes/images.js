@@ -96,36 +96,42 @@ router
     try {
       if (req.user != null) {
         if (req.user.admin) {
-          await User.findOneAndUpdate({ _id: req.query.id }).then(
-            async (user) => {
+          await User.findOneAndUpdate(
+            { _id: req.query.id },
+            { profilePicture: "" }
+          )
+            .then(async (user) => {
               await fs.unlink(
                 __foldername + "/server/Images/" + user.profilePicture,
                 (err) => {
                   if (err) console.log(err);
                 }
               );
-            }
-          );
-        }
-        await User.findOne({ username: req.user.username })
-          .then(async (user) => {
-            await fs.unlink(
-              __foldername + "/server/Images/" + user.profilePicture,
-              (err) => {
-                if (err) console.log(err);
-              }
-            );
-          })
-          .then(async () => {
-            await User.findOneAndUpdate(
-              {
-                username: req.user.username,
-              },
-              { profilePicture: "" }
-            ).then(() => {
-              res.status(200).send("avatar deleted successfully");
+            })
+            .finally(() => {
+              res.sendStatus(200);
             });
-          });
+        } else {
+          await User.findOne({ username: req.user.username })
+            .then(async (user) => {
+              await fs.unlink(
+                __foldername + "/server/Images/" + user.profilePicture,
+                (err) => {
+                  if (err) console.log(err);
+                }
+              );
+            })
+            .then(async () => {
+              await User.findOneAndUpdate(
+                {
+                  username: req.user.username,
+                },
+                { profilePicture: "" }
+              ).then(() => {
+                res.status(200).send("avatar deleted successfully");
+              });
+            });
+        }
       } else {
         res.status(401).send("unauthorized");
       }
