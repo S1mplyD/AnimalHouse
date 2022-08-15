@@ -23,6 +23,7 @@ const Question = ({
     if (selected === i && selected === correct) return "bg-green-500";
     else if (selected === i && selected !== correct) return "bg-red-600";
     else if (i === correct) return "bg-green-500";
+    else return "";
   };
 
   const handleCheck = (i) => {
@@ -60,20 +61,20 @@ const Question = ({
           {options &&
             options.map((i) => (
               <button
-                className={`bg-cyan-200 md:hover:bg-blue-600 rounded-md p-3 w-full m-1 ${
+                className={` border-solid border-black border-2 rounded-md p-3 w-full m-1 ${
                   selected && handleSelect(i)
                 } `}
                 key={i}
                 onClick={() => handleCheck(i)}
                 disabled={selected}
               >
-                {i}
+                {decode.decode(i)}
               </button>
             ))}
         </div>
         <div className="flex bg-white rounded content-evenly items-center md:mt-10">
           <button
-            className="bg-cyan-200 rounded w-50 p-2 m-1"
+            className="border-solid border-black border-2 rounded w-50 p-2 m-1"
             onClick={() => {
               window.location.href = "/games";
               handleQuit();
@@ -83,7 +84,7 @@ const Question = ({
           </button>
 
           <button
-            className="bg-cyan-200 rounded w-50 p-2 m-1"
+            className="border-solid border-black border-2 rounded w-50 p-2 m-1"
             onClick={handleNext}
           >
             {currentQuestion > 3 ? "Submit" : "Next Question"}
