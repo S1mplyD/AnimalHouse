@@ -1,5 +1,4 @@
 const { default: mongoose } = require("mongoose");
-const Schema = require("mongoose");
 
 const petSchema = new mongoose.Schema(
   {
@@ -8,7 +7,7 @@ const petSchema = new mongoose.Schema(
     race: { type: String },
     owner: { type: String, required: true }, //username dell'owner
     age: { type: Number },
-    premium: { type: Boolean, required: true },
+    premium: { type: Boolean, required: true, default: false },
     pictures: { type: [String] }, //Path alle immagini su filesystem
   },
   {

@@ -1,0 +1,41 @@
+.singleOption {
+  background-color: white;
+  width: 46%;
+  height: 50px;
+  padding: 15px 20px;
+  margin: 10px;
+  box-shadow: 0 0 2px black;
+  border-radius: 10px;
+}
+
+@media (max-width: 614px) {
+  .singleOption {
+    width: 100%;
+  }
+}
+
+.controls {
+  background-color: white;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.btnControl {
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  width: 25%;
+}
+
+.select {
+  background-color: rgb(7, 207, 0);
+  color: white;
+  box-shadow: 0 0 1px black;
+}
+
+.wrong {
+  background-color: rgb(233, 0, 0);
+  color: white;
+  box-shadow: 0 0 1px black;
+}

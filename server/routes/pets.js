@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const fs = require("fs");
 const Pet = require("../models/pet.model");
 const User = require("../models/user.model");
 
@@ -9,15 +10,19 @@ router
    * Ottiene tutti gli animali
    */
   .get(async (req, res) => {
-    const pets = await Pet.find();
-    res.send(pets);
+    try {
+      await Pet.find().then((pets) => {
+        res.status(200).send(pets);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   })
   /**
    * POST
    * Crea un nuovo animale
    */
   .post(async (req, res) => {
-    console.log(req.user);
     try {
       if (req.user != null) {
         await Pet.create({
@@ -26,35 +31,49 @@ router
           race: req.body.race,
           owner: req.user.username, //Owner should be the user who is adding the pet
           age: req.body.age,
-          premium: req.body.premium,
-        }).then(async (pet) => {
-          await User.findOneAndUpdate(
-            { username: req.user.username },
-            { $push: { ownedAnimals: pet._id } }
-          );
-        });
+        })
+          .then(async (pet) => {
+            await User.findOneAndUpdate(
+              { username: req.user.username },
+              { $push: { ownedAnimals: pet._id } }
+            );
+          })
+          .then(() => {
+            res.sendStatus(201);
+          });
+      } else {
+        res.sendStatus(401);
       }
-
-      res.sendStatus(200);
     } catch (error) {
-      res.json({ Error: "Errore: " + error });
+      console.log(error);
     }
-  });
-
-router
-  .route("/:petid")
+  })
   /**
-   * PUT
+   * PATCH
    * Cambia una o più proprietà di un animale
    *
    * @param petid Id dell´animale (usa il campo _id di mongo)
    */
   .patch(async (req, res) => {
     try {
-      await Pet.findByIdAndUpdate(req.params.petid, req.body);
-      res.status(200).json("Animale modificato con successo");
+      if (req.user != null) {
+        if (req.user.admin) {
+          await Pet.findByIdAndUpdate(req.query.petid, req.body);
+          res.sendStatus(200);
+        } else {
+          await Pet.findById(req.query.petid).then(async (pet) => {
+            if (pet.owner == req.user.username) {
+              await Pet.updateOne({ _id: pet._id }, req.body).then(() => {
+                res.sendStatus(200);
+              });
+            }
+          });
+        }
+      } else {
+        res.sendStatus(401);
+      }
     } catch (error) {
-      res.json({ Error: "Errore: " + error });
+      console.log(error);
     }
   })
   /**
@@ -65,28 +84,77 @@ router
    */
   .delete(async (req, res) => {
     try {
-      await Pet.findByIdAndDelete(req.params.petid);
-      res.status(200).json("Animale eliminato con successo");
+      if (req.user != null) {
+        if (req.user.admin) {
+          await Pet.findOneAndDelete({ _id: req.query.petid })
+            .then(async (pet) => {
+              pet.pictures.forEach(async (element) => {
+                await fs.unlink(
+                  __foldername + "/server/Images/" + element,
+                  (err) => {
+                    if (err) console.log(err);
+                  }
+                );
+              });
+            })
+            .finally(() => {
+              res.sendStatus(200);
+            });
+        } else {
+          await Pet.findById(req.query.petid).then(async (pet) => {
+            if (pet.owner == req.user.username) {
+              await Pet.findOneAndDelete({ _id: pet._id })
+                .then(async (pet) => {
+                  console.log(pet);
+                  pet.pictures.forEach(async (element) => {
+                    await fs.unlink(
+                      __foldername + "/server/Images/" + element,
+                      (err) => {
+                        if (err) console.log(err);
+                      }
+                    );
+                  });
+                })
+                .finally(() => {
+                  res.sendStatus(200);
+                });
+            }
+          });
+        }
+      } else {
+        res.sendStatus(401);
+      }
     } catch (error) {
-      res.json({ Error: "Errore: " + error });
+      console.log(error);
     }
   });
 
-//TODO aggiungere più campi di ricerca
 router
-  .route("/:petname")
+  .route("/pet")
   /**
    * GET
    * Ottiene l'animale con il nome inserito
-   *
-   * @param petname nome dell'animale che stiamo cercando
    */
   .get(async (req, res) => {
     try {
-      const pet = await Pet.findOne({ name: req.params.petname });
-      res.status(200).json(pet);
+      console.log(req.user);
+      if (req.user != null) {
+        if (req.user.admin) {
+          await Pet.findOne({ name: req.query.name }).then((pet) => {
+            res.status(200).send(pet);
+          });
+        } else {
+          await Pet.findOne({ name: req.query.name }).then(async (pet) => {
+            if (pet.owner == req.user.username) {
+              res.status(200).send(pet);
+            }
+          });
+        }
+      } else {
+        res.sendStatus(401);
+      }
     } catch (error) {
-      res.json({ Error: "Errore: " + error });
+      console.log(error);
     }
   });
 

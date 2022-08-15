@@ -1,6 +1,6 @@
 const GoogleStrategy = require("passport-google-oauth20");
-const TwitterStrategy = require("passport-twitter");
 const router = require("express").Router();
+const TwitterStrategy = require("passport-twitter").Strategy;
 require("dotenv").config({ path: "../../.env" });
 const passport = require("passport");
 const User = require("../models/user.model");
@@ -24,9 +24,10 @@ passport.use(
           User.create({
             name: profile.displayName,
             username: profile.displayName,
-            serviceId: profile.id,
             mail: profile._json.email,
+            serviceId: profile.id,
             profilePicture: profile._json.picture,
+            admin: false,
           }).then((newUser) => {
             done(null, newUser);
           });
@@ -71,6 +72,7 @@ passport.use(
             username: profile.username,
             serviceId: profile.id,
             profilePicture: profile.photos[0].value,
+            admin: false,
           }).then((newUser) => {
             done(null, newUser);
           });
@@ -124,10 +126,10 @@ router.post("/register", async (req, res) => {
   const encryptedPassword = await bcrypt.hash(req.body.password, 10);
   User.create({
     name: req.body.name,
-    surname: req.body.surname,
     username: req.body.username,
     mail: req.body.mail,
     password: encryptedPassword,
+    admin: false,
   });
   res.json("registrazione avvenuta con successo");
 });
@@ -143,8 +145,12 @@ passport.serializeUser((user, done) => {
 });
 
 router.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/");
+  try {
+    req.logout();
+    res.status(200).redirect("/");
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 module.exports = router;

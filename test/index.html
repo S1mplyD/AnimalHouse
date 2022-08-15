@@ -44,6 +44,8 @@
     <h1>Twitter</h1>
     <a href="/auth/twitter">twitter login</a>
     <div id="imgs"></div>
+    <button onclick="getTrivia()">get trivia</button>
+    <div id="trivia"></div>
     <script>
       async function login() {
         const data = {
@@ -79,6 +81,17 @@
             const elem = document.createElement("img");
             elem.src = "http://localhost:8000/" + element;
             document.getElementById("imgs").appendChild(elem);
+          });
+        });
+      }
+
+      async function getTrivia() {
+        fetch("/api/getTrivia/medium").then(async (res) => {
+          const el = await res.json();
+          el.forEach((element) => {
+            const elem = document.createElement("p");
+            elem.innerHTML = element.question;
+            document.getElementById("trivia").appendChild(elem);
           });
         });
       }
