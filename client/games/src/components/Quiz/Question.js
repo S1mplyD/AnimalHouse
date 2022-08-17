@@ -15,7 +15,6 @@ const Question = ({
   setGame,
 }) => {
   const [selected, setSelected] = useState();
-  const [error, setError] = useState(false);
 
   const navigate = useNavigate();
 
@@ -29,7 +28,6 @@ const Question = ({
   const handleCheck = (i) => {
     setSelected(i);
     if (i === correct) setScore(score + 1);
-    setError(false);
   };
 
   const handleNext = () => {
@@ -38,7 +36,7 @@ const Question = ({
     } else if (selected) {
       setCurrentQuestion(currentQuestion + 1);
       setSelected();
-    } else setError("Please select an option first");
+    } 
   };
 
   const handleQuit = () => {

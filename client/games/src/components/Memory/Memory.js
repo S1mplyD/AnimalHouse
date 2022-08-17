@@ -72,9 +72,9 @@ function Memory({ images, setImages, score, setScore }) {
   };
 
   return (
-    <div className="m-auto" style={{ visibility: show ? "visible" : "hidden" }}>
+    <div className="" style={{ visibility: show ? "visible" : "hidden" }}>
       <h1
-        className="text-xl text-center"
+        className="text-xl text-center m-auto"
         style={{ display: show ? "none" : "initial", visibility: "visible" }}
       >
         Loading

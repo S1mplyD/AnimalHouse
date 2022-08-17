@@ -107,33 +107,32 @@ function Home({
           </div>
         </form>
       </div>
-      <div className="m-5 bg-white rounded">
-        <div className="card-group bg-blue-500">
-          <div className="card p-2 ">
+      <div className="m-5 rounded flex flex-col md:flex-row items-center md:justify-evenly  bg-blue-500">
+        
+          <div className=" p-2 ">
             <img
-              className="card-img w-full h-80 object-cover bg-white cursor-pointer rounded-xl"
+              className="w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
               src={require("../1652541244672.png")}
               alt="quiz game"
               onClick={handleQuiz}
             />
           </div>
-          <div className="card p-2">
+          <div className=" p-2">
             <img
-              className="card-img w-full h-80 object-cover bg-white cursor-pointer rounded-xl"
+              className=" w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
               src={require("../animali-selvatici.jpg")}
               alt="memory game"
               onClick={handleMemory}
             />
           </div>
-          <div className="card p-2">
+          <div className="p-2">
             <img
-              className="card-img w-full h-80 object-cover bg-white cursor-pointer rounded-xl"
+              className="w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
               src={require("../hangmanGame.jpg")}
               alt="hangman game"
               onClick={handleHangMan}
             />
           </div>
-        </div>
       </div>
     </div>
   );

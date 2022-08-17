@@ -2,6 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
+  "homepage": ".",
   "main": "index.js",
   "scripts": {
     "api": "nodemon ./index.js",
@@ -24,8 +25,5 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4"
-  },
-  "devDependencies": {
-    "@types/passport-twitter": "^1.0.37"
   }
 }
