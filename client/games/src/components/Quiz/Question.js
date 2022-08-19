@@ -36,13 +36,14 @@ const Question = ({
     } else if (selected) {
       setCurrentQuestion(currentQuestion + 1);
       setSelected();
-    } 
+    }
   };
 
   const handleQuit = () => {
     setGame("");
     setCurrentQuestion(0);
     setQuestions();
+    navigate("/games");
   };
 
   return (
@@ -74,7 +75,6 @@ const Question = ({
           <button
             className="border-solid border-black border-2 rounded w-50 p-2 m-1"
             onClick={() => {
-              window.location.href = "/games";
               handleQuit();
             }}
           >
