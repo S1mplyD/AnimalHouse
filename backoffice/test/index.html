@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>STAFF OFFICE</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                var date = new Date();
+                var currentYear = date.getFullYear();
+                document.getElementById('footer').innerHTML=currentYear;
+                $("#custdata").click(function(event){
+                    $.getJSON('customerdata.json', function(jd) {
+                        $('#main_zone').html('<table id="table"><tr><th>Name</th><th>Username</th><th>Mail</th><th>Service ID</th><th>Password</th><th>Pets</th><th>Profile Picture</th><th>Is_Admin</th></tr>');
+                        for (var i = 0; i < jd.length; i++ ) {
+                            $('#table').append('<tr>' +
+                                '<td>' + jd[i].name + '</td>' +
+                                '<td>' + jd[i].username + '</td>' +
+                                '<td>' + jd[i].mail + '</td>' +
+                                '<td>' + jd[i].serviceId + '</td>' +
+                                '<td>' + jd[i].password + '</td>'+
+                                '<td>' + jd[i].ownedAnimals + '</td>' +
+                                '<td>' + jd[i].profilePicture + '</td>' +
+                                '<td>' + jd[i].admin + '</td>' +
+                            '</tr>');
+                        }
+                        $('#main_zone').append('<form id="new_serv"><label for="name">Name of the person to ban:</label><br><input type="text" id="name" name="name"><br>');
+                        $('#main_zone').append('<label for="_id">ID:</label><br><input type="text" id="_id" name="_id"><br>');
+                        $('#main_zone').append('<button id="submit_but" type="submit">BAN!</button></form>');
+                        $('#main_zone').append('<br>');
+                        $('#main_zone').append('<form id="new_serv"><label for="name">Name of the person to make admin:</label><br><input type="text" id="name" name="name"><br>');
+                        $('#main_zone').append('<label for="_id">ID:</label><br><input type="text" id="_id" name="_id"><br>');
+                        $('#main_zone').append('<button id="submit_but" type="submit">MAKE ADMIN!</button></form>');
+
+                    });
+                });
+                $("#commserv").click(function(event){
+                    $.getJSON('communityservices.json', function(jd) {
+                        $('#main_zone').html('<table id="table"><tr><th>Title</th><th>User</th><th>Description</th><th>Summary</th><th>Picture</th><th>Date</th></tr>');
+                        for (var i = 0; i < jd.length; i++ ) {
+                            $('#table').append('<tr>' +
+                                '<td>' + jd[i].title + '</td>' +
+                                '<td>' + jd[i].user + '</td>' +
+                                '<td>' + jd[i].description + '</td>' +
+                                '<td>' + jd[i].summary + '</td>' +
+                                '<td>' + jd[i].picture + '</td>'+
+                                '<td>' + jd[i].date + '</td>' +
+                            '</tr>');
+                        }
+                        $('#main_zone').append('<form id="new_serv"><label for="title">Title:</label><br><input type="text" id="title" name="title"><br>');
+                        $('#main_zone').append('<label for="user">User:</label><br><input type="text" id="user" name="user"><br>');
+                        $('#main_zone').append('<label for="desc">Description:</label><br><input type="text" id="desc" name="desc"><br>');
+                        $('#main_zone').append('<label for="summ">Summary:</label><br><input type="text" id="summ" name="summ"><br>');
+                        $('#main_zone').append('<label for="pict">Picture:</label><br><input type="text" id="pict" name="pict"><br>');
+                        $('#main_zone').append('<label for="date">Date:</label><br><input type="text" id="date" name="date"><br>');
+                        $('#main_zone').append('<button id="submit_but" type="submit">SUBMIT</button></form>');
+                    });
+                });
+                $("#e-commerce").click(function(event){
+                    $.getJSON('e-commerce.json', function(jd) {
+                        $('#main_zone').html('<table id="table"><tr><th>Name of the product</th><th>Image</th><th>Price</th><th>Info</th></tr>');
+                        for (var i = 0; i < jd.length; i++ ) {
+                            $('#table').append('<tr>' +
+                                '<td>' + jd[i].title + '</td>' +
+                                '<td>' + jd[i].filename + '</td>' +
+                                '<td>' + jd[i].price + '</td>' +
+                                '<td>' + jd[i].info + '</td>' +
+                            '</tr>');
+                        }
+                        $('#main_zone').append('<form id="new_serv"><label for="title">Name:</label><br><input type="text" id="title" name="title"><br>');
+                        $('#main_zone').append('<label for="filename">Picture:</label><br><input type="text" id="filename" name="filename"><br>');
+                        $('#main_zone').append('<label for="price">Price:</label><br><input type="text" id="price" name="price"><br>');
+                        $('#main_zone').append('<label for="info">Summary:</label><br><input type="text" id="info" name="info"><br>');
+                        $('#main_zone').append('<button id="submit_but" type="submit">ADD PRODUCT</button></form>');
+                        $('#main_zone').append('<form id="new_serv"><label for="title">Name:</label><br><input type="text" id="title" name="title">');
+                        $('#main_zone').append('<button id="submit_but" type="submit">REMOVE PRODUCT</button></form>');
+                    });
+                });
+                $("#realserv").click(function(event){
+                    $.getJSON('realserv.json', function(jd) {
+                        $('#main_zone').html('<table id="table"><tr><th>Name</th><th>Location</th><th>Time of opening/th><th>Type</th><th>Info</th></tr>');
+                        for (var i = 0; i < jd.length; i++ ) {
+                            $('#table').append('<tr>' +
+                                '<td>' + jd[i].name + '</td>' +
+                                '<td>' + jd[i].location + '</td>' +
+                                '<td>' + jd[i].time + '</td>' +
+                                '<td>' + jd[i].type + '</td>' +
+                                '<td>' + jd[i].info + '</td>'+
+                            '</tr>');
+                        }
+                        $('#main_zone').append('<form id="new_serv"><label for="name">Name:</label><br><input type="text" id="name" name="name"><br>');
+                        $('#main_zone').append('<label for="location">Location:</label><br><input type="text" id="location" name="location"><br>');
+                        $('#main_zone').append('<label for="time">Time:</label><br><input type="text" id="time" name="time"><br>');
+                        $('#main_zone').append('<label for="type">Type:</label><br><input type="text" id="type" name="type"><br>');
+                        $('#main_zone').append('<label for="info">Info:</label><br><input type="text" id="info" name="info"><br>');
+                        $('#main_zone').append('<button id="submit_but" type="submit">SUBMIT</button></form>');
+                    });
+                });
+                $("#onlineserv").click(function(event){
+                    $.getJSON('onlineserv.json', function(jd) {
+                        $('#main_zone').html('<table id="table"><tr><th>Name</th><th>Location</th><th>Time of opening/th><th>Type</th><th>Info</th></tr>');
+                        for (var i = 0; i < jd.length; i++ ) {
+                            $('#table').append('<tr>' +
+                                '<td>' + jd[i].name + '</td>' +
+                                '<td>' + jd[i].location + '</td>' +
+                                '<td>' + jd[i].time + '</td>' +
+                                '<td>' + jd[i].type + '</td>' +
+                                '<td>' + jd[i].info + '</td>'+
+                            '</tr>');
+                        }
+                        $('#main_zone').append('<form id="new_serv"><label for="name">Name:</label><br><input type="text" id="name" name="name"><br>');
+                        $('#main_zone').append('<label for="location">Location:</label><br><input type="text" id="location" name="location"><br>');
+                        $('#main_zone').append('<label for="time">Time:</label><br><input type="text" id="time" name="time"><br>');
+                        $('#main_zone').append('<label for="type">Type:</label><br><input type="text" id="type" name="type"><br>');
+                        $('#main_zone').append('<label for="info">Info:</label><br><input type="text" id="info" name="info"><br>');
+                        $('#main_zone').append('<button id="submit_but" type="submit">SUBMIT</button></form>');
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <header class="backoffice_header">
+            <b><p>ANIMAL HOUSE</p></b>
+            <nav>
+                <ul class="navigation">
+                    <li><button id="custdata">Users registry</button></li>
+                    <li><button id="commserv">Community services</button></li>
+                    <li><button id="e-commerce">E-commerce Manager</button></li>
+                    <li><button id="realserv">Real Life services</button></li>
+                    <li><button id="onlineserv">Online services</button></li>
+                </ul>
+            </nav>
+        </header>
+        <main id="main_zone">
+            <h1><b>HERE WILL BE LOADED DATA</b></h1>
+        </main>
+        <footer>
+            <b><p id="text">Copyright &copy;<span id="footer"></span> </p></b>
+        </footer>
+    </body>
+</html>
+

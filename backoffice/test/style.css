@@ -1,0 +1,26 @@
+#main_zone{
+    border-style: solid;
+}
+
+.backoffice_header{
+    border-style: solid;
+}
+nav {
+margin-left: auto;
+}
+.navigation{
+   list-style: none;
+}
+.navigation li {
+    display: inline-flex;
+    margin-left: 1rem;
+}
+
+#table, th, td {
+    border:1px solid black;
+    width:100%;
+}
+footer{
+    border-style: solid;
+    text-align: center;
+}
