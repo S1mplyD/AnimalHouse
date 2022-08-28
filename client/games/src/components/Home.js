@@ -108,31 +108,30 @@ function Home({
         </form>
       </div>
       <div className="m-5 rounded flex flex-col md:flex-row items-center md:justify-evenly  bg-blue-500">
-        
-          <div className=" p-2 ">
-            <img
-              className="w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
-              src={require("../1652541244672.png")}
-              alt="quiz game"
-              onClick={handleQuiz}
-            />
-          </div>
-          <div className=" p-2">
-            <img
-              className=" w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
-              src={require("../animali-selvatici.jpg")}
-              alt="memory game"
-              onClick={handleMemory}
-            />
-          </div>
-          <div className="p-2">
-            <img
-              className="w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
-              src={require("../hangmanGame.jpg")}
-              alt="hangman game"
-              onClick={handleHangMan}
-            />
-          </div>
+        <div className=" p-2 ">
+          <img
+            className="w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
+            src={require("/home/luca/Documents/GitHub/AnimalHouse/client/games/src/1652541244672.png")}
+            alt="quiz game"
+            onClick={handleQuiz}
+          />
+        </div>
+        <div className=" p-2">
+          <img
+            className=" w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
+            src={require("/home/luca/Documents/GitHub/AnimalHouse/client/games/src/animali-selvatici.jpg")}
+            alt="memory game"
+            onClick={handleMemory}
+          />
+        </div>
+        <div className="p-2">
+          <img
+            className="w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
+            src={require("/home/luca/Documents/GitHub/AnimalHouse/client/games/src/hangmanGame.jpg")}
+            alt="hangman game"
+            onClick={handleHangMan}
+          />
+        </div>
       </div>
     </div>
   );
