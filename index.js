@@ -17,7 +17,9 @@ const newsRoute = require("./server/routes/news");
 const galleryRoute = require("./server/routes/gallery");
 const servicesRoute = require("./server/routes/services");
 global.__foldername = __dirname;
+const nconf = require("nconf");
 
+let config = nconf.file("conf.json");
 const app = express();
 
 const port = 8000;
@@ -29,7 +31,7 @@ app.use(express.json());
 app.use(
   cookieSession({
     maxAge: 24 * 60 * 60 * 1000, //Un giorno
-    keys: [process.env.COOKIE_KEY],
+    keys: [config.get("COOKIE_KEY")],
   })
 );
 
@@ -66,7 +68,7 @@ app.get("/api/getTrivia/:difficulty", async (req, res) => {
   });
 });
 
-mongoose.connect(process.env.MONGODB_PERSONAL_URI);
+mongoose.connect(config.get("MONGODB_PERSONAL_URI"));
 
 app.listen(port, () => {
   console.log(`server started on port ${port}`);
