@@ -46,7 +46,87 @@
     <div id="imgs"></div>
     <button onclick="getTrivia()">get trivia</button>
     <div id="trivia"></div>
+    <form enctype="multipart/form-data">
+      <input type="text" name="title" id="title" placeholder="title" />
+      <input
+        type="text"
+        name="description"
+        id="description"
+        placeholder="description"
+      />
+      <input type="file" name="picture" id="files" multiple />
+      <input type="button" value="submit" onclick="createPost()" />
+    </form>
     <script>
+      async function createPet() {
+        let data = {
+          name: document.getElementById("name").value,
+          type: document.getElementById("type").value,
+          race: document.getElementById("race").value,
+          age: document.getElementById("age").value,
+        };
+        data = JSON.stringify(data);
+        let images = document.querySelector("#files");
+        const formData = new FormData();
+        formData.append("data", data);
+        for (let i = 0; i < images.files.length; i++) {
+          formData.append("images", images.files[i]);
+        }
+        fetch("/api/products", {
+          method: "post",
+          body: formData,
+        }).then((res) => {
+          console.log(res);
+        });
+      }
+
+      async function createProducts() {
+        let data = {
+          title: document.getElementById("title").value,
+          info: document.getElementById("info").value,
+          price: document.getElementById("price").value,
+          discountedPrice: document.getElementById("discountedPrice").value,
+          categories: document.querySelectorAll(
+            "input[name=mycheckboxes]:checked"
+          ),
+        };
+        data = JSON.stringify(data);
+        let images = document.querySelector("#files");
+        const formData = new FormData();
+        formData.append("data", data);
+        for (let i = 0; i < images.files.length; i++) {
+          formData.append("images", images.files[i]);
+        }
+        fetch("/api/products", {
+          method: "post",
+          body: formData,
+        }).then((res) => {
+          console.log(res);
+        });
+      }
+
+      async function createPost() {
+        let data = {
+          title: document.getElementById("title").value,
+          post: document.getElementById("description").value,
+        };
+        data = JSON.stringify(data);
+        let images = document.querySelector("#files");
+        const formData = new FormData();
+        formData.append("data", data);
+        for (let i = 0; i < images.files.length; i++) {
+          formData.append("images", images.files[i]);
+        }
+        console.log(images.files);
+        console.log(formData);
+        fetch("/api/posts", {
+          method: "post",
+          body: formData,
+        }).then((res) => {
+          console.log(res);
+        });
+      }
+
       async function login() {
         const data = {
           username: document.getElementById("mail").value,
