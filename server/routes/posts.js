@@ -41,9 +41,9 @@ router
             console.log(err);
           } else {
             const imagesAddr = [];
-            res.req.files.forEach((element) => {
-              imagesAddr.push(element.filename);
-            });
+            for (let i = 0; i < res.req.files.length; i++) {
+              imagesAddr.push(res.req.files[i].filename);
+            }
             let data = JSON.parse(req.body.data);
             await Post.findOne({
               $and: [{ post: data.post }, { user: req.user.username }],
@@ -107,15 +107,15 @@ router
       if (req.user != null) {
         if (req.user.admin) {
           await Post.findOneAndDelete({ _id: req.query.id })
-            .then((post) => {
-              post.forEach(async (el) => {
+            .then(async (post) => {
+              for (let i = 0; i < post.length; i++) {
                 await fs.unlink(
-                  __foldername + "/server/Images/" + el,
+                  __foldername + "/server/Images/" + post[i],
                   (err) => {
                     if (err) console.log(err);
                   }
                 );
-              });
+              }
             })
             .then(() => {
               res.sendStatus(200);
@@ -123,9 +123,9 @@ router
         } else {
           await Post.findById(req.query.id).then(async (post) => {
             if (post.user == req.user.username) {
-              post.forEach(async (el) => {
-                fs.unlink(
-                  __foldername + "/server/Images/" + el,
+              for (let i = 0; i < post.length; i++) {
+                await fs.unlink(
+                  __foldername + "/server/Images/" + post[i],
                   async (err) => {
                     if (err) {
                       console.log(err);
@@ -136,7 +136,7 @@ router
                     }
                   }
                 );
-              });
+              }
             }
           });
         }
@@ -159,9 +159,9 @@ router.route("/addImages").post(async (req, res) => {
               console.log(err);
             } else {
               const imagesAddr = [];
-              res.req.files.forEach((element) => {
-                imagesAddr.push(element.filename);
-              });
+              for (let i = 0; i < res.req.files.length; i++) {
+                imagesAddr.push(res.req.files[i].filename);
+              }
               await Post.findByIdAndUpdate(req.query.id, {
                 $push: {
                   pictures: {
@@ -182,9 +182,9 @@ router.route("/addImages").post(async (req, res) => {
                 console.log(err);
               } else {
                 const imagesAddr = [];
-                res.req.files.forEach((element) => {
-                  imagesAddr.push(element.filename);
-                });
+                for (let i = 0; i < res.req.files.length; i++) {
+                  imagesAddr.push(res.req.files[i].filename);
+                }
                 await Post.findByIdAndUpdate(req.query.id, {
                   $push: {
                     pictures: {
@@ -209,9 +209,9 @@ router.route("/removeImages").post(async (req, res) => {
   try {
     if (req.user != null) {
       if (req.user.admin) {
-        req.body.forEach(async (element) => {
-          await fs.unlink(
-            __foldername + "/server/Images/" + element,
+        for (let i = 0; i < req.body.length; i++) {
+          fs.unlink(
+            __foldername + "/server/Images/" + req.body[i],
             async (err) => {
               if (err) console.log(err);
               else {
@@ -227,13 +227,13 @@ router.route("/removeImages").post(async (req, res) => {
               }
             }
           );
-        });
+        }
       } else {
         await Post.findById(req.query.id).then((post) => {
           if (post.user == req.user.username) {
-            req.body.forEach(async (element) => {
-              await fs.unlink(
-                __foldername + "/server/Images/" + element,
+            for (let i = 0; i < req.body.length; i++) {
+              fs.unlink(
+                __foldername + "/server/Images/" + req.body[i],
                 async (err) => {
                   if (err) console.log(err);
                   else {
@@ -249,7 +249,7 @@ router.route("/removeImages").post(async (req, res) => {
                   }
                 }
               );
-            });
+            }
           }
         });
       }

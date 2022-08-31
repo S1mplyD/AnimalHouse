@@ -88,14 +88,14 @@ router
         if (req.user.admin) {
           await Pet.findOneAndDelete({ _id: req.query.petid })
             .then(async (pet) => {
-              pet.pictures.forEach(async (element) => {
+              for (let i = 0; i < pet.pictures.length; i++) {
                 await fs.unlink(
-                  __foldername + "/server/Images/" + element,
+                  __foldername + "/server/Images/" + pet.pictures[i],
                   (err) => {
                     if (err) console.log(err);
                   }
                 );
-              });
+              }
             })
             .finally(() => {
               res.sendStatus(200);
@@ -105,15 +105,14 @@ router
             if (pet.owner == req.user.username) {
               await Pet.findOneAndDelete({ _id: pet._id })
                 .then(async (pet) => {
-                  console.log(pet);
-                  pet.pictures.forEach(async (element) => {
+                  for (let i = 0; i < pet.pictures.length; i++) {
                     await fs.unlink(
-                      __foldername + "/server/Images/" + element,
+                      __foldername + "/server/Images/" + pet.pictures[i],
                       (err) => {
                         if (err) console.log(err);
                       }
                     );
-                  });
+                  }
                 })
                 .finally(() => {
                   res.sendStatus(200);

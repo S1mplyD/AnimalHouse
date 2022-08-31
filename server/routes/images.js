@@ -175,14 +175,10 @@ router
           if (err) {
             console.log(err);
           } else {
-            res.req.files.forEach((element) => {
-              console.log(element.filename);
-            });
             const imagesAddr = [];
-            res.req.files.forEach((element) => {
+            for (let i = 0; i < res.req.files.length; i++) {
               imagesAddr.push(element.filename);
-            });
-            console.log(imagesAddr);
+            }
             await Pet.findOneAndUpdate(
               {
                 $and: [{ owner: req.user.username }, { _id: req.query.id }],
@@ -210,15 +206,15 @@ router
       if (req.user != null) {
         if (req.user.admin) {
           await Pet.findOne({ _id: req.query.id })
-            .then(() => {
-              req.body.forEach(async (el) => {
+            .then(async () => {
+              for (let i = 0; i < req.body; i++) {
                 await fs.unlink(
-                  __foldername + "/server/Images/" + el,
+                  __foldername + "/server/Images/" + req.body[i],
                   (err) => {
                     if (err) console.log(err);
                   }
                 );
-              });
+              }
             })
             .then(async () => {
               await Pet.findOneAndUpdate(
@@ -237,14 +233,14 @@ router
         } else {
           await Pet.findOne({ _id: req.query.id })
             .then(async () => {
-              req.body.forEach(async (el) => {
+              for (let i = 0; i < req.body; i++) {
                 await fs.unlink(
-                  __foldername + "/server/Images/" + el,
+                  __foldername + "/server/Images/" + req.body[i],
                   (err) => {
                     if (err) console.log(err);
                   }
                 );
-              });
+              }
             })
             .then(async () => {
               await Pet.findOneAndUpdate(

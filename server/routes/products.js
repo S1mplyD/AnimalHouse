@@ -82,16 +82,14 @@ router
       if (req.user != null) {
         if (req.user.admin) {
           await Product.findOneAndDelete(req.query.id)
-            .then((product) => {
-              {
-                product.photos.forEach(async (element) => {
-                  await fs.unlink(
-                    __foldername + "/server/Images/" + element,
-                    (err) => {
-                      if (err) console.log(err);
-                    }
-                  );
-                });
+            .then(async (product) => {
+              for (let i = 0; i < product.photos.length; i++) {
+                await fs.unlink(
+                  __foldername + "/server/Images/" + product.photos[i],
+                  (err) => {
+                    if (err) console.log(err);
+                  }
+                );
               }
             })
             .finally(() => {
@@ -102,14 +100,14 @@ router
             if (product.seller == req.user.username) {
               await Product.deleteOne({ _id: req.query.id })
                 .then(async () => {
-                  product.photos.forEach(async (element) => {
+                  for (let i = 0; i < product.photos.length; i++) {
                     await fs.unlink(
-                      __foldername + "/server/Images/" + element,
+                      __foldername + "/server/Images/" + product.photos[i],
                       (err) => {
                         if (err) console.log(err);
                       }
                     );
-                  });
+                  }
                 })
                 .finally(() => {
                   res.sendStatus(200);
