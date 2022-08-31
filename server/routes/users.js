@@ -116,10 +116,7 @@ router
    */
   .patch(async (req, res) => {
     if (req.user.admin) {
-      await User.findOneAndUpdate(
-        { username: req.query.username },
-        { admin: true }
-      ).then(() => {
+      await User.findByIdAndUpdate(req.query.id, { admin: true }).then(() => {
         res.sendStatus(200);
       });
     } else {
@@ -135,10 +132,7 @@ router
    */
   .patch(async (req, res) => {
     if (req.user.admin) {
-      await User.findOneAndUpdate(
-        { username: req.query.username },
-        { admin: false }
-      ).then(() => {
+      await User.findByIdAndUpdate(req.query.id, { admin: false }).then(() => {
         res.sendStatus(200);
       });
     } else {
