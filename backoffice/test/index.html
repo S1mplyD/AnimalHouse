@@ -7,13 +7,54 @@
         <title>STAFF OFFICE</title>
         <link rel="stylesheet" href="style.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    </head>
+    <body>
+        <header class="backoffice_header">
+            <b><p>ANIMAL HOUSE</p></b>
+            <nav>
+                <ul class="navigation">
+                    <li><button id="custdata">Users registry</button></li>
+                    <li><button id="commserv">Community services</button></li>
+                    <li><button id="e-commerce">E-commerce Manager</button></li>
+                    <li><button id="realserv">Real Life services</button></li>
+                    <li><button id="onlineserv">Online services</button></li>
+                </ul>
+            </nav>
+        </header>
+        <main id="main_zone">
+            <h1><b>HERE WILL BE LOADED DATA</b></h1>
+            <h1>login</h1>
+            <form>
+                <input type="text" name="mail" id="mail" placeholder="mail" />
+                <input type="password" name="password" id="pass" placeholder="password" />
+                <input type="button" value="login" onclick="login()" />
+            </form>
+        </main>
+        <footer>
+            <b><p id="text">Copyright &copy;<span id="footer"></span> </p></b>
+        </footer>
         <script>
+            async function login() {
+                const data = {
+                    username: document.getElementById("mail").value,
+                    password: document.getElementById("pass").value,
+                };
+                fetch("http://site212211.tw.cs.unibo.it/auth/login", {
+                    method: "post",
+                    headers: {
+                    "Content-type": "application/json",
+                },
+                body: JSON.stringify(data),
+                }).then((res) => {
+                    console.log(res);
+                });
+            }
             $(document).ready(function(){
                 var date = new Date();
                 var currentYear = date.getFullYear();
                 document.getElementById('footer').innerHTML=currentYear;
                 $("#custdata").click(function(event){
-                    $.getJSON('customerdata.json', function(jd) {
+                    $.getJSON('https://site212211.tw.cs.unibo.it/api/users', function(jd) {
                         $('#main_zone').html('<table id="table"><tr><th>Name</th><th>Username</th><th>Mail</th><th>Service ID</th><th>Password</th><th>Pets</th><th>Profile Picture</th><th>Is_Admin</th></tr>');
                         for (var i = 0; i < jd.length; i++ ) {
                             $('#table').append('<tr>' +
@@ -27,56 +68,157 @@
                                 '<td>' + jd[i].admin + '</td>' +
                             '</tr>');
                         }
-                        $('#main_zone').append('<form id="new_serv"><label for="name">Name of the person to ban:</label><br><input type="text" id="name" name="name"><br>');
-                        $('#main_zone').append('<label for="_id">ID:</label><br><input type="text" id="_id" name="_id"><br>');
-                        $('#main_zone').append('<button id="submit_but" type="submit">BAN!</button></form>');
+                        $('#main_zone').append('<form id="new_serv"><label for="_id">ID of the person to ban:</label><br><input type="text" id="_id" name="_id"><br>');
+                        $('#main_zone').append('<button id="submit_ban" type="submit">BAN!</button></form>');
                         $('#main_zone').append('<br>');
-                        $('#main_zone').append('<form id="new_serv"><label for="name">Name of the person to make admin:</label><br><input type="text" id="name" name="name"><br>');
-                        $('#main_zone').append('<label for="_id">ID:</label><br><input type="text" id="_id" name="_id"><br>');
-                        $('#main_zone').append('<button id="submit_but" type="submit">MAKE ADMIN!</button></form>');
-
+                        $('#main_zone').append('<form id="new_serv"><label for="_id">ID of the person to make admin:</label><br><input type="text" id="_id" name="_id"><br>');
+                        $('#main_zone').append('<button id="submit_admin" type="submit">MAKE ADMIN!</button></form>');
+                        $("#submit_ban").click(function(event){
+                            $.ajax({
+                                url: 'https://site212211.tw.cs.unibo.it/api/users?id=' + document.getElementById('_id').value,
+                                type: 'DELETE',
+                                success: function(result) {
+                                    console.log(result);
+                                },
+                                error: function(err){
+                                    console.log(err);
+                                }
+                            });
+                        });
+                        $("#submit_admin").click(function(event){
+                            $.ajax({
+                                url: 'https://site212211.tw.cs.unibo.it/api/users?id=' + document.getElementById('_id').value,
+                                type: 'PATCH',
+                                data: jQuery.param({id: document.getElementById('_id').value} ),
+                                success: function(result) {
+                                    console.log(result);
+                                },
+                                error: function(err){
+                                    console.log(err);
+                                }
+                            });
+                        });
                     });
                 });
                 $("#commserv").click(function(event){
-                    $.getJSON('communityservices.json', function(jd) {
+                    $.getJSON('https://site212211.tw.cs.unibo.it/api/posts', function(jd) {
                         $('#main_zone').html('<table id="table"><tr><th>Title</th><th>User</th><th>Description</th><th>Summary</th><th>Picture</th><th>Date</th></tr>');
                         for (var i = 0; i < jd.length; i++ ) {
                             $('#table').append('<tr>' +
                                 '<td>' + jd[i].title + '</td>' +
                                 '<td>' + jd[i].user + '</td>' +
-                                '<td>' + jd[i].description + '</td>' +
-                                '<td>' + jd[i].summary + '</td>' +
-                                '<td>' + jd[i].picture + '</td>'+
+                                '<td>' + jd[i].post + '</td>' +
+                                '<td>' + jd[i].post_summary + '</td>' +
+                                '<td>' + jd[i].photos + '</td>'+
                                 '<td>' + jd[i].date + '</td>' +
                             '</tr>');
                         }
                         $('#main_zone').append('<form id="new_serv"><label for="title">Title:</label><br><input type="text" id="title" name="title"><br>');
-                        $('#main_zone').append('<label for="user">User:</label><br><input type="text" id="user" name="user"><br>');
                         $('#main_zone').append('<label for="desc">Description:</label><br><input type="text" id="desc" name="desc"><br>');
-                        $('#main_zone').append('<label for="summ">Summary:</label><br><input type="text" id="summ" name="summ"><br>');
                         $('#main_zone').append('<label for="pict">Picture:</label><br><input type="text" id="pict" name="pict"><br>');
-                        $('#main_zone').append('<label for="date">Date:</label><br><input type="text" id="date" name="date"><br>');
-                        $('#main_zone').append('<button id="submit_but" type="submit">SUBMIT</button></form>');
+                        $('#main_zone').append('<button id="submit_add" type="submit">SUBMIT</button></form>');
+                        $('#main_zone').append('<br>');
+                        $('#main_zone').append('<form id="new_serv"><label for="title1">ID of the post to remove</label><br><input type="text" id="title1" name="title1"><br>');
+                        $('#main_zone').append('<button id="submit_delete" type="submit">DELETE!</button></form>');
+                        $("#submit_delete").click(function(event){
+                            $.ajax({
+                                url: 'https://site212211.tw.cs.unibo.it/api/posts?id=' + document.getElementById('title1').value,
+                                type: 'DELETE',
+                                success: function(result) {
+                                    console.log(result);
+                                },
+                                error: function(err){
+                                    console.log(err);
+                                }
+                            });
+                        });
+                        $("#submit_add").click(function(event){
+                            $.ajax({
+                                url: 'https://site212211.tw.cs.unibo.it/api/posts',
+                                type: 'POST',
+                                data: {
+                                    "title": document.getElementById('title').value,
+                                    "post" : document.getElementById('desc'),
+                                    "photos" :[]
+                                },
+                                success: function(result) {
+                                    console.log(result);
+                                },
+                                error: function(err){
+                                    console.log(err);
+                                }
+                            });
+                        });
                     });
                 });
                 $("#e-commerce").click(function(event){
-                    $.getJSON('e-commerce.json', function(jd) {
-                        $('#main_zone').html('<table id="table"><tr><th>Name of the product</th><th>Image</th><th>Price</th><th>Info</th></tr>');
+                    $.getJSON('https://site212211.tw.cs.unibo.it/api/products', function(jd) {
+                        $('#main_zone').html('<table id="table"><tr><th>Name of the product</th><th>Image</th><th>Price</th><th>Info</th><th>Categories</th></tr>');
                         for (var i = 0; i < jd.length; i++ ) {
                             $('#table').append('<tr>' +
                                 '<td>' + jd[i].title + '</td>' +
-                                '<td>' + jd[i].filename + '</td>' +
+                                '<td>' + jd[i].photos + '</td>' +
                                 '<td>' + jd[i].price + '</td>' +
                                 '<td>' + jd[i].info + '</td>' +
+                                '<td>' + jd[i].categories + '</td>' +
                             '</tr>');
                         }
                         $('#main_zone').append('<form id="new_serv"><label for="title">Name:</label><br><input type="text" id="title" name="title"><br>');
                         $('#main_zone').append('<label for="filename">Picture:</label><br><input type="text" id="filename" name="filename"><br>');
                         $('#main_zone').append('<label for="price">Price:</label><br><input type="text" id="price" name="price"><br>');
-                        $('#main_zone').append('<label for="info">Summary:</label><br><input type="text" id="info" name="info"><br>');
-                        $('#main_zone').append('<button id="submit_but" type="submit">ADD PRODUCT</button></form>');
-                        $('#main_zone').append('<form id="new_serv"><label for="title">Name:</label><br><input type="text" id="title" name="title">');
-                        $('#main_zone').append('<button id="submit_but" type="submit">REMOVE PRODUCT</button></form>');
+                        $('#main_zone').append('<label for="info">Infos:</label><br><input type="text" id="info" name="info"><br>');
+                        $('#main_zone').append('<label for="cat">Categories:</label><br><input type="text" id="cat" name="cat"><br>');
+                        $('#main_zone').append('<button id="submit_add1" type="submit">ADD PRODUCT</button></form>');
+                        $('#main_zone').append('<form id="new_serv"><label for="title">ID of the item to delete:</label><br><input type="text" id="title" name="title">');
+                        $('#main_zone').append('<button id="submit_rem" type="submit">REMOVE PRODUCT</button></form>');
+                        $('#main_zone').append('<form id="new_serv"><label for="title">ID of the product to put on sale:</label><br><input type="text" id="title" name="title"><br>');
+                        $('#main_zone').append('<label for="priceup">Price on sale:</label><br><input type="text" id="priceup" name="priceup"><br>');
+                        $('#main_zone').append('<button id="submit_up" type="submit">PUT NEW PRICE ON SALE </button></form>');
+                        $("#submit_rem").click(function(event){
+                            $.ajax({
+                                url: 'https://site212211.tw.cs.unibo.it/api/products?id=' + document.getElementById('title').value,
+                                type: 'DELETE',
+                                success: function(result) {
+                                    console.log(result);
+                                },
+                                error: function(err){
+                                    console.log(err);
+                                }
+                            });
+                        });
+                        $("#submit_add1").click(function(event){
+                            $.ajax({
+                                url: 'https://site212211.tw.cs.unibo.it/api/products',
+                                type: 'POST',
+                                data: {
+                                    "title": document.getElementById('title').value,
+                                    "price" : document.getElementById('price'),
+                                    "info" : document.getElementById('info'),
+                                    "categories" : document.getElementById('cat'),
+                                    "photos" :[]
+                                },
+                                success: function(result) {
+                                    console.log(result);
+                                },
+                                error: function(err){
+                                    console.log(err);
+                                }
+                            });
+                        });
+                        $("#submit_up").click(function(event){
+                            $.ajax({
+                                url: 'https://site212211.tw.cs.unibo.it/api/products?id=' + document.getElementById('title').value,
+                                type: 'PATCH',
+                                data: jQuery.param({discountedPrice: document.getElementById('priceup').value} ),
+                                success: function(result) {
+                                    console.log(result);
+                                },
+                                error: function(err){
+                                    console.log(err);
+                                }
+                            });
+                        });
+
                     });
                 });
                 $("#realserv").click(function(event){
@@ -121,26 +263,5 @@
                 });
             });
         </script>
-    </head>
-    <body>
-        <header class="backoffice_header">
-            <b><p>ANIMAL HOUSE</p></b>
-            <nav>
-                <ul class="navigation">
-                    <li><button id="custdata">Users registry</button></li>
-                    <li><button id="commserv">Community services</button></li>
-                    <li><button id="e-commerce">E-commerce Manager</button></li>
-                    <li><button id="realserv">Real Life services</button></li>
-                    <li><button id="onlineserv">Online services</button></li>
-                </ul>
-            </nav>
-        </header>
-        <main id="main_zone">
-            <h1><b>HERE WILL BE LOADED DATA</b></h1>
-        </main>
-        <footer>
-            <b><p id="text">Copyright &copy;<span id="footer"></span> </p></b>
-        </footer>
     </body>
 </html>
-
