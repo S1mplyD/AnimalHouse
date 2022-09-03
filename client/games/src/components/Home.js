@@ -31,7 +31,7 @@ function Home({
     <div>
       <div className="m-5 p-2 bg-white rounded ">
         <form className="bg-white flex flex-col items-center text-center">
-          <div className="m-2 p-2 bg-white">
+          <div className="m-2 p-2 bg-white flex flex-col">
             <label htmlFor="specie" className="bg-white">
               Animal species:
             </label>
@@ -43,7 +43,7 @@ function Home({
               placeholder="Enter animal species"
             />
           </div>
-          <div className="m-2 p-2 bg-white">
+          <div className="m-2 p-2 bg-white flex flex-col">
             <label htmlFor="name" className="bg-white">
               Animal name:
             </label>
@@ -55,12 +55,12 @@ function Home({
               placeholder="Enter animal name"
             />
           </div>
-          <div className="m-2 p-2 bg-white">
+          <div className="m-2 p-2 bg-white flex flex-col">
             <label htmlFor="gender" className="form-label bg-white">
               Animal gender:
             </label>
             <select
-              name=""
+              name="gender"
               id="gender"
               className="form-select rounded-xl mx-2"
               defaultValue="M"
@@ -73,7 +73,7 @@ function Home({
               </option>
             </select>
           </div>
-          <div className="m-2 p-2 bg-white">
+          <div className="m-2 p-2 bg-white flex flex-col">
             <label htmlFor="age" className="form-label bg-white">
               Animal age:
             </label>
@@ -85,7 +85,7 @@ function Home({
               placeholder="Enter animal age"
             />
           </div>
-          <div className="m-2 p-2 bg-white">
+          <div className="m-2 p-2 bg-white flex flex-col">
             <label htmlFor="medical" className="form-label bg-white">
               Enter eventual medical condition:
             </label>

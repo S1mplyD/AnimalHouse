@@ -1,4 +1,5 @@
 import React from "react";
+import "../../componentsCss/Memory/Memory.css";
 
 export default function Card({ item, id, handleClick, handleLoad }) {
   const itemClass = item.state ? " active " + item.state : "";
@@ -6,7 +7,8 @@ export default function Card({ item, id, handleClick, handleLoad }) {
   return (
     <div
       className={
-        "bg-yellow-600 flex flex-col items-center m-auto rounded-md" + itemClass
+        "bg-yellow-600 flex flex-col items-center m-auto rounded-md card" +
+        itemClass
       }
       onClick={() => handleClick(id)}
     >
