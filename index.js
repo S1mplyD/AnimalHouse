@@ -20,6 +20,7 @@ global.__foldername = __dirname;
 const nconf = require("nconf");
 
 let config = nconf.file("conf.json");
+
 const app = express();
 
 const port = 8000;
