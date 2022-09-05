@@ -23,13 +23,14 @@ router
   .post(async (req, res) => {
     try {
       if (req.user.admin) {
+        let date = req.body.open;
         await Service.create({
           name: req.body.name,
           location: req.body.location,
           coordinate: req.body.coordinate,
           openDays: req.body.openDays,
-          openTime: new Date().setHours(req.body.openTime + 2),
-          closeTime: new Date().setHours(req.body.closeTime + 2),
+          openTime: req.body.openTime,
+          closeTime: req.body.closeTime,
           type: req.body.type,
           info: req.body.info,
         }).then(() => {
