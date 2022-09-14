@@ -7,6 +7,16 @@ const router = require("express").Router();
 router
   .route("/")
   //Get custom or random ad
-  .get(async (req, res) => {});
+  .get(async (req, res) => {
+    Products.find({
+      $or: {
+        description: /req.query.specie/,
+        name: /req.query.specie/,
+        categories: /req.query.specie/,
+        description: /req.query.medicalCondition/,
+        description: /req.query.gender/,
+      },
+    }).then((products) => {});
+  });
 
 module.exports = router;
