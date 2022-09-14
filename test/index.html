@@ -5,9 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
   </head>
-  <body>
-    <h1 id="log status"></h1>
+  <body onload="user()">
+    <h1 id="logStatus"></h1>
     <h1>immagini</h1>
     <form
       action="/api/images/petPhotos/62814f7009f4f4de1cbed9c4"
@@ -57,7 +58,26 @@
       <input type="file" name="picture" id="files" multiple />
       <input type="button" value="submit" onclick="createPost()" />
     </form>
+    <button type="button" onclick="user()">check user</button>
     <script>
+      async function user() {
+        // await fetch("/auth/isAuthenticated", {
+        //   method: "get",
+        // }).then(async (res) => {
+        //   const user = await res.json();
+        //   console.log(user);
+        //   document.getElementById("logStatus").innerText = user.username;
+        // });
+        axios
+          .get("http://localhost:8000/auth/isAuthenticated")
+          .then((response) => {
+            console.log(response);
+            let user = [];
+            user.push(response.data);
+            console.log(user);
+            document.getElementById("logStatus").innerText = user[0].username;
+          });
+      }
       async function createPet() {
         let data = {
           name: document.getElementById("name").value,
