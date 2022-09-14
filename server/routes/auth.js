@@ -122,6 +122,15 @@ router.post("/login", passport.authenticate("local"), function (req, res) {
   res.json();
 });
 
+router.route("/isAuthenticated").get(async (req, res) => {
+  if (req.user != null) {
+    console.log(req.user);
+    res.send(req.user);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
 router.post("/register", async (req, res) => {
   const encryptedPassword = await bcrypt.hash(req.body.password, 10);
   User.create({
