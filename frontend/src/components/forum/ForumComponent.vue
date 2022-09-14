@@ -2,24 +2,35 @@
   <h1>Welcome to our Forum!</h1>
   <div class="forum">
     <ul>
-      <li>
-        <div v-for="post in posts" :key="post.id" class="postinfo">
-          <router-link :to="`/forum/${post.id}`" class="routerlink"> <p>{{post.title}} by {{post.user}}</p> </router-link>
-          <p>{{post.post_summary}}</p>
+      <li v-for="post in posts">
+        <div class="card h-100" id="card">
+          <div class="card-body">
+            <h5 class="card-title"><b>{{ post.title }}</b> by {{ post.user }}:</h5>
+            <p class="card-text">{{ post.post_summary }}</p>
+            <p class="card-text"><small class="text-muted">{{ post.date }}</small></p>
+          </div>
         </div>
-     </li>
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
-import posts from '@/posts.json'
+import axios from 'axios'
 
 export default {
   name: 'ForumComponent',
+  mounted () {
+    axios.get('http://localhost:8000/api/posts')
+      .then((response) => {
+        console.log(response.data)
+        this.posts = response.data
+      })
+  },
   data () {
     return {
-      posts
+      posts: [],
+      displayCompletePost: false
     }
   }
 }
@@ -40,4 +51,8 @@ export default {
     font-size: large;
     border-radius: 0.75rem;
   }
+  #card{
+  width: 450px;
+  height: 450px;
+}
 </style>

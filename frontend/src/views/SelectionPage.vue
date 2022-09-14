@@ -15,12 +15,33 @@
 // @ is an alias to /src
 import ServiziHeaderVue from '@/components/headers/ServiziHeader.vue'
 import SiteFooterVue from '@/components/SiteFooter.vue'
+import axios from 'axios'
 
 export default {
-  name: 'ServiziPage',
+  name: 'SelectionPage',
+  mounted () {
+    axios.get('http://localhost:8000/api/services')
+      .then((response) => {
+        this.services = response.data
+      })
+  },
   components: {
     ServiziHeaderVue,
     SiteFooterVue
+  },
+  data () {
+    return {
+      services: [],
+      selected: '',
+      name: '',
+      options: [
+        { text: 'Pet Boarding', value: 'boarding' },
+        { text: 'Products shop', value: 'shop' },
+        { text: 'Pet Spa', value: 'spa' },
+        { text: 'Pet Training Facility', value: 'training' }
+      ],
+      search: ''
+    }
   }
 }
 </script>

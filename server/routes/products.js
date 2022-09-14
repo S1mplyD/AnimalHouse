@@ -1,0 +1,150 @@
+const router = require("express").Router();
+const Product = require("../models/product.model");
+const fs = require("fs");
+
+router
+  .route("/")
+  /**
+   * GET
+   * Ottiene tutti i prodotti
+   */
+  .get(async (req, res) => {
+    try {
+      const products = await Product.find();
+      res.send(products);
+    } catch (error) {
+      console.log(error);
+    }
+  })
+  /**
+   * POST
+   * Crea un nuovo prodotto
+   */
+  //TODO: check duplicate product (same user, same title, same info)
+  .post(async (req, res) => {
+    try {
+      if (req.user != null) {
+        await Product.create({
+          title: req.body.title,
+          info: req.body.info,
+          price: req.body.price,
+          discountedPrice: req.body.discountedPrice,
+          categories: req.body.categories,
+          photos: req.body.photos,
+          seller: req.user.username,
+        }).then(() => {
+          res.sendStatus(201);
+        });
+      } else {
+        res.sendStatus(401);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  })
+  /**
+   * PATCH
+   * Cambia una o più proprietà di un prodotto
+   */
+  .patch(async (req, res) => {
+    try {
+      if (req.user != null) {
+        if (req.user.admin) {
+          await Product.findByIdAndUpdate(req.query.id, req.body).then(() => {
+            res.sendStatus(200);
+          });
+        } else {
+          await Product.findById(req.query.id).then(async (product) => {
+            if (product.seller == req.user.username) {
+              await Product.findByIdAndUpdate(product._id, req.body).then(
+                () => {
+                  res.sendStatus(200);
+                }
+              );
+            }
+          });
+        }
+      } else {
+        res.sendStatus(401);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  })
+  /**
+   * DELETE
+   * Cancella un prodotto con uno specifico id
+   *
+   * @param productid Id del prodotto (usa il campo _id di mongo)
+   */
+  .delete(async (req, res) => {
+    try {
+      if (req.user != null) {
+        if (req.user.admin) {
+          await Product.findOneAndDelete(req.query.id)
+            .then((product) => {
+              {
+                product.photos.forEach(async (element) => {
+                  await fs.unlink(
+                    __foldername + "/server/Images/" + element,
+                    (err) => {
+                      if (err) console.log(err);
+                    }
+                  );
+                });
+              }
+            })
+            .finally(() => {
+              res.sendStatus(200);
+            });
+        } else {
+          await Product.findById(req.query.id).then(async (product) => {
+            if (product.seller == req.user.username) {
+              await Product.deleteOne({ _id: req.query.id })
+                .then(async () => {
+                  product.photos.forEach(async (element) => {
+                    await fs.unlink(
+                      __foldername + "/server/Images/" + element,
+                      (err) => {
+                        if (err) console.log(err);
+                      }
+                    );
+                  });
+                })
+                .finally(() => {
+                  res.sendStatus(200);
+                });
+            }
+          });
+        }
+      } else {
+        res.sendStatus(401);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+router
+  .route("/product")
+  /**
+   * GET
+   * Ottiene un prodotto tramite nome
+   *
+   * @param productname nome del prodotto che stiamo cercando
+   */
+  .get(async (req, res) => {
+    try {
+      await Product.findOne({ title: req.query.title }).then((product) => {
+        if (product) {
+          res.status(200).send(product);
+        } else {
+          res.sendStatus(404);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+module.exports = router;

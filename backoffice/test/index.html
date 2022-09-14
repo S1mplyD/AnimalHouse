@@ -31,7 +31,7 @@
             </form>
         </main>
         <footer>
-            <b><p id="text">Copyright &copy;<span id="footer"></span> </p></b>
+            <b><p id="text">Copyright &copy;<span id="footer"></span></p></b>
         </footer>
         <script>
             async function login() {
@@ -39,7 +39,7 @@
                     username: document.getElementById("mail").value,
                     password: document.getElementById("pass").value,
                 };
-                fetch("http://site212211.tw.cs.unibo.it/auth/login", {
+                fetch("/auth/login", {
                     method: "post",
                     headers: {
                     "Content-type": "application/json",
@@ -49,12 +49,33 @@
                     console.log(res);
                 });
             }
+            async function createPost() {
+                let data = {
+                    title: document.getElementById("title").value,
+                    post: document.getElementById("description").value,
+                };
+                data = JSON.stringify(data);
+                let images = document.querySelector("#files");
+                const formData = new FormData();
+                formData.append("data", data);
+                for (let i = 0; i < images.files.length; i++) {
+                    formData.append("images", images.files[i]);
+                }
+                console.log(images.files);
+                console.log(formData);
+                fetch("/api/posts", {
+                    method: "post",
+                    body: formData,
+                }).then((res) => {
+                    console.log(res);
+                });
+            }
             $(document).ready(function(){
                 var date = new Date();
                 var currentYear = date.getFullYear();
                 document.getElementById('footer').innerHTML=currentYear;
                 $("#custdata").click(function(event){
-                    $.getJSON('https://site212211.tw.cs.unibo.it/api/users', function(jd) {
+                    $.getJSON('/api/users', function(jd) {
                         $('#main_zone').html('<table id="table"><tr><th>Name</th><th>Username</th><th>Mail</th><th>Service ID</th><th>Password</th><th>Pets</th><th>Profile Picture</th><th>Is_Admin</th></tr>');
                         for (var i = 0; i < jd.length; i++ ) {
                             $('#table').append('<tr>' +
@@ -68,14 +89,17 @@
                                 '<td>' + jd[i].admin + '</td>' +
                             '</tr>');
                         }
-                        $('#main_zone').append('<form id="new_serv"><label for="_id">ID of the person to ban:</label><br><input type="text" id="_id" name="_id"><br>');
+                        $('#main_zone').append('<form id="new_serv"><label for="id0">ID of the person to ban:</label><br><input type="text" id="id0" name="id0"><br>');
                         $('#main_zone').append('<button id="submit_ban" type="submit">BAN!</button></form>');
                         $('#main_zone').append('<br>');
-                        $('#main_zone').append('<form id="new_serv"><label for="_id">ID of the person to make admin:</label><br><input type="text" id="_id" name="_id"><br>');
+                        $('#main_zone').append('<form id="new_serv"><label for="id1">ID of the person to make admin:</label><br><input type="text" id="id1" name="id1"><br>');
                         $('#main_zone').append('<button id="submit_admin" type="submit">MAKE ADMIN!</button></form>');
+                        $('#main_zone').append('<br>');
+                        $('#main_zone').append('<form id="new_serv"><label for="id2">ID of the person to revoke admin privileges:</label><br><input type="text" id="id2" name="id2"><br>');
+                        $('#main_zone').append('<button id="submit_revoke" type="submit">REVOKE ADMIN STATUS!</button></form>');
                         $("#submit_ban").click(function(event){
                             $.ajax({
-                                url: 'https://site212211.tw.cs.unibo.it/api/users?id=' + document.getElementById('_id').value,
+                                url: '/api/users?id=' + document.getElementById('id0').value,
                                 type: 'DELETE',
                                 success: function(result) {
                                     console.log(result);
@@ -86,10 +110,22 @@
                             });
                         });
                         $("#submit_admin").click(function(event){
+                            console.log(document.getElementById('id1').value);
                             $.ajax({
-                                url: 'https://site212211.tw.cs.unibo.it/api/users?id=' + document.getElementById('_id').value,
+                                url: '/api/users/grantPermission?id=' + document.getElementById('id1').value,
                                 type: 'PATCH',
-                                data: jQuery.param({id: document.getElementById('_id').value} ),
+                                success: function(result) {
+                                    console.log(result);
+                                },
+                                error: function(err){
+                                    console.log(err);
+                                }
+                            });
+                        });
+                        $("#submit_revoke").click(function(event){
+                            $.ajax({
+                                url: '/api/users/revokePermission?id=' + document.getElementById('id2').value,
+                                type: 'PATCH',
                                 success: function(result) {
                                     console.log(result);
                                 },
@@ -101,7 +137,7 @@
                     });
                 });
                 $("#commserv").click(function(event){
-                    $.getJSON('https://site212211.tw.cs.unibo.it/api/posts', function(jd) {
+                    $.getJSON('/api/posts', function(jd) {
                         $('#main_zone').html('<table id="table"><tr><th>Title</th><th>User</th><th>Description</th><th>Summary</th><th>Picture</th><th>Date</th></tr>');
                         for (var i = 0; i < jd.length; i++ ) {
                             $('#table').append('<tr>' +
@@ -113,34 +149,17 @@
                                 '<td>' + jd[i].date + '</td>' +
                             '</tr>');
                         }
-                        $('#main_zone').append('<form id="new_serv"><label for="title">Title:</label><br><input type="text" id="title" name="title"><br>');
-                        $('#main_zone').append('<label for="desc">Description:</label><br><input type="text" id="desc" name="desc"><br>');
-                        $('#main_zone').append('<label for="pict">Picture:</label><br><input type="text" id="pict" name="pict"><br>');
-                        $('#main_zone').append('<button id="submit_add" type="submit">SUBMIT</button></form>');
+                        $('#main_zone').append('<form enctype="multipart/form-data"><label for="title">Title:</label><br><input type="text" name="title" id="title" placeholder="title" /><br>');
+                        $('#main_zone').append('<label for="description">Description:</label><br><input type="text" name="description" id="description" placeholder="description"/><br>');
+                        $('#main_zone').append('<label for="picture">Picture:</label><br><input type="file" value="CHoose your photos" name="picture" id="files" multiple /><br>');
+                        $('#main_zone').append('<input id="submit_add" type="button" value="SUBMIT!" onclick="createPost()" /></form>');
                         $('#main_zone').append('<br>');
                         $('#main_zone').append('<form id="new_serv"><label for="title1">ID of the post to remove</label><br><input type="text" id="title1" name="title1"><br>');
                         $('#main_zone').append('<button id="submit_delete" type="submit">DELETE!</button></form>');
-                        $("#submit_delete").click(function(event){
+                        $("#submit_delete").click(function(){
                             $.ajax({
-                                url: 'https://site212211.tw.cs.unibo.it/api/posts?id=' + document.getElementById('title1').value,
+                                url: '/api/posts?id=' + document.getElementById('title1').value,
                                 type: 'DELETE',
-                                success: function(result) {
-                                    console.log(result);
-                                },
-                                error: function(err){
-                                    console.log(err);
-                                }
-                            });
-                        });
-                        $("#submit_add").click(function(event){
-                            $.ajax({
-                                url: 'https://site212211.tw.cs.unibo.it/api/posts',
-                                type: 'POST',
-                                data: {
-                                    "title": document.getElementById('title').value,
-                                    "post" : document.getElementById('desc'),
-                                    "photos" :[]
-                                },
                                 success: function(result) {
                                     console.log(result);
                                 },
@@ -152,7 +171,7 @@
                     });
                 });
                 $("#e-commerce").click(function(event){
-                    $.getJSON('https://site212211.tw.cs.unibo.it/api/products', function(jd) {
+                    $.getJSON('/api/products', function(jd) {
                         $('#main_zone').html('<table id="table"><tr><th>Name of the product</th><th>Image</th><th>Price</th><th>Info</th><th>Categories</th></tr>');
                         for (var i = 0; i < jd.length; i++ ) {
                             $('#table').append('<tr>' +
@@ -176,7 +195,7 @@
                         $('#main_zone').append('<button id="submit_up" type="submit">PUT NEW PRICE ON SALE </button></form>');
                         $("#submit_rem").click(function(event){
                             $.ajax({
-                                url: 'https://site212211.tw.cs.unibo.it/api/products?id=' + document.getElementById('title').value,
+                                url: '/api/products?id=' + document.getElementById('title').value,
                                 type: 'DELETE',
                                 success: function(result) {
                                     console.log(result);
@@ -188,7 +207,7 @@
                         });
                         $("#submit_add1").click(function(event){
                             $.ajax({
-                                url: 'https://site212211.tw.cs.unibo.it/api/products',
+                                url: '/api/products',
                                 type: 'POST',
                                 data: {
                                     "title": document.getElementById('title').value,
@@ -207,7 +226,7 @@
                         });
                         $("#submit_up").click(function(event){
                             $.ajax({
-                                url: 'https://site212211.tw.cs.unibo.it/api/products?id=' + document.getElementById('title').value,
+                                url: '/api/products?id=' + document.getElementById('title').value,
                                 type: 'PATCH',
                                 data: jQuery.param({discountedPrice: document.getElementById('priceup').value} ),
                                 success: function(result) {

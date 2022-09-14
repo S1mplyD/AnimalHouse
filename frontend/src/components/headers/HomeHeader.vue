@@ -11,7 +11,7 @@
         <li><router-link to="/shop" class="routerlink">SHOP</router-link></li>
         </ul>
     </nav>
-    <nav id="loginsection">
+    <nav v-show="user.length < 1" id="loginsection">
       <ul>
       <li>
     <router-link to="/login">
@@ -24,8 +24,35 @@
         </li>
       </ul>
     </nav>
+    <nav v-show="user.length === 1" id="usersection">
+      <p><b>{{user.username}}</b></p>
+      <router-link to="#" class="routerlink">Go to the User Area</router-link>
+    </nav>
   </header>
 </template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  name: 'HomeHeader',
+  mounted () {
+    axios.get('http://localhost:8000/auth/isAuthenticated')
+      .then((response) => {
+        this.user.push(response.data)
+        console.log(this.user.length)
+      })
+  },
+  data () {
+    return {
+      user: []
+    }
+  },
+  computed: {
+
+  }
+}
+</script>
 
 <style lang="scss">
 header {

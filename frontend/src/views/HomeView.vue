@@ -1,4 +1,4 @@
-<template lang="it">
+<template lang="en">
 <body class="bodymain">
 <HomeHeaderVue />
   <section class="body">
@@ -6,50 +6,32 @@
     <p id="shoptext">Do you want to see other pics? <router-link :to="{name: 'gallery'}" class="routerlink">Go to our Gallery!</router-link></p>
     <div class="overflow-auto" id="photodiv">
     <ul>
-      <li v-for="photo in photos" :key="photo" >
+      <li v-for="photo in gallery">
         <img class="Imageshow1" v-if="photo.id==0" :src="thumbUrl(photo.filename)"/>
       </li>
-      <li v-for="photo in photos" :key="photo" >
+      <li v-for="photo in gallery">
         <img class="Imageshow2" v-if="photo.id==1" :src="thumbUrl(photo.filename)"/>
       </li>
-      <li v-for="photo in photos" :key="photo" >
+      <li v-for="photo in gallery">
         <img class="Imageshow3" v-if="photo.id==2" :src="thumbUrl(photo.filename)"/>
       </li>
     </ul>
     </div>
     </nav>
-    <nav class="TopPosts">
+    <nav class="TopPosts" >
       <p id="shoptext">Do you want to see other posts from our community? <router-link :to="{name: 'forum'}" class="routerlink">Go to the community Forum!</router-link></p>
       <br>
       <ul>
-      <li v-for="post in posts" :key="post">
-        <div class="card h-100" id="card" v-if="post.id==0">
+      <li v-for="post in posts" :key="post" id="postObj">
+        <div class="card h-100" id="card" >
           <div class="card-body">
-            <h5 class="card-title"><b>{{post.title}}</b> by {{post.user}}:</h5>
-            <p class="card-text">{{post.post_summary}}</p>
-            <p class="card-text"><small class="text-muted">{{post.date}}</small></p>
+            <h5 class="card-title"><b>{{ post.title }}</b> by {{ post.user }}:</h5>
+            <p class="card-text">{{ post.post_summary }}</p>
+            <p class="card-text"><small class="text-muted">{{ post.date }}</small></p>
           </div>
         </div>
       </li>
-      <li v-for="post in posts" :key="post">
-       <div class="card h-100" id="card" v-if="post.id==1">
-          <div class="card-body">
-            <h5 class="card-title"><b>{{post.title}}</b> by {{post.user}}:</h5>
-            <p class="card-text">{{post.post_summary}}</p>
-            <p class="card-text"><small class="text-muted">{{post.date}}</small></p>
-          </div>
-        </div>
-      </li>
-      <li v-for="post in posts" :key="post">
-        <div class="card h-100" id="card" v-if="post.id==2">
-          <div class="card-body">
-            <h5 class="card-title"><b>{{post.title}}</b> by {{post.user}}:</h5>
-            <p class="card-text">{{post.post_summary}}</p>
-            <p class="card-text"><small class="text-muted">{{post.date}}</small></p>
-          </div>
-        </div>
-      </li>
-    </ul>
+      </ul>
     </nav>
     <nav class="ADS">
       <div id="carousel" class="carousel carousel- slide carousel-fade" data-bs-ride="carousel">
@@ -98,17 +80,38 @@ import HomeHeaderVue from '@/components/headers/HomeHeader.vue'
 import SiteFooterVue from '@/components/SiteFooter.vue'
 import CarouselMain from '@/components/carousel/CarouselMain.vue'
 import SlideImage from '@/components/carousel/SlideImage.vue'
-import photos from '@/photos.json'
-import posts from '@/posts.json'
-import shop from '@/shop.json'
+import axios from 'axios'
+
 export default {
   name: 'HomeView',
+  mounted () {
+    axios.get('http://localhost:8000/api/products')
+      .then((response) => {
+        console.log(response.data)
+        this.products = response.data
+      })
+    axios.get('http://localhost:8000/api/posts')
+      .then((response) => {
+        for (let i = 0; i < response.data.length; i++) {
+          console.log(response.data[i])
+          if (i < 3) {
+            this.posts.push(response.data[i])
+          }
+        }
+      })
+
+    axios.get('http://localhost:8000/api/gallery')
+      .then((response) => {
+        console.log(response.data)
+        this.gallery = response.data
+      })
+  },
   components: { HomeHeaderVue, SiteFooterVue, CarouselMain, SlideImage },
   data () {
     return {
-      photos,
-      posts,
-      shop
+      gallery: [],
+      posts: [],
+      products: []
     }
   },
   setup () {

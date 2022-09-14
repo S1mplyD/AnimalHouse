@@ -7,12 +7,10 @@ import GamePage from '../views/GamePage.vue'
 import ShopPage from '../views/ShopPage.vue'
 import ServiziPage from '../views/ServiziPage.vue'
 import NewsPage from '../views/NewsPage.vue'
-import SelectionPage from '../views/SelectionPage.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import GalleryPage from '../views/GalleryPage.vue'
 import AdsPage from '../views/AdsPage.vue'
 import PhotoView from '../views/PhotoView.vue'
-import PostView from '../views/PostView.vue'
 import ItemView from '../views/ItemView.vue'
 import PostNewsView from '../views/PostNewsView.vue'
 const routes = [
@@ -57,11 +55,6 @@ const routes = [
     component: ServiziPage
   },
   {
-    path: '/servizi/selection',
-    name: 'selection',
-    component: SelectionPage
-  },
-  {
     path: '/passworddimenticata',
     name: 'passworddimenticata',
     component: ForgotPassword
@@ -80,11 +73,6 @@ const routes = [
     path: '/gallery/:id',
     name: 'photo',
     component: PhotoView
-  },
-  {
-    path: '/forum/:id',
-    name: 'post',
-    component: PostView
   },
   {
     path: '/shop/:id',

@@ -5,13 +5,13 @@
             <h3>LOG IN</h3>
             <div class="form-group">
                 <label>E-mail adrress</label>
-                <input type="email" class="form-control form-control-lg" />
+                <input type="email" class="form-control form-control-lg" id="mail"/>
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" class="form-control form-control-lg" />
+                <input type="password" class="form-control form-control-lg" id="pass"/>
             </div>
-            <button type="submit" class="btn btn-dark btn-lg btn-block">Sign in</button>
+            <button type="button" class="btn btn-dark btn-lg btn-block" @click="login()">Sign in</button>
             <p class="forgot-password text-right mt-2 mb-4">
                 <router-link to="/passworddimenticata" class="routerlink">Did you forget your password?</router-link>
             </p>
@@ -27,8 +27,23 @@
 </template>
 <script>
 export default {
-  data () {
-    return {}
+  methods: {
+    login: async function () {
+      const data = {
+        username: document.getElementById('mail').value,
+        password: document.getElementById('pass').value
+      }
+      fetch('http://localhost:8000/auth/login', {
+        method: 'post',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }).then((res) => {
+        console.log(res)
+        this.$router.back()
+      })
+    }
   }
 }
 </script>
