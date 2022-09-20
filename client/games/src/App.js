@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
+import { useEffect } from "react";
 import Quiz from "./components/Quiz/Quiz";
 import Home from "./components/Home";
 import Result from "./components/Quiz/Result";
@@ -14,6 +15,14 @@ function App() {
   const [images, setImages] = useState([]);
   const [word, setWord] = useState();
   const [game, setGame] = useState("");
+  const [ads, setAds] = useState([]);
+  useEffect(() => {
+    async function getStartingAds() {
+      await getAds();
+    }
+    getStartingAds();
+  }, []);
+
   const getQuestions = async () => {
     const rawData = await axios.get(
       "http://localhost:8000/api/getTrivia/medium"
@@ -62,6 +71,13 @@ function App() {
       });
   };
 
+  const getAds = async () => {
+    await axios.get("http://localhost:8000/api/ads").then((res) => {
+      console.log(res.data);
+      setAds(res.data);
+    });
+  };
+
   return (
     <Router>
       <div className="bg-blue-500 overflow-auto h-screen">
@@ -87,6 +103,9 @@ function App() {
                 getImages={getImages}
                 getWords={getWords}
                 setGame={setGame}
+                getAds={getAds}
+                ads={ads}
+                setAds={setAds}
               />
             }
           />

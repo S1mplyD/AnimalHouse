@@ -8,15 +8,38 @@ router
   .route("/")
   //Get custom or random ad
   .get(async (req, res) => {
-    Products.find({
-      $or: {
-        description: /req.query.specie/,
-        name: /req.query.specie/,
-        categories: /req.query.specie/,
-        description: /req.query.medicalCondition/,
-        description: /req.query.gender/,
-      },
-    }).then((products) => {});
+    let arr = [];
+    for (let i in req.query) {
+      if (req.query[i] != "") {
+        arr.push(req.query[i]);
+      }
+    }
+    if (arr.length < 1) {
+      Products.find().then((products) => {
+        res.send(products);
+      });
+    } else {
+      Products.find().then((products) => {
+        let response = [];
+        for (let i in products) {
+          for (let k in products[i].toJSON()) {
+            if (typeof products[i].toJSON()[k] === "string") {
+              arr.forEach((el) => {
+                if (products[i].toJSON()[k].includes(el)) {
+                  response.push(products[i].toJSON());
+                }
+              });
+            }
+          }
+          arr.forEach((el) => {
+            if (products[i].toJSON().categories.includes(el)) {
+              response.push(products[i].toJSON());
+            }
+          });
+        }
+        res.send(response);
+      });
+    }
   });
 
 module.exports = router;

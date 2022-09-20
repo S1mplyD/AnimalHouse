@@ -16,6 +16,7 @@ const postRoute = require("./server/routes/posts");
 const newsRoute = require("./server/routes/news");
 const galleryRoute = require("./server/routes/gallery");
 const servicesRoute = require("./server/routes/services");
+const adsRoute = require("./server/routes/ADs");
 global.__foldername = __dirname;
 const nconf = require("nconf");
 
@@ -41,6 +42,7 @@ app.use(passport.session());
 
 app.use("/", express.static(__foldername + "/test"));
 app.use("/games", express.static(__foldername + "/client/games/build"));
+app.use("/frontoffice", express.static(__foldername + "/frontend/dist"));
 app.use(express.static(__foldername + "/server/Images"));
 /**
  * API routes
@@ -55,6 +57,7 @@ app.use("/api/posts", postRoute);
 app.use("/api/news", newsRoute);
 app.use("/api/gallery", galleryRoute);
 app.use("/api/services", servicesRoute);
+app.use("/api/ads", adsRoute);
 app.get("/api/getHolidays", async (req, res) => {
   const holiday = await getHolidays(
     req.body.day,

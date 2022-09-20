@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import React, { useState } from "react";
+import ADs from "./ADs";
 
 function Home({
   getQuestions,
@@ -9,6 +11,9 @@ function Home({
   getImages,
   getWords,
   setGame,
+  getAds,
+  ads,
+  setAds,
 }) {
   const navigate = useNavigate();
   const handleQuiz = async () => {
@@ -100,9 +105,10 @@ function Home({
           </div>
           <div className="m-2 p-2 bg-white ">
             <input
-              type="submit"
+              type="button"
               value="Subimt"
               className="p-2 rounded-xl hover:bg-blue-700 bg-cyan-400 text-white"
+              onClick={() => {}}
             />
           </div>
         </form>
@@ -133,6 +139,7 @@ function Home({
           />
         </div>
       </div>
+      <ADs products={ads}></ADs>
     </div>
   );
 }
