@@ -1,4 +1,4 @@
-<template lang="it">
+<template lang="en">
 <body class="bodymain">
  <div>
   <ResultsComponent />

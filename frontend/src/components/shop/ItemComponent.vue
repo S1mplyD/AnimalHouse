@@ -1,4 +1,4 @@
-<template lang="it">
+<template lang="en">
   <div class="lightbox" @click.self="closeLightbox">
     <div class="lightbox-info">
       <div class="lightbox-info-inner">

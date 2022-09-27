@@ -122,16 +122,8 @@ router.post("/login", passport.authenticate("local"), function (req, res) {
   res.json();
 });
 
-router.post("/register", async (req, res) => {
-  const encryptedPassword = await bcrypt.hash(req.body.password, 10);
-  User.create({
-    name: req.body.name,
-    username: req.body.username,
-    mail: req.body.mail,
-    password: encryptedPassword,
-    admin: false,
-  });
-  res.json("registrazione avvenuta con successo");
+router.post("/register", passport.authenticate("local-signup"), (req, res) => {
+  res.json();
 });
 
 passport.deserializeUser((id, done) => {
@@ -139,6 +131,34 @@ passport.deserializeUser((id, done) => {
     done(null, user);
   });
 });
+
+passport.use(
+  "local-signup",
+  new LocalStrategy(
+    { passReqToCallback: true },
+    (req, username, password, done) => {
+      User.findOne({ username: username }, async (err, user) => {
+        if (err) {
+          return done(err);
+        }
+        if (user) {
+          return done(null, false);
+        } else {
+          const encryptedPassword = await bcrypt.hash(password, 10);
+          User.create({
+            name: req.body.name,
+            username: username,
+            mail: req.body.mail,
+            password: encryptedPassword,
+            admin: false,
+          }).then((user) => {
+            return done(null, user);
+          });
+        }
+      });
+    }
+  )
+);
 
 passport.serializeUser((user, done) => {
   done(null, user.id);

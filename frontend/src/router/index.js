@@ -13,6 +13,7 @@ import AdsPage from '../views/AdsPage.vue'
 import PhotoView from '../views/PhotoView.vue'
 import ItemView from '../views/ItemView.vue'
 import PostNewsView from '../views/PostNewsView.vue'
+import UserPage from '../views/UserPage.vue'
 const routes = [
   {
     path: '/',
@@ -38,6 +39,11 @@ const routes = [
     path: '/gioca',
     name: 'gioca',
     component: GamePage
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: UserPage
   },
   {
     path: '/shop',

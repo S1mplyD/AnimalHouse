@@ -1,4 +1,4 @@
-<template lang="it">
+<template lang="en">
   <h1>Welcome to our Forum!</h1>
   <div class="news">
     <ul>

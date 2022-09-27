@@ -1,14 +1,14 @@
-<template class="log" lang="it" >
+<template class="log" lang="en" >
 <body class="bodymain">
     <div class="vue-template">
         <form>
             <h3>LOG IN</h3>
             <div class="form-group">
-                <label>E-mail adrress</label>
+                <label for="mail">E-mail adrress</label>
                 <input type="email" class="form-control form-control-lg" id="mail"/>
             </div>
             <div class="form-group">
-                <label>Password</label>
+                <label for="pass">Password</label>
                 <input type="password" class="form-control form-control-lg" id="pass"/>
             </div>
             <button type="button" class="btn btn-dark btn-lg btn-block" @click="login()">Sign in</button>

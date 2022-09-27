@@ -1,6 +1,6 @@
-<template lang="it">
+<template lang="en">
   <header>
-    <img alt="Vue logo" src="@/assets/logo.png" height="50">
+    <img alt="Logo of Animal House" src="@/assets/logo.png" height="50">
     <b><p>ANIMAL HOUSE</p></b>
     <nav>
       <ul>
@@ -24,9 +24,12 @@
         </li>
       </ul>
     </nav>
-    <nav v-show="user.length === 1" id="usersection">
-      <p><b>{{user.username}}</b></p>
-      <router-link to="#" class="routerlink">Go to the User Area</router-link>
+    <nav v-if="user.length === 1" id="usersection">
+      <p><b>{{user[0].username}}</b></p>
+      <div v-if="user[0].admin === true"><router-link to="/backoffice/" class="routerlink">Go to the Backoffice</router-link></div>
+      <router-link to="/user" class="routerlink">Go to the User Area</router-link>
+      <br>
+      <a href="http://localhost:8000/auth/logout" class="routerlink">Log Out</a>
     </nav>
   </header>
 </template>

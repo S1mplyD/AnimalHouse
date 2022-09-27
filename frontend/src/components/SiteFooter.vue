@@ -1,4 +1,4 @@
-<template lang="it">
+<template lang="en">
   <footer>
     <b><p>Copyright &copy; {{ year }}</p></b>
   </footer>

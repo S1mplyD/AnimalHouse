@@ -36,7 +36,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/", express.static(__foldername + "/backoffice/test"));
+app.use("/backoffice/", express.static(__foldername + "/backoffice/test"));
 //app.use("/games", express.static(__foldername + "/client/games/build"));
 app.use(express.static(__foldername + "/server/Images"));
 /**
@@ -52,6 +52,7 @@ app.use("/api/posts", postRoute);
 app.use("/api/news", newsRoute);
 app.use("/api/gallery", galleryRoute);
 app.use("/api/services", servicesRoute);
+app.use(express.static(__foldername + "/frontend/dist"));
 app.get("/api/getHolidays", async (req, res) => {
   const holiday = await getHolidays(
     req.body.day,

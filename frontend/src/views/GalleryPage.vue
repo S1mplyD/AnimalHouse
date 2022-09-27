@@ -1,4 +1,4 @@
-<template class="gallery-main" lang="it">
+<template class="gallery-main" lang="en">
 <body class="bodymain">
   <GalleryHeader />
   <ResultsComponent class="gallery-view"/>

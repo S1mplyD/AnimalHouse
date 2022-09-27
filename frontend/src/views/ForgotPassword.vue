@@ -1,13 +1,13 @@
-<template lang="it">
+<template lang="en">
   <body class="bodymain">
     <div class="vue-template">
         <form>
             <h3>Forgot your password?</h3>
             <div class="form-group">
-                <label>E-mail address</label>
-                <input type="email" class="form-control form-control-lg" />
+                <label for="mail">E-mail address</label>
+                <input id="mail" type="email" class="form-control form-control-lg" />
             </div>
-            <button type="submit" class="btn btn-dark btn-lg btn-block">Create a new password</button>
+            <button type="button" class="btn btn-dark btn-lg btn-block">Create a new password</button>
         </form>
     </div>
   </body>

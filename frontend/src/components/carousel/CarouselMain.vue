@@ -1,4 +1,4 @@
-<template>
+<template lang="en">
   <div class="carousel">
     <slot :currentSlide="currentSlide" />
 

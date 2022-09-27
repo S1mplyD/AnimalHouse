@@ -1,4 +1,4 @@
-<template lang="it">
+<template lang="en">
   <div class="gallery">
     <div class="gallery-panel"
          v-for="photo in photos"
