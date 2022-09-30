@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import React, { useState } from "react";
 import ADs from "./ADs";
+import axios from "axios";
 
 function Home({
   getQuestions,
@@ -11,11 +12,25 @@ function Home({
   getImages,
   getWords,
   setGame,
-  getAds,
-  ads,
-  setAds,
 }) {
   const navigate = useNavigate();
+  const [ads, setAds] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    async function ads() {
+      await getAds();
+    }
+    ads();
+  }, []);
+
+  const getAds = async () => {
+    await axios.get("http://localhost:8000/api/ads").then((res) => {
+      if (res.data != null) {
+        setAds(res.data);
+        setLoading(false);
+      }
+    });
+  };
   const handleQuiz = async () => {
     setGame("quiz");
     await getQuestions();
@@ -139,7 +154,7 @@ function Home({
           />
         </div>
       </div>
-      <ADs products={ads}></ADs>
+      {loading ? "null" : <ADs ads={ads}></ADs>}
     </div>
   );
 }
