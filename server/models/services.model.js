@@ -13,6 +13,7 @@ const serviceSchema = new mongoose.Schema(
     info: { type: String, required: true },
     mail: { type: String },
     phone: { type: String },
+    pictures: { type: [String] },
   },
   {
     collection: "service-data",
