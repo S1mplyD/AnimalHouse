@@ -32,8 +32,8 @@ router
           categories: req.body.categories,
           photos: req.body.photos,
           seller: req.user.username,
-        }).then(() => {
-          res.sendStatus(201);
+        }).then((product) => {
+          res.status(201).send(product);
         });
       } else {
         res.sendStatus(401);
