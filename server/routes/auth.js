@@ -118,10 +118,42 @@ passport.use(
   })
 );
 
+//TODO: user already existing
+passport.use(
+  "local-signup",
+  new LocalStrategy(
+    { passReqToCallback: true },
+    (req, username, password, done) => {
+      User.findOne({ username: username }, async (err, user) => {
+        if (err) {
+          return done(err);
+        }
+        if (user) {
+          return done(null, false);
+        } else {
+          const encryptedPassword = await bcrypt.hash(password, 10);
+          User.create({
+            name: req.body.name,
+            username: username,
+            mail: req.body.mail,
+            password: encryptedPassword,
+            admin: false,
+          }).then((user) => {
+            return done(null, user);
+          });
+        }
+      });
+    }
+  )
+);
+
 router.post("/login", passport.authenticate("local"), function (req, res) {
   res.json();
 });
 
+router.post("/register", passport.authenticate("local-signup"), (req, res) => {
+  res.json();
+});
 router.route("/isAuthenticated").get(async (req, res) => {
   if (req.user != null) {
     console.log(req.user);
@@ -131,17 +163,58 @@ router.route("/isAuthenticated").get(async (req, res) => {
   }
 });
 
-router.post("/register", async (req, res) => {
-  const encryptedPassword = await bcrypt.hash(req.body.password, 10);
-  User.create({
-    name: req.body.name,
-    username: req.body.username,
-    mail: req.body.mail,
-    password: encryptedPassword,
-    admin: false,
-  });
-  res.json("registrazione avvenuta con successo");
-});
+// router.post("/register", async (req, res) => {
+//
+//   User.create({
+//     name: req.body.name,
+//     username: req.body.username,
+//     mail: req.body.mail,
+//     password: encryptedPassword,
+//     admin: false,
+//   }).then((user) => {
+
+//   });
+//   // req.login();
+//   res.json("registrazione avvenuta con successo");
+// });
+
+// passport.use('local-signup', new LocalStrategy({
+//   // by default, local strategy uses username and password, we will override with email
+//   usernameField : 'email',
+//   passwordField : 'password',
+//   passReqToCallback : true // allows us to pass back the entire request to the callback
+// },
+// function(req, email, password, done) {
+
+//   // find a user whose email is the same as the forms email
+//   // we are checking to see if the user trying to login already exists
+//   User.findOne({ 'local.email' :  email }, function(err, user) {
+//       // if there are any errors, return the error
+//       if (err)
+//           return done(err);
+
+//       // check to see if theres already a user with that email
+//       if (user) {
+//           return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+//       } else {
+
+//           // if there is no user with that email
+//           // create the user
+//           var newUser            = new User();
+
+//           // set the user's local credentials
+//           newUser.local.email    = email;
+//           newUser.local.password = newUser.generateHash(password);
+
+//           // save the user
+//           newUser.save(function(err) {
+//               if (err)
+//                   throw err;
+//               return done(null, newUser);
+//           });
+//       }
+
+// }));
 
 passport.deserializeUser((id, done) => {
   User.findById(id).then((user) => {
