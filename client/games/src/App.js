@@ -15,13 +15,6 @@ function App() {
   const [images, setImages] = useState([]);
   const [word, setWord] = useState();
   const [game, setGame] = useState("");
-  const [ads, setAds] = useState([]);
-  useEffect(() => {
-    async function getStartingAds() {
-      await getAds();
-    }
-    getStartingAds();
-  }, []);
 
   const getQuestions = async () => {
     const rawData = await axios.get(
@@ -71,13 +64,6 @@ function App() {
       });
   };
 
-  const getAds = async () => {
-    await axios.get("http://localhost:8000/api/ads").then((res) => {
-      console.log(res.data);
-      setAds(res.data);
-    });
-  };
-
   return (
     <Router>
       <div className="bg-blue-500 overflow-auto h-screen">
@@ -103,9 +89,6 @@ function App() {
                 getImages={getImages}
                 getWords={getWords}
                 setGame={setGame}
-                getAds={getAds}
-                ads={ads}
-                setAds={setAds}
               />
             }
           />
