@@ -4,62 +4,61 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>TEST PAGE</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
   </head>
   <body onload="user()">
     <h1 id="logStatus"></h1>
-    <h1>immagini</h1>
-    <form
-      action="/api/images/petPhotos/62814f7009f4f4de1cbed9c4"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      <input type="file" name="images" multiple />
-      <input type="submit" />
-    </form>
-    <h1>avatar</h1>
-    <form
-      action="/api/images/avatar"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      <input type="file" name="image" />
-      <input type="submit" />
-    </form>
-    <h1>login</h1>
+    <h1>Login</h1>
     <form>
-      <input type="text" name="mail" id="mail" placeholder="mail" />
-      <input type="password" name="password" id="pass" placeholder="password" />
-      <input type="button" value="login" onclick="login()" />
+      <input type="text" name="mail" id="mail" />
+      <input type="password" name="pass" id="pass" />
+      <button type="button" onclick="login()">login</button>
     </form>
-    <h1>immagine salvata</h1>
-    <img src="" id="img" />
-    <button onclick="showImage()">mostra immagine</button>
-    <button onclick="showImages()">mostra immagini</button>
+    <h1>immagini</h1>
+    <h2>Crea oggetto contenente immagini</h2>
+    <h3>Immagini per l'utente</h3>
+    <h4>Avatar</h4>
+    <form>
+      <input type="file" name="avatar" id="avatar" />
+      <button type="button" onclick="setAvatar()">set Avatar</button>
+    </form>
+    <h3>Immagini per animali</h3>
 
-    <h1>logout</h1>
-    <a href="/auth/logout">logout</a>
-    <h1>google</h1>
-    <a href="/auth/google">google login</a>
-    <h1>Twitter</h1>
-    <a href="/auth/twitter">twitter login</a>
-    <div id="imgs"></div>
-    <button onclick="getTrivia()">get trivia</button>
-    <div id="trivia"></div>
-    <form enctype="multipart/form-data">
-      <input type="text" name="title" id="title" placeholder="title" />
-      <input
-        type="text"
-        name="description"
-        id="description"
-        placeholder="description"
-      />
-      <input type="file" name="picture" id="files" multiple />
-      <input type="button" value="submit" onclick="createPost()" />
+    <h1>Animali</h1>
+    <h2>Aggiungere animali</h2>
+    <form>
+      <input type="text" name="petname" id="petname" />
+      <button type="button" onclick="addPets()">add pet</button>
     </form>
-    <button type="button" onclick="user()">check user</button>
+    <h2>Aggiungere animali con immagini</h2>
+    <form></form>
     <script>
+      async function setAvatar() {
+        let avatar = document.querySelector("#avatar");
+        console.log(avatar.files);
+        let formData = new FormData();
+        formData.append("image", avatar.files[0]);
+        fetch("http://localhost:8000/api/images/user", {
+          method: "post",
+          body: formData,
+        });
+      }
+      async function addPets() {
+        console.log(document.getElementById("petname").value);
+        let pet = {
+          name: document.getElementById("petname").value,
+        };
+        fetch("http://localhost:8000/api/pets", {
+          method: "post",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(pet),
+        }).then((res) => {
+          res.json();
+        });
+      }
       async function user() {
         // await fetch("/auth/isAuthenticated", {
         //   method: "get",
