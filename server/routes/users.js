@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/user.model");
 const fs = require("fs");
+const Pet = require("../models/pet.model");
 
 router
   .route("/")
@@ -140,4 +141,21 @@ router
     }
   });
 
+router.route("/userPets").get(async (req, res) => {
+  try {
+    if (req.user != null) {
+      await Pet.find({ owner: req.user.username }).then((pets) => {
+        let petNames = [];
+        pets.forEach((el) => {
+          petNames.push(el.name);
+        });
+        res.send(petNames);
+      });
+    } else {
+      res.sendStatus(401);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
 module.exports = router;
