@@ -17,6 +17,25 @@
     </form>
     <h1>immagini</h1>
     <h2>Crea oggetto contenente immagini</h2>
+    <form>
+      <input type="text" name="title" id="title" placeholder="title" />
+      <input type="text" name="info" id="prodinfo" placeholder="info" />
+      <input type="number" name="price" id="price" placeholder="price" />
+      <input
+        type="number"
+        name="disprice"
+        id="disprice"
+        placeholder="discounted price"
+      />
+      <input
+        type="text"
+        name="categories"
+        id="categories"
+        placeholder="categories"
+      />
+      <input type="file" name="prodphotos" id="prodphotos" multiple />
+      <input type="button" onclick="createProducts()" value="add product" />
+    </form>
     <h3>Immagini per l'utente</h3>
     <h4>Avatar</h4>
     <form>
@@ -29,11 +48,30 @@
     <h2>Aggiungere animali</h2>
     <form>
       <input type="text" name="petname" id="petname" />
+      <input type="file" name="petimages" id="petimages" multiple />
       <button type="button" onclick="addPets()">add pet</button>
     </form>
-    <h2>Aggiungere animali con immagini</h2>
-    <form></form>
+    <h1>Post</h1>
+    <h2>Crea post con immagini</h2>
+    <form>
+      <input type="text" id="posttitle" placeholder="title" />
+      <input type="text" id="post" placeholder="post" />
+      <input type="file" name="postimages" id="postimages" multiple />
+      <input type="button" value="create post" onclick="createPost()" />
+    </form>
+
+    <h1>Services</h1>
+    <h2>Crea service con immagini</h2>
+    <form>
+      <input type="text" name="sername" id="sername" placeholder="name" />
+      <input type="text" name="serloc" id="serloc" placeholder="location" />
+      <input type="number" name="sercoor" id="sercoor" />
+      <input type="number" name="seropdays" id="seropdays" />
+      <input type="text" name="seroptime" id="seroptime" />
+      <!-- TODO: finire form e funzione createService() -->
+    </form>
     <script>
+      //Funzionanti
       async function setAvatar() {
         let avatar = document.querySelector("#avatar");
         console.log(avatar.files);
@@ -45,28 +83,32 @@
         });
       }
       async function addPets() {
-        console.log(document.getElementById("petname").value);
-        let pet = {
-          name: document.getElementById("petname").value,
-        };
-        fetch("http://localhost:8000/api/pets", {
-          method: "post",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify(pet),
-        }).then((res) => {
-          res.json();
-        });
+        axios
+          .post("http://localhost:8000/api/pets", {
+            name: document.getElementById("petname").value,
+          })
+          .then((res) => {
+            let id = res.data.ownedAnimals[res.data.ownedAnimals.length - 1];
+            let formData = new FormData();
+            let images = document.querySelector("#petimages");
+            for (let i = 0; i < images.files.length; i++) {
+              formData.append("images", images.files[i]);
+            }
+            axios
+              .post(
+                "http://localhost:8000/api/images/pets",
+                formData,
+                { params: { id: id } },
+                {
+                  headers: { "Content-Type": "multipart/form-data" },
+                }
+              )
+              .then((res) => {
+                console.log(res);
+              });
+          });
       }
       async function user() {
-        // await fetch("/auth/isAuthenticated", {
-        //   method: "get",
-        // }).then(async (res) => {
-        //   const user = await res.json();
-        //   console.log(user);
-        //   document.getElementById("logStatus").innerText = user.username;
-        // });
         axios
           .get("http://localhost:8000/auth/isAuthenticated")
           .then((response) => {
@@ -77,74 +119,72 @@
             document.getElementById("logStatus").innerText = user[0].username;
           });
       }
-      async function createPet() {
-        let data = {
-          name: document.getElementById("name").value,
-          type: document.getElementById("type").value,
-          race: document.getElementById("race").value,
-          age: document.getElementById("age").value,
-        };
-        data = JSON.stringify(data);
-        let images = document.querySelector("#files");
-        const formData = new FormData();
-        formData.append("data", data);
-        for (let i = 0; i < images.files.length; i++) {
-          formData.append("images", images.files[i]);
-        }
-        fetch("/api/products", {
-          method: "post",
-          body: formData,
-        }).then((res) => {
-          console.log(res);
-        });
-      }
-
       async function createProducts() {
-        let data = {
-          title: document.getElementById("title").value,
-          info: document.getElementById("info").value,
-          price: document.getElementById("price").value,
-          discountedPrice: document.getElementById("discountedPrice").value,
-          categories: document.querySelectorAll(
-            "input[name=mycheckboxes]:checked"
-          ),
-        };
-        data = JSON.stringify(data);
-        let images = document.querySelector("#files");
-        const formData = new FormData();
-        formData.append("data", data);
-        for (let i = 0; i < images.files.length; i++) {
-          formData.append("images", images.files[i]);
-        }
-        fetch("/api/products", {
-          method: "post",
-          body: formData,
-        }).then((res) => {
-          console.log(res);
-        });
+        axios
+          .post("http://localhost:8000/api/products", {
+            title: document.getElementById("title").value,
+            info: document.getElementById("prodinfo").value,
+            price: document.getElementById("price").value,
+            discountedPrice: document.getElementById("disprice").value,
+          })
+          .then((res) => {
+            console.log(res);
+            let id = res.data._id;
+            console.log(id);
+            let images = document.querySelector("#prodphotos");
+            const formData = new FormData();
+            for (let i = 0; i < images.files.length; i++) {
+              formData.append("images", images.files[i]);
+            }
+            axios
+              .post(
+                "http://localhost:8000/api/images/products",
+                formData,
+                {
+                  params: { id: id },
+                },
+                {
+                  headers: { "Content-Type": "multipart/form-data" },
+                }
+              )
+              .then((res) => {
+                console.log(res);
+              });
+          });
+      }
+      async function createPost() {
+        axios
+          .post("http://localhost:8000/api/posts", {
+            title: document.getElementById("posttitle").value,
+            post: document.getElementById("post").value,
+          })
+          .then((res) => {
+            let images = document.querySelector("#postimages");
+            const formData = new FormData();
+            for (let i = 0; i < images.files.length; i++) {
+              formData.append("images", images.files[i]);
+            }
+            let id = res.data._id;
+            axios
+              .post(
+                "http://localhost:8000/api/images/posts",
+                formData,
+                {
+                  params: { id: id },
+                },
+                {
+                  headers: { "Content-Type": "multipart/form-data" },
+                }
+              )
+              .then((res) => {
+                console.log(res);
+              });
+          });
       }
 
-      async function createPost() {
-        let data = {
-          title: document.getElementById("title").value,
-          post: document.getElementById("description").value,
-        };
-        data = JSON.stringify(data);
-        let images = document.querySelector("#files");
-        const formData = new FormData();
-        formData.append("data", data);
-        for (let i = 0; i < images.files.length; i++) {
-          formData.append("images", images.files[i]);
-        }
-        console.log(images.files);
-        console.log(formData);
-        fetch("/api/posts", {
-          method: "post",
-          body: formData,
-        }).then((res) => {
-          console.log(res);
-        });
-      }
+      async function createService() {}
+
+      //Non funzionanti / Da testare
 
       async function login() {
         const data = {
@@ -180,17 +220,6 @@
             const elem = document.createElement("img");
             elem.src = "http://localhost:8000/" + element;
             document.getElementById("imgs").appendChild(elem);
-          });
-        });
-      }
-
-      async function getTrivia() {
-        fetch("/api/getTrivia/medium").then(async (res) => {
-          const el = await res.json();
-          el.forEach((element) => {
-            const elem = document.createElement("p");
-            elem.innerHTML = element.question;
-            document.getElementById("trivia").appendChild(elem);
           });
         });
       }
