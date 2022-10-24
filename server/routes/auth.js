@@ -156,7 +156,6 @@ router.post("/register", passport.authenticate("local-signup"), (req, res) => {
 });
 router.route("/isAuthenticated").get(async (req, res) => {
   if (req.user != null) {
-    console.log(req.user);
     res.send(req.user);
   } else {
     res.sendStatus(404);
