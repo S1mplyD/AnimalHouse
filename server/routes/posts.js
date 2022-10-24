@@ -35,33 +35,21 @@ router
   .post(async (req, res) => {
     try {
       if (req.user != null) {
-        const upload = multer({ storage: storage }).array("images");
-        upload(req, res, async (err) => {
-          if (err) {
-            console.log(err);
-          } else {
-            const imagesAddr = [];
-            for (let i = 0; i < res.req.files.length; i++) {
-              imagesAddr.push(res.req.files[i].filename);
-            }
-            let data = JSON.parse(req.body.data);
-            await Post.findOne({
-              $and: [{ post: data.post }, { user: req.user.username }],
-            }).then(async (post) => {
-              if (!post) {
-                await Post.create({
-                  title: data.title,
-                  user: req.user.username,
-                  date: Date(),
-                  post: data.post,
-                  post_summary: `${data.post.slice(0, 141)}...`,
-                  photos: imagesAddr,
-                });
-                res.sendStatus(201);
-              } else {
-                res.send("Post already existing");
-              }
+        await Post.findOne({
+          $and: [{ post: req.body.post }, { user: req.user.username }],
+        }).then(async (post) => {
+          if (!post) {
+            await Post.create({
+              title: req.body.title,
+              user: req.user.username,
+              date: Date(),
+              post: req.body.post,
+              post_summary: `${req.body.post.slice(0, 141)}...`,
+            }).then((post) => {
+              res.status(201).send(post);
             });
+          } else {
+            res.send("Post already existing");
           }
         });
       } else {
