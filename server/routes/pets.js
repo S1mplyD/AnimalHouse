@@ -31,16 +31,15 @@ router
           race: req.body.race,
           owner: req.user.username, //Owner should be the user who is adding the pet
           age: req.body.age,
-        })
-          .then(async (pet) => {
-            await User.findOneAndUpdate(
-              { username: req.user.username },
-              { $push: { ownedAnimals: pet._id } }
-            );
-          })
-          .then(() => {
-            res.sendStatus(201);
+        }).then(async (pet) => {
+          await User.findOneAndUpdate(
+            { username: req.user.username },
+            { $push: { ownedAnimals: pet._id } },
+            { new: true }
+          ).then((newp) => {
+            res.status(201).send(newp);
           });
+        });
       } else {
         res.sendStatus(401);
       }
@@ -86,7 +85,7 @@ router
     try {
       if (req.user != null) {
         if (req.user.admin) {
-          await Pet.findOneAndDelete({ _id: req.query.petid })
+          await Pet.findOneAndDelete({ _id: req.query.pet })
             .then(async (pet) => {
               for (let i = 0; i < pet.pictures.length; i++) {
                 await fs.unlink(
@@ -101,9 +100,9 @@ router
               res.sendStatus(200);
             });
         } else {
-          await Pet.findById(req.query.petid).then(async (pet) => {
+          await Pet.findOne({ name: req.query.pet }).then(async (pet) => {
             if (pet.owner == req.user.username) {
-              await Pet.findOneAndDelete({ _id: pet._id })
+              await Pet.findOneAndDelete({ name: pet.name })
                 .then(async (pet) => {
                   for (let i = 0; i < pet.pictures.length; i++) {
                     await fs.unlink(
@@ -156,5 +155,8 @@ router
       console.log(error);
     }
   });
+//TODO: funzione per eliminare un pet tramite username
+
+router.route("/ownedPets").get(async (req, res) => {});
 
 module.exports = router;
