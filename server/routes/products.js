@@ -30,7 +30,6 @@ router
           price: req.body.price,
           discountedPrice: req.body.discountedPrice,
           categories: req.body.categories,
-          photos: req.body.photos,
           seller: req.user.username,
         }).then((product) => {
           res.status(201).send(product);
