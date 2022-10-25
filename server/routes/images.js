@@ -472,7 +472,7 @@ router
             } else {
               const imagesAddr = [];
               for (let i = 0; i < res.req.files.length; i++) {
-                imagesAddr.push(element.filename);
+                imagesAddr.push(res.req.files[i].filename);
               }
               await Service.findOneAndUpdate(
                 {
