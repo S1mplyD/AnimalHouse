@@ -65,10 +65,36 @@
     <form>
       <input type="text" name="sername" id="sername" placeholder="name" />
       <input type="text" name="serloc" id="serloc" placeholder="location" />
-      <input type="number" name="sercoor" id="sercoor" />
-      <input type="number" name="seropdays" id="seropdays" />
-      <input type="text" name="seroptime" id="seroptime" />
-      <!-- TODO: finire form e funzione createService() -->
+      <input
+        type="number"
+        name="sercoor"
+        id="sercoor"
+        placeholder="coordinate"
+      />
+      <input
+        type="number"
+        name="seropdays"
+        id="seropdays"
+        placeholder="open days"
+      />
+      <input
+        type="text"
+        name="seroptime"
+        id="seroptime"
+        placeholder="open time"
+      />
+      <input
+        type="text"
+        name="sercltime"
+        id="sercltime"
+        placeholder="close time"
+      />
+      <input type="text" name="sertype" id="sertype" placeholder="type" />
+      <label for="seronline">online</label>
+      <input type="checkbox" name="seronline" id="seronline" />
+      <input type="text" name="serinfo" id="serinfo" placeholder="info" />
+      <input type="file" name="serimages" id="serimages" multiple />
+      <input type="button" value="create service" onclick="createService()" />
     </form>
     <script>
       //Funzionanti
@@ -182,7 +208,78 @@
           });
       }
 
-      async function createService() {}
+      async function createService() {
+        axios
+          .post("http://localhost:8000/api/services", {
+            name: document.getElementById("sername").value,
+            location: document.getElementById("serloc").value,
+            coordinate: document.getElementById("sercoor").value,
+            openDays: document.getElementById("seropdays").value,
+            openTime: document.getElementById("seroptime").value,
+            closeTime: document.getElementById("sercltime").value,
+            type: document.getElementById("sertype").value,
+            online: document.getElementById("seronline").checked,
+            info: document.getElementById("serinfo").value,
+          })
+          .then((res) => {
+            let images = document.querySelector("#serimages");
+            const formData = new FormData();
+            for (let i = 0; i < images.files.length; i++) {
+              formData.append("images", images.files[i]);
+            }
+            let id = res.data._id;
+            axios
+              .post(
+                "http://localhost:8000/api/images/services",
+                formData,
+                {
+                  params: { id: id },
+                },
+                {
+                  headers: { "Content-Type": "multipart/form-data" },
+                }
+              )
+              .then((res) => {
+                console.log(res);
+              });
+          });
+      }
+      async function createNews() {
+        axios
+          .post("http://localhost:8000/api/news", {
+            name: document.getElementById("sername").value,
+            location: document.getElementById("serloc").value,
+            coordinate: document.getElementById("sercoor").value,
+            openDays: document.getElementById("seropdays").value,
+            openTime: document.getElementById("seroptime").value,
+            closeTime: document.getElementById("sercltime").value,
+            type: document.getElementById("sertype").value,
+            online: document.getElementById("seronline").checked,
+            info: document.getElementById("serinfo").value,
+          })
+          .then((res) => {
+            let images = document.querySelector("#serimages");
+            const formData = new FormData();
+            for (let i = 0; i < images.files.length; i++) {
+              formData.append("images", images.files[i]);
+            }
+            let id = res.data._id;
+            axios
+              .post(
+                "http://localhost:8000/api/images/news",
+                formData,
+                {
+                  params: { id: id },
+                },
+                {
+                  headers: { "Content-Type": "multipart/form-data" },
+                }
+              )
+              .then((res) => {
+                console.log(res);
+              });
+          });
+      }
 
       //Non funzionanti / Da testare
 
