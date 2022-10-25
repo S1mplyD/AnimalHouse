@@ -8,6 +8,7 @@ const Product = require("../models/product.model");
 const Post = require("../models/posts.model");
 const Service = require("../models/services.model");
 const News = require("../models/news.model");
+const Gallery = require("../models/gallery.model");
 
 /**
  * Storage delle immagini con regole sul come salvarle
@@ -520,7 +521,7 @@ router
             } else {
               const imagesAddr = [];
               for (let i = 0; i < res.req.files.length; i++) {
-                imagesAddr.push(element.filename);
+                imagesAddr.push(res.req.files[i].filename);
               }
               await News.findOneAndUpdate(
                 {
@@ -545,5 +546,28 @@ router
       console.log(error);
     }
   });
+
+router.route("/gallery").post(async (req, res) => {
+  if (req.user != null) {
+    const upload = multer({ storage: storage }).single("image");
+    upload(req, res, async (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(res.req.file.filename);
+        await Gallery.findOneAndUpdate(
+          {
+            _id: req.query.id,
+          },
+          {
+            filename: res.req.file.filename,
+          }
+        ).then(() => {
+          res.status(200).send("image uploaded correctly");
+        });
+      }
+    });
+  }
+});
 
 module.exports = router;

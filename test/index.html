@@ -96,6 +96,16 @@
       <input type="file" name="serimages" id="serimages" multiple />
       <input type="button" value="create service" onclick="createService()" />
     </form>
+    <h1>Gallery</h1>
+    <h2>crea una immagine nella gallery</h2>
+    <form>
+      <input type="text" id="galtitle" placeholder="title" />
+      <input type="text" id="gallocation" placeholder="location" />
+      <input type="text" id="galphoname" placeholder="photographer name" />
+      <input type="url" id="galphourl" placeholder="photographer url" />
+      <input type="file" id="galphoto" />
+      <input type="button" value="add photo" onclick="createGallery()" />
+    </form>
     <script>
       //Funzionanti
       async function setAvatar() {
@@ -244,29 +254,63 @@
               });
           });
       }
+      // TODO: createNews
       async function createNews() {
+        // axios
+        //   .post("http://localhost:8000/api/news", {
+        //     name: document.getElementById("sername").value,
+        //     location: document.getElementById("serloc").value,
+        //     coordinate: document.getElementById("sercoor").value,
+        //     openDays: document.getElementById("seropdays").value,
+        //     openTime: document.getElementById("seroptime").value,
+        //     closeTime: document.getElementById("sercltime").value,
+        //     type: document.getElementById("sertype").value,
+        //     online: document.getElementById("seronline").checked,
+        //     info: document.getElementById("serinfo").value,
+        //   })
+        //   .then((res) => {
+        //     let images = document.querySelector("#serimages");
+        //     const formData = new FormData();
+        //     for (let i = 0; i < images.files.length; i++) {
+        //       formData.append("images", images.files[i]);
+        //     }
+        //     let id = res.data._id;
+        //     axios
+        //       .post(
+        //         "http://localhost:8000/api/images/news",
+        //         formData,
+        //         {
+        //           params: { id: id },
+        //         },
+        //         {
+        //           headers: { "Content-Type": "multipart/form-data" },
+        //         }
+        //       )
+        //       .then((res) => {
+        //         console.log(res);
+        //       });
+        //   });
+      }
+      async function createGallery() {
         axios
-          .post("http://localhost:8000/api/news", {
-            name: document.getElementById("sername").value,
-            location: document.getElementById("serloc").value,
-            coordinate: document.getElementById("sercoor").value,
-            openDays: document.getElementById("seropdays").value,
-            openTime: document.getElementById("seroptime").value,
-            closeTime: document.getElementById("sercltime").value,
-            type: document.getElementById("sertype").value,
-            online: document.getElementById("seronline").checked,
-            info: document.getElementById("serinfo").value,
+          .post("http://localhost:8000/api/gallery", {
+            title: document.getElementById("galtitle").value,
+            location: document.getElementById("gallocation").value,
+            photographer: {
+              name: document.getElementById("galphoname").value,
+              url: document.getElementById("galphourl").value,
+            },
+            filename: "placeholder",
           })
           .then((res) => {
-            let images = document.querySelector("#serimages");
+            let image = document.querySelector("#galphoto");
             const formData = new FormData();
-            for (let i = 0; i < images.files.length; i++) {
-              formData.append("images", images.files[i]);
-            }
+            console.log(image.files[0]);
+            formData.append("image", image.files[0]);
             let id = res.data._id;
             axios
               .post(
-                "http://localhost:8000/api/images/news",
+                "http://localhost:8000/api/images/gallery",
                 formData,
                 {
                   params: { id: id },
@@ -280,9 +324,6 @@
               });
           });
       }
-
-      //Non funzionanti / Da testare
-
       async function login() {
         const data = {
           username: document.getElementById("mail").value,
@@ -298,6 +339,8 @@
           console.log(res);
         });
       }
+
+      //Non funzionanti / Da testare
 
       async function showImage() {
         fetch("/api/images/avatar", {

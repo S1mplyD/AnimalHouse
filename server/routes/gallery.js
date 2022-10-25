@@ -1,19 +1,7 @@
 const router = require("express").Router();
-const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const Gallery = require("../models/gallery.model");
-/**
- * Storage delle immagini con regole sul come salvarle
- */
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, __foldername + "/server/Images");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
 
 router
   .route("/")
@@ -37,28 +25,18 @@ router
   .post(async (req, res) => {
     try {
       if (req.user != null) {
-        const upload = multer({ storage: storage }).single("image");
-        upload(req, res, async (err) => {
-          if (err) {
-            console.log(err);
-          } else {
-            let data = JSON.parse(req.body.data);
-            await Gallery.create({
-              title: data.title,
-              filename: req.file.filename,
-              location: data.location,
-              photographer: {
-                name: data.photographer.name,
-                url: data.photographer.url,
-              },
-              username: req.user.username,
-            }).then(() => {
-              res.status(200).send("image uploaded correctly");
-            });
-          }
+        await Gallery.create({
+          title: req.body.title,
+          location: req.body.location,
+          photographer: {
+            name: req.body.photographer.name,
+            url: req.body.photographer.url,
+          },
+          filename: req.body.filename,
+          username: req.user.username,
+        }).then((gallery) => {
+          res.status(201).send(gallery);
         });
-      } else {
-        res.status(401);
       }
     } catch (error) {
       console.log(error);
