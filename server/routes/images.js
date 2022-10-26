@@ -554,7 +554,6 @@ router.route("/gallery").post(async (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        console.log(res.req.file.filename);
         await Gallery.findOneAndUpdate(
           {
             _id: req.query.id,
