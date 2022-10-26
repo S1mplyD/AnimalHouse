@@ -9,13 +9,42 @@
   </head>
   <body onload="user()">
     <h1 id="logStatus"></h1>
-    <h1>Login</h1>
+    <h1>Utenti</h1>
+    <h2>Login</h2>
     <form>
       <input type="text" name="mail" id="mail" />
       <input type="password" name="pass" id="pass" />
       <button type="button" onclick="login()">login</button>
     </form>
-    <h1>immagini</h1>
+    <h2>Logout</h2>
+    <a href="/auth/logout">logout</a>
+    <h2>Sign Up</h2>
+    <form>
+      <input type="text" name="regname" id="regname" placeholder="name" />
+      <input
+        type="text"
+        name="regusername"
+        id="regusername"
+        placeholder="username"
+      />
+      <input type="email" name="regmail" id="regmail" placeholder="mail" />
+      <input
+        type="password"
+        name="regpassword"
+        id="regpassword"
+        placeholder="password"
+      />
+      <input type="button" value="sign up" onclick="signUp()" />
+      <h2>Google</h2>
+      <a href="/auth/google">Google</a>
+      <h2>Twitter</h2>
+      <a href="/auth/twitter">Twitter</a>
+    </form>
+    <h1>Prodotti</h1>
+    <h2>Ottieni i prodotti</h2>
+    <button onclick="getAllProducts()">get all products</button>
+    <h2>Modifica un prodotto</h2>
+    <form></form>
     <h2>Crea oggetto contenente immagini</h2>
     <form>
       <input type="text" name="title" id="title" placeholder="title" />
@@ -36,7 +65,7 @@
       <input type="file" name="prodphotos" id="prodphotos" multiple />
       <input type="button" onclick="createProducts()" value="add product" />
     </form>
-    <h3>Immagini per l'utente</h3>
+
     <h4>Avatar</h4>
     <form>
       <input type="file" name="avatar" id="avatar" />
@@ -152,7 +181,8 @@
             let user = [];
             user.push(response.data);
             console.log(user);
-            document.getElementById("logStatus").innerText = user[0].username;
+            document.getElementById("logStatus").innerText =
+              "Hello " + user[0].username;
           });
       }
       async function createProducts() {
@@ -254,43 +284,7 @@
               });
           });
       }
-      // TODO: createNews
-      async function createNews() {
-        // axios
-        //   .post("http://localhost:8000/api/news", {
-        //     name: document.getElementById("sername").value,
-        //     location: document.getElementById("serloc").value,
-        //     coordinate: document.getElementById("sercoor").value,
-        //     openDays: document.getElementById("seropdays").value,
-        //     openTime: document.getElementById("seroptime").value,
-        //     closeTime: document.getElementById("sercltime").value,
-        //     type: document.getElementById("sertype").value,
-        //     online: document.getElementById("seronline").checked,
-        //     info: document.getElementById("serinfo").value,
-        //   })
-        //   .then((res) => {
-        //     let images = document.querySelector("#serimages");
-        //     const formData = new FormData();
-        //     for (let i = 0; i < images.files.length; i++) {
-        //       formData.append("images", images.files[i]);
-        //     }
-        //     let id = res.data._id;
-        //     axios
-        //       .post(
-        //         "http://localhost:8000/api/images/news",
-        //         formData,
-        //         {
-        //           params: { id: id },
-        //         },
-        //         {
-        //           headers: { "Content-Type": "multipart/form-data" },
-        //         }
-        //       )
-        //       .then((res) => {
-        //         console.log(res);
-        //       });
-        //   });
-      }
+
       async function createGallery() {
         axios
           .post("http://localhost:8000/api/gallery", {
@@ -339,9 +333,62 @@
           console.log(res);
         });
       }
+      async function signUp() {
+        axios
+          .post("http://localhost:8000/auth/register", {
+            name: document.getElementById("regname").value,
+            username: document.getElementById("regusername").value,
+            mail: document.getElementById("regmail").value,
+            password: document.getElementById("regpassword").value,
+          })
+          .then((res) => {
+            console.log(res);
+          });
+      }
+      async function getAllProducts() {
+        axios.get("http://localhost:8000/api/products").then((res) => {
+          console.log(res);
+        });
+      }
 
       //Non funzionanti / Da testare
-
+      // TODO: createNews
+      async function createNews() {
+        // axios
+        //   .post("http://localhost:8000/api/news", {
+        //     name: document.getElementById("sername").value,
+        //     location: document.getElementById("serloc").value,
+        //     coordinate: document.getElementById("sercoor").value,
+        //     openDays: document.getElementById("seropdays").value,
+        //     openTime: document.getElementById("seroptime").value,
+        //     closeTime: document.getElementById("sercltime").value,
+        //     type: document.getElementById("sertype").value,
+        //     online: document.getElementById("seronline").checked,
+        //     info: document.getElementById("serinfo").value,
+        //   })
+        //   .then((res) => {
+        //     let images = document.querySelector("#serimages");
+        //     const formData = new FormData();
+        //     for (let i = 0; i < images.files.length; i++) {
+        //       formData.append("images", images.files[i]);
+        //     }
+        //     let id = res.data._id;
+        //     axios
+        //       .post(
+        //         "http://localhost:8000/api/images/news",
+        //         formData,
+        //         {
+        //           params: { id: id },
+        //         },
+        //         {
+        //           headers: { "Content-Type": "multipart/form-data" },
+        //         }
+        //       )
+        //       .then((res) => {
+        //         console.log(res);
+        //       });
+        //   });
+      }
       async function showImage() {
         fetch("/api/images/avatar", {
           method: "get",
