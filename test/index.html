@@ -44,7 +44,20 @@
     <h2>Ottieni i prodotti</h2>
     <button onclick="getAllProducts()">get all products</button>
     <h2>Modifica un prodotto</h2>
-    <form></form>
+    <form>
+      <input type="text" id="patchprodid" placeholder="id" />
+      <input type="text" id="patchprodtitle" placeholder="title" />
+      <input type="text" id="patchprodinfo" placeholder="info" />
+      <input type="text" id="patchprodprice" placeholder="price" />
+      <input
+        type="text"
+        id="patchproddisprice"
+        placeholder="discounted price"
+      />
+      <input type="text" id="patchprodcat" placeholder="categories" />
+      <input type="file" id="patchprodphotos" multiple />
+      <input type="button" value="edit product" onclick="patchProduct()" />
+    </form>
     <h2>Crea oggetto contenente immagini</h2>
     <form>
       <input type="text" name="title" id="title" placeholder="title" />
@@ -149,10 +162,11 @@
       }
       async function addPets() {
         axios
-          .post("http://localhost:8000/api/pets", {
+          .post("/api/pets", {
             name: document.getElementById("petname").value,
           })
           .then((res) => {
+            console.log(res);
             let id = res.data.ownedAnimals[res.data.ownedAnimals.length - 1];
             let formData = new FormData();
             let images = document.querySelector("#petimages");
@@ -161,7 +175,7 @@
             }
             axios
               .post(
-                "http://localhost:8000/api/images/pets",
+                "/api/images/pets",
                 formData,
                 { params: { id: id } },
                 {
@@ -346,7 +360,7 @@
           });
       }
       async function getAllProducts() {
-        axios.get("http://localhost:8000/api/products").then((res) => {
+        axios.get("/api/products").then((res) => {
           console.log(res);
         });
       }

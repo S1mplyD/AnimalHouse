@@ -15,7 +15,7 @@ const Gallery = require("../models/gallery.model");
  */
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, __foldername + "/server/Images");
+    cb(null, "/home/luca/Documents/GitHub/AnimalHouse/server/Images");
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
