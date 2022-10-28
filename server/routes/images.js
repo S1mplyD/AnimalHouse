@@ -325,9 +325,16 @@ router
               console.log(err);
             } else {
               const imagesAddr = [];
-              for (let i = 0; i < res.req.files.length; i++) {
-                imagesAddr.push(res.req.files[i].filename);
+              let mainPhoto = "";
+              if (res.req.files.length > 1) {
+                mainPhoto = res.req.files[0].filename;
+                for (let i = 1; i < res.req.files.length; i++) {
+                  imagesAddr.push(res.req.files[i].filename);
+                }
+              } else {
+                mainPhoto = res.req.files[0].filename;
               }
+
               await Product.findOneAndUpdate(
                 {
                   _id: req.query.id,
@@ -338,6 +345,7 @@ router
                       $each: imagesAddr,
                     },
                   },
+                  mainPhoto: mainPhoto,
                 }
               ).then(() => {
                 res.status(200).send("images uploaded correctly");
