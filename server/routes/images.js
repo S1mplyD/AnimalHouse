@@ -9,13 +9,13 @@ const Post = require("../models/posts.model");
 const Service = require("../models/services.model");
 const News = require("../models/news.model");
 const Gallery = require("../models/gallery.model");
-
+const publicUploadsPath = path.join(__dirname, "../../public/uploads")
 /**
  * Storage delle immagini con regole sul come salvarle
  */
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "/home/luca/Documents/GitHub/AnimalHouse/server/Images");
+    cb(null, publicUploadsPath);
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -68,7 +68,7 @@ router
               await User.findOne({ username: req.user.username }).then(
                 async (user) => {
                   await fs.unlink(
-                    __foldername + "/server/Images/" + user.profilePicture,
+                    path.join(publicUploadsPath, user.profilePicture),
                     (err) => {
                       if (err) console.log(err);
                     }
@@ -129,7 +129,7 @@ router
           )
             .then(async (user) => {
               await fs.unlink(
-                __foldername + "/server/Images/" + user.profilePicture,
+                path.join(publicUploadsPath, user.profilePicture),
                 (err) => {
                   if (err) console.log(err);
                 }
@@ -142,7 +142,7 @@ router
           await User.findOne({ username: req.user.username })
             .then(async (user) => {
               await fs.unlink(
-                __foldername + "/server/Images/" + user.profilePicture,
+                path.join(publicUploadsPath, user.profilePicture),
                 (err) => {
                   if (err) console.log(err);
                 }
@@ -207,7 +207,7 @@ router
   .post(async (req, res) => {
     try {
       if (req.user != null) {
-        const upload = multer({ storage: storage }).array("images", 10);
+        const upload = multer({storage: storage }).array("images", 10);
         upload(req, res, async (err) => {
           if (err) {
             console.log(err);
@@ -257,7 +257,7 @@ router
             .then(async () => {
               for (let i = 0; i < req.body; i++) {
                 await fs.unlink(
-                  __foldername + "/server/Images/" + req.body[i],
+                  path.join(publicUploadsPath, req.body[i]) ,
                   (err) => {
                     if (err) console.log(err);
                   }
@@ -283,7 +283,7 @@ router
             .then(async () => {
               for (let i = 0; i < req.body; i++) {
                 await fs.unlink(
-                  __foldername + "/server/Images/" + req.body[i],
+                  path.join(publicUploadsPath, req.body[i]),
                   (err) => {
                     if (err) console.log(err);
                   }
