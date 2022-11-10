@@ -1,7 +1,8 @@
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
-require("dotenv").config({ path: "./.env" });
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 const productsRoute = require("./server/routes/products");
 const petsRoute = require("./server/routes/pets");
 const usersRoute = require("./server/routes/users");
@@ -17,10 +18,7 @@ const newsRoute = require("./server/routes/news");
 const galleryRoute = require("./server/routes/gallery");
 const servicesRoute = require("./server/routes/services");
 const adsRoute = require("./server/routes/ADs");
-global.__foldername = __dirname;
-const nconf = require("nconf");
 
-let config = nconf.file("conf.json");
 
 const app = express();
 
@@ -33,17 +31,17 @@ app.use(express.json());
 app.use(
   cookieSession({
     maxAge: 24 * 60 * 60 * 1000, //Un giorno
-    keys: [config.get("COOKIE_KEY")],
+    keys: [process.env.COOKIE_KEY],
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/", express.static(__foldername + "/test"));
-app.use("/games", express.static(__foldername + "/client/games/build"));
-app.use("/frontoffice", express.static(__foldername + "/frontend/dist"));
-app.use(express.static(__foldername + "/server/Images"));
+app.use("/test", express.static(path.join(__dirname , "test")));
+app.use("/games", express.static(path.join(__dirname , "client/games/build")));
+app.use("/", express.static(path.join(__dirname , "frontend/dist")));
+app.use(express.static( path.join(__dirname , "public")));
 /**
  * API routes
  */
@@ -72,7 +70,7 @@ app.get("/api/getTrivia/:difficulty", async (req, res) => {
   });
 });
 
-mongoose.connect(config.get("MONGODB_PERSONAL_URI"));
+mongoose.connect(process.env.MONGODB_PERSONAL_URI);
 
 app.listen(port, () => {
   console.log(`server started on port ${port}`);
