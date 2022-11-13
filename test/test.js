@@ -28,14 +28,16 @@ async function addPets() {
     });
 }
 async function user() {
-  axios.get("/auth/isAuthenticated").then((response) => {
-    console.log(response);
-    let user = [];
-    user.push(response.data);
-    console.log(user);
-    document.getElementById("logStatus").innerText =
-      "Hello " + user[0].username;
-  });
+  axios
+    .get("https://site212211.tw.cs.unibo.it/auth/isAuthenticated")
+    .then((response) => {
+      console.log(response);
+      let user = [];
+      user.push(response.data);
+      console.log(user);
+      document.getElementById("logStatus").innerText =
+        "Hello " + user[0].username;
+    });
 }
 async function createProducts() {
   axios
@@ -230,5 +232,12 @@ async function getPets() {
     console.log(res.data);
   });
 }
-
+// TODO
 async function patchPets() {}
+
+async function deletePet() {
+  let petid = document.getElementById("deletepetid").value;
+  axios.delete("/api/pets", { params: { pet: petid } }).then((res) => {
+    console.log(res);
+  });
+}

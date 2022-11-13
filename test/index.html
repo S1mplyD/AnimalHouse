@@ -9,15 +9,15 @@
   </head>
   <body onload="user()">
     <h1 id="logStatus"></h1>
-    <h1>Utenti</h1>
+    <h1>Users</h1>
     <h2>Login</h2>
     <form>
       <input type="text" name="mail" id="mail" />
       <input type="password" name="pass" id="pass" />
-      <button type="button" onclick="login()">login</button>
+      <button type="button" onclick="login()">Login</button>
     </form>
     <h2>Logout</h2>
-    <a href="/auth/logout">logout</a>
+    <a href="/auth/logout">Logout</a>
     <h2>Sign Up</h2>
     <form>
       <input type="text" name="regname" id="regname" placeholder="name" />
@@ -40,13 +40,13 @@
       <h2>Twitter</h2>
       <a href="/auth/twitter">Twitter</a>
     </form>
-    <h2>Immagine Profilo</h2>
-    <h3>aggiungi immagine profilo</h3>
+    <h2>Profile Picture</h2>
+    <h3>Add Profile Picture</h3>
     <form>
       <input type="file" id="postpropic" />
       <input type="button" value="submit" onclick="postProfilePicture()" />
     </form>
-    <h3>Mostra immagine profilo</h3>
+    <h3>Show Profile Picture</h3>
     <form>
       <input type="text" name="userfield" id="profileField" />
       <input
@@ -56,10 +56,10 @@
       />
     </form>
     <div id="profilePicture"></div>
-    <h1>Prodotti</h1>
-    <h2>Ottieni i prodotti</h2>
-    <button onclick="getAllProducts()">get all products</button>
-    <h2>Crea prodotto contenente</h2>
+    <h1>Products</h1>
+    <h2>Get Products</h2>
+    <button onclick="getAllProducts()">Get All Products</button>
+    <h2>Create New Product</h2>
     <form>
       <input type="text" name="title" id="title" placeholder="title" />
       <input type="text" name="info" id="prodinfo" placeholder="info" />
@@ -79,7 +79,7 @@
       <input type="file" name="prodphotos" id="prodphotos" multiple />
       <input type="button" onclick="createProducts()" value="add product" />
     </form>
-    <h2>Modifica un prodotto</h2>
+    <h2>Edit A Product</h2>
     <form>
       <input type="text" id="patchprodid" placeholder="id" />
       <input type="text" id="patchprodtitle" placeholder="title" />
@@ -95,21 +95,19 @@
       <input type="button" value="edit product" onclick="patchProduct()" />
     </form>
 
-    <h3>Immagini per animali</h3>
-
-    <h1>Animali</h1>
-    <h2>Ottieni animali</h2>
-    <button onclick="getPets()">Ottieni animali</button>
-    <h2>Aggiungere animali</h2>
+    <h1>Pets</h1>
+    <h2>Get Pets</h2>
+    <button onclick="getPets()">Get Pets</button>
+    <h2>Add Pets</h2>
     <form>
       <input type="text" name="petname" id="petname" placeholder="nome" />
       <input type="text" id="postpettype" placeholder="type" />
       <input type="text" id="postpetrace" placeholder="race" />
       <input type="number" id="postpetchage" placeholder="age" />
       <input type="file" name="petimages" id="petimages" multiple />
-      <button type="button" onclick="addPets()">add pet</button>
+      <button type="button" onclick="addPets()">Add Pets</button>
     </form>
-    <h2>Modifica un animale</h2>
+    <h2>Edit A Pet</h2>
     <!-- TODO -->
     <form>
       <input type="text" id="patchpetname" placeholder="nome" />
@@ -119,13 +117,13 @@
       <input type="file" id="patchpetimages" multiple />
       <input type="button" onclick="patchPets()" value="modifica animale" />
     </form>
-    <h2>Elimina un animale</h2>
+    <h2>Delete A Pet</h2>
     <form>
       <input type="text" id="deletepetid" placeholder="id" />
       <input type="button" value="delete pet" onclick="deletePet()" />
     </form>
-    <h1>Post</h1>
-    <h2>Crea post con immagini</h2>
+    <h1>Posts</h1>
+    <h2>Add A Post</h2>
     <form>
       <input type="text" id="posttitle" placeholder="title" />
       <input type="text" id="post" placeholder="post" />
@@ -134,7 +132,7 @@
     </form>
 
     <h1>Services</h1>
-    <h2>Crea service con immagini</h2>
+    <h2>Add A Service</h2>
     <form>
       <input type="text" name="sername" id="sername" placeholder="name" />
       <input type="text" name="serloc" id="serloc" placeholder="location" />
@@ -163,14 +161,14 @@
         placeholder="close time"
       />
       <input type="text" name="sertype" id="sertype" placeholder="type" />
-      <label for="seronline">online</label>
+      <label for="seronline">Online</label>
       <input type="checkbox" name="seronline" id="seronline" />
       <input type="text" name="serinfo" id="serinfo" placeholder="info" />
       <input type="file" name="serimages" id="serimages" multiple />
       <input type="button" value="create service" onclick="createService()" />
     </form>
     <h1>Gallery</h1>
-    <h2>crea una immagine nella gallery</h2>
+    <h2>Add Image To Gallery</h2>
     <form>
       <input type="text" id="galtitle" placeholder="title" />
       <input type="text" id="gallocation" placeholder="location" />
