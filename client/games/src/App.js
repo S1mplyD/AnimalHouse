@@ -17,9 +17,7 @@ function App() {
   const [game, setGame] = useState("");
 
   const getQuestions = async () => {
-    const rawData = await axios.get(
-      "http://localhost:8000/api/getTrivia/medium"
-    );
+    const rawData = await axios.get("/api/getTrivia/medium");
     setQuestions(rawData.data);
   };
 

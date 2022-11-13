@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import React, { useState } from "react";
-import ADs from "./ADs";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import path from "path";
 
 function Home({
   getQuestions,
@@ -24,7 +23,7 @@ function Home({
   }, []);
 
   const getAds = async () => {
-    await axios.get("http://localhost:8000/api/ads").then((res) => {
+    await axios.get("/api/ads").then((res) => {
       if (res.data != null) {
         setAds(res.data);
         setLoading(false);
@@ -132,7 +131,7 @@ function Home({
         <div className=" p-2 ">
           <img
             className="w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
-            src={require("/home/luca/Documents/GitHub/AnimalHouse/client/games/src/1652541244672.png")}
+            src={require(path.join(__dirname, "../1652541244672.png"))}
             alt="quiz game"
             onClick={handleQuiz}
           />
@@ -140,7 +139,7 @@ function Home({
         <div className=" p-2">
           <img
             className=" w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
-            src={require("/home/luca/Documents/GitHub/AnimalHouse/client/games/src/animali-selvatici.jpg")}
+            src={require(path.join(__dirname, "../animali-selvatici.jpg"))}
             alt="memory game"
             onClick={handleMemory}
           />
@@ -148,13 +147,13 @@ function Home({
         <div className="p-2">
           <img
             className="w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
-            src={require("/home/luca/Documents/GitHub/AnimalHouse/client/games/src/hangmanGame.jpg")}
+            src={require(path.join(__dirname, "../hangmanGame.jpg"))}
             alt="hangman game"
             onClick={handleHangMan}
           />
         </div>
       </div>
-      {loading ? "null" : <ADs ads={ads}></ADs>}
+      {/* {loading ? "null" : <ADs ads={ads}></ADs>} */}
     </div>
   );
 }
