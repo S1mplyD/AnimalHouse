@@ -1,17 +1,5 @@
 //Funzionanti
 
-const axios = require("axios");
-
-async function setAvatar() {
-  let avatar = document.querySelector("#avatar");
-  console.log(avatar.files);
-  let formData = new FormData();
-  formData.append("image", avatar.files[0]);
-  fetch("/api/images/user", {
-    method: "post",
-    body: formData,
-  });
-}
 async function addPets() {
   axios
     .post("/api/pets", {
@@ -215,5 +203,32 @@ async function getAllProducts() {
   });
 }
 async function postProfilePicture() {
-  axios.post("/api/images/user", formData);
+  let image = document.querySelector("#postpropic");
+  const formData = new FormData();
+  console.log(image.files[0]);
+  formData.append("image", image.files[0]);
+  axios
+    .post("/api/images/user", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+    .then((res) => {
+      console.log(res);
+    });
 }
+async function showProfilePicture() {
+  let div = document.getElementById("profilePicture");
+  let user = document.getElementById("profileField").value;
+  axios.get("/api/users/user", { params: { userfield: user } }).then((res) => {
+    let profilePicture = document.createElement("img");
+    profilePicture.src = "/uploads/" + res.data[0].profilePicture;
+    div.appendChild(profilePicture);
+  });
+}
+
+async function getPets() {
+  axios.get("/api/pets").then((res) => {
+    console.log(res.data);
+  });
+}
+
+async function patchPets() {}

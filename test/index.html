@@ -43,28 +43,23 @@
     <h2>Immagine Profilo</h2>
     <h3>aggiungi immagine profilo</h3>
     <form>
-      <input type="file" id="postpropic">
-      <input type="button" value="submit" onclick="postProfilePicture()">
+      <input type="file" id="postpropic" />
+      <input type="button" value="submit" onclick="postProfilePicture()" />
     </form>
+    <h3>Mostra immagine profilo</h3>
+    <form>
+      <input type="text" name="userfield" id="profileField" />
+      <input
+        type="button"
+        value="Show profile picture"
+        onclick="showProfilePicture()"
+      />
+    </form>
+    <div id="profilePicture"></div>
     <h1>Prodotti</h1>
     <h2>Ottieni i prodotti</h2>
     <button onclick="getAllProducts()">get all products</button>
-    <h2>Modifica un prodotto</h2>
-    <form>
-      <input type="text" id="patchprodid" placeholder="id" />
-      <input type="text" id="patchprodtitle" placeholder="title" />
-      <input type="text" id="patchprodinfo" placeholder="info" />
-      <input type="text" id="patchprodprice" placeholder="price" />
-      <input
-        type="text"
-        id="patchproddisprice"
-        placeholder="discounted price"
-      />
-      <input type="text" id="patchprodcat" placeholder="categories" />
-      <input type="file" id="patchprodphotos" multiple />
-      <input type="button" value="edit product" onclick="patchProduct()" />
-    </form>
-    <h2>Crea oggetto contenente immagini</h2>
+    <h2>Crea prodotto contenente</h2>
     <form>
       <input type="text" name="title" id="title" placeholder="title" />
       <input type="text" name="info" id="prodinfo" placeholder="info" />
@@ -84,20 +79,50 @@
       <input type="file" name="prodphotos" id="prodphotos" multiple />
       <input type="button" onclick="createProducts()" value="add product" />
     </form>
-
-    <h4>Avatar</h4>
+    <h2>Modifica un prodotto</h2>
     <form>
-      <input type="file" name="avatar" id="avatar" />
-      <button type="button" onclick="setAvatar()">set Avatar</button>
+      <input type="text" id="patchprodid" placeholder="id" />
+      <input type="text" id="patchprodtitle" placeholder="title" />
+      <input type="text" id="patchprodinfo" placeholder="info" />
+      <input type="text" id="patchprodprice" placeholder="price" />
+      <input
+        type="text"
+        id="patchproddisprice"
+        placeholder="discounted price"
+      />
+      <input type="text" id="patchprodcat" placeholder="categories" />
+      <input type="file" id="patchprodphotos" multiple />
+      <input type="button" value="edit product" onclick="patchProduct()" />
     </form>
+
     <h3>Immagini per animali</h3>
 
     <h1>Animali</h1>
+    <h2>Ottieni animali</h2>
+    <button onclick="getPets()">Ottieni animali</button>
     <h2>Aggiungere animali</h2>
     <form>
-      <input type="text" name="petname" id="petname" />
+      <input type="text" name="petname" id="petname" placeholder="nome" />
+      <input type="text" id="postpettype" placeholder="type" />
+      <input type="text" id="postpetrace" placeholder="race" />
+      <input type="number" id="postpetchage" placeholder="age" />
       <input type="file" name="petimages" id="petimages" multiple />
       <button type="button" onclick="addPets()">add pet</button>
+    </form>
+    <h2>Modifica un animale</h2>
+    <!-- TODO -->
+    <form>
+      <input type="text" id="patchpetname" placeholder="nome" />
+      <input type="text" id="patchpettype" placeholder="type" />
+      <input type="text" id="patchpetrace" placeholder="race" />
+      <input type="number" id="petpatchage" placeholder="age" />
+      <input type="file" id="patchpetimages" multiple />
+      <input type="button" onclick="patchPets()" value="modifica animale" />
+    </form>
+    <h2>Elimina un animale</h2>
+    <form>
+      <input type="text" id="deletepetid" placeholder="id" />
+      <input type="button" value="delete pet" onclick="deletePet()" />
     </form>
     <h1>Post</h1>
     <h2>Crea post con immagini</h2>
@@ -155,7 +180,7 @@
       <input type="button" value="add photo" onclick="createGallery()" />
     </form>
     <script src="test.js">
-      
+
 
       //Non funzionanti / Da testare
       // TODO: createNews
