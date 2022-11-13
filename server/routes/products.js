@@ -10,8 +10,10 @@ router
    */
   .get(async (req, res) => {
     try {
-      const products = await Product.find();
-      res.send(products);
+      if (req.user != null) {
+        const products = await Product.find();
+        res.send(products);
+      }
     } catch (error) {
       console.log(error);
     }
