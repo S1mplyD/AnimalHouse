@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const path = require("path");
 const fs = require("fs");
 const Pet = require("../models/pet.model");
 const User = require("../models/user.model");
@@ -11,9 +12,11 @@ router
    */
   .get(async (req, res) => {
     try {
-      await Pet.find().then((pets) => {
-        res.status(200).send(pets);
-      });
+      if (req.user != null) {
+        await Pet.find().then((pets) => {
+          res.status(200).send(pets);
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -89,7 +92,10 @@ router
             .then(async (pet) => {
               for (let i = 0; i < pet.pictures.length; i++) {
                 await fs.unlink(
-                  __foldername + "/server/Images/" + pet.pictures[i],
+                  path.join(
+                    __dirname,
+                    "../../public/uploads/" + pet.pictures[i]
+                  ),
                   (err) => {
                     if (err) console.log(err);
                   }
@@ -106,7 +112,7 @@ router
                 .then(async (pet) => {
                   for (let i = 0; i < pet.pictures.length; i++) {
                     await fs.unlink(
-                      __foldername + "/server/Images/" + pet.pictures[i],
+                      "../../public/uploads/" + pet.pictures[i],
                       (err) => {
                         if (err) console.log(err);
                       }
