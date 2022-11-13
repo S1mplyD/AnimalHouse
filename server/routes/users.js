@@ -95,15 +95,17 @@ router
    */
   .get(async (req, res) => {
     try {
-      await User.find({
-        $or: [
-          { name: req.query.userfield },
-          { username: req.query.userfield },
-          { mail: req.query.userfield },
-        ],
-      }).then((users) => {
-        res.status(200).send(users);
-      });
+      if (req.user != null) {
+        await User.find({
+          $or: [
+            { name: req.query.userfield },
+            { username: req.query.userfield },
+            { mail: req.query.userfield },
+          ],
+        }).then((users) => {
+          res.status(200).send(users);
+        });
+      }
     } catch (error) {
       console.log(error);
     }
