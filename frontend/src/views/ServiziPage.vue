@@ -79,7 +79,7 @@ import axios from 'axios'
 export default {
   name: 'ServiziPage',
   mounted () {
-    axios.get('http://localhost:8000/api/services')
+    axios.get('https://site212211.tw.cs.unibo.it/api/services')
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           console.log(response.data[i])

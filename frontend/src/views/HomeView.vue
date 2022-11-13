@@ -6,14 +6,8 @@
     <p id="shoptext">Do you want to see other pics? <router-link :to="{name: 'gallery'}" class="routerlink">Go to our Gallery!</router-link></p>
     <div class="overflow-auto" id="photodiv">
     <ul>
-      <li v-for="photo in gallery">
-        <img class="Imageshow1" v-if="photo.id==0" :src="thumbUrl(photo.filename)"/>
-      </li>
-      <li v-for="photo in gallery">
-        <img class="Imageshow2" v-if="photo.id==1" :src="thumbUrl(photo.filename)"/>
-      </li>
-      <li v-for="photo in gallery">
-        <img class="Imageshow3" v-if="photo.id==2" :src="thumbUrl(photo.filename)"/>
+      <li v-for="photo in gallery" :key="photo">
+        <img class="Imageshow1" :src="'https://site212211.tw.cs.unibo.it/' + photo.filename"/>
       </li>
     </ul>
     </div>
@@ -40,25 +34,25 @@
           <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
           <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
           <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-          <button type="button" data-bs-target="#carousel" data-bs-slide-to="3" aria-label="Slide 3"></button>
-          <button type="button" data-bs-target="#carousel" data-bs-slide-to="4" aria-label="Slide 3"></button>
+          <button type="button" data-bs-target="#carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+          <button type="button" data-bs-target="#carousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
         </div>
-        <div class="carousel-inner"  style="border-radius: 25px">
-          <div class="carousel-item active">
-            <img src="@/assets/bg-1.jpg" class="d-block w-100" alt="">
-          </div>
-          <div class="carousel-item">
-            <img src="@/assets/bg-2.jpg" class="d-block w-100" alt="">
-          </div>
-          <div class="carousel-item">
-            <img src="@/assets/bg-3.jpg" class="d-block w-100" alt="">
-          </div>
-          <div class="carousel-item">
-            <img src="@/assets/bg-4.jpg" class="d-block w-100" alt="">
-          </div>
-          <div class="carousel-item">
-            <img src="@/assets/bg-5.jpg" class="d-block w-100" alt="">
-          </div>
+        <div class="carousel-inner" style="border-radius: 25px">
+              <div class="carousel-item active">
+                <img :src="'https://site212211.tw.cs.unibo.it/' + products[0].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
+              </div>
+              <div class="carousel-item">
+                <img :src="'https://site212211.tw.cs.unibo.it/' + products[1].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
+              </div>
+              <div class="carousel-item">
+                <img :src="'https://site212211.tw.cs.unibo.it/' + products[2].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
+              </div>
+              <div class="carousel-item">
+                <img :src="'https://site212211.tw.cs.unibo.it/' + products[3].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
+              </div>
+              <div class="carousel-item">
+                <img :src="'https://site212211.tw.cs.unibo.it/' + products[4].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
+              </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -86,12 +80,16 @@ import axios from 'axios'
 export default {
   name: 'HomeView',
   mounted () {
-    axios.get('http://localhost:8000/api/products')
+    axios.get('https://site212211.tw.cs.unibo.it/api/products')
       .then((response) => {
-        console.log(response.data)
-        this.products = response.data
+        for (let i = 0; i < response.data.length; i++) {
+          console.log(response.data[i])
+          if (i < 5) {
+            this.products.push(response.data[i])
+          }
+        }
       })
-    axios.get('http://localhost:8000/api/posts')
+    axios.get('https://site212211.tw.cs.unibo.it/api/posts')
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           console.log(response.data[i])
@@ -101,10 +99,14 @@ export default {
         }
       })
 
-    axios.get('http://localhost:8000/api/gallery')
+    axios.get('https://site212211.tw.cs.unibo.it/api/gallery')
       .then((response) => {
-        console.log(response.data)
-        this.gallery = response.data
+        for (let i = 0; i < response.data.length; i++) {
+          console.log(response.data[i])
+          if (i < 5) {
+            this.gallery.push(response.data[i])
+          }
+        }
       })
   },
   components: { HomeHeaderVue, SiteFooterVue, CarouselMain, SlideImage },
@@ -122,9 +124,6 @@ export default {
   methods: {
     goToShop () {
       return this.$router.push('/shop')
-    },
-    thumbUrl (filename) {
-      return require(`@/assets/images/thumbnails/${filename}`)
     }
   }
 }
@@ -158,6 +157,7 @@ export default {
   text-align: center;
   width: 30%;
   height:100%;
+  object-fit: cover;
   background: rgb(60, 121, 150);
   padding: 20px;
   .Imageshow1{
@@ -231,5 +231,9 @@ export default {
 #photodiv::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
 }
-
+#carousel-image{
+  height: 500px;
+  width: 680px;
+  object-fit: cover;
+}
 </style>

@@ -118,20 +118,7 @@ passport.use(
   })
 );
 
-router.post("/login", passport.authenticate("local"), function (req, res) {
-  res.json();
-});
-
-router.post("/register", passport.authenticate("local-signup"), (req, res) => {
-  res.json();
-});
-
-passport.deserializeUser((id, done) => {
-  User.findById(id).then((user) => {
-    done(null, user);
-  });
-});
-
+//TODO: user already existing
 passport.use(
   "local-signup",
   new LocalStrategy(
@@ -160,6 +147,80 @@ passport.use(
   )
 );
 
+router.post("/login", passport.authenticate("local"), function (req, res) {
+  res.json();
+});
+
+router.post("/register", passport.authenticate("local-signup"), (req, res) => {
+  res.json();
+});
+router.route("/isAuthenticated").get(async (req, res) => {
+  if (req.user != null) {
+    res.send(req.user);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
+// router.post("/register", async (req, res) => {
+//
+//   User.create({
+//     name: req.body.name,
+//     username: req.body.username,
+//     mail: req.body.mail,
+//     password: encryptedPassword,
+//     admin: false,
+//   }).then((user) => {
+
+//   });
+//   // req.login();
+//   res.json("registrazione avvenuta con successo");
+// });
+
+// passport.use('local-signup', new LocalStrategy({
+//   // by default, local strategy uses username and password, we will override with email
+//   usernameField : 'email',
+//   passwordField : 'password',
+//   passReqToCallback : true // allows us to pass back the entire request to the callback
+// },
+// function(req, email, password, done) {
+
+//   // find a user whose email is the same as the forms email
+//   // we are checking to see if the user trying to login already exists
+//   User.findOne({ 'local.email' :  email }, function(err, user) {
+//       // if there are any errors, return the error
+//       if (err)
+//           return done(err);
+
+//       // check to see if theres already a user with that email
+//       if (user) {
+//           return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+//       } else {
+
+//           // if there is no user with that email
+//           // create the user
+//           var newUser            = new User();
+
+//           // set the user's local credentials
+//           newUser.local.email    = email;
+//           newUser.local.password = newUser.generateHash(password);
+
+//           // save the user
+//           newUser.save(function(err) {
+//               if (err)
+//                   throw err;
+//               return done(null, newUser);
+//           });
+//       }
+
+// }));
+
+passport.deserializeUser((id, done) => {
+  User.findById(id).then((user) => {
+    done(null, user);
+  });
+});
+
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
@@ -170,15 +231,6 @@ router.get("/logout", (req, res) => {
     res.status(200).redirect("/");
   } catch (error) {
     console.log(error);
-  }
-});
-
-router.route("/isAuthenticated").get(async (req, res) => {
-  if (req.user != null) {
-    console.log(req.user);
-    res.send(req.user);
-  } else {
-    res.sendStatus(404);
   }
 });
 

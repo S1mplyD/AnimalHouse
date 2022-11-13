@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TEST PAGE</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+  </head>
+  <body onload="user()">
+    <h1 id="logStatus"></h1>
+    <h1>Users</h1>
+    <h2>Login</h2>
+    <form>
+      <input type="text" name="mail" id="mail" />
+      <input type="password" name="pass" id="pass" />
+      <button type="button" onclick="login()">Login</button>
+    </form>
+    <h2>Logout</h2>
+    <a href="/auth/logout">Logout</a>
+    <h2>Sign Up</h2>
+    <form>
+      <input type="text" name="regname" id="regname" placeholder="name" />
+      <input
+        type="text"
+        name="regusername"
+        id="regusername"
+        placeholder="username"
+      />
+      <input type="email" name="regmail" id="regmail" placeholder="mail" />
+      <input
+        type="password"
+        name="regpassword"
+        id="regpassword"
+        placeholder="password"
+      />
+      <input type="button" value="sign up" onclick="signUp()" />
+      <h2>Google</h2>
+      <a href="/auth/google">Google</a>
+      <h2>Twitter</h2>
+      <a href="/auth/twitter">Twitter</a>
+    </form>
+    <h2>Profile Image</h2>
+    <h3>Add profile image</h3>
+    <form>
+      <input type="file" id="postpropic" />
+      <input type="button" value="submit" onclick="postProfilePicture()" />
+    </form>
+    <h3>Show profile image</h3>
+    <form>
+      <input type="text" name="userfield" id="profileField" />
+      <input
+        type="button"
+        value="Show profile picture"
+        onclick="showProfilePicture()"
+      />
+    </form>
+    <div id="profilePicture"></div>
+    <h1>Products</h1>
+    <h2>Get all products</h2>
+    <button onclick="getAllProducts()">Get all products</button>
+    <h2>Create a product</h2>
+    <form>
+      <input type="text" name="title" id="title" placeholder="title" />
+      <input type="text" name="info" id="prodinfo" placeholder="info" />
+      <input type="number" name="price" id="price" placeholder="price" />
+      <input
+        type="number"
+        name="disprice"
+        id="disprice"
+        placeholder="discounted price"
+      />
+      <input
+        type="text"
+        name="categories"
+        id="categories"
+        placeholder="categories"
+      />
+      <input type="file" name="prodphotos" id="prodphotos" multiple />
+      <input type="button" onclick="createProducts()" value="add product" />
+    </form>
+    <h2>Modify a product</h2>
+    <form>
+      <input type="text" id="patchprodid" placeholder="id" />
+      <input type="text" id="patchprodtitle" placeholder="title" />
+      <input type="text" id="patchprodinfo" placeholder="info" />
+      <input type="text" id="patchprodprice" placeholder="price" />
+      <input
+        type="text"
+        id="patchproddisprice"
+        placeholder="discounted price"
+      />
+      <input type="text" id="patchprodcat" placeholder="categories" />
+      <input type="file" id="patchprodphotos" multiple />
+      <input type="button" value="edit product" onclick="patchProduct()" />
+    </form>
+
+    <h3>Images for pets</h3>
+
+    <h1>Pets</h1>
+    <h2>Get pets</h2>
+    <button onclick="getPets()">Get pets</button>
+    <h2>Add pets</h2>
+    <form>
+      <input type="text" name="petname" id="petname" placeholder="nome" />
+      <input type="text" id="postpettype" placeholder="type" />
+      <input type="text" id="postpetrace" placeholder="race" />
+      <input type="number" id="postpetchage" placeholder="age" />
+      <input type="file" name="petimages" id="petimages" multiple />
+      <button type="button" onclick="addPets()">Add pet</button>
+    </form>
+    <h2>Modify a pet</h2>
+    <!-- TODO -->
+    <form>
+      <input type="text" id="patchpetname" placeholder="nome" />
+      <input type="text" id="patchpettype" placeholder="type" />
+      <input type="text" id="patchpetrace" placeholder="race" />
+      <input type="number" id="petpatchage" placeholder="age" />
+      <input type="file" id="patchpetimages" multiple />
+      <input type="button" onclick="patchPets()" value="modifica animale" />
+    </form>
+    <h2>Delete a pet</h2>
+    <form>
+      <input type="text" id="deletepetid" placeholder="id" />
+      <input type="button" value="delete pet" onclick="deletePet()" />
+    </form>
+    <h1>Posts</h1>
+    <h2>Create a post with pets</h2>
+    <form>
+      <input type="text" id="posttitle" placeholder="title" />
+      <input type="text" id="post" placeholder="post" />
+      <input type="file" name="postimages" id="postimages" multiple />
+      <input type="button" value="create post" onclick="createPost()" />
+    </form>
+
+    <h1>Services</h1>
+    <h2>Create service with images</h2>
+    <form>
+      <input type="text" name="sername" id="sername" placeholder="name" />
+      <input type="text" name="serloc" id="serloc" placeholder="location" />
+      <input
+        type="number"
+        name="sercoor"
+        id="sercoor"
+        placeholder="coordinate"
+      />
+      <input
+        type="number"
+        name="seropdays"
+        id="seropdays"
+        placeholder="open days"
+      />
+      <input
+        type="text"
+        name="seroptime"
+        id="seroptime"
+        placeholder="open time"
+      />
+      <input
+        type="text"
+        name="sercltime"
+        id="sercltime"
+        placeholder="close time"
+      />
+      <input type="text" name="sertype" id="sertype" placeholder="type" />
+      <label for="seronline">Online</label>
+      <input type="checkbox" name="seronline" id="seronline" />
+      <input type="text" name="serinfo" id="serinfo" placeholder="info" />
+      <input type="file" name="serimages" id="serimages" multiple />
+      <input type="button" value="create service" onclick="createService()" />
+    </form>
+    <h1>Gallery</h1>
+    <h2>Create an image in the Gallery</h2>
+    <form>
+      <input type="text" id="galtitle" placeholder="title" />
+      <input type="text" id="gallocation" placeholder="location" />
+      <input type="text" id="galphoname" placeholder="photographer name" />
+      <input type="url" id="galphourl" placeholder="photographer url" />
+      <input type="file" id="galphoto" />
+      <input type="button" value="add photo" onclick="createGallery()" />
+    </form>
+    <script src="test.js">
+
+
+      //Non funzionanti / Da testare
+      // TODO: createNews
+      async function createNews() {
+        // axios
+        //   .post("http://localhost:8000/api/news", {
+        //     name: document.getElementById("sername").value,
+        //     location: document.getElementById("serloc").value,
+        //     coordinate: document.getElementById("sercoor").value,
+        //     openDays: document.getElementById("seropdays").value,
+        //     openTime: document.getElementById("seroptime").value,
+        //     closeTime: document.getElementById("sercltime").value,
+        //     type: document.getElementById("sertype").value,
+        //     online: document.getElementById("seronline").checked,
+        //     info: document.getElementById("serinfo").value,
+        //   })
+        //   .then((res) => {
+        //     let images = document.querySelector("#serimages");
+        //     const formData = new FormData();
+        //     for (let i = 0; i < images.files.length; i++) {
+        //       formData.append("images", images.files[i]);
+        //     }
+        //     let id = res.data._id;
+        //     axios
+        //       .post(
+        //         "http://localhost:8000/api/images/news",
+        //         formData,
+        //         {
+        //           params: { id: id },
+        //         },
+        //         {
+        //           headers: { "Content-Type": "multipart/form-data" },
+        //         }
+        //       )
+        //       .then((res) => {
+        //         console.log(res);
+        //       });
+        //   });
+      }
+      async function showImage() {
+        fetch("/api/images/avatar", {
+          method: "get",
+        }).then(async (response) => {
+          const el = await response.text();
+          console.log(el);
+          document.getElementById("img").src = "http://localhost:8000/" + el;
+        });
+      }
+      async function showImages() {
+        await fetch("/api/images/petPhotos/62814f7009f4f4de1cbed9c4", {
+          method: "get",
+        }).then(async (response) => {
+          let els = await response.json();
+          els.forEach((element) => {
+            const elem = document.createElement("img");
+            elem.src = "http://localhost:8000/" + element;
+            document.getElementById("imgs").appendChild(elem);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

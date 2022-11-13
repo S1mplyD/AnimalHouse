@@ -20,7 +20,7 @@ import axios from 'axios'
 export default {
   name: 'SelectionPage',
   mounted () {
-    axios.get('http://localhost:8000/api/services')
+    axios.get('https://site212211.tw.cs.unibo.it/api/services')
       .then((response) => {
         this.services = response.data
       })

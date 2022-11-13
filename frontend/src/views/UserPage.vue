@@ -9,10 +9,19 @@
     <div class="card" id="usercard">
       <div class="card-body">
         <h2 class="card-title">Personal Data:</h2>
-        <p class="card-text">Name: {{user[0].name}} <br>
-        Username: {{user[0].username}} <br>
-        Mail address: {{user[0].mail}} <br>
-        List of pets: {{user[0].ownedAnimals}}</p>
+        <p class="card-text" id="userinfo">
+          <b>Name:</b> {{user[0].name}} <br>
+          <b>Username:</b> {{user[0].username}} <br>
+          <b>Mail address:</b> {{user[0].mail}} <br>
+          <b>List of pets:</b> {{pets}}
+        </p>
+        <label for="petname">Name of the pet to add</label>
+        <input id="petname" type="text" class="form-control form-control-lg" />
+        <button type="button" class="btn btn-dark btn-lg btn-block" id="addpets" @click="addPets()">Add a new pet</button>
+        <br>
+        <label for="petname2">Name of the pet to remove</label>
+        <input id="petname2" type="text" class="form-control form-control-lg" />
+        <button type="button" class="btn btn-dark btn-lg btn-block" id="addpets" @click="removePets()">Remove the pet</button>
       </div>
     </div>
   </section>
@@ -26,16 +35,46 @@ import SiteFooterVue from '@/components/SiteFooter.vue'
 export default {
   name: 'UserPage',
   mounted () {
-    axios.get('http://localhost:8000/auth/isAuthenticated')
+    axios.get('https://site212211.tw.cs.unibo.it/auth/isAuthenticated')
       .then((response) => {
         this.user.push(response.data)
         console.log(this.user.length)
+      })
+    axios.get('https://site212211.tw.cs.unibo.it/api/users/userPets')
+      .then((response) => {
+        this.pets.push(response.data)
+        console.log(this.pets.length)
       })
   },
   components: { SiteFooterVue },
   data () {
     return {
-      user: []
+      user: [],
+      pets: []
+    }
+  },
+  methods: {
+    addPets: async function () {
+      const pet = {
+        name: document.getElementById('petname').value
+      }
+      console.log(document.getElementById('petname').value)
+      fetch('https://site212211.tw.cs.unibo.it/api/pets', {
+        method: 'post',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(pet)
+      })
+    },
+    removePets: async function () {
+      console.log(document.getElementById('petname').value)
+      fetch('https://site212211.tw.cs.unibo.it/api/pets?pet=' + document.getElementById('petname2').value, {
+        method: 'delete',
+        headers: {
+          'Content-type': 'application/json'
+        }
+      })
     }
   }
 }

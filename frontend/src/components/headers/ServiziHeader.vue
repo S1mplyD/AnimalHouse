@@ -37,7 +37,7 @@ import axios from 'axios'
 export default {
   name: 'ServiziHeader',
   mounted () {
-    axios.get('http://localhost:8000/auth/isAuthenticated')
+    axios.get('https://site212211.tw.cs.unibo.it/auth/isAuthenticated')
       .then((response) => {
         this.user.push(response.data)
         console.log(this.user.length)

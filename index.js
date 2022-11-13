@@ -1,7 +1,8 @@
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
-require("dotenv").config({ path: "./.env" });
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 const productsRoute = require("./server/routes/products");
 const petsRoute = require("./server/routes/pets");
 const usersRoute = require("./server/routes/users");
@@ -16,7 +17,8 @@ const postRoute = require("./server/routes/posts");
 const newsRoute = require("./server/routes/news");
 const galleryRoute = require("./server/routes/gallery");
 const servicesRoute = require("./server/routes/services");
-global.__foldername = __dirname;
+//const adsRoute = require("./server/routes/ADs");
+
 
 const app = express();
 
@@ -36,9 +38,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/backoffice/", express.static(__foldername + "/backoffice/test"));
-//app.use("/games", express.static(__foldername + "/client/games/build"));
-app.use(express.static(__foldername + "/server/Images"));
+app.use("/test", express.static(path.join(__dirname , "test")));
+app.use("/games", express.static(path.join(__dirname , "client/games/build")));
+app.use("/", express.static(path.join(__dirname , "frontend/dist")));
+app.use(express.static( path.join(__dirname , "public")));
 /**
  * API routes
  */
@@ -52,7 +55,7 @@ app.use("/api/posts", postRoute);
 app.use("/api/news", newsRoute);
 app.use("/api/gallery", galleryRoute);
 app.use("/api/services", servicesRoute);
-app.use(express.static(__foldername + "/frontend/dist"));
+//app.use("/api/ads", adsRoute);
 app.get("/api/getHolidays", async (req, res) => {
   const holiday = await getHolidays(
     req.body.day,

@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/user.model");
 const fs = require("fs");
+const Pet = require("../models/pet.model");
 
 router
   .route("/")
@@ -94,15 +95,17 @@ router
    */
   .get(async (req, res) => {
     try {
-      await User.find({
-        $or: [
-          { name: req.query.userfield },
-          { username: req.query.userfield },
-          { mail: req.query.userfield },
-        ],
-      }).then((users) => {
-        res.status(200).send(users);
-      });
+      if (req.user != null) {
+        await User.find({
+          $or: [
+            { name: req.query.userfield },
+            { username: req.query.userfield },
+            { mail: req.query.userfield },
+          ],
+        }).then((users) => {
+          res.status(200).send(users);
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -116,9 +119,7 @@ router
    */
   .patch(async (req, res) => {
     if (req.user.admin) {
-      await User.findByIdAndUpdate(req.query.id,
-        { admin: true }
-      ).then(() => {
+      await User.findByIdAndUpdate(req.query.id, { admin: true }).then(() => {
         res.sendStatus(200);
       });
     } else {
@@ -134,9 +135,7 @@ router
    */
   .patch(async (req, res) => {
     if (req.user.admin) {
-      await User.findByIdAndUpdate(req.query.id,
-        { admin: false }
-      ).then(() => {
+      await User.findByIdAndUpdate(req.query.id, { admin: false }).then(() => {
         res.sendStatus(200);
       });
     } else {
@@ -144,4 +143,21 @@ router
     }
   });
 
+router.route("/userPets").get(async (req, res) => {
+  try {
+    if (req.user != null) {
+      await Pet.find({ owner: req.user.username }).then((pets) => {
+        let petNames = [];
+        pets.forEach((el) => {
+          petNames.push(el.name);
+        });
+        res.send(petNames);
+      });
+    } else {
+      res.sendStatus(401);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
 module.exports = router;

@@ -23,7 +23,6 @@ router
   .post(async (req, res) => {
     try {
       if (req.user.admin) {
-        let date = req.body.open;
         await Service.create({
           name: req.body.name,
           location: req.body.location,
@@ -32,9 +31,10 @@ router
           openTime: req.body.openTime,
           closeTime: req.body.closeTime,
           type: req.body.type,
+          online: req.body.online,
           info: req.body.info,
-        }).then(() => {
-          res.sendStatus(201);
+        }).then((service) => {
+          res.status(201).send(service);
         });
       } else {
         res.sendStatus(401);

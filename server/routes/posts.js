@@ -35,33 +35,21 @@ router
   .post(async (req, res) => {
     try {
       if (req.user != null) {
-        const upload = multer({ storage: storage }).array("images");
-        upload(req, res, async (err) => {
-          if (err) {
-            console.log(err);
+        await Post.findOne({
+          $and: [{ post: req.body.post }, { user: req.user.username }],
+        }).then(async (post) => {
+          if (!post) {
+            await Post.create({
+              title: req.body.title,
+              user: req.user.username,
+              date: Date(),
+              post: req.body.post,
+              post_summary: `${req.body.post.slice(0, 141)}...`,
+            }).then((post) => {
+              res.status(201).send(post);
+            });
           } else {
-            const imagesAddr = [];
-            res.req.files.forEach((element) => {
-              imagesAddr.push(element.filename);
-            });
-            let data = JSON.parse(req.body.data);
-            await Post.findOne({
-              $and: [{ post: data.post }, { user: req.user.username }],
-            }).then(async (post) => {
-              if (!post) {
-                await Post.create({
-                  title: data.title,
-                  user: req.user.username,
-                  date: Date(),
-                  post: data.post,
-                  post_summary: `${data.post.slice(0, 141)}...`,
-                  photos: imagesAddr,
-                });
-                res.sendStatus(201);
-              } else {
-                res.send("Post already existing");
-              }
-            });
+            res.send("Post already existing");
           }
         });
       } else {
@@ -108,14 +96,14 @@ router
         if (req.user.admin) {
           await Post.findOneAndDelete({ _id: req.query.id })
             .then(async (post) => {
-              for(let i=0; i<post.length; i++){
+              for (let i = 0; i < post.length; i++) {
                 await fs.unlink(
                   __foldername + "/server/Images/" + post[i],
                   (err) => {
                     if (err) console.log(err);
                   }
                 );
-              };
+              }
             })
             .then(() => {
               res.sendStatus(200);
@@ -123,9 +111,9 @@ router
         } else {
           await Post.findById(req.query.id).then(async (post) => {
             if (post.user == req.user.username) {
-              post.forEach(async (el) => {
-                fs.unlink(
-                  __foldername + "/server/Images/" + el,
+              for (let i = 0; i < post.length; i++) {
+                await fs.unlink(
+                  __foldername + "/server/Images/" + post[i],
                   async (err) => {
                     if (err) {
                       console.log(err);
@@ -136,7 +124,7 @@ router
                     }
                   }
                 );
-              });
+              }
             }
           });
         }
@@ -159,9 +147,9 @@ router.route("/addImages").post(async (req, res) => {
               console.log(err);
             } else {
               const imagesAddr = [];
-              res.req.files.forEach((element) => {
-                imagesAddr.push(element.filename);
-              });
+              for (let i = 0; i < res.req.files.length; i++) {
+                imagesAddr.push(res.req.files[i].filename);
+              }
               await Post.findByIdAndUpdate(req.query.id, {
                 $push: {
                   pictures: {
@@ -182,9 +170,9 @@ router.route("/addImages").post(async (req, res) => {
                 console.log(err);
               } else {
                 const imagesAddr = [];
-                res.req.files.forEach((element) => {
-                  imagesAddr.push(element.filename);
-                });
+                for (let i = 0; i < res.req.files.length; i++) {
+                  imagesAddr.push(res.req.files[i].filename);
+                }
                 await Post.findByIdAndUpdate(req.query.id, {
                   $push: {
                     pictures: {
@@ -209,9 +197,9 @@ router.route("/removeImages").post(async (req, res) => {
   try {
     if (req.user != null) {
       if (req.user.admin) {
-        req.body.forEach(async (element) => {
-          await fs.unlink(
-            __foldername + "/server/Images/" + element,
+        for (let i = 0; i < req.body.length; i++) {
+          fs.unlink(
+            __foldername + "/server/Images/" + req.body[i],
             async (err) => {
               if (err) console.log(err);
               else {
@@ -227,13 +215,13 @@ router.route("/removeImages").post(async (req, res) => {
               }
             }
           );
-        });
+        }
       } else {
         await Post.findById(req.query.id).then((post) => {
           if (post.user == req.user.username) {
-            req.body.forEach(async (element) => {
-              await fs.unlink(
-                __foldername + "/server/Images/" + element,
+            for (let i = 0; i < req.body.length; i++) {
+              fs.unlink(
+                __foldername + "/server/Images/" + req.body[i],
                 async (err) => {
                   if (err) console.log(err);
                   else {
@@ -249,7 +237,7 @@ router.route("/removeImages").post(async (req, res) => {
                   }
                 }
               );
-            });
+            }
           }
         });
       }
