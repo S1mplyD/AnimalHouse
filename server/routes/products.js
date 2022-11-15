@@ -85,7 +85,7 @@ router
             .then(async (product) => {
               for (let i = 0; i < product.photos.length; i++) {
                 await fs.unlink(
-                  __foldername + "/server/Images/" + product.photos[i],
+                  path.join(__dirname, "../../public/" + product.photos[i]),
                   (err) => {
                     if (err) console.log(err);
                   }
@@ -102,7 +102,7 @@ router
                 .then(async () => {
                   for (let i = 0; i < product.photos.length; i++) {
                     await fs.unlink(
-                      __foldername + "/server/Images/" + product.photos[i],
+                      path.join(__dirname, "../../public/" + product.photos[i]),
                       (err) => {
                         if (err) console.log(err);
                       }
