@@ -1,81 +1,100 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function Hangman({ word, setWord }) {
-  const correctWord = word;
+export default function Hangman({ word, setWord, setScore, score }) {
+  const [correctWord, setCorrectWord] = useState(word.split(""));
+  const [wordarr, setWordArr] = useState(word.split(""));
+  const navigate = useNavigate();
+  const handleQuit = () => {
+    setWord("");
+    setScore(0);
+    navigate("/games");
+  };
   const [hangmanState, setHangmanState] = useState(0);
   useEffect(() => {
-    console.log(word);
-    document.getElementById("hiddenWord").innerText = hidWord();
-  });
+    console.log(wordarr);
+    let arr = [];
+    wordarr.forEach((el, i) => {
+      arr[i] = "_";
+    });
+    setWordArr(arr);
+    document.getElementById("hiddenWord").innerText = arr;
+  }, []);
 
+  //TODO sistemare punteggi
   const checkInput = () => {
     let inputWord = document.getElementById("inputWord");
-    console.log(inputWord.value);
+
     if (inputWord.value.length > 1) {
-      if (inputWord.value === word) {
+      if (
+        word.localeCompare(inputWord.value, "en", { sensitivity: "base" }) === 0
+      ) {
         alert("giusto");
+        setScore(word.length);
+        navigate("/result");
       } else {
         alert("sbagliato");
+        document.getElementById("inputWord").value = "";
         setHangmanState(hangmanState + 1);
       }
     } else {
-      if (word.includes(inputWord.value)) {
+      console.log("input: " + inputWord.value);
+      if (word.toLowerCase().includes(inputWord.value.toLowerCase())) {
         showLetter(inputWord.value);
+        document.getElementById("inputWord").value = "";
+        setScore(score + 1);
+        if (!wordarr.includes("_")) {
+          navigate("/result");
+        }
       } else {
+        document.getElementById("inputWord").value = "";
         setHangmanState(hangmanState + 1);
       }
     }
   };
 
-  const hidWord = () => {
-    return word.split("");
-  };
-
   const showLetter = (letter) => {
-    let i = word.indexOf(letter);
-    console.log(i);
-    let hidden = document.getElementById("hiddenWord");
-    console.log(hidden.innerText);
-    let newWord =
-      hidden.innerText.substring(0, i) +
-      letter +
-      hidden.innerText.substring(i + 1);
-    console.log(newWord);
-    hidden.innerText = newWord;
+    let correct = 0;
+    correctWord.forEach((el, index) => {
+      if (el.localeCompare(letter, "en", { sensitivity: "base" }) === 0) {
+        wordarr[index] = el;
+        console.log("inside showLetter: " + wordarr);
+        correct++;
+      }
+      // setScore(score + correct);
+      document.getElementById("hiddenWord").innerText = wordarr;
+    });
   };
   return (
-    <div className="d-flex flex-column align-items-center">
-      <div className="m-5 p-2 bg-white rounded w-50 ">
-        <div className="card ">
-          <img
-            src={require(`./Images/${hangmanState}.png`)}
-            className="card-img-top"
-            alt=""
-          ></img>
-          <div className="card-body">
-            <p
-              className="card-text text-white text-center fs-2"
-              id="hiddenWord"
-            ></p>
-            <div className="input-group">
-              <input
-                type="text"
-                name="inputWord"
-                id="inputWord"
-                placeholder="Insert a character or an entire word here"
-                className="form-control"
-              />
-              <button
-                type="button"
-                className="btn btn-light"
-                onClick={checkInput}
-              >
-                Check letter
-              </button>
-            </div>
-          </div>
-        </div>
+    <div className="flex flex-col items-center bg-white rounded m-2 my-20 md:mx-52">
+      <img src={require(`./Images/${hangmanState}.png`)} alt=""></img>
+
+      <p className=" text-center fs-2" id="hiddenWord">
+        {wordarr}
+      </p>
+
+      <input
+        type="text"
+        name="inputWord"
+        id="inputWord"
+        placeholder="Insert a character or an entire word here"
+        className=" my-10"
+      />
+      <div>
+        <button
+          type="button"
+          className="p-3 m-3 border-solid border-4 rounded-xl border-black"
+          onClick={checkInput}
+        >
+          Check letter
+        </button>
+        <button
+          type="button"
+          className="p-3 m-3 border-solid border-4 rounded-xl border-black"
+          onClick={handleQuit}
+        >
+          Quit
+        </button>
       </div>
     </div>
   );

@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import path from "path";
 
 function Home({
   getQuestions,
@@ -11,6 +13,23 @@ function Home({
   setGame,
 }) {
   const navigate = useNavigate();
+  const [ads, setAds] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    async function ads() {
+      await getAds();
+    }
+    ads();
+  }, []);
+
+  const getAds = async () => {
+    await axios.get("/api/ads").then((res) => {
+      if (res.data != null) {
+        setAds(res.data);
+        setLoading(false);
+      }
+    });
+  };
   const handleQuiz = async () => {
     setGame("quiz");
     await getQuestions();
@@ -31,7 +50,7 @@ function Home({
     <div>
       <div className="m-5 p-2 bg-white rounded ">
         <form className="bg-white flex flex-col items-center text-center">
-          <div className="m-2 p-2 bg-white">
+          <div className="m-2 p-2 bg-white flex flex-col">
             <label htmlFor="specie" className="bg-white">
               Animal species:
             </label>
@@ -43,7 +62,7 @@ function Home({
               placeholder="Enter animal species"
             />
           </div>
-          <div className="m-2 p-2 bg-white">
+          <div className="m-2 p-2 bg-white flex flex-col">
             <label htmlFor="name" className="bg-white">
               Animal name:
             </label>
@@ -55,12 +74,12 @@ function Home({
               placeholder="Enter animal name"
             />
           </div>
-          <div className="m-2 p-2 bg-white">
+          <div className="m-2 p-2 bg-white flex flex-col">
             <label htmlFor="gender" className="form-label bg-white">
               Animal gender:
             </label>
             <select
-              name=""
+              name="gender"
               id="gender"
               className="form-select rounded-xl mx-2"
               defaultValue="M"
@@ -73,7 +92,7 @@ function Home({
               </option>
             </select>
           </div>
-          <div className="m-2 p-2 bg-white">
+          <div className="m-2 p-2 bg-white flex flex-col">
             <label htmlFor="age" className="form-label bg-white">
               Animal age:
             </label>
@@ -85,7 +104,7 @@ function Home({
               placeholder="Enter animal age"
             />
           </div>
-          <div className="m-2 p-2 bg-white">
+          <div className="m-2 p-2 bg-white flex flex-col">
             <label htmlFor="medical" className="form-label bg-white">
               Enter eventual medical condition:
             </label>
@@ -100,41 +119,41 @@ function Home({
           </div>
           <div className="m-2 p-2 bg-white ">
             <input
-              type="submit"
+              type="button"
               value="Subimt"
               className="p-2 rounded-xl hover:bg-blue-700 bg-cyan-400 text-white"
+              onClick={() => {}}
             />
           </div>
         </form>
       </div>
-      <div className="m-5 bg-white rounded">
-        <div className="card-group bg-blue-500">
-          <div className="card p-2 ">
-            <img
-              className="card-img w-full h-80 object-cover bg-white cursor-pointer rounded-xl"
-              src={require("../1652541244672.png")}
-              alt="quiz game"
-              onClick={handleQuiz}
-            />
-          </div>
-          <div className="card p-2">
-            <img
-              className="card-img w-full h-80 object-cover bg-white cursor-pointer rounded-xl"
-              src={require("../animali-selvatici.jpg")}
-              alt="memory game"
-              onClick={handleMemory}
-            />
-          </div>
-          <div className="card p-2">
-            <img
-              className="card-img w-full h-80 object-cover bg-white cursor-pointer rounded-xl"
-              src={require("../hangmanGame.jpg")}
-              alt="hangman game"
-              onClick={handleHangMan}
-            />
-          </div>
+      <div className="m-5 rounded flex flex-col md:flex-row items-center md:justify-evenly  bg-blue-500">
+        <div className=" p-2 ">
+          <img
+            className="w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
+            src={require(path.join(__dirname, "../1652541244672.png"))}
+            alt="quiz game"
+            onClick={handleQuiz}
+          />
+        </div>
+        <div className=" p-2">
+          <img
+            className=" w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
+            src={require(path.join(__dirname, "../animali-selvatici.jpg"))}
+            alt="memory game"
+            onClick={handleMemory}
+          />
+        </div>
+        <div className="p-2">
+          <img
+            className="w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
+            src={require(path.join(__dirname, "../hangmanGame.jpg"))}
+            alt="hangman game"
+            onClick={handleHangMan}
+          />
         </div>
       </div>
+      {/* {loading ? "null" : <ADs ads={ads}></ADs>} */}
     </div>
   );
 }

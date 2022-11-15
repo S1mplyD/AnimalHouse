@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const path = require("path");
 const fs = require("fs");
 const Pet = require("../models/pet.model");
 const User = require("../models/user.model");
@@ -11,9 +12,11 @@ router
    */
   .get(async (req, res) => {
     try {
-      await Pet.find().then((pets) => {
-        res.status(200).send(pets);
-      });
+      if (req.user != null) {
+        await Pet.find().then((pets) => {
+          res.status(200).send(pets);
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -31,16 +34,15 @@ router
           race: req.body.race,
           owner: req.user.username, //Owner should be the user who is adding the pet
           age: req.body.age,
-        })
-          .then(async (pet) => {
-            await User.findOneAndUpdate(
-              { username: req.user.username },
-              { $push: { ownedAnimals: pet._id } }
-            );
-          })
-          .then(() => {
-            res.sendStatus(201);
+        }).then(async (pet) => {
+          await User.findOneAndUpdate(
+            { username: req.user.username },
+            { $push: { ownedAnimals: pet._id } },
+            { new: true }
+          ).then((newp) => {
+            res.status(201).send(newp);
           });
+        });
       } else {
         res.sendStatus(401);
       }
@@ -86,34 +88,36 @@ router
     try {
       if (req.user != null) {
         if (req.user.admin) {
-          await Pet.findOneAndDelete({ _id: req.query.petid })
+          await Pet.findOneAndDelete({ _id: req.query.pet })
             .then(async (pet) => {
-              pet.pictures.forEach(async (element) => {
+              for (let i = 0; i < pet.pictures.length; i++) {
                 await fs.unlink(
-                  __foldername + "/server/Images/" + element,
+                  path.join(
+                    __dirname,
+                    "../../public/uploads/" + pet.pictures[i]
+                  ),
                   (err) => {
                     if (err) console.log(err);
                   }
                 );
-              });
+              }
             })
             .finally(() => {
               res.sendStatus(200);
             });
         } else {
-          await Pet.findById(req.query.petid).then(async (pet) => {
+          await Pet.findOne({ name: req.query.pet }).then(async (pet) => {
             if (pet.owner == req.user.username) {
-              await Pet.findOneAndDelete({ _id: pet._id })
+              await Pet.findOneAndDelete({ name: pet.name })
                 .then(async (pet) => {
-                  console.log(pet);
-                  pet.pictures.forEach(async (element) => {
+                  for (let i = 0; i < pet.pictures.length; i++) {
                     await fs.unlink(
-                      __foldername + "/server/Images/" + element,
+                      "../../public/uploads/" + pet.pictures[i],
                       (err) => {
                         if (err) console.log(err);
                       }
                     );
-                  });
+                  }
                 })
                 .finally(() => {
                   res.sendStatus(200);
@@ -157,5 +161,8 @@ router
       console.log(error);
     }
   });
+//TODO: funzione per eliminare un pet tramite username
+
+router.route("/ownedPets").get(async (req, res) => {});
 
 module.exports = router;

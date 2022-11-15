@@ -10,8 +10,10 @@ router
    */
   .get(async (req, res) => {
     try {
-      const products = await Product.find();
-      res.send(products);
+      if (req.user != null) {
+        const products = await Product.find();
+        res.send(products);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -30,10 +32,9 @@ router
           price: req.body.price,
           discountedPrice: req.body.discountedPrice,
           categories: req.body.categories,
-          photos: req.body.photos,
           seller: req.user.username,
-        }).then(() => {
-          res.sendStatus(201);
+        }).then((product) => {
+          res.status(201).send(product);
         });
       } else {
         res.sendStatus(401);
@@ -82,16 +83,14 @@ router
       if (req.user != null) {
         if (req.user.admin) {
           await Product.findOneAndDelete(req.query.id)
-            .then((product) => {
-              {
-                product.photos.forEach(async (element) => {
-                  await fs.unlink(
-                    __foldername + "/server/Images/" + element,
-                    (err) => {
-                      if (err) console.log(err);
-                    }
-                  );
-                });
+            .then(async (product) => {
+              for (let i = 0; i < product.photos.length; i++) {
+                await fs.unlink(
+                  __foldername + "/server/Images/" + product.photos[i],
+                  (err) => {
+                    if (err) console.log(err);
+                  }
+                );
               }
             })
             .finally(() => {
@@ -102,14 +101,14 @@ router
             if (product.seller == req.user.username) {
               await Product.deleteOne({ _id: req.query.id })
                 .then(async () => {
-                  product.photos.forEach(async (element) => {
+                  for (let i = 0; i < product.photos.length; i++) {
                     await fs.unlink(
-                      __foldername + "/server/Images/" + element,
+                      __foldername + "/server/Images/" + product.photos[i],
                       (err) => {
                         if (err) console.log(err);
                       }
                     );
-                  });
+                  }
                 })
                 .finally(() => {
                   res.sendStatus(200);

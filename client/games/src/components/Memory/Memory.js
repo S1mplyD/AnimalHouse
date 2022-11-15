@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import Card from "./Card";
+import ADs from "../ADs";
 
 function Memory({ images, setImages, score, setScore }) {
   const navigate = useNavigate();
@@ -72,15 +73,15 @@ function Memory({ images, setImages, score, setScore }) {
   };
 
   return (
-    <div className="m-auto" style={{ visibility: show ? "visible" : "hidden" }}>
+    <div className="" style={{ visibility: show ? "visible" : "hidden" }}>
       <h1
-        className="text-xl text-center"
+        className="text-xl text-center m-auto"
         style={{ display: show ? "none" : "initial", visibility: "visible" }}
       >
         Loading
       </h1>
       <div
-        className="grid grid-cols-4 grid-rows-4 gap-2 p-8 border-2 border-solid rounded-3xl bg-white"
+        className="grid grid-cols-4 grid-rows-4 gap-2 p-8 border-2 border-solid rounded-3xl bg-white mt-10"
         style={{ pointerEvents: clickable ? "" : "none" }}
       >
         {
@@ -105,6 +106,10 @@ function Memory({ images, setImages, score, setScore }) {
           />
         ))} */
         }
+      </div>
+      {/* ads */}
+      <div>
+        <ADs></ADs>
       </div>
     </div>
   );

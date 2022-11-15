@@ -118,20 +118,48 @@ passport.use(
   })
 );
 
+//TODO: user already existing
+passport.use(
+  "local-signup",
+  new LocalStrategy(
+    { passReqToCallback: true },
+    (req, username, password, done) => {
+      User.findOne({ username: username }, async (err, user) => {
+        if (err) {
+          return done(err);
+        }
+        if (user) {
+          return done(null, false);
+        } else {
+          const encryptedPassword = await bcrypt.hash(password, 10);
+          User.create({
+            name: req.body.name,
+            username: username,
+            mail: req.body.mail,
+            password: encryptedPassword,
+            admin: false,
+          }).then((user) => {
+            return done(null, user);
+          });
+        }
+      });
+    }
+  )
+);
+
 router.post("/login", passport.authenticate("local"), function (req, res) {
   res.json();
 });
 
-router.post("/register", async (req, res) => {
-  const encryptedPassword = await bcrypt.hash(req.body.password, 10);
-  User.create({
-    name: req.body.name,
-    username: req.body.username,
-    mail: req.body.mail,
-    password: encryptedPassword,
-    admin: false,
-  });
-  res.json("registrazione avvenuta con successo");
+router.post("/register", passport.authenticate("local-signup"), (req, res) => {
+  res.json();
+});
+router.route("/isAuthenticated").get(async (req, res) => {
+  if (req.user != null) {
+    res.send(req.user);
+  } else {
+    res.sendStatus(404);
+  }
 });
 
 passport.deserializeUser((id, done) => {

@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
+import { useEffect } from "react";
 import Quiz from "./components/Quiz/Quiz";
 import Home from "./components/Home";
 import Result from "./components/Quiz/Result";
@@ -8,15 +9,15 @@ import Memory from "./components/Memory/Memory";
 import Hangman from "./components/Impiccato/hangman";
 
 function App() {
+  global.__clientmain = __dirname;
   const [questions, setQuestions] = useState([]);
   const [score, setScore] = useState(0);
   const [images, setImages] = useState([]);
   const [word, setWord] = useState();
   const [game, setGame] = useState("");
+
   const getQuestions = async () => {
-    const rawData = await axios.get(
-      "http://localhost:8000/api/getTrivia/medium"
-    );
+    const rawData = await axios.get("/api/getTrivia/medium");
     setQuestions(rawData.data);
   };
 
@@ -51,9 +52,9 @@ function App() {
         console.log(data.data);
         let ran = Math.floor(Math.random() * 3);
         console.log(ran);
-        if (ran == 0) {
+        if (ran === 0) {
           setWord(data.data.name.replace(" ", ""));
-        } else if (ran == 1) {
+        } else if (ran === 1) {
           setWord(data.data.latin_name.replace(" ", ""));
         } else {
           setWord(data.data.animal_type.replace(" ", ""));
@@ -68,7 +69,7 @@ function App() {
           to="/games"
           onClick={() => {
             setGame("");
-            console.log(game);
+            setScore(0);
           }}
         >
           <h1 className="text-white flex flex-col items-center text-3xl">
@@ -119,7 +120,14 @@ function App() {
           <Route
             path="/games/hangman"
             game={game}
-            element={<Hangman word={word} setWord={setWord}></Hangman>}
+            element={
+              <Hangman
+                word={word}
+                setWord={setWord}
+                setScore={setScore}
+                score={score}
+              ></Hangman>
+            }
           ></Route>
         </Routes>
       </div>

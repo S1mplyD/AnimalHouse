@@ -15,7 +15,6 @@ const Question = ({
   setGame,
 }) => {
   const [selected, setSelected] = useState();
-  const [error, setError] = useState(false);
 
   const navigate = useNavigate();
 
@@ -29,7 +28,6 @@ const Question = ({
   const handleCheck = (i) => {
     setSelected(i);
     if (i === correct) setScore(score + 1);
-    setError(false);
   };
 
   const handleNext = () => {
@@ -38,13 +36,14 @@ const Question = ({
     } else if (selected) {
       setCurrentQuestion(currentQuestion + 1);
       setSelected();
-    } else setError("Please select an option first");
+    }
   };
 
   const handleQuit = () => {
     setGame("");
     setCurrentQuestion(0);
     setQuestions();
+    navigate("/games");
   };
 
   return (
@@ -76,7 +75,6 @@ const Question = ({
           <button
             className="border-solid border-black border-2 rounded w-50 p-2 m-1"
             onClick={() => {
-              window.location.href = "/games";
               handleQuit();
             }}
           >

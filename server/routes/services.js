@@ -28,12 +28,13 @@ router
           location: req.body.location,
           coordinate: req.body.coordinate,
           openDays: req.body.openDays,
-          openTime: new Date().setHours(req.body.openTime + 2),
-          closeTime: new Date().setHours(req.body.closeTime + 2),
+          openTime: req.body.openTime,
+          closeTime: req.body.closeTime,
           type: req.body.type,
+          online: req.body.online,
           info: req.body.info,
-        }).then(() => {
-          res.sendStatus(201);
+        }).then((service) => {
+          res.status(201).send(service);
         });
       } else {
         res.sendStatus(401);
