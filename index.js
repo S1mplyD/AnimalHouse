@@ -19,7 +19,6 @@ const galleryRoute = require("./server/routes/gallery");
 const servicesRoute = require("./server/routes/services");
 const adsRoute = require("./server/routes/ADs");
 
-
 const app = express();
 
 const port = 8000;
@@ -38,10 +37,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/test", express.static(path.join(__dirname , "test")));
-app.use("/games", express.static(path.join(__dirname , "client/games/build")));
-app.use("/", express.static(path.join(__dirname , "frontend/dist")));
-app.use(express.static( path.join(__dirname , "public")));
+app.use("/test", express.static(path.join(__dirname, "test")));
+app.use("/games", express.static(path.join(__dirname, "client/games/build")));
+app.use("/", express.static(path.join(__dirname, "frontend/dist")));
+app.use(express.static(path.join(__dirname, "public")));
 /**
  * API routes
  */
