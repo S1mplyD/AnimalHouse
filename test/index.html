@@ -123,12 +123,19 @@
       <input type="button" value="delete pet" onclick="deletePet()" />
     </form>
     <h1>Posts</h1>
+    <h2>Get Posts</h2>
+    <button onclick="getPosts()">Get Posts</button>
     <h2>Add A Post</h2>
     <form>
       <input type="text" id="posttitle" placeholder="title" />
       <input type="text" id="post" placeholder="post" />
       <input type="file" name="postimages" id="postimages" multiple />
       <input type="button" value="create post" onclick="createPost()" />
+    </form>
+    <h2>Delete A Post</h2>
+    <form>
+      <input type="text" id="deletepostid" />
+      <input type="button" value="Delete post" onclick="deletePost()" />
     </form>
 
     <h1>Services</h1>
