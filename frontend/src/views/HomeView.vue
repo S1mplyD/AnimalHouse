@@ -7,7 +7,7 @@
     <div class="overflow-auto" id="photodiv">
     <ul>
       <li v-for="photo in gallery" :key="photo">
-        <img class="Imageshow1" :src="'https://site212211.tw.cs.unibo.it/' + photo.filename"/>
+        <img class="Imageshow1" :src="photo.filename"/>
       </li>
     </ul>
     </div>
@@ -29,40 +29,15 @@
       </ul>
     </nav>
     <nav class="ADS">
-      <div id="carousel" class="carousel carousel- slide carousel-fade" data-bs-ride="carousel">
-         <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-          <button type="button" data-bs-target="#carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-          <button type="button" data-bs-target="#carousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+      <div class="productsCarousel">
+        <div class="innerCarousel">
+          <div class="productImage" v-for="product in products" :key="product">
+            <img :src="product.mainPhoto">
+          </div>
         </div>
-        <div class="carousel-inner" style="border-radius: 25px">
-              <div class="carousel-item active">
-                <img :src="'https://site212211.tw.cs.unibo.it/' + products[0].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
-              </div>
-              <div class="carousel-item">
-                <img :src="'https://site212211.tw.cs.unibo.it/' + products[1].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
-              </div>
-              <div class="carousel-item">
-                <img :src="'https://site212211.tw.cs.unibo.it/' + products[2].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
-              </div>
-              <div class="carousel-item">
-                <img :src="'https://site212211.tw.cs.unibo.it/' + products[3].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
-              </div>
-              <div class="carousel-item">
-                <img :src="'https://site212211.tw.cs.unibo.it/' + products[4].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
-              </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
       </div>
+      <button class="btn btn-dark btn-lg btn-block" id="buttonPrev" @click="prev()">Prev</button>
+      <button class="btn btn-dark btn-lg btn-block" id="buttonNext" @click="next()">Next</button>
       <p id="shoptext">Do you want to see other items? <router-link :to="{name: 'shop'}" class="routerlink">Go to our shop</router-link> to see every products!</p>
     </nav>
   </section>
@@ -80,7 +55,7 @@ import axios from 'axios'
 export default {
   name: 'HomeView',
   mounted () {
-    axios.get('https://site212211.tw.cs.unibo.it/api/products')
+    axios.get('/api/products')
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           console.log(response.data[i])
@@ -89,7 +64,7 @@ export default {
           }
         }
       })
-    axios.get('https://site212211.tw.cs.unibo.it/api/posts')
+    axios.get('/api/posts')
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           console.log(response.data[i])
@@ -99,7 +74,7 @@ export default {
         }
       })
 
-    axios.get('https://site212211.tw.cs.unibo.it/api/gallery')
+    axios.get('/api/gallery')
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           console.log(response.data[i])
@@ -108,13 +83,16 @@ export default {
           }
         }
       })
+    this.setStep()
+    this.resetTranslate()
   },
   components: { HomeHeaderVue, SiteFooterVue, CarouselMain, SlideImage },
   data () {
     return {
       gallery: [],
       posts: [],
-      products: []
+      products: [],
+      transitioning: false
     }
   },
   setup () {
@@ -124,7 +102,64 @@ export default {
   methods: {
     goToShop () {
       return this.$router.push('/shop')
+    },
+    setStep () {
+      const innerWidth = this.$refs.inner.scrollWidth
+      const totalProds = this.products.length
+      this.step = `${innerWidth / totalProds}px`
+    },
+    next () {
+      if (this.transitioning) return
+      this.transitioning = true
+      this.moveLeft()
+      this.afterTransition(() => {
+        const prod = this.products.shift()
+        this.products.push(prod)
+        this.resetTranslate()
+        this.transitioning = false
+      })
+    },
+    resetTranslate () {
+      this.innerStyles = {
+        transition: 'none',
+        transform: `translateX(-${this.step})`
+      }
+    },
+    prev () {
+      if (this.transitioning) return
+      this.transitioning = true
+      this.moveRight()
+      this.afterTransition(() => {
+        const prod = this.products.shift()
+        this.products.push(prod)
+        this.resetTranslate()
+        this.transitioning = false
+      })
+    },
+
+    afterTransition (callback) {
+      const listener = () => {
+        callback()
+        this.$refs.inner.removeEventListener('transitionend', listener)
+      }
+      if (this.$refs.inner) {
+        this.$refs.inner.addEventListener('transitionend', listener)
+      }
+    },
+
+    moveLeft () {
+      this.innerStyles = {
+        transform: `translateX(-${this.step})
+                    translateX(-${this.step})`
+      }
+    },
+    moveRight () {
+      this.innerStyles = {
+        transform: `translateX(${this.step})
+                    translateX(-${this.step})`
+      }
     }
+
   }
 }
 </script>
@@ -196,9 +231,24 @@ export default {
   background: rgb(47, 39, 148);
   padding: 20px;
 }
-.carousel{
-  position: relative;
+.productsCarousel{
+  width: 100%;
+  overflow: hidden;
 }
+.innerCarousel{
+  white-space: nowrap;
+  transition: transform 0.2s;
+}
+.productImage{
+  width: 50%;
+  margin-right: 10px;
+  display: inline-flex;
+}
+#buttonPrev, #buttonNext{
+  margin-right: 5px;
+  margin-top: 10px;
+}
+
 .slide-info{
   position: absolute;
   width: 500px;
