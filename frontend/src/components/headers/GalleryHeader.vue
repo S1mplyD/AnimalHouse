@@ -22,8 +22,11 @@
     </nav>
     <nav v-if="user.length === 1" id="usersection">
       <p><b>{{user[0].username}}</b></p>
+      <img :src="user[0].profilePicture" id="profilePicture" />
+      <div v-if="user[0].admin === true"><router-link to="/backoffice/" class="routerlink">Go to the Backoffice</router-link></div>
       <div v-if="user[0].admin === true"><router-link to="/backoffice/" class="routerlink">Go to the Backoffice</router-link></div>
       <router-link to="/user" class="routerlink">Go to the User Area</router-link>
+      <a href="/auth/logout" class="routerlink">Log Out</a>
     </nav>
   </header>
 </template>
@@ -32,7 +35,7 @@ import axios from 'axios'
 export default {
   name: 'GalleryHeader',
   mounted () {
-    axios.get('http://localhost:8000/auth/isAuthenticated')
+    axios.get('/auth/isAuthenticated')
       .then((response) => {
         this.user.push(response.data)
         console.log(this.user.length)

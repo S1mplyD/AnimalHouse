@@ -31,7 +31,7 @@
       <div v-if="user[0].admin === true"><router-link to="/backoffice/" class="routerlink">Go to the Backoffice</router-link></div>
       <router-link to="/user" class="routerlink">Go to the User Area</router-link>
       <br>
-      <a href="https://site212211.tw.cs.unibo.it/auth/logout" class="routerlink">Log Out</a>
+      <a href="/auth/logout" class="routerlink">Log Out</a>
     </nav>
   </header>
 </template>
@@ -42,7 +42,7 @@ import axios from 'axios'
 export default {
   name: 'HomeHeader',
   mounted () {
-    axios.get('https://site212211.tw.cs.unibo.it/auth/isAuthenticated')
+    axios.get('/auth/isAuthenticated')
       .then((response) => {
         this.user.push(response.data)
         console.log(this.user.length)

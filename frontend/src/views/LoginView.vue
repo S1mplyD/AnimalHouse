@@ -33,7 +33,7 @@ export default {
         username: document.getElementById('mail').value,
         password: document.getElementById('pass').value
       }
-      fetch('https://site212211.tw.cs.unibo.it/auth/login', {
+      fetch('/auth/login', {
         method: 'post',
         headers: {
           'Content-type': 'application/json'

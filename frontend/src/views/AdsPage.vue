@@ -1,3 +1,5 @@
-<header>
-<p>PLACEHOLDER</p>
-</header>
+<template>
+  <header>
+    <p>PLACEHOLDER</p>
+  </header>
+</template>
