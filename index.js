@@ -37,6 +37,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 fs.readdir(__dirname, (err, files) => {
   if (err) console.log(err);
   if (!files.includes("public")) {
