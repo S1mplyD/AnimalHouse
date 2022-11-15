@@ -10,10 +10,8 @@ router
    */
   .get(async (req, res) => {
     try {
-      if (req.user != null) {
-        const products = await Product.find();
-        res.send(products);
-      }
+      const products = await Product.find();
+      res.send(products);
     } catch (error) {
       console.log(error);
     }
@@ -33,6 +31,7 @@ router
           discountedPrice: req.body.discountedPrice,
           categories: req.body.categories,
           seller: req.user.username,
+          mainPhoto: "placeholder",
         }).then((product) => {
           res.status(201).send(product);
         });

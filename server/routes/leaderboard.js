@@ -25,8 +25,9 @@ router
         playerName: req.body.playerName,
         score: req.body.score,
         game: req.body.game,
+      }).then(() => {
+        res.sendStatus(201);
       });
-      res.sendStatus(200);
     } catch (error) {
       console.log(error);
     }
@@ -41,7 +42,7 @@ router
     try {
       await Leaderboard.findOneAndDelete({ playerName: req.query.name }).then(
         () => {
-          res.json("player score deleted");
+          res.sendStatus(200);
         }
       );
     } catch (error) {
@@ -63,8 +64,10 @@ router
           await Leaderboard.findOneAndUpdate(
             { playerName: req.query.name },
             { score: req.body.score }
-          );
-          res.json("Punteggio aggiornato");
+          ).then(() => {
+            //Da controllare
+            res.sendStatus(204);
+          });
         } else {
           res.json("new score is less or equal than older one");
         }
@@ -73,7 +76,5 @@ router
       console.log(error);
     }
   });
-
-router.route("/:playerName");
 
 module.exports = router;

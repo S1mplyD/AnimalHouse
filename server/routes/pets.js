@@ -13,9 +13,21 @@ router
   .get(async (req, res) => {
     try {
       if (req.user != null) {
-        await Pet.find().then((pets) => {
-          res.status(200).send(pets);
-        });
+        if (req.user.admin) {
+          await Pet.find().then((pets) => {
+            res.status(200).send(pets);
+          });
+        } else {
+          await Pet.find({ owner: req.user.username }).then((pets) => {
+            if (pets) {
+              res.send(pets);
+            } else {
+              res.sendStatus(404);
+            }
+          });
+        }
+      } else {
+        res.sendStatus(401);
       }
     } catch (error) {
       console.log(error);
@@ -60,11 +72,14 @@ router
     try {
       if (req.user != null) {
         if (req.user.admin) {
-          await Pet.findByIdAndUpdate(req.query.petid, req.body);
-          res.sendStatus(200);
+          await Pet.findByIdAndUpdate(req.query.petid, req.body).then(() => {
+            res.sendStatus(200);
+          });
         } else {
-          await Pet.findById(req.query.petid).then(async (pet) => {
-            if (pet.owner == req.user.username) {
+          await Pet.findById({
+            $and: [{ _id: req.query.petid }, { owner: req.user.username }],
+          }).then(async (pet) => {
+            if (pet) {
               await Pet.updateOne({ _id: pet._id }, req.body).then(() => {
                 res.sendStatus(200);
               });
@@ -92,10 +107,7 @@ router
             .then(async (pet) => {
               for (let i = 0; i < pet.pictures.length; i++) {
                 await fs.unlink(
-                  path.join(
-                    __dirname,
-                    "../../public/uploads/" + pet.pictures[i]
-                  ),
+                  path.join(__dirname, "../../public/" + pet.pictures[i]),
                   (err) => {
                     if (err) console.log(err);
                   }
@@ -112,7 +124,7 @@ router
                 .then(async (pet) => {
                   for (let i = 0; i < pet.pictures.length; i++) {
                     await fs.unlink(
-                      "../../public/uploads/" + pet.pictures[i],
+                      "../../public/" + pet.pictures[i],
                       (err) => {
                         if (err) console.log(err);
                       }

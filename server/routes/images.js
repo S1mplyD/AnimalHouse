@@ -9,7 +9,7 @@ const Post = require("../models/posts.model");
 const Service = require("../models/services.model");
 const News = require("../models/news.model");
 const Gallery = require("../models/gallery.model");
-const publicUploadsPath = path.join(__dirname, "../../public/uploads")
+const publicUploadsPath = path.join(__dirname, "../../public");
 /**
  * Storage delle immagini con regole sul come salvarle
  */
@@ -207,7 +207,7 @@ router
   .post(async (req, res) => {
     try {
       if (req.user != null) {
-        const upload = multer({storage: storage }).array("images", 10);
+        const upload = multer({ storage: storage }).array("images", 10);
         upload(req, res, async (err) => {
           if (err) {
             console.log(err);
@@ -257,7 +257,7 @@ router
             .then(async () => {
               for (let i = 0; i < req.body; i++) {
                 await fs.unlink(
-                  path.join(publicUploadsPath, req.body[i]) ,
+                  path.join(publicUploadsPath, req.body[i]),
                   (err) => {
                     if (err) console.log(err);
                   }
@@ -326,6 +326,7 @@ router
             } else {
               const imagesAddr = [];
               let mainPhoto = "";
+              console.log(res.req.files);
               if (res.req.files.length > 1) {
                 mainPhoto = res.req.files[0].filename;
                 for (let i = 1; i < res.req.files.length; i++) {

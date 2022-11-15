@@ -34,13 +34,13 @@ router
               user: req.user.username,
               post_summary: `${req.body.post.slice(0, 141)}...`,
             });
-            res.json("news created successfully");
+            res.sendStatus(201);
           } else {
             res.json("news already existing");
           }
         });
       } else {
-        res.json("Unauthorized");
+        res.sendStatus(401);
       }
     } catch (error) {
       console.log(error);
@@ -50,6 +50,7 @@ router
    * PATCH
    * edit an existing article
    */
+  // TODO: immagini
   .patch(async (req, res) => {
     try {
       if (req.user != null) {
@@ -64,10 +65,10 @@ router
             post_summary: `${req.body.post.slice(0, 141)}...`,
           }
         ).then(() => {
-          res.json("post updated correctly");
+          res.sendStatus(200);
         });
       } else {
-        res.json("Unauthorized");
+        res.sendStatus(401);
       }
     } catch (error) {
       console.log(error);
@@ -84,13 +85,13 @@ router
           $and: [{ title: req.body.title }, { user: req.user.username }],
         }).then((article) => {
           if (article) {
-            res.json("news delete successfully");
+            res.sendStatus(200);
           } else {
-            res.status(404).send("article not found");
+            res.sendStatus(404);
           }
         });
       } else {
-        res.json("Unauthorized");
+        res.sendStatus(401);
       }
     } catch (error) {
       console.log(error);
@@ -101,9 +102,7 @@ router.route("/article").get(async (req, res) => {
   try {
     await News.findById(req.query.id).then((article) => {
       if (article) {
-        res.status(200).send(article);
-      } else {
-        res.status(404).send("article not found");
+        res.send(article);
       }
     });
   } catch (error) {

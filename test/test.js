@@ -43,6 +43,14 @@ async function signUp() {
 
 //User
 
+async function getUsers() {
+  axios.get("/api/users").then((res) => {
+    console.log(res);
+  });
+}
+
+async function patchUsers() {}
+
 async function postProfilePicture() {
   let image = document.querySelector("#postpropic");
   const formData = new FormData();

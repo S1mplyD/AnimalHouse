@@ -46,6 +46,7 @@ router
    * PATCH
    * edit an image
    */
+  //TODO
   .patch(async (req, res) => {
     try {
       if (req.user != null) {
@@ -81,6 +82,7 @@ router
    * DELETE
    * delete a photo
    */
+  //TODO: test
   .delete(async (req, res) => {
     try {
       if (req.user != null) {
@@ -88,7 +90,7 @@ router
           await Gallery.deleteOne({ filename: req.query.filename })
             .then(async () => {
               fs.unlink(
-                __foldername + "/server/Images/" + req.query.filename,
+                path.join(__dirname, "../../public/" + req.query.filename),
                 (err) => {
                   if (err) console.log(err);
                 }
@@ -105,7 +107,7 @@ router
               })
                 .then(async () => {
                   fs.unlink(
-                    __foldername + "/server/Images/" + req.query.filename,
+                    path.join(__dirname, "../../public/" + req.query.filename),
                     (err) => {
                       if (err) console.log(err);
                     }

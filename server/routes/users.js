@@ -38,6 +38,16 @@ router
           ).then(() => {
             res.sendStatus(200);
           });
+        } else {
+          await User.findById(req.user._id).then((user) => {
+            if (user) {
+              User.findByIdAndUpdate(user._id, req.body).then(() => {
+                res.sendStatus(200);
+              });
+            } else {
+              res.sendStatus(401);
+            }
+          });
         }
       } else {
         res.sendStatus(401);
