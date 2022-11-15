@@ -83,6 +83,8 @@ router
               await Pet.updateOne({ _id: pet._id }, req.body).then(() => {
                 res.sendStatus(200);
               });
+            } else {
+              res.sendStatus(404);
             }
           });
         }
@@ -124,7 +126,7 @@ router
                 .then(async (pet) => {
                   for (let i = 0; i < pet.pictures.length; i++) {
                     await fs.unlink(
-                      "../../public/" + pet.pictures[i],
+                      path.join(__dirname, "../../public/" + pet.pictures[i]),
                       (err) => {
                         if (err) console.log(err);
                       }

@@ -18,6 +18,7 @@ const newsRoute = require("./server/routes/news");
 const galleryRoute = require("./server/routes/gallery");
 const servicesRoute = require("./server/routes/services");
 const adsRoute = require("./server/routes/ADs");
+const fs = require("fs");
 
 const app = express();
 
@@ -36,7 +37,14 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
+fs.readdir(__dirname, (err, files) => {
+  if (err) console.log(err);
+  if (!files.includes("public")) {
+    fs.mkdir("public", (err) => {
+      if (err) console.log(err);
+    });
+  }
+});
 app.use("/test", express.static(path.join(__dirname, "test")));
 app.use("/games", express.static(path.join(__dirname, "client/games/build")));
 app.use("/", express.static(path.join(__dirname, "frontend/dist")));
