@@ -98,7 +98,7 @@ router
             .then(async (post) => {
               for (let i = 0; i < post.length; i++) {
                 await fs.unlink(
-                  __foldername + "/server/Images/" + post[i],
+                  path.join(__dirname, "../../public/uploads/" + post[i]),
                   (err) => {
                     if (err) console.log(err);
                   }
@@ -113,7 +113,7 @@ router
             if (post.user == req.user.username) {
               for (let i = 0; i < post.length; i++) {
                 await fs.unlink(
-                  __foldername + "/server/Images/" + post[i],
+                  path.join(__dirname, "../../public/uploads/" + post[i]),
                   async (err) => {
                     if (err) {
                       console.log(err);
