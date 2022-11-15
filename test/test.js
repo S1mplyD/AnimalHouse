@@ -242,6 +242,13 @@ async function createService() {
     });
 }
 
+async function deleteService() {
+  let id = document.getElementById("deleteserviceid").value;
+  axios.delete("/api/services", { params: { id: id } }).then((res) => {
+    console.log(res);
+  });
+}
+
 //Gallery
 
 async function createGallery() {
