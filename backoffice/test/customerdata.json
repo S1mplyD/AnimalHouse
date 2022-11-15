@@ -1,0 +1,107 @@
+[
+    {
+      "_id": "0000sfs22",
+      "name" : "Luca Bennati",
+      "username" : "SlmplyD",
+      "mail" : "spippolo345@gmail.com",
+      "serviceId" : "adhnlfdjslgjaslfgalfgj",
+      "password" : "afkdfhkfhfghagja",
+      "ownedAnimals" : [
+        "adasfarsf", "adafff"
+      ],
+      "profilePicture" : "aljksfkfjasfj.jpg",
+      "admin" : true
+    },
+    {
+        "_id": "00003534535r2",
+        "name" : "Lorenzo De Luise",
+        "username" : "d3lusional",
+        "mail" : "gabibbo3456.besugo@gmail.com",
+        "serviceId" : "xvbxcvcvxvxcv",
+        "password" : "qweqeqweqeq",
+        "ownedAnimals" : [
+          "adzxczx", "ruuruiruf"
+        ],
+        "profilePicture" : "asdlòpjkdaklias.jpg",
+        "admin" : true
+      },
+      {
+        "_id": "1112123k124",
+        "name" : "Mario Rossi",
+        "username" : "Cafacchiopo",
+        "mail" : "polentataragna@gmail.com",
+        "serviceId" : "gwrwtweer",
+        "password" : "gdddfgdfgdfgdg",
+        "ownedAnimals" : [
+          "rtete", "erterttert", "sadasdasdasdasd", "gghdghhfhj", "Franco"
+        ],
+        "profilePicture" : "ggggdgdfgd.jpg",
+        "admin" : false
+      },
+      {
+        "_id": "0000sfdfdfds22",
+        "name" : "Cholanka Sbilenka",
+        "username" : "RussianDancer89",
+        "mail" : "russiandancer89@gmail.com",
+        "serviceId" : "jasdasdasasdasd",
+        "password" : "wewewerrwerwe",
+        "ownedAnimals" : [
+          "agfgdfgdfgdfg", "jhkhjkjhjkh"
+        ],
+        "profilePicture" : "uyuyuyuyuy.jpg",
+        "admin" : false
+      },
+      {
+        "_id": "0000sfdfdfds22",
+        "name" : "Cholanka Sbilenka",
+        "username" : "RussianDancer89",
+        "mail" : "russiandancer89@gmail.com",
+        "serviceId" : "jasdasdasasdasd",
+        "password" : "wewewerrwerwe",
+        "ownedAnimals" : [
+          "agfgdfgdfgdfg", "jhkhjkjhjkh"
+        ],
+        "profilePicture" : "uyuyuyuyuy.jpg",
+        "admin" : false
+      },
+      {
+        "_id": "0000sfdfdfds22",
+        "name" : "Cholanka Sbilenka",
+        "username" : "RussianDancer89",
+        "mail" : "russiandancer89@gmail.com",
+        "serviceId" : "jasdasdasasdasd",
+        "password" : "wewewerrwerwe",
+        "ownedAnimals" : [
+          "agfgdfgdfgdfg", "jhkhjkjhjkh"
+        ],
+        "profilePicture" : "uyuyuyuyuy.jpg",
+        "admin" : false
+      },
+      {
+        "_id": "0000sfdfdfds22",
+        "name" : "Cholanka Sbilenka",
+        "username" : "RussianDancer89",
+        "mail" : "russiandancer89@gmail.com",
+        "serviceId" : "jasdasdasasdasd",
+        "password" : "wewewerrwerwe",
+        "ownedAnimals" : [
+          "agfgdfgdfgdfg", "jhkhjkjhjkh"
+        ],
+        "profilePicture" : "uyuyuyuyuy.jpg",
+        "admin" : false
+      },
+      {
+        "_id": "0000sfdfdfds22",
+        "name" : "Cholanka Sbilenka",
+        "username" : "RussianDancer89",
+        "mail" : "russiandancer89@gmail.com",
+        "serviceId" : "jasdasdasasdasd",
+        "password" : "wewewerrwerwe",
+        "ownedAnimals" : [
+          "agfgdfgdfgdfg", "jhkhjkjhjkh"
+        ],
+        "profilePicture" : "uyuyuyuyuy.jpg",
+        "admin" : false
+      }
+
+    ]
