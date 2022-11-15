@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const Service = require("../models/services.model");
+const fs = require("fs");
+const path = require("path");
 
 router
   .route("/")
@@ -75,10 +77,47 @@ router
    */
   .delete(async (req, res) => {
     try {
-      if (req.user.admin) {
-        await Service.deleteOne({ _id: req.query.id }).then(() => {
-          res.sendStatus(200);
-        });
+      if (req.user != null) {
+        if (req.user.admin) {
+          await Service.findOneAndDelete(req.query.id)
+            .then(async (service) => {
+              console.log(service);
+              console.log(service.pictures);
+              for (let i = 0; i < service.pictures.length; i++) {
+                await fs.unlink(
+                  path.join(__dirname, "../../public/" + service.pictures[i]),
+                  (err) => {
+                    if (err) console.log(err);
+                  }
+                );
+              }
+            })
+            .finally(() => {
+              res.sendStatus(200);
+            });
+        } else {
+          await Service.findById(req.query.id).then(async (service) => {
+            if (service.seller == req.user.username) {
+              await Service.deleteOne({ _id: req.query.id })
+                .then(async () => {
+                  for (let i = 0; i < service.pictures.length; i++) {
+                    await fs.unlink(
+                      path.join(
+                        __dirname,
+                        "../../public/" + service.pictures[i]
+                      ),
+                      (err) => {
+                        if (err) console.log(err);
+                      }
+                    );
+                  }
+                })
+                .finally(() => {
+                  res.sendStatus(200);
+                });
+            }
+          });
+        }
       } else {
         res.sendStatus(401);
       }
