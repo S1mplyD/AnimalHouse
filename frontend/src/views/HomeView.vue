@@ -5,9 +5,10 @@
     <nav class="Images">
     <p id="shoptext">Do you want to see other pics? <router-link :to="{name: 'gallery'}" class="routerlink">Go to our Gallery!</router-link></p>
     <div class="overflow-auto" id="photodiv">
-    <ul>
+    <img v-show="gallery.length===0" src="@/assets/Photo-Unavailable.jpg" class="ImageShow" alt=""/>
+    <ul v-show="gallery.length!==0">
       <li v-for="photo in gallery" :key="photo">
-        <img class="Imageshow1" :src="photo.filename"/>
+        <img class="ImageShow" :src="photo.filename" alt=""/>
       </li>
     </ul>
     </div>
@@ -40,18 +41,23 @@
         <div class="carousel-inner" style="border-radius: 25px">
               <div class="carousel-item active">
                 <img v-if="products[0]" :src="products[0].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
+                <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image"/>
               </div>
               <div class="carousel-item">
                 <img v-if="products[1]" :src="products[1].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
+                <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image"/>
               </div>
               <div class="carousel-item">
                 <img v-if="products[2]" :src="products[2].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
+                <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image"/>
               </div>
               <div class="carousel-item">
                 <img v-if="products[3]" :src="products[3].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
+                <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image"/>
               </div>
               <div class="carousel-item">
                 <img v-if="products[4]" :src="products[4].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
+                <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image"/>
               </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
@@ -79,7 +85,7 @@ import axios from 'axios'
 
 export default {
   name: 'HomeView',
-  beforeMount () {
+  mounted () {
     axios.get('/api/products')
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
@@ -98,7 +104,6 @@ export default {
           }
         }
       })
-
     axios.get('/api/gallery')
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
@@ -160,18 +165,8 @@ export default {
   object-fit: cover;
   background: rgb(60, 121, 150);
   padding: 20px;
-  .Imageshow1{
+  .ImageShow{
    width: 90%;
-   border-radius: 0.75rem;
-  }
-  .Imageshow2{
-   width: 90%;
-   height: 55%;
-   border-radius: 0.75rem;
-  }
-   .Imageshow3{
-   width: 90%;
-   height: 55%;
    border-radius: 0.75rem;
   }
 }
