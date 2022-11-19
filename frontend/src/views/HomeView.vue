@@ -5,12 +5,16 @@
     <nav class="Images">
     <p id="shoptext">Do you want to see other pics? <router-link :to="{name: 'gallery'}" class="routerlink">Go to our Gallery!</router-link></p>
     <div class="overflow-auto" id="photodiv">
-    <img v-show="gallery.length===0" src="@/assets/Photo-Unavailable.jpg" class="ImageShow" alt=""/>
-    <ul v-show="gallery.length!==0">
-      <li v-for="photo in gallery" :key="photo">
-        <img class="ImageShow" :src="photo.filename" alt=""/>
-      </li>
-    </ul>
+      <img v-if="gallery[0]" :src="gallery[0].filename" class="ImageShow" alt="" />
+      <img v-else src="@/assets/Photo-Unavailable.jpg" class="ImageShow" alt=""/>
+      <img v-if="gallery[1]" :src="gallery[1].filename" class="ImageShow" alt="" />
+      <img v-else src="@/assets/Photo-Unavailable.jpg" class="ImageShow" alt=""/>
+      <img v-if="gallery[2]" :src="gallery[2].filename" class="ImageShow" alt="" />
+      <img v-else src="@/assets/Photo-Unavailable.jpg" class="ImageShow" alt=""/>
+      <img v-if="gallery[3]" :src="gallery[3].filename" class="ImageShow" alt="" />
+      <img v-else src="@/assets/Photo-Unavailable.jpg" class="ImageShow" alt=""/>
+      <img v-if="gallery[4]" :src="gallery[4].filename" class="ImageShow" alt="" />
+      <img v-else src="@/assets/Photo-Unavailable.jpg" class="ImageShow" alt=""/>
     </div>
     </nav>
     <nav class="TopPosts" >
@@ -79,8 +83,6 @@
 <script>
 import HomeHeaderVue from '@/components/headers/HomeHeader.vue'
 import SiteFooterVue from '@/components/SiteFooter.vue'
-import CarouselMain from '@/components/carousel/CarouselMain.vue'
-import SlideImage from '@/components/carousel/SlideImage.vue'
 import axios from 'axios'
 
 export default {
@@ -114,7 +116,7 @@ export default {
         }
       })
   },
-  components: { HomeHeaderVue, SiteFooterVue, CarouselMain, SlideImage },
+  components: { HomeHeaderVue, SiteFooterVue },
   data () {
     return {
       gallery: [],
@@ -168,6 +170,7 @@ export default {
   .ImageShow{
    width: 90%;
    border-radius: 0.75rem;
+   object-fit: cover;
   }
 }
 .TopPosts {

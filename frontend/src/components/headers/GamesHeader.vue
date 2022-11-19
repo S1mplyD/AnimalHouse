@@ -25,12 +25,22 @@
       </ul>
     </nav>
     <nav v-if="user.length === 1" id="usersection">
-      <p><b>{{user[0].username}}</b></p>
-      <img :src="user[0].profilePicture" id="profilePicture" />
-      <div v-if="user[0].admin === true"><router-link to="/backoffice/" class="routerlink">Go to the Backoffice</router-link></div>
-      <div v-if="user[0].admin === true"><router-link to="/backoffice/" class="routerlink">Go to the Backoffice</router-link></div>
-      <router-link to="/user" class="routerlink">Go to the User Area</router-link>
-      <a href="/auth/logout" class="routerlink">Log Out</a>
+      <div class="card mb-3" style="background: rgb(60, 121, 150); width: 500px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img :src="user[0].profilePicture" class="img-fluid rounded-start" alt="" style="max-height: 100px; object-fit:cover;"/>
+          </div>
+          <div class="col-md-8" style="background: rgb(60, 121, 150);">
+            <div class="card-body">
+              <h5 class="card-title"><b>{{user[0].username}}</b></h5>
+            </div>
+              <router-link to="/test/" class="card-link" v-if="user[0].admin === true">Testarea</router-link>
+              <router-link to="/backoffice/" class="card-link" v-if="user[0].admin === true">Backoffice</router-link>
+              <router-link to="/user" class="card-link">User Area</router-link>
+              <a href="/auth/logout" class="card-link">Logout</a>
+          </div>
+        </div>
+      </div>
     </nav>
   </header>
 </template>

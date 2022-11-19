@@ -1,28 +1,29 @@
 <template lang="en">
   <div class="gallery">
     <div class="gallery-panel"
-         v-for="photo in photos"
-         :key="photo.id">
-      <router-link :to="`/gallery/${photo.id}`">
-      <img :src="thumbUrl(photo.filename)">
-      </router-link>
+    v-for="photo in gallery"
+    :key="photo.id">
+      <img v-if="photo" :src="photo.filename" alt="">
+      <img v-else src="@/assets/Photo-Unavailable.jpg" alt=""/>
     </div>
   </div>
 </template>
 
 <script>
-import photos from '@/photos.json'
+import axios from 'axios'
 
 export default {
   name: 'ResultsComponent',
+  mounted () {
+    axios.get('/api/gallery')
+      .then((response) => {
+        console.log(response.data)
+        this.gallery.push(response.data)
+      })
+  },
   data () {
     return {
-      photos
-    }
-  },
-  methods: {
-    thumbUrl (filename) {
-      return require(`@/assets/images/thumbnails/${filename}`)
+      gallery: []
     }
   }
 }

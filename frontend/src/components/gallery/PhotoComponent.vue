@@ -27,13 +27,20 @@
   </div>
 </template>
 <script>
-import photos from '@/photos.json'
+import axios from 'axios'
 
 export default {
   name: 'PhotoComponent',
+  mounted () {
+    axios.get('/api/gallery')
+      .then((response) => {
+        console.log(response.data)
+        this.gallery.push(response.data)
+      })
+  },
   data () {
     return {
-      photos
+      gallery: []
     }
   },
   computed: {
