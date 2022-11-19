@@ -72,7 +72,7 @@ router
           );
         }
       } else {
-        res.status(401).send("Unauthorized");
+        res.sendStatus(401);
       }
     } catch (error) {
       console.log(error);

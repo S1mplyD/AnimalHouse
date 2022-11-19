@@ -129,6 +129,11 @@
     <h1>Posts</h1>
     <h2>Get Posts</h2>
     <button onclick="getPosts()">Get Posts</button>
+    <h2>Get A Post</h2>
+    <form>
+      <input type="text" id="getpostid" />
+      <input type="button" onclick="getPost()" value="Get Post" />
+    </form>
     <h2>Add A Post</h2>
     <form>
       <input type="text" id="posttitle" placeholder="title" />
@@ -140,6 +145,18 @@
     <form>
       <input type="text" id="deletepostid" />
       <input type="button" value="Delete post" onclick="deletePost()" />
+    </form>
+
+    <h1>Comments</h1>
+
+    <h2>Get Comments</h2>
+    <input type="text" id="getcommentsid" placeholder="id post" />
+    <button onclick="getComments()">Get Comments</button>
+    <h2>Add A Comment To A Post</h2>
+    <form>
+      <input type="text" id="postcomment" placeholder="comment" />
+      <input type="text" id="postcommentid" placeholder="post id" />
+      <input type="button" onclick="postComment()" value="Add Comment" />
     </form>
 
     <h1>Services</h1>

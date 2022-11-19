@@ -196,11 +196,47 @@ async function getPosts() {
   });
 }
 
+async function getPost() {
+  let id = document.getElementById("getpostid").value;
+  axios.get("/api/posts/post", { params: { id: id } }).then((res) => {
+    console.log(res.data);
+  });
+}
+
 async function deletePost() {
   let postId = document.getElementById("deletepostid").value;
   axios.delete("/api/posts", { params: { id: postId } }).then((res) => {
     console.log(res);
   });
+}
+
+//Comments
+
+async function getComments() {
+  let id = document.getElementById("getcommentsid").value;
+  axios.get("/api/posts/post", { params: { id: id } }).then(async (res) => {
+    console.log(res.data.comments);
+    let comments = [];
+    for (let i = 0; i < res.data.comments.length; i++) {
+      axios
+        .get("/api/comments", { params: { id: res.data.comments[i] } })
+        .then((res) => {
+          comments.push(res.data.comment);
+        });
+    }
+    console.log(comments);
+  });
+}
+
+async function postComment() {
+  const id = document.getElementById("postcommentid").value;
+  const comment = document.getElementById("postcomment").value;
+  console.log(comment);
+  axios
+    .post("/api/comments", { comment: comment }, { params: { id: id } })
+    .then((res) => {
+      console.log(res);
+    });
 }
 
 //Services
