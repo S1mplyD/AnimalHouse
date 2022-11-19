@@ -126,117 +126,14 @@ router
     }
   });
 
-// router.route("/addImages").post(async (req, res) => {
-//   try {
-//     if (req.user != null) {
-//       if (req.user.admin) {
-//         await Post.findById(req.query.id).then((post) => {
-//           const upload = multer({ storage: storage }).array("images", 10);
-//           upload(req, res, async (err) => {
-//             if (err) {
-//               console.log(err);
-//             } else {
-//               const imagesAddr = [];
-//               for (let i = 0; i < res.req.files.length; i++) {
-//                 imagesAddr.push(res.req.files[i].filename);
-//               }
-//               await Post.findByIdAndUpdate(req.query.id, {
-//                 $push: {
-//                   pictures: {
-//                     $each: imagesAddr,
-//                   },
-//                 },
-//               });
-//               res.sendStatus(200);
-//             }
-//           });
-//         });
-//       } else {
-//         await Post.findById(req.query.id).then((post) => {
-//           if (post.user == req.user.username) {
-//             const upload = multer({ storage: storage }).array("images", 10);
-//             upload(req, res, async (err) => {
-//               if (err) {
-//                 console.log(err);
-//               } else {
-//                 const imagesAddr = [];
-//                 for (let i = 0; i < res.req.files.length; i++) {
-//                   imagesAddr.push(res.req.files[i].filename);
-//                 }
-//                 await Post.findByIdAndUpdate(req.query.id, {
-//                   $push: {
-//                     pictures: {
-//                       $each: imagesAddr,
-//                     },
-//                   },
-//                 });
-//                 res.sendStatus(200);
-//               }
-//             });
-//           }
-//         });
-//       }
-//     } else {
-//       res.sendStatus(401);
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
-// router.route("/removeImages").post(async (req, res) => {
-//   try {
-//     if (req.user != null) {
-//       if (req.user.admin) {
-//         for (let i = 0; i < req.body.length; i++) {
-//           fs.unlink(
-//             __foldername + "/server/Images/" + req.body[i],
-//             async (err) => {
-//               if (err) console.log(err);
-//               else {
-//                 await Post.findByIdAndUpdate(req.query.id, {
-//                   $pull: {
-//                     photos: {
-//                       $in: req.body.photos,
-//                     },
-//                   },
-//                 }).then(() => {
-//                   res.sendStatus(200);
-//                 });
-//               }
-//             }
-//           );
-//         }
-//       } else {
-//         await Post.findById(req.query.id).then((post) => {
-//           if (post.user == req.user.username) {
-//             for (let i = 0; i < req.body.length; i++) {
-//               fs.unlink(
-//                 __foldername + "/server/Images/" + req.body[i],
-//                 async (err) => {
-//                   if (err) console.log(err);
-//                   else {
-//                     await Post.findByIdAndUpdate(req.query.id, {
-//                       $pull: {
-//                         photos: {
-//                           $in: req.body.photos,
-//                         },
-//                       },
-//                     }).then(() => {
-//                       res.sendStatus(200);
-//                     });
-//                   }
-//                 }
-//               );
-//             }
-//           }
-//         });
-//       }
-//     } else {
-//       res.sendStatus(401);
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+router.route("/post").get(async (req, res) => {
+  try {
+    await Post.findById(req.query.id).then((post) => {
+      res.send(post);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 module.exports = router;
