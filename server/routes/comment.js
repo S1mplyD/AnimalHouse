@@ -47,13 +47,12 @@ router
    *
    * edit a comment
    */
-  //TODO: fix likes and dislikes
   .patch(async (req, res) => {
     try {
       await Comment.findByIdAndUpdate(req.query.id, {
         $inc: {
-          likes: req.body.likes,
-          dislikes: req.body.dislikes,
+          likes: req.query.likes,
+          dislikes: req.query.dislikes,
         },
       }).then(() => {
         res.sendStatus(200);
