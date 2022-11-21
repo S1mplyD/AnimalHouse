@@ -11,9 +11,9 @@ import ForgotPassword from '../views/ForgotPassword.vue'
 import GalleryPage from '../views/GalleryPage.vue'
 import AdsPage from '../views/AdsPage.vue'
 import PhotoView from '../views/PhotoView.vue'
-import ItemView from '../views/ItemView.vue'
 import PostNewsView from '../views/PostNewsView.vue'
 import UserPage from '../views/UserPage.vue'
+import CartList from '../components/shop/CartList.vue'
 const routes = [
   {
     path: '/',
@@ -51,6 +51,11 @@ const routes = [
     component: ShopPage
   },
   {
+    path: '/cart',
+    name: 'cart',
+    component: CartList
+  },
+  {
     path: '/news',
     name: 'news',
     component: NewsPage
@@ -79,11 +84,6 @@ const routes = [
     path: '/gallery/:id',
     name: 'photo',
     component: PhotoView
-  },
-  {
-    path: '/shop/:id',
-    name: 'item',
-    component: ItemView
   },
   {
     path: '/news/:id',

@@ -1,9 +1,9 @@
 <template class="gallery-main" lang="en">
 <body class="bodymain">
   <GalleryHeader />
-  <div class="gallery">
-    <div class="gallery-panel" v-for="photo in gallery">
-      <div v-if="photo" class="card">
+  <div class="gallery" v-if="gallery.length > 0">
+    <div class="gallery-panel" v-for="photo in gallery" :key="photo._id">
+      <div class="card">
         <img :src="photo.filename" class="card-img-top" alt=""/>
         <div class="card-body">
           <h5 class="card-title" v-if="photo.title">{{ photo.title }}</h5>
@@ -19,14 +19,16 @@
           </p>
         </div>
       </div>
-      <div v-else class="card">
+    </div>
+  </div>
+  <div v-else class="gallery">
+    <div class="card">
         <img src="@/assets/Photo-Unavailable.jpg" class="card-img-top" alt=""/>
         <div class="card-body">
           <h5 class="card-title">Photo unavailable</h5>
           <p class="card-text">Excuse us for the matter</p>
         </div>
       </div>
-    </div>
   </div>
   <SiteFooter />
 </body>
@@ -34,7 +36,6 @@
 
 <script>
 import GalleryHeader from '@/components/headers/GalleryHeader.vue'
-import ResultsComponent from '@/components/gallery/ResultsComponent.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
 import axios from 'axios'
 export default {
@@ -48,8 +49,12 @@ export default {
   },
   components: {
     GalleryHeader,
-    ResultsComponent,
     SiteFooter
+  },
+  data () {
+    return {
+      gallery: []
+    }
   }
 }
 </script>
