@@ -215,7 +215,6 @@ async function deletePost() {
 async function getComments() {
   let id = document.getElementById("getcommentsid").value;
   axios.get("/api/posts/post", { params: { id: id } }).then(async (res) => {
-    console.log(res.data.comments);
     let comments = [];
     for (let i = 0; i < res.data.comments.length; i++) {
       axios
