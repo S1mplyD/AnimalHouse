@@ -1,26 +1,44 @@
 <template lang="en">
 <body class="bodymain">
 <ShopHeaderVue />
-<ShopComponent />
+<h1>Welcome to our shop!</h1>
+<NavBar />
 <SiteFooterVue />
 </body>
 </template>
 
 <script>
 import ShopHeaderVue from '@/components/headers/ShopHeader.vue'
-import ShopComponent from '@/components/shop/ShopComponent.vue'
+import NavBar from '@/components/shop/NavBar.vue'
 import SiteFooterVue from '@/components/SiteFooter.vue'
+
+import axios from 'axios'
 export default {
   name: 'ShopPage',
+  mounted () {
+    axios.get('/api/products')
+      .then((response) => {
+        console.log(response.data)
+        this.products.push(response.data)
+      })
+  },
+  data () {
+    return {
+      products: []
+    }
+  },
   components: {
     ShopHeaderVue,
-    ShopComponent,
+    NavBar,
     SiteFooterVue
   }
 }
 </script>
 
 <style lang="scss">
+   h1 {
+    color:#09ff00;
+  }
   .shop {
     display: flex;
     border-bottom: 1px solid #ccc;
