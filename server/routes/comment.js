@@ -11,8 +11,10 @@ router
    */
   .get(async (req, res) => {
     try {
-      await Comment.findById(req.query.id).then((comment) => {
-        res.send(comment);
+      await Post.findById(req.query.id).then(async (post) => {
+        await Comment.find({ _id: { $in: post.comments } }).then((comments) => {
+          res.send(comments);
+        });
       });
     } catch (error) {
       console.log(error);
@@ -39,10 +41,30 @@ router
     } catch (error) {
       console.log(error);
     }
+  })
+  /**
+   * PATCH
+   *
+   * edit a comment
+   */
+  //TODO: fix likes and dislikes
+  .patch(async (req, res) => {
+    try {
+      await Comment.findByIdAndUpdate(req.query.id, {
+        $inc: {
+          likes: req.body.likes,
+          dislikes: req.body.dislikes,
+        },
+      }).then(() => {
+        res.sendStatus(200);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   });
 
 router
-  .route("/answer")
+  .route("/reply")
   /**
    * GET
    *
@@ -50,8 +72,12 @@ router
    */
   .get(async (req, res) => {
     try {
-      await Comment.findById(req.query.id).then((answers) => {
-        res.status(200).send(answers);
+      await Comment.findById(req.query.id).then(async (comment) => {
+        await Comment.find({ _id: { $in: comment.replies } }).then(
+          (replies) => {
+            res.status(200).send(replies);
+          }
+        );
       });
     } catch (error) {
       console.log(error);
@@ -64,15 +90,13 @@ router
    */
   .post(async (req, res) => {
     try {
-      await Comment.create({ comment: req.body.comment }).then(
-        async (comment) => {
-          await Comment.findByIdAndUpdate(req.query.id, {
-            $push: { answers: comment._id },
-          }).then(() => {
-            res.sendStatus(201);
-          });
-        }
-      );
+      await Comment.create({ comment: req.body.reply }).then(async (reply) => {
+        await Comment.findByIdAndUpdate(req.query.id, {
+          $push: { replies: reply._id },
+        }).then(() => {
+          res.sendStatus(201);
+        });
+      });
     } catch (error) {
       console.log(error);
     }
