@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema(
     ownedAnimals: { type: [String] }, //Id degli animali posseduti (_id di mongo)
     profilePicture: { type: String }, //Path alle immagini su filesystem
     admin: { type: Boolean, required: true, default: false },
+    cartProducts: { type: [String] }, //_id of cart products
   },
   {
     collection: "user-data",
