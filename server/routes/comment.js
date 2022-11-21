@@ -42,7 +42,7 @@ router
   });
 
 router
-  .route("/comment")
+  .route("/answer")
   /**
    * GET
    *
@@ -50,8 +50,8 @@ router
    */
   .get(async (req, res) => {
     try {
-      await Comment.findById(req.query.id).then((comments) => {
-        res.status(200).send(comments);
+      await Comment.findById(req.query.id).then((answers) => {
+        res.status(200).send(answers);
       });
     } catch (error) {
       console.log(error);
@@ -67,7 +67,7 @@ router
       await Comment.create({ comment: req.body.comment }).then(
         async (comment) => {
           await Comment.findByIdAndUpdate(req.query.id, {
-            $push: { answers: comment },
+            $push: { answers: comment._id },
           }).then(() => {
             res.sendStatus(201);
           });

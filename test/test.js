@@ -239,6 +239,33 @@ async function postComment() {
     });
 }
 
+async function getCommentsAnswers() {
+  let id = document.getElementById("getanswerid").value;
+  axios.get("/api/comments", { params: { id: id } }).then(async (res) => {
+    console.log(res.data.answers);
+    let answers = [];
+    for (let i = 0; i < res.data.answers.length; i++) {
+      axios
+        .get("/api/comments/answer", { params: { id: res.data.answers[i] } })
+        .then((res) => {
+          answers.push(res.data.comment);
+        });
+    }
+    console.log(answers);
+  });
+}
+
+async function postAnswer() {
+  const id = document.getElementById("postanswertid").value;
+  const comment = document.getElementById("postanswer").value;
+  console.log(comment);
+  axios
+    .post("/api/comments/answer", { comment: comment }, { params: { id: id } })
+    .then((res) => {
+      console.log(res);
+    });
+}
+
 //Services
 
 async function createService() {
