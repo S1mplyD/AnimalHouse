@@ -118,7 +118,6 @@ passport.use(
   })
 );
 
-//TODO: user already existing
 passport.use(
   "local-signup",
   new LocalStrategy(
