@@ -16,22 +16,7 @@ router
           async (user) => {
             await Cart.find({ _id: { $in: user.cartProducts } }).then(
               async (cartProducts) => {
-                console.log(cartProducts);
-                let cartProductsTuple = [];
-                let productsArr = [];
-                let productsQuantity = [];
-                for (let i = 0; i < cartProducts.length; i++) {
-                  productsArr.push(cartProducts[i].product);
-                  productsQuantity.push(cartProducts[i].quantity);
-                }
-
-                await Product.find({
-                  _id: {
-                    $in: productsArr,
-                  },
-                }).then((products) => {
-                  res.send(products);
-                });
+                res.send(cartProducts);
               }
             );
           }
@@ -52,7 +37,8 @@ router
   .post(async (req, res) => {
     try {
       if (req.user != null) {
-        await Product.findById(req.query.id).then(async (product) => {
+        await Product.findById(req.query.productid).then(async (product) => {
+          console.log(product);
           await Cart.create({
             title: product.title,
             price: product.price,
