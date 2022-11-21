@@ -19,6 +19,7 @@ const galleryRoute = require("./server/routes/gallery");
 const servicesRoute = require("./server/routes/services");
 const adsRoute = require("./server/routes/ADs");
 const commentsRoute = require("./server/routes/comment");
+const cartRoute = require("./server/routes/cart");
 const fs = require("fs");
 
 const app = express();
@@ -66,6 +67,7 @@ app.use("/api/gallery", galleryRoute);
 app.use("/api/services", servicesRoute);
 app.use("/api/ads", adsRoute);
 app.use("/api/comments", commentsRoute);
+app.use("/api/carts", cartRoute);
 app.get("/api/getHolidays", async (req, res) => {
   const holiday = await getHolidays(
     req.body.day,
