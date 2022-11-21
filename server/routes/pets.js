@@ -175,8 +175,5 @@ router
       console.log(error);
     }
   });
-//TODO: funzione per eliminare un pet tramite username
-
-router.route("/ownedPets").get(async (req, res) => {});
 
 module.exports = router;
