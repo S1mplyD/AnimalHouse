@@ -115,10 +115,9 @@ router
   })
   /**
    * DELETE
+   *
    * Rimuove l'immagine profilo di un utente.
-   * Funzione per gli utenti
    */
-  //TODO: aggiungere controllo utente
   .delete(async (req, res) => {
     try {
       if (req.user != null) {
