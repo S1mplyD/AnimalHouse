@@ -82,15 +82,14 @@ router
    * DELETE
    * delete a photo
    */
-  //TODO: test
   .delete(async (req, res) => {
     try {
       if (req.user != null) {
         if (req.user.admin) {
-          await Gallery.deleteOne({ filename: req.query.filename })
-            .then(async () => {
+          await Gallery.findOneAndDelete({ _id: req.query.id })
+            .then(async (image) => {
               fs.unlink(
-                path.join(__dirname, "../../public/" + req.query.filename),
+                path.join(__dirname, "../../public/" + image.filename),
                 (err) => {
                   if (err) console.log(err);
                 }
@@ -100,24 +99,20 @@ router
               res.status(200).send("image deleted successfully");
             });
         } else {
-          await Gallery.findOne({ username: req.user.username }).then(
-            async (photo) => {
-              await Gallery.deleteOne({
-                filename: req.query.filename,
-              })
-                .then(async () => {
-                  fs.unlink(
-                    path.join(__dirname, "../../public/" + req.query.filename),
-                    (err) => {
-                      if (err) console.log(err);
-                    }
-                  );
-                })
-                .finally(() => {
-                  res.status(200).send("image deleted successfully");
-                });
-            }
-          );
+          await Gallery.findOneAndDelete({
+            $and: [{ _id: req.query.id }, { username: req.user.username }],
+          })
+            .then(async (image) => {
+              fs.unlink(
+                path.join(__dirname, "../../public/" + image.filename),
+                (err) => {
+                  if (err) console.log(err);
+                }
+              );
+            })
+            .then(() => {
+              res.status(200).send("image deleted successfully");
+            });
         }
       } else {
         res.status(401);
