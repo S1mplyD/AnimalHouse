@@ -115,7 +115,7 @@ router
             });
         }
       } else {
-        res.status(401);
+        res.sendStatus(401);
       }
     } catch (error) {
       console.log(error);
