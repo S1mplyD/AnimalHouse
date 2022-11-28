@@ -555,26 +555,61 @@ router
     }
   });
 
-router.route("/gallery").post(async (req, res) => {
-  if (req.user != null) {
-    const upload = multer({ storage: storage }).single("image");
-    upload(req, res, async (err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        await Gallery.findOneAndUpdate(
-          {
-            _id: req.query.id,
-          },
-          {
-            filename: res.req.file.filename,
+router
+  .route("/gallery")
+  .post(async (req, res) => {
+    if (req.user != null) {
+      const upload = multer({ storage: storage }).single("image");
+      upload(req, res, async (err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          await Gallery.findOneAndUpdate(
+            {
+              _id: req.query.id,
+            },
+            {
+              filename: res.req.file.filename,
+            }
+          ).then(() => {
+            res.status(200).send("image uploaded correctly");
+          });
+        }
+      });
+    }
+  })
+  /**
+   * PATCH
+   *
+   * Change an image
+   */
+  .patch(async (req, res) => {
+    try {
+      if (req.user != null) {
+        const upload = multer({ storage: storage }).single("image");
+        upload(req, res, async (err) => {
+          if (err) console.log(err);
+          else {
+            await Gallery.findOne({
+              $and: [{ _id: req.query.id }, { username: req.user.username }],
+            }).then(async (photo) => {
+              fs.unlink(
+                path.join(__dirname, "../../public/" + photo.filename),
+                (err) => {
+                  if (err) console.log(err);
+                }
+              ).then(
+                await Gallery.findByIdAndUpdate(req.query.id, {
+                  filename: res.req.file.filename,
+                })
+              );
+            });
           }
-        ).then(() => {
-          res.status(200).send("image uploaded correctly");
         });
       }
-    });
-  }
-});
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
 module.exports = router;
