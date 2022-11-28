@@ -44,32 +44,38 @@ router
   })
   /**
    * PATCH
-   * edit an image
+   * edit an image details
    */
-  //TODO
   .patch(async (req, res) => {
     try {
       if (req.user != null) {
         if (req.user.admin) {
-          await Gallery.findOneAndUpdate(
-            { filename: req.query.filename },
-            req.body
-          ).then(() => {
-            res.status(200).send("image edited successfully");
+          await Gallery.findByIdAndUpdate(req.query.id, {
+            title: req.body.title,
+            location: req.body.location,
+            photographer: {
+              name: req.body.photographername,
+              url: req.body.photographerurl,
+            },
+          }).then(() => {
+            res.sendStatus(200);
           });
         } else {
-          await Gallery.findOne({ filename: req.query.filename }).then(
-            async (photo) => {
-              if (req.user.username == photo.username) {
-                await Gallery.updateOne(
-                  { filename: req.query.filename },
-                  req.body
-                ).then(() => {
-                  res.status(200).send("image edited successfully");
-                });
-              }
+          await Gallery.findOneAndUpdate(
+            {
+              $and: [{ _id: req.query.id }, { username: req.user.username }],
+            },
+            {
+              title: req.body.title,
+              location: req.body.location,
+              photographer: {
+                name: req.body.photographer.name,
+                url: req.body.photographer.url,
+              },
             }
-          );
+          ).then(() => {
+            res.sendStatus(200);
+          });
         }
       } else {
         res.sendStatus(401);
