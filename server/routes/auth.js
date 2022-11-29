@@ -104,6 +104,7 @@ router.get(
 passport.use(
   new LocalStrategy((username, password, done) => {
     User.findOne({ mail: username }, async (err, user) => {
+      console.log(user);
       if (err) {
         return done(err);
       }
