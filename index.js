@@ -48,6 +48,7 @@ fs.readdir(__dirname, (err, files) => {
     });
   }
 });
+
 app.use("/test", express.static(path.join(__dirname, "test")));
 app.use("/games", express.static(path.join(__dirname, "client/games/build")));
 app.use("/", express.static(path.join(__dirname, "frontend/dist")));
