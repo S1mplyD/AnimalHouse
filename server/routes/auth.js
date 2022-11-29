@@ -104,7 +104,6 @@ router.get(
 passport.use(
   new LocalStrategy((username, password, done) => {
     User.findOne({ mail: username }, async (err, user) => {
-      console.log(user);
       if (err) {
         return done(err);
       }
@@ -169,7 +168,8 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  console.log(user._id);
+  done(null, user._id);
 });
 
 router.get("/logout", (req, res) => {
