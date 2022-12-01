@@ -495,7 +495,7 @@ router
                   },
                 }
               );
-              res.status(200).send("images uploaded correctly");
+              res.sendStatus(200);
             }
           });
         } else {
@@ -543,7 +543,7 @@ router
                   },
                 }
               );
-              res.status(200).send("images uploaded correctly");
+              res.sendStatus(200);
             }
           });
         } else {
