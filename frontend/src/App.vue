@@ -5,9 +5,6 @@ basato su Single Page Applications, quindi non fa altro che aggiornare l'unica p
 </template>
 <!--Qui non c'è molto da dire: si da un nome all'app -->
 <script>
-export default {
-  name: 'App'
-}
 </script>
 <!--Definisco lo stile che sarà visibile nella maggior parte degli elementi della app, come font e colore dei link. Stili precisi vengono poi definiti nei singoli componenti e nelle singole view -->
 <style lang="scss">

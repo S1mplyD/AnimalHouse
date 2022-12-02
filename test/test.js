@@ -158,6 +158,13 @@ async function createProducts() {
         });
     });
 }
+async function deleteProduct() {
+  let prodid = document.getElementById("deleteprodid").value;
+  axios.delete("/api/products", { params: { pet: prodid } }).then((res) => {
+    console.log(res);
+  });
+}
+
 //Posts
 
 async function createPost() {
