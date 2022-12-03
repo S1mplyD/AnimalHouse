@@ -131,28 +131,20 @@ router
 router
   .route("/votes")
   /**
-   * PUT
+   * PATCH
    * vote an image
    */
-  .put(async (req, res) => {
+  .patch(async (req, res) => {
     try {
       if (req.user != null) {
         let userVote = parseInt(req.query.vote);
-        await Gallery.findOne({ filename: req.body.filename })
-          .then(async (photo) => {
-            console.log(photo);
-            await Gallery.findOneAndUpdate(
-              { filename: req.body.filename },
-              {
-                averageVote: (photo.votes + userVote) / (photo.votesNumber + 1),
-                votesNumber: photo.votesNumber + 1,
-                votes: photo.votes + userVote,
-              }
-            );
-          })
-          .finally(() => {
-            res.status(200).send("vote successfull");
-          });
+        await Gallery.findByIdAndUpdate(req.query.id, {
+          averageVote: (photo.votes + userVote) / (photo.votesNumber + 1),
+          votesNumber: photo.votesNumber + 1,
+          votes: photo.votes + userVote,
+        }).then(() => {
+          res.sendStatus(200);
+        });
       }
     } catch (error) {
       console.log(error);
