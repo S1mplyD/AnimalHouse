@@ -11,13 +11,15 @@ router
    */
   .get(async (req, res) => {
     try {
-      await User.find().then((users) => {
-        if (users) {
-          res.status(200).send(users);
-        } else {
-          res.sendStatus(404);
-        }
-      });
+      if (req.user != null && req.user.admin) {
+        await User.find().then((users) => {
+          if (users) {
+            res.status(200).send(users);
+          } else {
+            res.sendStatus(404);
+          }
+        });
+      }
     } catch (error) {
       console.log(error);
     }
