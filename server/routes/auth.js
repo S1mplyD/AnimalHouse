@@ -108,8 +108,6 @@ passport.use(
         return done(err);
       }
       if (!user) {
-        console.log("!user");
-        console.log(user);
         return done(null, false);
       }
       if (!(await bcrypt.compare(password, user.password))) {
@@ -170,10 +168,7 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.serializeUser((user, done) => {
-  console.log("serialize");
-  console.log(user._id);
-  console.log(user);
-  done(null, user._id);
+  done(null, user.id);
 });
 
 router.get("/logout", (req, res) => {
