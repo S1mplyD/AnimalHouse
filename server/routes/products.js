@@ -20,10 +20,9 @@ router
    * POST
    * Crea un nuovo prodotto
    */
-  //TODO: check duplicate product (same user, same title, same info)
   .post(async (req, res) => {
     try {
-      if (req.user != null) {
+      if (req.user != null && req.user.admin) {
         await Product.create({
           title: req.body.title,
           info: req.body.info,
