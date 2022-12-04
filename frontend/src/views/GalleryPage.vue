@@ -43,8 +43,10 @@ export default {
   mounted () {
     axios.get('/api/gallery')
       .then((response) => {
-        console.log(response.data)
-        this.gallery.push(response.data)
+        for (let i = 0; i < response.data.length; i++) {
+          console.log(response.data[i])
+          this.gallery.push(response.data[i])
+        }
       })
   },
   components: {

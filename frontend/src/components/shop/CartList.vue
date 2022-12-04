@@ -116,3 +116,14 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+#shop-section{
+    max-height: 700px;
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    border-style: none;
+  }
+#shop-section::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
+</style>
