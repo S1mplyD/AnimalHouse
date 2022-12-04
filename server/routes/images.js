@@ -463,10 +463,6 @@ router
 router
   .route("/services")
   /**
-   * TODO: get
-   */
-  .get((req, res) => {})
-  /**
    * POST
    * create new service with photos
    */
@@ -483,19 +479,28 @@ router
               for (let i = 0; i < res.req.files.length; i++) {
                 imagesAddr.push(res.req.files[i].filename);
               }
-              await Service.findOneAndUpdate(
-                {
-                  _id: req.query.id,
-                },
-                {
-                  $push: {
-                    pictures: {
-                      $each: imagesAddr,
-                    },
-                  },
+              await Service.findById(req.query.id).then(async (service) => {
+                if (service.pictures.length < 2) {
+                  await Service.updateOne(
+                    { _id: service._id },
+                    { $push: { pictures: { $each: imagesAddr } } }
+                  ).then(() => {
+                    res.sendStatus(200);
+                  });
+                } else {
+                  for (let i = 0; i < res.req.files.length; i++) {
+                    await fs.unlink(
+                      path.join(publicUploadsPath, res.req.files[i].filename),
+                      (err) => {
+                        if (err) console.log(err);
+                        else {
+                          res.sendStatus(500);
+                        }
+                      }
+                    );
+                  }
                 }
-              );
-              res.sendStatus(200);
+              });
             }
           });
         } else {
@@ -508,9 +513,45 @@ router
   })
   /**
    * PATCH
-   * edit service's photo
+   * edit service's photos
    */
-  .patch();
+  //TODO: change one or more photos
+  .patch(async (req, res) => {
+    try {
+      if (req.user != null && req.user.admin) {
+        const upload = multer({ storage: storage }).array("images", 2);
+        upload(req, res, async (err) => {
+          if (err) console.log(err);
+          else {
+            await Service.findById(req.query.id).then(async (service) => {
+              console.log(req.query.length);
+              for (let i = 0; i < service.pictures; i++) {
+                fs.unlink(
+                  path.join(publicUploadsPath, service.pictures[i]),
+                  (err) => {
+                    if (err) console.log(err);
+                    else {
+                      res.sendStatus(200);
+                    }
+                  }
+                );
+              }
+            });
+          }
+        });
+      } else {
+        res.sendStatus(401);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  })
+  /**
+   * DELETE
+   *
+   * delete a picture
+   */
+  .delete();
 
 router
   .route("/news")
@@ -522,28 +563,17 @@ router
     try {
       if (req.user != null) {
         if (req.user.admin) {
-          const upload = multer({ storage: storage }).array("images", 2);
+          const upload = multer({ storage: storage }).single("image");
           upload(req, res, async (err) => {
             if (err) {
               console.log(err);
             } else {
-              const imagesAddr = [];
-              for (let i = 0; i < res.req.files.length; i++) {
-                imagesAddr.push(res.req.files[i].filename);
-              }
-              await News.findOneAndUpdate(
-                {
-                  _id: req.query.id,
-                },
-                {
-                  $push: {
-                    pictures: {
-                      $each: imagesAddr,
-                    },
-                  },
-                }
-              );
-              res.sendStatus(200);
+              console.log(res.req.file.filename);
+              await News.findByIdAndUpdate(req.query.id, {
+                photo: res.req.file.filename,
+              }).then(() => {
+                res.sendStatus(200);
+              });
             }
           });
         } else {
@@ -593,12 +623,9 @@ router
             await Gallery.findOne({
               $and: [{ _id: req.query.id }, { username: req.user.username }],
             }).then(async (photo) => {
-              fs.unlink(
-                path.join(__dirname, "../../public/" + photo.filename),
-                (err) => {
-                  if (err) console.log(err);
-                }
-              ).then(
+              fs.unlink(path.join(publicUploadsPath, photo.filename), (err) => {
+                if (err) console.log(err);
+              }).then(
                 await Gallery.findByIdAndUpdate(req.query.id, {
                   filename: res.req.file.filename,
                 })
