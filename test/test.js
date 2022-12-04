@@ -360,3 +360,10 @@ async function patchPets() {}
 async function patchGallery() {}
 
 async function patchPosts() {}
+
+async function deleteCart() {
+  let id = document.getElementById("deletecart").value;
+  axios.delete("/api/carts", { params: { id: id } }).then((res) => {
+    console.log(res);
+  });
+}
