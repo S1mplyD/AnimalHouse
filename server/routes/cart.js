@@ -120,18 +120,27 @@ router
   .delete(async (req, res) => {
     try {
       if (req.user != null) {
-        await Cart.findOneAndRemove({
+        await Cart.findOne({
           $and: [
             { _id: req.query.id },
             { _id: { $in: req.user.cartProducts } },
           ],
-        }).then((result) => {
-          if (result) {
-            res.sendStatus(200);
+        }).then(async (cartitem) => {
+          let removeQuantity = parseInt(req.query.quantity);
+          if (removeQuantity < cartitem.quantity) {
+            await Cart.findByIdAndUpdate(req.query.id, {
+              $inc: { quantity: -removeQuantity },
+            }).then(() => {
+              res.sendStatus(200);
+            });
           } else {
-            res.sendStatus(401);
+            Cart.findByIdAndRemove(req.query.id).then(() => {
+              res.sendStatus(200);
+            });
           }
         });
+      } else {
+        res.sendStatus(401);
       }
     } catch (error) {
       console.log(error);
