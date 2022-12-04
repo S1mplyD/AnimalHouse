@@ -172,4 +172,26 @@ router.route("/userPets").get(async (req, res) => {
     console.log(error);
   }
 });
+
+router
+  .route("/publicProfile")
+  /**
+   * GET
+   *
+   * get user's public profile that includes non sensitive data
+   */
+  .get(async (req, res) => {
+    if (req.user != null) {
+      await User.findById(req.query.id).then((user) => {
+        let profile = {
+          name: user.name,
+          username: user.username,
+          ownedAnimals: user.ownedAnimals,
+          profilePicture: user.profilePicture,
+        };
+        res.status(200).send(profile);
+      });
+    }
+  });
+
 module.exports = router;
