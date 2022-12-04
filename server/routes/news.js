@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const News = require("../models/news.model");
+const path = require("path");
+const fs = require("fs");
 
 router
   .route("/")
@@ -18,13 +20,13 @@ router
   })
   /**
    * POST
-   * create a new news
+   * create a news
    */
   .post(async (req, res) => {
     try {
-      if (req.user != null) {
+      if (req.user != null && req.user.admin) {
         await News.findOne({
-          $and: [{ post: req.body.post }, { user: req.user.username }],
+          $and: [{ post: req.body.post }, { title: req.body.title }],
         }).then(async (news) => {
           if (!news) {
             await News.create({
@@ -33,8 +35,14 @@ router
               date: Date(),
               user: req.user.username,
               post_summary: `${req.body.post.slice(0, 141)}...`,
+              photo: "placeholder",
+            }).then((news) => {
+              if (news) {
+                res.sendStatus(201);
+              } else {
+                res.sendStatus(500);
+              }
             });
-            res.sendStatus(201);
           } else {
             res.json("news already existing");
           }
@@ -50,21 +58,16 @@ router
    * PATCH
    * edit an existing article
    */
-  // TODO: immagini
   .patch(async (req, res) => {
     try {
-      if (req.user != null) {
-        await News.findOneAndUpdate(
-          {
-            $and: [{ title: req.body.oldtitle }, { user: req.user.username }],
-          },
-          {
-            title: req.body.title,
-            post: req.body.post,
-            date: Date(),
-            post_summary: `${req.body.post.slice(0, 141)}...`,
-          }
-        ).then(() => {
+      if (req.user != null && req.user.admin) {
+        await News.findByIdAndUpdate(req.query.id, {
+          title: req.body.title,
+          post: req.body.post,
+          date: Date(),
+          post_summary: `${req.body.post.slice(0, 141)}...`,
+        }).then((ret) => {
+          console.log(ret);
           res.sendStatus(200);
         });
       } else {
@@ -80,12 +83,18 @@ router
    */
   .delete(async (req, res) => {
     try {
-      if (req.user != null) {
-        await News.findOneAndDelete({
-          $and: [{ title: req.body.title }, { user: req.user.username }],
-        }).then((article) => {
+      if (req.user != null && req.user.admin) {
+        await News.findByIdAndDelete(req.query.id).then(async (article) => {
           if (article) {
-            res.sendStatus(200);
+            await fs.unlink(
+              path.join(__dirname, "../../public/" + service.pictures[i]),
+              (err) => {
+                if (err) console.log(err);
+                else {
+                  res.sendStatus(200);
+                }
+              }
+            );
           } else {
             res.sendStatus(404);
           }
