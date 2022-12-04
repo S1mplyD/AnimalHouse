@@ -7,6 +7,7 @@ const newsSchema = new mongoose.Schema(
     date: { type: Date, required: true },
     post_summary: { type: String, maxlength: 144 },
     post: { type: String, required: true },
+    photo: { type: String, required: true },
   },
   {
     collection: "news-data",
