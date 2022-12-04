@@ -2,21 +2,23 @@
 <body class="bodymain">
 <ShopHeaderVue />
 <h1>Welcome to our shop!</h1>
-<div class="shop-section">
+<div class="overflow-auto" id="shop-section">
   <div v-for="(item, index) in products" :key="index">
-    <div class="card mb-3">
-      <div class="col-md-4">
-        <img :src="item.mainPhoto" class="img-fluid rounded-start" id="item-image" alt="..."/>
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h1 class="card-title">{{ item.title }}</h1>
-          <p class="card-text">{{ item.info }}</p>
-          <p class="card-text">Sold by{{ item.seller }}</p>
-          <p class="card-text">${{ item.price }}</p>
-          <p v-show="item.price >= item.discountedPrice" class="card-text">${{ item.discountedPrice}}</p>
+    <div class="card mb-3" style="width: 700px; height: 260px;" id="card">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img :src="item.mainPhoto" class="img-fluid rounded-start" style="object-fit: cover; height: 250px;" alt="...">
         </div>
-        <router-link to="/cart" class="routerlink">Add to cart</router-link>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.title }}</h5>
+            <p class="card-text">{{ item.info }}</p>
+            <p class="card-text">Sold by {{ item.seller }}</p>
+            <p class="card-text"><small>Sold at: ${{ item.price }}</small></p>
+            <p class="card-text" v-show="item.price > item.discountedPrice"><small class="text-muted">Discounted: ${{ item.discountedPrice }}</small></p>
+            <button @click="addToCart(item)" class="btn btn-primary">Add to Cart</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -29,6 +31,7 @@
 import ShopHeaderVue from '@/components/headers/ShopHeader.vue'
 import SiteFooterVue from '@/components/SiteFooter.vue'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 export default {
   name: 'ShopPage',
   data () {
@@ -41,15 +44,32 @@ export default {
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           console.log(response.data[i])
-          if (i < 5) {
-            this.products.push(response.data[i])
-          }
+          this.products.push(response.data[i])
         }
       })
   },
   components: {
     ShopHeaderVue,
     SiteFooterVue
+  },
+  methods: {
+    async addToCart (item) {
+      console.log(item._id)
+      axios.post('/api/carts', null, {
+        params: {
+          productid: item._id
+        }
+      }).then((res) => {
+        console.log(res.data)
+        Swal.fire({
+          position: 'top',
+          icon: 'success',
+          title: 'You added the item to the cart successfully!',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      })
+    }
   }
 }
 </script>
@@ -83,9 +103,19 @@ export default {
   .cr{
     bottom: 3px;
   }
-  #item-image{
-  max-height: 100px;
-  object-fit: cover;
+#shop-section{
+    max-height: 700px;
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    border-style: none;
+  }
+#shop-section::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
+#card {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 </style>>

@@ -21,10 +21,12 @@ import axios from 'axios'
 export default {
   name: 'ForumComponent',
   mounted () {
-    axios.get('http://localhost:8000/api/posts')
+    axios.get('/api/posts')
       .then((response) => {
-        console.log(response.data)
-        this.posts = response.data
+        for (let i = 0; i < response.data.length; i++) {
+          console.log(response.data[i])
+          this.posts.push(response.data[i])
+        }
       })
   },
   data () {
