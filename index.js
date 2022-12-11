@@ -21,10 +21,10 @@ const adsRoute = require("./server/routes/ADs");
 const commentsRoute = require("./server/routes/comment");
 const cartRoute = require("./server/routes/cart");
 const fs = require("fs");
-const history = require('connect-history-api-fallback')
+const history = require("connect-history-api-fallback");
 
 const app = express();
-app.use(history())
+app.use(history());
 
 const port = 8000;
 
@@ -32,6 +32,7 @@ app.use(cors());
 app.use(express.json());
 
 // Cookies
+//TODO: cookieSession is deprecated
 app.use(
   cookieSession({
     maxAge: 24 * 60 * 60 * 1000, //Un giorno

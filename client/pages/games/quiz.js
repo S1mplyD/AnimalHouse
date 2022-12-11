@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import Question from "./Question";
-import { CircularProgress } from "@material-ui/core";
-import "../../componentsCss/Quiz/Quiz.css";
+import Question from "../../components/question";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
-function Quiz({ questions, setQuestions, score, setScore, setGame }) {
+export default function Quiz({ questions }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [options, setOptions] = useState([]);
+  const [score, setScore] = useState(0);
+
   useEffect(() => {
     setOptions(
       questions &&
@@ -18,12 +19,11 @@ function Quiz({ questions, setQuestions, score, setScore, setGame }) {
   const handleShuffle = (options) => {
     return options.sort(() => Math.random() - 0.5);
   };
-
   return (
     <div className="flex flex-col items-center ">
       {questions ? (
         <>
-          {console.log(questions[currentQuestion].correct_answer)}
+          {console.log(questions)}
           <Question
             currentQuestion={currentQuestion}
             setCurrentQuestion={setCurrentQuestion}
@@ -32,8 +32,6 @@ function Quiz({ questions, setQuestions, score, setScore, setGame }) {
             correct={questions[currentQuestion].correct_answer}
             score={score}
             setScore={setScore}
-            setQuestions={setQuestions}
-            setGame={setGame}
           />
         </>
       ) : (
@@ -48,4 +46,9 @@ function Quiz({ questions, setQuestions, score, setScore, setGame }) {
   );
 }
 
-export default Quiz;
+export async function getServerSideProps() {
+  const rawData = await axios.get("http://localhost:8000/api/getTrivia/medium");
+  const questions = rawData.data;
+
+  return { props: { questions } };
+}
