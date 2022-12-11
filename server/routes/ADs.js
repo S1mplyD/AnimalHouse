@@ -20,24 +20,28 @@ router
       });
     } else {
       Products.find().then((products) => {
-        let response = [];
-        for (let i in products) {
-          for (let k in products[i].toJSON()) {
-            if (typeof products[i].toJSON()[k] === "string") {
-              arr.forEach((el) => {
-                if (products[i].toJSON()[k].includes(el)) {
-                  response.push(products[i].toJSON());
-                }
-              });
+        if (!products) {
+          res.status(200).send(products);
+        } else {
+          let response = [];
+          for (let i in products) {
+            for (let k in products[i].toJSON()) {
+              if (typeof products[i].toJSON()[k] === "string") {
+                arr.forEach((el) => {
+                  if (products[i].toJSON()[k].includes(el)) {
+                    response.push(products[i].toJSON());
+                  }
+                });
+              }
             }
+            arr.forEach((el) => {
+              if (products[i].toJSON().categories.includes(el)) {
+                response.push(products[i].toJSON());
+              }
+            });
           }
-          arr.forEach((el) => {
-            if (products[i].toJSON().categories.includes(el)) {
-              response.push(products[i].toJSON());
-            }
-          });
+          res.send(response);
         }
-        res.send(response);
       });
     }
   });
