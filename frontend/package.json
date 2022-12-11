@@ -12,6 +12,7 @@
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
     "bootstrap-vue": "^2.22.0",
+    "connect-history-api-fallback": "^2.0.0",
     "core-js": "^3.24.0",
     "jquery": "^3.6.1",
     "sweetalert2": "^11.6.15",

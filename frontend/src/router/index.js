@@ -15,6 +15,7 @@ import PostNewsView from '../views/PostNewsView.vue'
 import UserPage from '../views/UserPage.vue'
 import CartList from '../components/shop/CartList.vue'
 const routes = [
+
   {
     path: '/',
     name: 'home',

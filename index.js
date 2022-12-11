@@ -21,8 +21,10 @@ const adsRoute = require("./server/routes/ADs");
 const commentsRoute = require("./server/routes/comment");
 const cartRoute = require("./server/routes/cart");
 const fs = require("fs");
+const history = require('connect-history-api-fallback')
 
 const app = express();
+app.use(history())
 
 const port = 8000;
 
