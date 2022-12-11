@@ -8,14 +8,11 @@
         <div class="card-body">
           <h5 class="card-title" v-if="photo.title">{{ photo.title }}</h5>
           <p class="card-text" v-if="photo.location">{{ photo.location }}</p>
-          <a class="card-link" rel="nofollow" :href="photo.photographer.url">
+          <p class="card-text" v-if="photo.photographer">
             {{ photo.photographer.name }}
-          </a>
+          </p>
           <p class="card-text" v-if="photo.source">
-            via
-            <a class="card-link" rel="nofollow" :href="photo.source.url">
-              {{ photo.source.name }}
-            </a>
+            via {{ photo.source.name }}
           </p>
         </div>
       </div>
