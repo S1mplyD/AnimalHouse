@@ -1,21 +1,15 @@
 <template lang="en">
 <body class="bodymain">
  <div>
-  <NewsPageComponent />
-  <NewsComponent />
+
  </div>
  </body>
 </template>
 
 <script>
-import NewsComponent from '../components/news/NewsComponent.vue'
-import NewsPageComponent from '../components/news/NewsPageComponent.vue'
 
 export default {
-  name: 'PostView',
-  components: {
-    NewsPageComponent,
-    NewsComponent
-  }
+  name: 'PostView'
+
 }
 </script>
