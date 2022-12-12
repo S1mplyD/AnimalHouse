@@ -1,32 +1,57 @@
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+// import path from "path";
 
-export default function Home() {
-  const router = useRouter();
-  const [game, setGame] = useState();
+export default function Home({
+  getQuestions,
+  setScore,
+  setQuestions,
+  images,
+  getImages,
+  getWords,
+  setGame,
+}) {
+  const navigate = useNavigate();
+  const [ads, setAds] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    async function ads() {
+      await getAds();
+    }
+    ads();
+  }, []);
+
+  const getAds = async () => {
+    await axios.get("/api/ads").then((res) => {
+      if (res.data != null) {
+        setAds(res.data);
+        setLoading(false);
+      }
+    });
+  };
   const handleQuiz = async () => {
     setGame("quiz");
-    // await getQuestions();
-    router.push("/games/quiz");
+    await getQuestions();
+    navigate("/games/quiz");
   };
   const handleMemory = async () => {
     setGame("memory");
-    // await getImages();
-    router.push("/games/memory");
+    await getImages();
+    navigate("/games/memory");
   };
   const handleHangMan = async () => {
     setGame("hangman");
-    // await getWords();
-    router.push("/games/hangman");
+    await getWords();
+    navigate("/games/hangman");
   };
 
   return (
     <div>
-      <div className="m-5 p-2 bg-blue-500 rounded ">
-        <form className="bg-blue-500 flex flex-col items-center text-center">
-          <div className="m-2 p-2 flex flex-col">
-            <label htmlFor="specie" className="bg-blue-500">
+      <div className="m-5 p-2 bg-white rounded ">
+        <form className="bg-white flex flex-col items-center text-center">
+          <div className="m-2 p-2 bg-white flex flex-col">
+            <label htmlFor="specie" className="bg-white">
               Animal species:
             </label>
             <input
@@ -37,8 +62,8 @@ export default function Home() {
               placeholder="Enter animal species"
             />
           </div>
-          <div className="m-2 p-2 bg-blue-500 flex flex-col">
-            <label htmlFor="name" className="bg-blue-500">
+          <div className="m-2 p-2 bg-white flex flex-col">
+            <label htmlFor="name" className="bg-white">
               Animal name:
             </label>
             <input
@@ -49,8 +74,8 @@ export default function Home() {
               placeholder="Enter animal name"
             />
           </div>
-          <div className="m-2 p-2 flex flex-col">
-            <label htmlFor="gender" className="form-label bg-blue-500">
+          <div className="m-2 p-2 bg-white flex flex-col">
+            <label htmlFor="gender" className="form-label bg-white">
               Animal gender:
             </label>
             <select
@@ -59,16 +84,16 @@ export default function Home() {
               className="form-select rounded-xl mx-2"
               defaultValue="M"
             >
-              <option value="M" className="bg-blue-500">
+              <option value="M" className="bg-white">
                 Male
               </option>
-              <option value="F" className="bg-blue-500">
+              <option value="F" className="bg-white">
                 Female
               </option>
             </select>
           </div>
-          <div className="m-2 p-2  flex flex-col">
-            <label htmlFor="age" className="form-label bg-blue-500">
+          <div className="m-2 p-2 bg-white flex flex-col">
+            <label htmlFor="age" className="form-label bg-white">
               Animal age:
             </label>
             <input
@@ -79,8 +104,8 @@ export default function Home() {
               placeholder="Enter animal age"
             />
           </div>
-          <div className="m-2 p-2  flex flex-col">
-            <label htmlFor="medical" className="form-label bg-blue-500">
+          <div className="m-2 p-2 bg-white flex flex-col">
+            <label htmlFor="medical" className="form-label bg-white">
               Enter eventual medical condition:
             </label>
             <textarea
@@ -92,11 +117,11 @@ export default function Home() {
               className="form-textarea rounded-xl"
             ></textarea>
           </div>
-          <div className="m-2 p-2  ">
+          <div className="m-2 p-2 bg-white ">
             <input
               type="button"
               value="Subimt"
-              className="p-2 rounded-xl hover:bg-cyan-700 bg-cyan-400 text-white"
+              className="p-2 rounded-xl hover:bg-blue-700 bg-cyan-400 text-white"
               onClick={() => {}}
             />
           </div>
@@ -106,9 +131,7 @@ export default function Home() {
         <div className=" p-2 ">
           <img
             className="w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
-            width="1000"
-            height="1000"
-            src="/1652541244672.png"
+            src={require("./1652541244672.png")}
             alt="quiz game"
             onClick={handleQuiz}
           />
@@ -116,9 +139,7 @@ export default function Home() {
         <div className=" p-2">
           <img
             className=" w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
-            width="1000"
-            height="1000"
-            src="/animali-selvatici.jpg"
+            src={require("./animali-selvatici.jpg")}
             alt="memory game"
             onClick={handleMemory}
           />
@@ -126,15 +147,12 @@ export default function Home() {
         <div className="p-2">
           <img
             className="w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
-            width="1000"
-            height="1000"
-            src="/hangmanGame.jpg"
+            src={require("./hangmanGame.jpg")}
             alt="hangman game"
             onClick={handleHangMan}
           />
         </div>
       </div>
-      {/* {loading ? "null" : <ADs ads={ads}></ADs>} */}
     </div>
   );
 }

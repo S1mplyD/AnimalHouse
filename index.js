@@ -24,7 +24,7 @@ const fs = require("fs");
 const history = require("connect-history-api-fallback");
 
 const app = express();
-app.use(history());
+// app.use(history());
 
 const port = 8000;
 
@@ -53,7 +53,7 @@ fs.readdir(__dirname, (err, files) => {
 });
 
 app.use("/test", express.static(path.join(__dirname, "test")));
-app.use("/games", express.static(path.join(__dirname, "client/games/build")));
+app.use("/games", express.static(path.join(__dirname, "games/build")));
 app.use("/", express.static(path.join(__dirname, "frontend/dist")));
 app.use(express.static(path.join(__dirname, "public")));
 /**

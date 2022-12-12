@@ -9,7 +9,6 @@ import Memory from "./components/Memory/Memory";
 import Hangman from "./components/Impiccato/hangman";
 
 function App() {
-  global.__clientmain = __dirname;
   const [questions, setQuestions] = useState([]);
   const [score, setScore] = useState(0);
   const [images, setImages] = useState([]);
