@@ -21,10 +21,8 @@ const adsRoute = require("./server/routes/ADs");
 const commentsRoute = require("./server/routes/comment");
 const cartRoute = require("./server/routes/cart");
 const fs = require("fs");
-const history = require("connect-history-api-fallback");
 
 const app = express();
-// app.use(history());
 
 const port = 8000;
 
@@ -55,6 +53,7 @@ fs.readdir(__dirname, (err, files) => {
 app.use("/test", express.static(path.join(__dirname, "test")));
 app.use("/games", express.static(path.join(__dirname, "games/build")));
 app.use("/", express.static(path.join(__dirname, "frontend/dist")));
+app.use("/backoffice", express.static(path.join(__dirname, "backoffice/test")));
 app.use(express.static(path.join(__dirname, "public")));
 /**
  * API routes
@@ -85,6 +84,9 @@ app.get("/api/getTrivia/:difficulty", async (req, res) => {
     res.json(response);
   });
 });
+app.get(/.*/, (req, res) =>
+  res.sendFile(__dirname + "/frontend/dist/index.html")
+);
 
 mongoose.connect(process.env.MONGODB_PERSONAL_URI);
 
