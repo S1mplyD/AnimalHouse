@@ -105,7 +105,7 @@ dist
 .tern-port
 
 # public assets
-public
+/public
 
 #vscode
 .vscode
