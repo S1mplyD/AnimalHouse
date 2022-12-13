@@ -120,7 +120,7 @@ export default function Home({
           <div className="m-2 p-2 bg-white ">
             <input
               type="button"
-              value="Subimt"
+              value="Submit"
               className="p-2 rounded-xl hover:bg-blue-700 bg-cyan-400 text-white"
               onClick={() => {}}
             />
