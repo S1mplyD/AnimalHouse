@@ -35,12 +35,12 @@ import SiteFooterVue from '@/components/SiteFooter.vue'
 export default {
   name: 'UserPage',
   mounted () {
-    axios.get('https://site212211.tw.cs.unibo.it/auth/isAuthenticated')
+    axios.get('/auth/isAuthenticated')
       .then((response) => {
         this.user.push(response.data)
         console.log(this.user.length)
       })
-    axios.get('https://site212211.tw.cs.unibo.it/api/users/userPets')
+    axios.get('/api/users/userPets')
       .then((response) => {
         this.pets.push(response.data)
         console.log(this.pets.length)
@@ -59,7 +59,7 @@ export default {
         name: document.getElementById('petname').value
       }
       console.log(document.getElementById('petname').value)
-      fetch('https://site212211.tw.cs.unibo.it/api/pets', {
+      fetch('/api/pets', {
         method: 'post',
         headers: {
           'Content-type': 'application/json'
@@ -69,7 +69,7 @@ export default {
     },
     removePets: async function () {
       console.log(document.getElementById('petname').value)
-      fetch('https://site212211.tw.cs.unibo.it/api/pets?pet=' + document.getElementById('petname2').value, {
+      fetch('/api/pets?pet=' + document.getElementById('petname2').value, {
         method: 'delete',
         headers: {
           'Content-type': 'application/json'

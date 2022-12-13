@@ -34,8 +34,8 @@
             <div class="card-body">
               <h5 class="card-title"><b>{{user[0].username}}</b></h5>
             </div>
-              <router-link to="/testpage" class="card-link" v-if="user[0].admin === true">Testarea</router-link>
-              <router-link to="/backoffice/" class="card-link" v-if="user[0].admin === true">Backoffice</router-link>
+              <a href="/test" class="card-link" v-if="user[0].admin === true">Testarea</a>
+              <a href="/backoffice" class="card-link" v-if="user[0].admin === true">Backoffice</a>
               <router-link to="/user" class="card-link">User Area</router-link>
               <router-link to="/cart" class="card-link">Go to the Cart</router-link>
               <a href="/auth/logout" class="card-link">Logout</a>
