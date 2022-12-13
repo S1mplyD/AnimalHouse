@@ -159,11 +159,7 @@ router.route("/userPets").get(async (req, res) => {
   try {
     if (req.user != null) {
       await Pet.find({ owner: req.user.username }).then((pets) => {
-        let petNames = [];
-        pets.forEach((el) => {
-          petNames.push(el.name);
-        });
-        res.send(petNames);
+        res.send(pets);
       });
     } else {
       res.sendStatus(401);
