@@ -131,7 +131,7 @@ export default function Home({
         <div className=" p-2 ">
           <img
             className="w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
-            src={require("./1652541244672.png")}
+            src="/archLogo.png"
             alt="quiz game"
             onClick={handleQuiz}
           />
@@ -139,7 +139,7 @@ export default function Home({
         <div className=" p-2">
           <img
             className=" w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
-            src={require("./animali-selvatici.jpg")}
+            src="/animaliSelvatici.jpg"
             alt="memory game"
             onClick={handleMemory}
           />
@@ -147,7 +147,7 @@ export default function Home({
         <div className="p-2">
           <img
             className="w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
-            src={require("./hangmanGame.jpg")}
+            src="/hangmanGame.jpg"
             alt="hangman game"
             onClick={handleHangMan}
           />
