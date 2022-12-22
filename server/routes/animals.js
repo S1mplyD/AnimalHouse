@@ -7,7 +7,9 @@ router.route("/").get(async (req, res) => {
 });
 
 router.route("/memory").get(async (req, res) => {
-  await animals.getMemoryAnimals();
+  await animals.getMemoryAnimals().then((animals) => {
+    res.send(animals);
+  });
 });
 
 // router.route("/populate").get(async (req, res) => {
