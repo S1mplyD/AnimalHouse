@@ -1,0 +1,77 @@
+[
+    {
+      "id": 0,
+      "title": "Domande sui servizi",
+      "user": "Mario Rossi",
+      "date": "19/09/2021",
+      "post_summary": "Buongiorno, vorrei chiedere se ci sono...",
+      "post": "Buongiorno, vorrei chiedere se ci sono servizi nella zona di Ascoli Piceno, e anche se è necessario essere cliente da un po' di tempo per usufruirne."
+    },
+    {
+      "id": 1,
+      "title": "Test news 1",
+      "user": "Mario Rossi",
+      "date": "19/09/2021",
+      "post_summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+      "post": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    },
+    {
+      "id": 2,
+      "title": "Test news 2",
+      "user": "Mario Rossi",
+      "date": "19/09/2021",
+      "post_summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+      "post": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    },
+    {
+      "id": 3,
+      "title": "Test news 3",
+      "user": "Mario Rossi",
+      "date": "19/09/2021",
+      "post_summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+      "post": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    },
+    {
+      "id": 3,
+      "title": "Test news 4",
+      "user": "Mario Rossi",
+      "date": "19/09/2021",
+      "post_summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+      "post": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    },{
+      "id": 4,
+      "title": "Test news 5",
+      "user": "Mario Rossi",
+      "date": "19/09/2021",
+      "post_summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+      "post": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    },{
+      "id": 5,
+      "title": "Test news 6",
+      "user": "Mario Rossi",
+      "date": "19/09/2021",
+      "post_summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+      "post": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    },{
+      "id": 6,
+      "title": "Test news 7",
+      "user": "Mario Rossi",
+      "date": "19/09/2021",
+      "post_summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+      "post": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    },{
+      "id": 7,
+      "title": "Test news 8",
+      "user": "Mario Rossi",
+      "date": "19/09/2021",
+      "post_summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+      "post": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    },{
+      "id": 8,
+      "title": "Test news 9",
+      "user": "Mario Rossi",
+      "date": "19/09/2021",
+      "post_summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+      "post": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    }
+  ]
