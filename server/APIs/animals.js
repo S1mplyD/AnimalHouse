@@ -9,11 +9,9 @@ async function getMemoryAnimals() {
   let animals = await Animal.find();
   let memoryAnimals = [];
   for (let i = 0; i < 8; i++) {
-    memoryAnimals.push(
-      animals[Math.floor(Math.random() * animals.length)].image
-    );
+    memoryAnimals.push(animals[Math.floor(Math.random() * animals.length)]);
   }
-  console.log(memoryAnimals);
+  return memoryAnimals;
 }
 
 // async function populateDb() {
