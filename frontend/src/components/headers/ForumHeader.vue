@@ -71,7 +71,7 @@ export default {
 header {
     display: flex;
     border-bottom: 1px solid rgb(3, 3, 3);
-    background-color: rgb(0, 68, 40);
+    background-color: rgb(41, 109, 64);
     padding: .5rem 1rem;
 
     p {

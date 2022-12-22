@@ -22,7 +22,8 @@ basato su Single Page Applications, quindi non fa altro che aggiornare l'unica p
   }
 }
 .bodymain{
-  background-color: rgb(60, 121, 150);
+  background-image: url("./assets/istockphoto-517188688-612x612.jpg");
+  background-size: cover;
 }
 header {
   top: 10px;
