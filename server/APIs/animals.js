@@ -1,17 +1,23 @@
 const Animal = require("../models/animals.model");
 const botaniczoo = require("botanic-zoo-api");
+
 async function getAllAnimals() {
   let animals = await Animal.find();
-  console.log(animals.length);
+  return animals;
 }
 
 async function getMemoryAnimals() {
-  let animals = await Animal.find();
+  let animals = await getAllAnimals();
   let memoryAnimals = [];
   for (let i = 0; i < 8; i++) {
     memoryAnimals.push(animals[Math.floor(Math.random() * animals.length)]);
   }
   return memoryAnimals;
+}
+
+async function getHangmanWords() {
+  let animals = await getAllAnimals();
+  return animals[Math.floor(Math.random() * animals.length)].name;
 }
 
 // async function populateDb() {
@@ -77,4 +83,4 @@ async function getMemoryAnimals() {
 //     });
 // }
 
-module.exports = { getAllAnimals, getMemoryAnimals };
+module.exports = { getAllAnimals, getMemoryAnimals, getHangmanWords };
