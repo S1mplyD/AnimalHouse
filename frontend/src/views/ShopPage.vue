@@ -65,9 +65,11 @@ export default {
           position: 'top',
           icon: 'success',
           title: 'You added the item to the cart successfully!',
-          showConfirmButton: false,
-          timer: 1500
+          showConfirmButton: true
         })
+          .then((response) => {
+            if (response.isConfirmed) location.reload()
+          })
       })
     }
   }

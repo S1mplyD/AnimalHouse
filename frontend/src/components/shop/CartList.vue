@@ -100,7 +100,14 @@ export default {
             quantity: text
           }
         }).then((res) => {
-          Swal.fire(`You removed ${text} items of this type from your cart!`)
+          Swal.fire({
+            icon: 'success',
+            title: `You removed ${text} items of this type from your cart!`,
+            showConfirmButton: true
+          })
+            .then((response) => {
+              if (response.isConfirmed) location.reload()
+            })
         })
       } else if (text >= item.quantity) {
         axios.delete('/api/carts', {
@@ -109,7 +116,14 @@ export default {
             quantity: text
           }
         }).then((res) => {
-          Swal.fire('You removed all items of this type from your cart!')
+          Swal.fire({
+            icon: 'success',
+            title: 'You removed all items of this type from your cart!',
+            showConfirmButton: true
+          })
+            .then((response) => {
+              if (response.isConfirmed) location.reload()
+            })
         })
       }
     }
