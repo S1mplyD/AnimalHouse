@@ -12,6 +12,12 @@ router.route("/memory").get(async (req, res) => {
   });
 });
 
+router.route("/hangman").get(async (req, res) => {
+  await animals.getHangmanWords().then((word) => {
+    res.send(word);
+  });
+});
+
 // router.route("/populate").get(async (req, res) => {
 //   animals.populateDb();
 // });
