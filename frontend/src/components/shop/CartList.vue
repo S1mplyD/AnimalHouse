@@ -17,8 +17,8 @@
             <div class="card-body">
               <h5 class="card-title"><b>{{user[0].username}}</b></h5>
             </div>
-              <router-link to="/test/" class="card-link" v-if="user[0].admin === true">Testarea</router-link>
-              <router-link to="/backoffice/" class="card-link" v-if="user[0].admin === true">Backoffice</router-link>
+              <a href="/test" class="card-link" v-if="user[0].admin === true">Testarea</a>
+              <a href="/backoffice" class="card-link" v-if="user[0].admin === true">Backoffice</a>
               <router-link to="/user" class="card-link">User Area</router-link>
               <a href="/auth/logout" class="card-link">Logout</a>
           </div>
@@ -131,6 +131,45 @@ export default {
 }
 </script>
 <style lang="scss">
+header {
+    display: flex;
+    border-bottom: 1px solid rgb(3, 3, 3);
+    background-color: rgb(41, 109, 64);
+    padding: .5rem 1rem;
+
+    p {
+      margin-left: 1rem;
+    }
+  }
+
+  nav {
+    margin-left: auto;
+
+    ul {
+      list-style: none;
+    }
+
+    ul li {
+      display: inline-flex;
+      margin-left: 1rem;
+    }
+  }
+  #loginsection {
+    margin-right: auto;
+  }
+  #profilePicture {
+    margin-right: auto;
+  }
+  #profilePicture{
+    width: 50px ;
+    height: 50px;
+  }
+  .card-link {
+    color:#09ff00;
+    &:hover{
+      color:#a6ff00;
+    }
+  }
 #shop-section{
     max-height: 700px;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */

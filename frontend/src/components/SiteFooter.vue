@@ -18,7 +18,7 @@ export default {
 footer{
   bottom: 4px;
   height: 100%;
-  background-color: rgb(0, 68, 40);
+  background-color: rgb(41, 109, 64);
   padding-top: 47px;
   padding-bottom: 40px ;
 }

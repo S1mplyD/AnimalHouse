@@ -165,7 +165,8 @@ export default {
   width: 30%;
   height:100%;
   object-fit: cover;
-  background: rgb(60, 121, 150);
+  background-image: url("../assets/istockphoto-517188688-612x612.jpg");
+  background-size: cover;
   padding: 20px;
   .ImageShow{
    width: 90%;
@@ -178,7 +179,8 @@ export default {
   text-align: center;
   width: 30%;
   height:100%;
-  background: rgb(60, 121, 150);
+  background-image: url("../assets/istockphoto-517188688-612x612.jpg");
+  background-size: cover;
   padding: 20px;
 }
 #card{
@@ -191,7 +193,8 @@ export default {
   text-align: center;
   width: 40%;
   height:100%;
-  background: rgb(47, 39, 148);
+  background-image: url("../assets/Desktop-hd-wallpaper-nature-1080p.jpg");
+  background-size: cover;
   padding: 20px;
 }
 .carousel{
