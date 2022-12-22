@@ -6,4 +6,12 @@ router.route("/").get(async (req, res) => {
   res.send(animal);
 });
 
+router.route("/memory").get(async (req, res) => {
+  await animals.getMemoryAnimals();
+});
+
+// router.route("/populate").get(async (req, res) => {
+//   animals.populateDb();
+// });
+
 module.exports = router;
