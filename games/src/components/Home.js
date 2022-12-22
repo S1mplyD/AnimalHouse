@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import path from "path";
 
 export default function Home({
   getQuestions,
