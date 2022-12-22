@@ -21,20 +21,18 @@ function App() {
   };
 
   const getImages = async () => {
-    const data = await axios.get(
-      "https://zoo-animal-api.herokuapp.com/animals/rand/8"
-    );
+    const data = await axios.get("/api/animals/memory");
     let memoryImages = [];
     data.data.map((i, index) => {
       memoryImages.push({
         id: index,
-        image: i.image_link,
+        image: i.image,
         state: "",
         name: i.name,
       });
       memoryImages.push({
         id: index,
-        image: i.image_link,
+        image: i.image,
         state: "",
         name: i.name,
       });
