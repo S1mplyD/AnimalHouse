@@ -43,20 +43,11 @@ function App() {
   };
 
   const getWords = async () => {
-    await axios
-      .get("https://zoo-animal-api.herokuapp.com/animals/rand")
-      .then((data) => {
-        console.log(data.data);
-        let ran = Math.floor(Math.random() * 3);
-        console.log(ran);
-        if (ran === 0) {
-          setWord(data.data.name.replace(" ", ""));
-        } else if (ran === 1) {
-          setWord(data.data.latin_name.replace(" ", ""));
-        } else {
-          setWord(data.data.animal_type.replace(" ", ""));
-        }
-      });
+    await axios.get("/api/animals/hangman").then((data) => {
+      console.log(data.data);
+
+      setWord(data.data.replace(" ", ""));
+    });
   };
 
   return (
