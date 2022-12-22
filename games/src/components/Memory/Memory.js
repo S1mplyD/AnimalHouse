@@ -31,7 +31,7 @@ function Memory({ images, setImages, score, setScore }) {
 
       navigate("/result");
     } else if (prec === -1) {
-      if (images[index].state != "correct") {
+      if (images[index].state !== "correct") {
         images[index].state = "active";
         setImages([...images]);
         setPrec(index);
@@ -45,8 +45,8 @@ function Memory({ images, setImages, score, setScore }) {
     //stessa immagine
     console.log("id: " + id);
     console.log("score: " + score);
-    if (images[id].id == images[prec].id) {
-      if (images[id].state != "active") {
+    if (images[id].id === images[prec].id) {
+      if (images[id].state !== "active") {
         images[id].state = images[prec].state = "correct";
         setImages([...images]);
         setPrec(-1);
@@ -57,7 +57,7 @@ function Memory({ images, setImages, score, setScore }) {
 
     //carta sbagliata
     else {
-      if (images[id].state != "correct") {
+      if (images[id].state !== "correct") {
         images[id].state = images[prec].state = "wrong";
         setImages([...images]);
         setClickable(false);
@@ -108,9 +108,7 @@ function Memory({ images, setImages, score, setScore }) {
         }
       </div>
       {/* ads */}
-      <div>
-        <ADs></ADs>
-      </div>
+      <div>{/* <ADs></ADs> */}</div>
     </div>
   );
 }
