@@ -20,6 +20,7 @@ const servicesRoute = require("./server/routes/services");
 const adsRoute = require("./server/routes/ADs");
 const commentsRoute = require("./server/routes/comment");
 const cartRoute = require("./server/routes/cart");
+const animalRoute = require("./server/routes/animals");
 const fs = require("fs");
 
 const app = express();
@@ -71,6 +72,7 @@ app.use("/api/services", servicesRoute);
 app.use("/api/ads", adsRoute);
 app.use("/api/comments", commentsRoute);
 app.use("/api/carts", cartRoute);
+app.use("/api/animals", animalRoute);
 app.get("/api/getHolidays", async (req, res) => {
   const holiday = await getHolidays(
     req.body.day,
@@ -84,6 +86,7 @@ app.get("/api/getTrivia/:difficulty", async (req, res) => {
     res.json(response);
   });
 });
+
 app.get(/.*/, (req, res) =>
   res.sendFile(__dirname + "/frontend/dist/index.html")
 );
