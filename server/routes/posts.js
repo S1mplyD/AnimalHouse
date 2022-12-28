@@ -11,6 +11,10 @@ router
    */
   .get(async (req, res) => {
     try {
+      let date = new Date();
+      console.log(
+        `${date.getDate()}:${date.getMonth() + 1}:${date.getFullYear()}`
+      );
       await Post.find().then((posts) => {
         res.send(posts);
       });
@@ -29,10 +33,14 @@ router
           $and: [{ post: req.body.post }, { user: req.user.username }],
         }).then(async (post) => {
           if (!post) {
+            let date = new Date();
+            let day = `${date.getDate()}:${
+              date.getMonth() + 1
+            }:${date.getFullYear()}`;
             await Post.create({
               title: req.body.title,
               user: req.user.username,
-              date: Date(),
+              date: day,
               post: req.body.post,
               post_summary: `${req.body.post.slice(0, 141)}...`,
             }).then((post) => {
@@ -56,13 +64,17 @@ router
   .patch(async (req, res) => {
     try {
       if (req.user != null) {
+        let date = new Date();
+        let day = `${date.getDate()}:${
+          date.getMonth() + 1
+        }:${date.getFullYear()}`;
         await Post.findOneAndUpdate(
           {
             $and: [{ title: req.body.oldtitle }, { author: req.user.username }],
           },
           {
             title: req.body.title,
-            date: Date(),
+            date: day,
             post: req.body.post,
             post_summary: `${req.body.post.slice(0, 141)}...`,
           }
