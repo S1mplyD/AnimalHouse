@@ -1,10 +1,8 @@
 <template lang="en">
-<body class="bodymain">
  <div>
   <ForumComponent />
   <PostComponent />
  </div>
- </body>
 </template>
 
 <script>

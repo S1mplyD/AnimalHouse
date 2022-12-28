@@ -1,5 +1,4 @@
 <template class="gallery-main" lang="en">
-<body class="bodymain">
   <GalleryHeader />
   <div class="gallery" v-if="gallery.length > 0">
     <div class="gallery-panel" v-for="photo in gallery" :key="photo._id">
@@ -28,7 +27,6 @@
       </div>
   </div>
   <SiteFooter />
-</body>
 </template>
 
 <script>

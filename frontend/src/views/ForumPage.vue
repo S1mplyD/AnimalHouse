@@ -1,9 +1,7 @@
 <template lang="en">
-<body class="bodymain">
  <ForumHeaderVue />
  <ForumComponent class="forum-view"/>
  <SiteFooterVue/>
- </body>
 </template>
 
 <script>
@@ -24,8 +22,10 @@ export default {
 <style lang="scss">
   .forum {
     display: flex;
-    border-bottom: 1px solid #ccc;
+    background-image: url("../assets/istockphoto-517188688-612x612.jpg");
+    height: 800px;
     padding: .5rem 1rem;
+    background-size: cover;
 
     p {
       margin-left: 1rem;

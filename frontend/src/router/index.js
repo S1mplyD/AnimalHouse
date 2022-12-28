@@ -3,7 +3,6 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegistroView from '../views/RegistroView.vue'
 import ForumPage from '../views/ForumPage.vue'
-import GamePage from '../views/GamePage.vue'
 import ShopPage from '../views/ShopPage.vue'
 import ServiziPage from '../views/ServiziPage.vue'
 import NewsPage from '../views/NewsPage.vue'
@@ -34,11 +33,6 @@ const routes = [
     path: '/forum',
     name: 'forum',
     component: ForumPage
-  },
-  {
-    path: '/gioca',
-    name: 'gioca',
-    component: GamePage
   },
   {
     path: '/user',

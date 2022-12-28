@@ -1,5 +1,4 @@
 <template lang="en">
-<body class="bodymain">
 <ShopHeaderVue />
 <h1>Welcome to our shop!</h1>
 <div class="overflow-auto" id="shop-section">
@@ -24,7 +23,6 @@
   </div>
 </div>
 <SiteFooterVue />
-</body>
 </template>
 
 <script>
@@ -106,7 +104,9 @@ export default {
     bottom: 3px;
   }
 #shop-section{
-    max-height: 700px;
+    background-image: url("../assets/istockphoto-517188688-612x612.jpg");
+    height: 800px;
+    background-size: cover;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
     border-style: none;

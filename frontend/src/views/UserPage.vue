@@ -173,8 +173,9 @@ header{
 }
 .mainUser {
   text-align: left;
-  background-color: rgb(60, 121, 150);
+  background-image: url("../assets/istockphoto-517188688-612x612.jpg");
   height: 800px;
+  background-size: cover;
   border: 1px solid #333;
 }
 #usercard {

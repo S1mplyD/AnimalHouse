@@ -23,6 +23,7 @@ basato su Single Page Applications, quindi non fa altro che aggiornare l'unica p
 }
 .bodymain{
   background-image: url("./assets/istockphoto-517188688-612x612.jpg");
+  height: 800px;
   background-size: cover;
 }
 header {

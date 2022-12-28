@@ -1,5 +1,4 @@
 <template lang="en">
-<body class="bodymain">
 <ServiziHeaderVue />
 <section class="body">
  <form>
@@ -67,7 +66,6 @@
 </div>
 </section>
 <SiteFooterVue />
-</body>
 </template>
 
 <script>
@@ -79,7 +77,7 @@ import axios from 'axios'
 export default {
   name: 'ServiziPage',
   mounted () {
-    axios.get('https://site212211.tw.cs.unibo.it/api/services')
+    axios.get('/api/services')
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           console.log(response.data[i])
@@ -171,6 +169,11 @@ export default {
 </script>
 
 <style lang="scss">
+.body {
+  background-image: url("../assets/istockphoto-517188688-612x612.jpg");
+  height: 800px;
+  background-size: cover;
+}
   .servizi {
     display: flex;
     border-bottom: 1px solid #ccc;
@@ -204,7 +207,7 @@ export default {
     max-height: 450px;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
-    border-top-style: double;
+    border-top-style: none;
   }
   .services{
     list-style: none;

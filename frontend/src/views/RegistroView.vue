@@ -1,5 +1,4 @@
 <template lang="en">
-  <body class="bodymain">
     <div class="vue-template">
         <form>
             <h3>CREATE AN ACCOUNT</h3>
@@ -26,7 +25,6 @@
             </p>
         </form>
     </div>
-  </body>
 </template>
 <script>
 export default {

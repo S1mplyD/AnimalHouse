@@ -1,5 +1,4 @@
 <template lang="en">
-<body class="bodymain">
 <ServiziHeaderVue />
 <section class="body">
   <div class="form-group">
@@ -8,7 +7,6 @@
   <br>
 </section>
 <SiteFooterVue />
-</body>
 </template>
 
 <script>

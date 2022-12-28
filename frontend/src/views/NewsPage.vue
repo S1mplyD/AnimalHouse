@@ -1,8 +1,6 @@
 <template lang="en">
-<body class="bodymain">
 <NewsHeaderVue />
 <SiteFooterVue/>
-</body>
 </template>
 
 <script>

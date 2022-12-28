@@ -1,10 +1,8 @@
 <template lang="en">
-<body class="bodymain">
  <div>
   <ResultsComponent />
   <PhotoComponent />
  </div>
- </body>
 </template>
 
 <script>

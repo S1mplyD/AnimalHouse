@@ -1,5 +1,4 @@
 <template lang="en">
-<body class="bodymain">
 <HomeHeaderVue />
   <section class="body">
     <nav class="Images">
@@ -20,18 +19,29 @@
     <nav class="TopPosts" >
       <p id="shoptext">Do you want to see other posts from our community? <router-link :to="{name: 'forum'}" class="routerlink">Go to the community Forum!</router-link></p>
       <br>
-      <ul>
-      <li v-for="post in posts" :key="post" id="postObj">
+      <div class="container d-flex flex-wrap">
         <div class="card h-100" id="card" >
           <div class="card-body">
-            <h5 class="card-title"><b>{{ post.title }}</b> by {{ post.user }}:</h5>
-            <p class="card-text">{{ post.post_summary }}</p>
-            <p class="card-text"><small class="text-muted">{{ post.date }}</small></p>
+            <h5 class="card-title"><b>{{ posts[0].title }}</b> by {{ posts[0].user }}:</h5>
+            <p class="card-text">{{ posts[0].post_summary }}</p>
+            <p class="card-text"><small class="text-muted">{{ posts[0].date }}</small></p>
           </div>
         </div>
-      </li>
-      <br>
-      </ul>
+        <div class="card h-100" id="card" >
+          <div class="card-body">
+            <h5 class="card-title"><b>{{ posts[1].title }}</b> by {{ posts[1].user }}:</h5>
+            <p class="card-text">{{ posts[1].post_summary }}</p>
+            <p class="card-text"><small class="text-muted">{{ posts[1].date }}</small></p>
+          </div>
+        </div>
+        <div class="card h-100" id="card" >
+          <div class="card-body">
+            <h5 class="card-title"><b>{{ posts[2].title }}</b> by {{ posts[2].user }}:</h5>
+            <p class="card-text">{{ posts[2].post_summary }}</p>
+            <p class="card-text"><small class="text-muted">{{ posts[2].date }}</small></p>
+          </div>
+        </div>
+      </div>
     </nav>
     <nav class="ADS">
       <div id="carousel" class="carousel carousel- slide carousel-fade" data-bs-ride="carousel">
@@ -77,7 +87,6 @@
     </nav>
   </section>
   <SiteFooterVue/>
-  </body>
 </template>
 
 <script>
@@ -179,13 +188,15 @@ export default {
   text-align: center;
   width: 30%;
   height:100%;
+  object-fit: cover;
   background-image: url("../assets/istockphoto-517188688-612x612.jpg");
   background-size: cover;
   padding: 20px;
-}
-#card{
-  width: 450px;
-  height: 450px;
+  #card{
+    width: 90%;
+    border-radius: 0.75rem;
+    object-fit: cover;
+  }
 }
 
 .ADS {

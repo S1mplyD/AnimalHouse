@@ -1,6 +1,7 @@
 <template lang="en">
   <h1>Welcome to our Forum!</h1>
   <div class="forum">
+    <br>
     <ul>
       <li v-for="post in posts">
         <div class="card h-100" id="card">
@@ -14,7 +15,6 @@
     </ul>
   </div>
 </template>
-
 <script>
 import axios from 'axios'
 

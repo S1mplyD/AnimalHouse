@@ -1,5 +1,4 @@
 <template lang="en">
-  <body class="bodymain">
     <div class="vue-template">
         <form>
             <h3>Forgot your password?</h3>
@@ -10,7 +9,6 @@
             <button type="button" class="btn btn-dark btn-lg btn-block">Create a new password</button>
         </form>
     </div>
-  </body>
 </template>
 <script>
 export default {
