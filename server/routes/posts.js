@@ -11,10 +11,6 @@ router
    */
   .get(async (req, res) => {
     try {
-      let date = new Date();
-      console.log(
-        `${date.getDate()}:${date.getMonth() + 1}:${date.getFullYear()}`
-      );
       await Post.find().then((posts) => {
         res.send(posts);
       });
@@ -34,9 +30,9 @@ router
         }).then(async (post) => {
           if (!post) {
             let date = new Date();
-            let day = `${date.getDate()}:${
+            let day = `${date.getDate()}/${
               date.getMonth() + 1
-            }:${date.getFullYear()}`;
+            }/${date.getFullYear()}`;
             await Post.create({
               title: req.body.title,
               user: req.user.username,
@@ -65,9 +61,9 @@ router
     try {
       if (req.user != null) {
         let date = new Date();
-        let day = `${date.getDate()}:${
+        let day = `${date.getDate()}/${
           date.getMonth() + 1
-        }:${date.getFullYear()}`;
+        }/${date.getFullYear()}`;
         await Post.findOneAndUpdate(
           {
             $and: [{ title: req.body.oldtitle }, { author: req.user.username }],
