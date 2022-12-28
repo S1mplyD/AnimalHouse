@@ -6,7 +6,10 @@
   "main": "index.js",
   "scripts": {
     "api": "nodemon ./index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd frontend && npm run build && cd ../games && npm run build && cd .. && npm run api",
+    "frontend": "cd frontend && npm run build && cd .. && npm run api",
+    "games": "cd games && npm run build && cd .. && npm run api"
   },
   "keywords": [],
   "author": "",
