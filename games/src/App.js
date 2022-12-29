@@ -14,6 +14,24 @@ function App() {
   const [images, setImages] = useState([]);
   const [word, setWord] = useState();
   const [game, setGame] = useState("");
+  const [ads, setAds] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function ads() {
+      await getAds();
+    }
+    ads();
+  }, []);
+
+  const getAds = async () => {
+    await axios.get("/api/ads").then((res) => {
+      if (res.data != null) {
+        setAds(res.data[0]);
+        setLoading(false);
+      }
+    });
+  };
 
   const getQuestions = async () => {
     const rawData = await axios.get("/api/getTrivia/medium");
@@ -53,17 +71,25 @@ function App() {
   return (
     <Router>
       <div className="bg-blue-500 overflow-auto h-screen">
-        <Link
-          to="/games"
-          onClick={() => {
-            setGame("");
-            setScore(0);
-          }}
-        >
-          <h1 className="text-white flex flex-col items-center text-3xl">
-            Animal House Games
-          </h1>
-        </Link>
+        <div className="flex flex-row  justify-evenly">
+          <Link
+            to="/games"
+            onClick={() => {
+              setGame("");
+              setScore(0);
+            }}
+          >
+            <h1 className="text-white flex flex-col items-center text-3xl">
+              Animal House Games
+            </h1>
+          </Link>
+          <a href="/">
+            <h1 className="text-white flex flex-col items-center text-3xl">
+              Front Office
+            </h1>
+          </a>
+        </div>
+
         <Routes>
           <Route
             path="/games"
@@ -75,6 +101,8 @@ function App() {
                 getImages={getImages}
                 getWords={getWords}
                 setGame={setGame}
+                ads={ads}
+                loading={loading}
               />
             }
           />
