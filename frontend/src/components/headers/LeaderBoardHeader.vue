@@ -4,12 +4,8 @@
     <b><p>ANIMAL HOUSE</p></b>
     <nav>
       <ul>
-        <li><router-link to="/" class="routerlink">HOMEPAGE</router-link></li>
-        <li><router-link to="forum" class="routerlink">FORUM</router-link></li>
-        <li><router-link to="/news" class="routerlink">NEWS</router-link></li>
-        <li><router-link to="/servizi" class="routerlink">SERVICES</router-link></li>
-        <li><router-link to="/shop" class="routerlink">SHOP</router-link></li>
-        </ul>
+        <li><router-link to="/" class="routerlink">Go back to the HOMEPAGE</router-link></li>
+      </ul>
     </nav>
     <nav v-show="user.length < 1" id="loginsection">
       <ul>

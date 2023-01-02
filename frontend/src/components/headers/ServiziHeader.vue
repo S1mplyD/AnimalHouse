@@ -9,6 +9,7 @@
         <li><router-link to="forum" class="routerlink">FORUM</router-link></li>
         <li><router-link to="/news" class="routerlink">NEWS</router-link></li>
         <li><router-link to="/shop" class="routerlink">SHOP</router-link></li>
+        <li><router-link to="/leaderboard" class="routerlink">LEADERBOARD</router-link></li>
         </ul>
     </nav>
     <nav v-show="user.length < 1" id="loginsection">
