@@ -30,6 +30,7 @@ router
       if (req.user != null) {
         await Comment.create({
           comment: req.body.comment,
+          user: req.user.username,
         }).then(async (comment) => {
           await Post.findByIdAndUpdate(req.query.id, {
             $push: { comments: comment._id },
@@ -89,7 +90,10 @@ router
    */
   .post(async (req, res) => {
     try {
-      await Comment.create({ comment: req.body.reply }).then(async (reply) => {
+      await Comment.create({
+        comment: req.body.reply,
+        user: req.user.username,
+      }).then(async (reply) => {
         await Comment.findByIdAndUpdate(req.query.id, {
           $push: { replies: reply._id },
         }).then(() => {
