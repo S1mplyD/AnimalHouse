@@ -21,35 +21,48 @@ export default function Hangman({ word, setWord, setScore, score, setGame }) {
     document.getElementById("hiddenWord").innerText = arr;
   }, []);
 
+  const handleLose = () => {
+    setScore(0);
+    console.log("handle lose");
+    alert("you lose");
+    navigate("/result");
+  };
   //TODO sistemare punteggi
   const checkInput = () => {
     let inputWord = document.getElementById("inputWord");
-
-    if (inputWord.value.length > 1) {
-      if (
-        word.localeCompare(inputWord.value, "en", { sensitivity: "base" }) === 0
-      ) {
-        alert("giusto");
-        setScore(word.length);
-        setGame("hangman");
-        navigate("/result");
-      } else {
-        alert("sbagliato");
-        document.getElementById("inputWord").value = "";
-        setHangmanState(hangmanState + 1);
-      }
+    if (hangmanState >= 6) {
+      console.log("check input");
+      alert("You lose");
+      setScore(0);
+      navigate("/result");
     } else {
-      console.log("input: " + inputWord.value);
-      if (word.toLowerCase().includes(inputWord.value.toLowerCase())) {
-        showLetter(inputWord.value);
-        document.getElementById("inputWord").value = "";
-        setScore(score + 1);
-        if (!wordarr.includes("_")) {
+      if (inputWord.value.length > 1) {
+        if (
+          word.localeCompare(inputWord.value, "en", { sensitivity: "base" }) ===
+          0
+        ) {
+          alert("You found the correct word");
+          setScore(word.length);
+          setGame("hangman");
           navigate("/result");
+        } else {
+          alert("wrong word");
+          document.getElementById("inputWord").value = "";
+          setHangmanState(hangmanState + 1);
         }
       } else {
-        document.getElementById("inputWord").value = "";
-        setHangmanState(hangmanState + 1);
+        console.log("input: " + inputWord.value);
+        if (word.toLowerCase().includes(inputWord.value.toLowerCase())) {
+          showLetter(inputWord.value);
+          document.getElementById("inputWord").value = "";
+          setScore(score + 1);
+          if (!wordarr.includes("_")) {
+            navigate("/result");
+          }
+        } else {
+          document.getElementById("inputWord").value = "";
+          setHangmanState(hangmanState + 1);
+        }
       }
     }
   };
@@ -73,7 +86,7 @@ export default function Hangman({ word, setWord, setScore, score, setGame }) {
       <p className=" text-center fs-2" id="hiddenWord">
         {wordarr}
       </p>
-
+      {hangmanState >= 6 ? handleLose() : null}
       <input
         type="text"
         name="inputWord"
