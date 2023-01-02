@@ -14,7 +14,7 @@ function App() {
   const [images, setImages] = useState([]);
   const [word, setWord] = useState();
   const [game, setGame] = useState("");
-  const [ads, setAds] = useState();
+  const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,7 +27,11 @@ function App() {
   const getAds = async () => {
     await axios.get("/api/ads").then((res) => {
       if (res.data != null) {
-        setAds(res.data[0]);
+        for (let i = res.data.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [res.data[i], res.data[j]] = [res.data[j], res.data[i]];
+        }
+        setAds(res.data);
         setLoading(false);
       }
     });
