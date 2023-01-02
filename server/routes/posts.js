@@ -134,9 +134,9 @@ router
     }
   });
 
-router.route("/post").get(async (req, res) => {
+router.route("/post/:postid").get(async (req, res) => {
   try {
-    await Post.findById(req.query.id).then((post) => {
+    await Post.findById(req.params.id).then((post) => {
       res.send(post);
     });
   } catch (error) {
