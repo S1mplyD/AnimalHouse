@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 
-function Result({ score, setScore, game }) {
+function Result({ score, setScore, setGame, game }) {
   const navigate = useNavigate();
   const submitScore = async () => {
     await axios.post("http://localhost:8000/api/leaderboard", {
@@ -11,6 +11,7 @@ function Result({ score, setScore, game }) {
       game: game,
     });
     setScore(0);
+    setGame("");
   };
 
   return (

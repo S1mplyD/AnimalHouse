@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import Card from "./Card";
 import ADs from "../ADs";
 
-function Memory({ images, setImages, score, setScore }) {
+function Memory({ images, setImages, score, setScore, setGame }) {
   const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
@@ -28,7 +28,6 @@ function Memory({ images, setImages, score, setScore }) {
     console.log(correct);
     if (correct > 6) {
       console.log("endgame");
-
       navigate("/result");
     } else if (prec === -1) {
       if (images[index].state !== "correct") {

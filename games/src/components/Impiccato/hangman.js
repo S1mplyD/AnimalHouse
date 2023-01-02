@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Hangman({ word, setWord, setScore, score }) {
+export default function Hangman({ word, setWord, setScore, score, setGame }) {
   const [correctWord, setCorrectWord] = useState(word.split(""));
   const [wordarr, setWordArr] = useState(word.split(""));
   const navigate = useNavigate();
@@ -31,6 +31,7 @@ export default function Hangman({ word, setWord, setScore, score }) {
       ) {
         alert("giusto");
         setScore(word.length);
+        setGame("hangman");
         navigate("/result");
       } else {
         alert("sbagliato");
