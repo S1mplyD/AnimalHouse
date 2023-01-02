@@ -40,6 +40,7 @@ export default function Home({
     <div>
       {loading ? null : (
         <>
+          {console.log(ads)}
           <div className="m-5 p-2 bg-white rounded ">
             <form className="bg-white flex flex-col items-center text-center">
               <div className="m-2 p-2 bg-white flex flex-col">
@@ -154,8 +155,12 @@ export default function Home({
             </div>
           </div>
           <div>
-            {console.log(ads.title)}
-            <Ads title={ads.title} image={ads.mainPhoto} info={ads.info}></Ads>
+            {console.log(ads[0].title)}
+            <Ads
+              title={ads[0].title}
+              image={ads[0].mainPhoto}
+              info={ads[0].info}
+            ></Ads>
           </div>
         </>
       )}
