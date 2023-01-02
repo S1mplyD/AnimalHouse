@@ -8,7 +8,7 @@ import ServiziPage from '../views/ServiziPage.vue'
 import NewsPage from '../views/NewsPage.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import GalleryPage from '../views/GalleryPage.vue'
-import AdsPage from '../views/AdsPage.vue'
+import LeaderboardPage from '../views/LeaderboardPage.vue'
 import PhotoView from '../views/PhotoView.vue'
 import PostNewsView from '../views/PostNewsView.vue'
 import UserPage from '../views/UserPage.vue'
@@ -70,9 +70,9 @@ const routes = [
     component: GalleryPage
   },
   {
-    path: '/ads',
-    name: 'ads',
-    component: AdsPage
+    path: '/leaderboard',
+    name: 'leaderboard',
+    component: LeaderboardPage
   },
   {
     path: '/gallery/:id',
