@@ -120,7 +120,14 @@ function App() {
           />
           <Route
             path="/result"
-            element={<Result score={score} setScore={setScore} game={game} />}
+            element={
+              <Result
+                score={score}
+                setScore={setScore}
+                setGame={setGame}
+                game={game}
+              />
+            }
           />
           <Route
             path="/games/memory"
