@@ -91,7 +91,7 @@ router
   .post(async (req, res) => {
     try {
       await Comment.create({
-        comment: req.body.reply,
+        comment: `@${req.query.user} ` + req.body.reply,
         user: req.user.username,
         parentId: req.query.id,
       }).then(async (reply) => {
