@@ -7,6 +7,7 @@ const commentSchema = new mongoose.Schema(
     dislikes: { type: Number, required: true, default: 0 },
     replies: { type: [String] }, //_id of other comments
     user: { type: String, required: true },
+    parentId: { type: String }, //_id of parent comment or reply
   },
   {
     collection: "comment-data",
