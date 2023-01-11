@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema(
     profilePicture: { type: String }, //Path alle immagini su filesystem
     admin: { type: Boolean, required: true, default: false },
     cartProducts: { type: [String] }, //_id of cart products
+    userBookings: { type: [String] }, //_id of services booked by user
   },
   {
     collection: "user-data",

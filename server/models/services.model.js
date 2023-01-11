@@ -14,6 +14,8 @@ const serviceSchema = new mongoose.Schema(
     mail: { type: String },
     phone: { type: String },
     pictures: { type: [String] },
+    maxBooking: { type: Number, required: true },
+    numberOfBookings: { type: Number, default: 0, min: 0 },
   },
   {
     collection: "service-data",
