@@ -140,7 +140,7 @@ export default function Home({
             <div className=" p-2">
               <img
                 className=" w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
-                src="/animaliSelvatici.jpg"
+                src="/memoryImage.png"
                 alt="memory game"
                 onClick={handleMemory}
               />
