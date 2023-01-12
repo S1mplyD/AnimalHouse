@@ -8,6 +8,7 @@ router
   .route("/")
   //Get custom or random ad
   .get(async (req, res) => {
+    console.log(req.query)
     let arr = [];
     for (let i in req.query) {
       if (req.query[i] != "") {

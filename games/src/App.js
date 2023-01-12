@@ -18,14 +18,17 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log(sessionStorage)
+
     async function ads() {
-      await getAds();
+      let specie = sessionStorage.getItem("specie")
+      await getAds(specie)
     }
     ads();
   }, []);
 
-  const getAds = async () => {
-    await axios.get("/api/ads").then((res) => {
+  const getAds = async (specie) => {
+    await axios.get("/api/ads", {params: {specie: specie}}).then((res) => {
       if (res.data != null) {
         for (let i = res.data.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
