@@ -90,7 +90,7 @@ router
      */
     .post(async (req, res) => {
         try {
-            let sub = req.body.substring(0, req.body.comment.indexOf(" "))
+            let sub = req.body.comment.substring(0, req.body.comment.indexOf(" "))
             let text = req.body.comment.replace(sub, "")
 
             await Comment.create({
