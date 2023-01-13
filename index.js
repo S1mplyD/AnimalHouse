@@ -22,6 +22,7 @@ const commentsRoute = require("./server/routes/comment");
 const cartRoute = require("./server/routes/cart");
 const animalRoute = require("./server/routes/animals");
 const fs = require("fs");
+const {mongo} = require("mongoose");
 
 const app = express();
 
@@ -91,6 +92,7 @@ app.get(/.*/, (req, res) =>
   res.sendFile(__dirname + "/frontend/dist/index.html")
 );
 
+mongoose.set("strictQuery",false)
 mongoose.connect(process.env.MONGODB_PERSONAL_URI);
 
 app.listen(port, () => {
