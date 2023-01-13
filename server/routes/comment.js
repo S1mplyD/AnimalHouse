@@ -91,7 +91,7 @@ router
     .post(async (req, res) => {
         try {
             await Comment.create({
-                comment: `@${req.query.user} ${req.body.reply}`,
+                comment: `@${req.query.user} ${req.body.comment}`,
                 user: req.user.username,
             }).then(async (reply) => {
                 await Comment.findByIdAndUpdate(req.query.id, {
