@@ -13,6 +13,7 @@ import PhotoView from '../views/PhotoView.vue'
 import PostNewsView from '../views/PostNewsView.vue'
 import UserPage from '../views/UserPage.vue'
 import CartList from '../components/shop/CartList.vue'
+import PostComponent from '../components/forum/PostComponent.vue'
 const routes = [
   {
     path: '/',
@@ -33,6 +34,11 @@ const routes = [
     path: '/forum',
     name: 'forum',
     component: ForumPage
+  },
+  {
+    path: '/forum/:id',
+    name: 'post',
+    component: PostComponent
   },
   {
     path: '/user',

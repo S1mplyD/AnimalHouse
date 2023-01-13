@@ -15,7 +15,7 @@
     "connect-history-api-fallback": "^2.0.0",
     "core-js": "^3.24.0",
     "jquery": "^3.6.1",
-    "sweetalert2": "^11.6.15",
+    "sweetalert2": "^11.4.8",
     "vee-validate": "^4.6.2",
     "vue": "^3.2.37",
     "vue-gallery": "^2.0.1",
@@ -30,6 +30,7 @@
   "devDependencies": {
     "@babel/core": "^7.18.9",
     "@babel/eslint-parser": "^7.18.9",
+    "@volar-plugins/vetur": "latest",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-plugin-router": "^5.0.8",
