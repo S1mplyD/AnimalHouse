@@ -30,8 +30,22 @@ const Question = ({
 
     const handleCheck = (i) => {
         setSelected(i);
-        if (i === correct) setScore(score + 1);
-    };
+        if (i === correct) {
+            switch (questions[currentQuestion].difficulty) {
+                case "easy":
+                    setScore(score + 1)
+                    break
+                case "medium":
+                    setScore(score + 2)
+                    break
+                case "hard":
+                    setScore(score + 3)
+                    break
+                default:
+                    break
+            }
+        }
+    }
 
     const handleNext = () => {
         if (currentQuestion > 3) {
@@ -107,4 +121,4 @@ const Question = ({
     );
 };
 
-export default Question;
+export default Question

@@ -66,7 +66,9 @@ function Memory({images, setImages, score, setScore, setGame, currentAd, setCurr
                 images[id].state = images[prec].state = "wrong";
                 setImages([...images]);
                 setClickable(false);
-                setScore(score - 1);
+                if(score > 0) {
+                    setScore(score - 1);
+                }
                 setTimeout(() => {
                     images[id].state = images[prec].state = "";
                     setImages([...images]);

@@ -33,7 +33,7 @@ export default function Quiz({
         <div className="flex flex-col items-center ">
             {questions ? (
                 <>
-                    {console.log(questions[currentQuestion].correct_answer)}
+                    {console.log(questions[currentQuestion])}
                     <Question
                         currentQuestion={currentQuestion}
                         setCurrentQuestion={setCurrentQuestion}
