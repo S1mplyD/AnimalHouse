@@ -137,9 +137,7 @@ export default function Hangman({word, setWord, setScore, score, setGame, curren
                 </button>
             </div>
             <Ads
-                title={ads[currentAd].title}
-                image={ads[currentAd].mainPhoto}
-                info={ads[currentAd].info}
+                ad={ads[currentAd]}
             ></Ads>
         </div>
     );

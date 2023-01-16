@@ -170,9 +170,7 @@ export default function Home({
             </div>
             <div>
                 <Ads
-                    title={ads[currentAd].title}
-                    image={ads[currentAd].mainPhoto}
-                    info={ads[currentAd].info}
+                    ad={ads[currentAd]}
                 ></Ads>
             </div>
         </>)}
