@@ -23,19 +23,12 @@ function Memory({images, setImages, score, setScore, setGame, currentAd, setCurr
     const [prec, setPrec] = useState(-1);
     const [clickable, setClickable] = useState(true);
     const [correct, setCorrect] = useState(-1);
+    // let correct = 0
 
     const handleClick = (index) => {
         console.log("prec: " + prec + " state: " + images[index].state);
-        console.log(correct);
-        if (correct > 6) {
-            console.log("endgame");
-            if (currentAd < ads.length -1) {
-                setCurrentAds(currentAd + 1)
-            } else {
-                setCurrentAds(0)
-            }
-            navigate("/result");
-        } else if (prec === -1) {
+        console.log("correct: " + correct);
+        if (prec === -1) {
             if (images[index].state !== "correct") {
                 images[index].state = "active";
                 setImages([...images]);
@@ -46,6 +39,16 @@ function Memory({images, setImages, score, setScore, setGame, currentAd, setCurr
         }
     };
 
+    const handleWin = ()=>{
+        console.log("handle win")
+        if (currentAd < ads.length -1) {
+            setCurrentAds(currentAd + 1)
+        } else {
+            setCurrentAds(0)
+        }
+        navigate("/result");
+    }
+
     const checkCard = async (id) => {
         //stessa immagine
         console.log("id: " + id);
@@ -55,8 +58,8 @@ function Memory({images, setImages, score, setScore, setGame, currentAd, setCurr
                 images[id].state = images[prec].state = "correct";
                 setImages([...images]);
                 setPrec(-1);
-                setScore(score + 1);
-                setCorrect(correct + 1);
+                setScore(score + 2);
+                setCorrect(correct + 1)
             }
         }
 
@@ -87,6 +90,7 @@ function Memory({images, setImages, score, setScore, setGame, currentAd, setCurr
             >
                 Loading
             </h1>
+            {correct > 6 ? handleWin() : null}
             <div
                 className="grid grid-cols-4 grid-rows-4 gap-2 p-8 border-2 border-solid rounded-3xl bg-white mt-10"
                 style={{pointerEvents: clickable ? "" : "none"}}
@@ -116,9 +120,7 @@ function Memory({images, setImages, score, setScore, setGame, currentAd, setCurr
             </div>
             {/* ads */}
             <Ads
-                title={ads[currentAd].title}
-                image={ads[currentAd].mainPhoto}
-                info={ads[currentAd].info}
+                ad={ads[currentAd]}
             ></Ads>
         </div>
     );
