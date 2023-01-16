@@ -20,6 +20,7 @@ function App() {
 
     useEffect(() => {
         console.log(sessionStorage)
+
         async function ads() {
             await getAds(
                 sessionStorage.getItem("specie"),
@@ -28,6 +29,7 @@ function App() {
                 sessionStorage.getItem("age"),
                 sessionStorage.getItem("medicalCondition"))
         }
+
         ads();
     }, []);
 
@@ -84,6 +86,11 @@ function App() {
                     to="/games"
                     onClick={() => {
                         setGame("");
+                        if (currentAds < ads.length - 1) {
+                            setCurrentAds(currentAds + 1)
+                        } else {
+                            setCurrentAds(0)
+                        }
                         setScore(0);
                     }}
                 >
