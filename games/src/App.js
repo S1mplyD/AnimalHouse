@@ -51,7 +51,7 @@ function App() {
     };
 
     const getQuestions = async () => {
-        const rawData = await axios.get("/api/getTrivia/medium");
+        const rawData = await axios.get("/api/getTrivia");
         setQuestions(rawData.data);
     };
 

@@ -82,8 +82,8 @@ app.get("/api/getHolidays", async (req, res) => {
   );
   res.json(holiday);
 });
-app.get("/api/getTrivia/:difficulty", async (req, res) => {
-  await getTrivia(req.params.difficulty).then((response) => {
+app.get("/api/getTrivia", async (req, res) => {
+  await getTrivia().then((response) => {
     res.json(response);
   });
 });
