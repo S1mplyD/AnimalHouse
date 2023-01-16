@@ -98,9 +98,9 @@ function App() {
                         Animal House Games
                     </h1>
                 </Link>
-                <a href="/">
+                <a href="/shop">
                     <h1 className="text-white flex flex-col items-center text-3xl">
-                        Front Office
+                        Visit our shop!
                     </h1>
                 </a>
             </div>
