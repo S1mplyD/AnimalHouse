@@ -3,7 +3,7 @@
   <div class="overflow-auto" id="forum">
     <form>
       <div class="mb-3">
-        <label for="texttitle" class="form-label" style="color:white;">Do you want create a post?</label>
+        <label for="texttitle" class="form-label" style="color:white;">Do you want to create a post?</label>
         <input type="text" class="form-control" id="texttitle" placeholder="Write the title here">
         <textarea type="text" id="textpost" class="form-control" aria-describedby="textComment" placeholder="Write your post content here..." cols="50" rows="10"></textarea>
         <label for="picture" class="form-label" style="color:white;">Do you want to post a picture with your post?</label>

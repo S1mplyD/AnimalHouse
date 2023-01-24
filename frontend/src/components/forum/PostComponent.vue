@@ -6,6 +6,21 @@
             <h5 v-if="post.title && post.user" class="card-title"><b>{{ post.title }} by {{ post.user }}</b></h5>
             <p v-if="post.post" class="card-text">{{ post.post }}</p>
             <p v-if="post.date" class="card-text"><small class="text-muted">{{ post.date }}</small></p>
+            <div class="overflow-auto" id="image">
+              <div class="container d-flex flex-wrap">
+                <div class="row">
+                  <div class="col">
+                    <img :src="post.photos[0]" alt="...">
+                  </div>
+                  <div class="col">
+                    <img :src="post.photos[1]" alt="...">
+                  </div>
+                  <div class="col">
+                    <img :src="post.photos[2]" alt="...">
+                  </div>
+              </div>
+            </div>
+            </div>
             <div class="overflow-auto" id="comms">
               <ul class="list-group list-group-flush">
                 <li v-for="comment in comments" class="list-group-item">
@@ -34,7 +49,7 @@
        </div>
       </div>
     </div>
-  </template>
+</template>
 <script>
 import axios from 'axios'
 export default {
@@ -131,8 +146,17 @@ export default {
       scrollbar-width: none; /* for Firefox */
       border-style: none;
     }
+    #image {
+      max-height: 200px;
+      -ms-overflow-style: none; /* for Internet Explorer, Edge */
+      scrollbar-width: none; /* for Firefox */
+      border-style: none;
+    }
 
     #comms::-webkit-scrollbar {
+      display: none; /* for Chrome, Safari, and Opera */
+    }
+    #image::-webkit-scrollbar {
       display: none; /* for Chrome, Safari, and Opera */
     }
     .lightbox-info {
