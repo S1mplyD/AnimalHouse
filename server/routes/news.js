@@ -119,4 +119,18 @@ router.route("/article").get(async (req, res) => {
   }
 });
 
+router.route("/news").get(async (req,res) =>{
+  try {
+    await News.findOne({title: req.query.title}).then(news=>{
+      if(news){
+        res.status(304).send(news)
+      } else {
+        res.sendStatus(404)
+      }
+    })
+  } catch (error){
+    console.log(error)
+  }
+})
+
 module.exports = router;
