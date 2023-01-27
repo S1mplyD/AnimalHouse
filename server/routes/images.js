@@ -533,7 +533,6 @@ router
      * PATCH
      * edit service's photos
      */
-    //TODO: change one or more photos
     .patch(async (req, res) => {
         try {
             if (req.user != null && req.user.admin) {
