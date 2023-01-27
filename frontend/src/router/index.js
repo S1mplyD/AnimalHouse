@@ -10,7 +10,7 @@ import ForgotPassword from '../views/ForgotPassword.vue'
 import GalleryPage from '../views/GalleryPage.vue'
 import LeaderboardPage from '../views/LeaderboardPage.vue'
 import PhotoView from '../views/PhotoView.vue'
-import PostNewsView from '../views/PostNewsView.vue'
+import NewsPost from '../components/news/NewsPost.vue'
 import UserPage from '../views/UserPage.vue'
 import CartList from '../components/shop/CartList.vue'
 import PostComponent from '../components/forum/PostComponent.vue'
@@ -88,7 +88,7 @@ const routes = [
   {
     path: '/news/:id',
     name: 'newspost',
-    component: PostNewsView
+    component: NewsPost
   }
 
 ]

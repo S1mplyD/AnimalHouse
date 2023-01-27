@@ -48,7 +48,7 @@
         <br>
      </li>
     </ul>
-    <ul  v-show="online === true" class="services">
+    <ul v-show="online === true" class="services">
       <li v-for="service in filteredOnlineServices">
         <div class="card" id="servicecard">
           <div class="card-body">
