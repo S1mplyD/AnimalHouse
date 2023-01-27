@@ -241,43 +241,253 @@
                     });
                 });
                 $("#realserv").click(function(event){
-                    $.getJSON('realserv.json', function(jd) {
-                        $('#main_zone').html('<table id="table"><tr><th>Name</th><th>Location</th><th>Time of opening/th><th>Type</th><th>Info</th></tr>');
+                    $.getJSON('/api/services', function(jd) {
+                        $('#main_zone').html('<table id="table"><tr><th>Name</th><th>Location</th><th>Days of opening</th><th>Time of opening/th><th>Type</th><th>Info</th><th>Mail</th><th>Phone</th></tr>');
                         for (var i = 0; i < jd.length; i++ ) {
+                           if (jd[i].online === false) {
                             $('#table').append('<tr>' +
                                 '<td>' + jd[i].name + '</td>' +
                                 '<td>' + jd[i].location + '</td>' +
-                                '<td>' + jd[i].time + '</td>' +
+                                '<td>' + jd[i].openDays + '</td>' +
+                                '<td>' + jd[i].openTime + '</td>' +
                                 '<td>' + jd[i].type + '</td>' +
                                 '<td>' + jd[i].info + '</td>'+
+                                '<td>' + jd[i].mail + '</td>'+
+                                '<td>' + jd[i].phone + '</td>'+
                             '</tr>');
+                           }
                         }
                         $('#main_zone').append('<form id="new_serv"><label for="name">Name:</label><br><input type="text" id="name" name="name"><br>');
                         $('#main_zone').append('<label for="location">Location:</label><br><input type="text" id="location" name="location"><br>');
-                        $('#main_zone').append('<label for="time">Time:</label><br><input type="text" id="time" name="time"><br>');
+                        $('#main_zone').append('<label for="days">Open days (separated by a comma):</label><br><input type="text" id="days" name="days"><br>');
+                        $('#main_zone').append('<label for="time">Open time:</label><br><input type="text" id="time" name="time"><br>');
                         $('#main_zone').append('<label for="type">Type:</label><br><input type="text" id="type" name="type"><br>');
                         $('#main_zone').append('<label for="info">Info:</label><br><input type="text" id="info" name="info"><br>');
-                        $('#main_zone').append('<button id="submit_but" type="submit">SUBMIT</button></form>');
+                        $('#main_zone').append('<label for="mail">Mail:</label><br><input type="text" id="mail" name="mail"><br>');
+                        $('#main_zone').append('<label for="phone">Phone:</label><br><input type="text" id="phone" name="phone"><br>');
+                        $('#main_zone').append('<label for="servImage">Images:</label><br><input type="file" id="servImage" name="servImage" multiple><br>');
+                        $('#main_zone').append('<button id="submit_butrel" type="submit">SUBMIT</button></form>');
+                        $('#main_zone').append('<form id="new_serv"><label for="title">ID of the service to delete:</label><br><input type="text" id="title" name="title">');
+                        $('#main_zone').append('<button id="submit_remrel" type="submit">REMOVE SERVICE</button></form>');
+                        $('#main_zone').append('<form id="new_serv"><label for="uptitle">ID of the service to update:</label><br><input type="text" id="uptitle" name="uptitle"><br>');
+                        $('#main_zone').append('<label for="upname">Name:</label><br><input type="text" id="upname" name="upname"><br>');
+                        $('#main_zone').append('<label for="uplocation">Location:</label><br><input type="text" id="uplocation" name="uplocation"><br>');
+                        $('#main_zone').append('<label for="updays">Open days (separated by a comma):</label><br><input type="text" id="updays" name="updays"><br>');
+                        $('#main_zone').append('<label for="uptime">Open time:</label><br><input type="text" id="uptime" name="uptime"><br>');
+                        $('#main_zone').append('<label for="uptype">Type:</label><br><input type="text" id="uptype" name="uptype"><br>');
+                        $('#main_zone').append('<label for="upinfo">Info:</label><br><input type="text" id="upinfo" name="upinfo"><br>');
+                        $('#main_zone').append('<label for="upmail">Mail:</label><br><input type="text" id="upmail" name="upmail"><br>');
+                        $('#main_zone').append('<label for="upphone">Phone:</label><br><input type="text" id="upphone" name="upphone"><br>');
+                        $('#main_zone').append('<label for="upservImage">Images:</label><br><input type="file" id="upservImage" name="upservImage" multiple><br>');
+                        $('#main_zone').append('<button id="update_butrel" type="submit">UPDATE</button></form>');
+                        $("#submit_remrel").click(function(event){
+                            $.ajax({
+                                url: '/api/services?id=' + document.getElementById('title').value,
+                                type: 'DELETE',
+                                success: function(result) {
+                                    console.log(result);
+                                },
+                                error: function(err){
+                                    console.log(err);
+                                }
+                            });
+                        });
+                        $("#submit_butrel").click(function(event){
+                            console.log(document.getElementById('days').value)
+                            $.ajax({
+                                url: '/api/services',
+                                type: 'POST',
+                                data: {
+                                    "name": document.getElementById('name').value,
+                                    "location" : document.getElementById('location').value,
+                                    "openDays" : document.getElementById('days').value,
+                                    "openTime" : document.getElementById('time').value,
+                                    "type" : document.getElementById('type').value,
+                                    "info" : document.getElementById('info').value,
+                                    "mail" : document.getElementById('mail').value,
+                                    "phone" : document.getElementById('phone').value,
+                                    "online" : false
+                                },
+                                success: function(result) {
+                                    console.log(result);
+                                    let formData = new FormData();
+                                    let files = document.querySelector('#servImage');
+                                    for (let i = 0; i < files.length; i++) {
+                                        formData.append('images', files.files[i])
+                                    }
+                                    /*$.ajax({
+                                        url: '/api/images/services?id=' + ,
+                                        type: 'POST',
+                                        data: {
+                                            formData
+                                        }
+                                    })*/
+                                },
+                                error: function(err){
+                                    console.log(err);
+                                }
+                            });
+                        });
+                        $("#update_butrel").click(function(event){
+                            $.ajax({
+                                url: '/api/services?id=' + document.getElementById('uptitle').value,
+                                type: 'PATCH',
+                                data: {
+                                    "name": document.getElementById('upname').value,
+                                    "location" : document.getElementById('uplocation').value,
+                                    "openDays" : document.getElementById('updays').value,
+                                    "openTime" : document.getElementById('uptime').value,
+                                    "type" : document.getElementById('uptype').value,
+                                    "info" : document.getElementById('upinfo').value,
+                                    "mail" : document.getElementById('upmail').value,
+                                    "phone" : document.getElementById('upphone').value,
+                                    "online" : false
+                                },
+                                success: function(result) {
+                                    console.log(result);
+                                    let formData = new FormData();
+                                    let files = document.querySelector('#upservImage');
+                                    for (let i = 0; i < files.length; i++) {
+                                        formData.append('images', files.files[i])
+                                    }
+                                    $.ajax({
+                                        url: '/api/images/services',
+                                        type: 'PATCH',
+                                        data: {
+                                            formData
+                                        }
+                                    })
+                                },
+                                error: function(err){
+                                    console.log(err);
+                                }
+                            });
+                        });
                     });
                 });
                 $("#onlineserv").click(function(event){
-                    $.getJSON('onlineserv.json', function(jd) {
+                    $.getJSON('/api/services', function(jd) {
                         $('#main_zone').html('<table id="table"><tr><th>Name</th><th>Location</th><th>Time of opening/th><th>Type</th><th>Info</th></tr>');
                         for (var i = 0; i < jd.length; i++ ) {
-                            $('#table').append('<tr>' +
+                            if (jd[i].online === true) {
+                                $('#table').append('<tr>' +
                                 '<td>' + jd[i].name + '</td>' +
                                 '<td>' + jd[i].location + '</td>' +
-                                '<td>' + jd[i].time + '</td>' +
+                                '<td>' + jd[i].openDays + '</td>' +
+                                '<td>' + jd[i].openTime + '</td>' +
                                 '<td>' + jd[i].type + '</td>' +
                                 '<td>' + jd[i].info + '</td>'+
+                                '<td>' + jd[i].mail + '</td>'+
+                                '<td>' + jd[i].phone + '</td>'+
                             '</tr>');
+                            }
                         }
                         $('#main_zone').append('<form id="new_serv"><label for="name">Name:</label><br><input type="text" id="name" name="name"><br>');
                         $('#main_zone').append('<label for="location">Location:</label><br><input type="text" id="location" name="location"><br>');
-                        $('#main_zone').append('<label for="time">Time:</label><br><input type="text" id="time" name="time"><br>');
+                        $('#main_zone').append('<label for="days">Open days (separated by a comma):</label><br><input type="text" id="days" name="days"><br>');
+                        $('#main_zone').append('<label for="time">Open time:</label><br><input type="text" id="time" name="time"><br>');
                         $('#main_zone').append('<label for="type">Type:</label><br><input type="text" id="type" name="type"><br>');
                         $('#main_zone').append('<label for="info">Info:</label><br><input type="text" id="info" name="info"><br>');
-                        $('#main_zone').append('<button id="submit_but" type="submit">SUBMIT</button></form>');
+                        $('#main_zone').append('<label for="mail">Mail:</label><br><input type="text" id="mail" name="mail"><br>');
+                        $('#main_zone').append('<label for="phone">Phone:</label><br><input type="text" id="phone" name="phone"><br>');
+                        $('#main_zone').append('<label for="servImage">Images:</label><br><input type="file" id="servImage" name="servImage" multiple><br>');
+                        $('#main_zone').append('<button id="submit_buton" type="submit">SUBMIT</button></form>');
+                        $('#main_zone').append('<form id="new_serv"><label for="title">ID of the service to delete:</label><br><input type="text" id="title" name="title">');
+                        $('#main_zone').append('<button id="submit_remon" type="submit">REMOVE SERVICE</button></form>');
+                        $('#main_zone').append('<form id="new_serv"><label for="uptitle">ID of the service to update:</label><br><input type="text" id="uptitle" name="uptitle"><br>');
+                        $('#main_zone').append('<label for="upname">Name:</label><br><input type="text" id="upname" name="upname"><br>');
+                        $('#main_zone').append('<label for="uplocation">Location:</label><br><input type="text" id="uplocation" name="uplocation"><br>');
+                        $('#main_zone').append('<label for="updays">Open days (separated by a comma):</label><br><input type="text" id="updays" name="updays"><br>');
+                        $('#main_zone').append('<label for="uptime">Open time:</label><br><input type="text" id="uptime" name="uptime"><br>');
+                        $('#main_zone').append('<label for="uptype">Type:</label><br><input type="text" id="uptype" name="uptype"><br>');
+                        $('#main_zone').append('<label for="upinfo">Info:</label><br><input type="text" id="upinfo" name="upinfo"><br>');
+                        $('#main_zone').append('<label for="upmail">Mail:</label><br><input type="text" id="upmail" name="upmail"><br>');
+                        $('#main_zone').append('<label for="upphone">Phone:</label><br><input type="text" id="upphone" name="upphone"><br>');
+                        $('#main_zone').append('<label for="upservImage">Images:</label><br><input type="file" id="upservImage" name="upservImage" multiple><br>');
+                        $('#main_zone').append('<button id="update_buton" type="submit">UPDATE</button></form>');
+                        $("#submit_remon").click(function(event){
+                            $.ajax({
+                                url: '/api/services?id=' + document.getElementById('title').value,
+                                type: 'DELETE',
+                                success: function(result) {
+                                    console.log(result);
+                                },
+                                error: function(err){
+                                    console.log(err);
+                                }
+                            });
+                        });
+                        $("#submit_buton").click(function(event){
+                            console.log(document.getElementById('days').value)
+                            $.ajax({
+                                url: '/api/services',
+                                type: 'POST',
+                                data: {
+                                    "name": document.getElementById('name').value,
+                                    "location" : document.getElementById('location').value,
+                                    "openDays" : document.getElementById('days').value,
+                                    "openTime" : document.getElementById('time').value,
+                                    "type" : document.getElementById('type').value,
+                                    "info" : document.getElementById('info').value,
+                                    "mail" : document.getElementById('mail').value,
+                                    "phone" : document.getElementById('phone').value,
+                                    "online" : true
+                                },
+                                success: function(result) {
+                                    console.log(result);
+                                    let formData = new FormData();
+                                    let files = document.querySelector('#servImage');
+                                    for (let i = 0; i < files.length; i++) {
+                                        formData.append('images', files.files[i])
+                                    }
+                                    $.ajax({
+                                        url: '/api/images/services',
+                                        type: 'POST',
+                                        data: {
+                                            formData
+                                        }
+                                    })
+                                },
+                                error: function(err){
+                                    console.log(err);
+                                }
+                            });
+                        });
+                        $("#update_buton").click(function(event){
+                            $.ajax({
+                                url: '/api/services?id=' + document.getElementById('uptitle').value,
+                                type: 'PATCH',
+                                data: {
+                                    "name": document.getElementById('upname').value,
+                                    "location" : document.getElementById('uplocation').value,
+                                    "openDays" : document.getElementById('updays').value,
+                                    "openTime" : document.getElementById('uptime').value,
+                                    "type" : document.getElementById('uptype').value,
+                                    "info" : document.getElementById('upinfo').value,
+                                    "mail" : document.getElementById('upmail').value,
+                                    "phone" : document.getElementById('upphone').value,
+                                    "online" : false
+                                },
+                                success: function(result) {
+                                    console.log(result);
+                                    let formData = new FormData();
+                                    let files = document.querySelector('#upservImage');
+                                    for (let i = 0; i < files.length; i++) {
+                                        formData.append('images', files.files[i])
+                                    }
+                                    $.ajax({
+                                        url: '/api/images/services',
+                                        type: 'PATCH',
+                                        data: {
+                                            formData
+                                        }
+                                    })
+                                },
+                                error: function(err){
+                                    console.log(err);
+                                }
+                            });
+                        });
                     });
                 });
             });
