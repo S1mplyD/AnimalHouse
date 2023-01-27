@@ -26,17 +26,15 @@ router
     .post(async (req, res) => {
         try {
             if (req.user.admin) {
+                let days = req.body.openDays.split(",", req.body.openDays.length)
                 await Service.create({
                     name: req.body.name,
                     location: req.body.location,
-                    coordinate: req.body.coordinate,
-                    openDays: req.body.openDays,
+                    openDays: days,
                     openTime: req.body.openTime,
-                    closeTime: req.body.closeTime,
                     type: req.body.type,
                     online: req.body.online,
                     info: req.body.info,
-                    maxBooking: req.body.maxBooking,
                 }).then((service) => {
                     res.status(201).send(service);
                 });

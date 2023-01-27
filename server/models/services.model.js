@@ -13,7 +13,7 @@ const serviceSchema = new mongoose.Schema(
     mail: { type: String }, // Contact mail of the service
     phone: { type: String }, // Phone number of the service
     pictures: { type: [String] }, // Photos of the service
-    maxBooking: { type: Number, required: true }, // Max number of bookings allowed
+    maxBooking: { type: Number, required: true, default: 30 }, // Max number of bookings allowed
     numberOfBookings: { type: Number, default: 0, min: 0 }, // Actual number of bookings
   },
   {
