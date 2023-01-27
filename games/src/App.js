@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
+import {Routes, Route, Link} from "react-router-dom";
 import React, {useState} from "react";
 import axios from "axios";
 import {useEffect} from "react";
@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import Result from "./components/Quiz/Result";
 import Memory from "./components/Memory/Memory";
 import Hangman from "./components/Impiccato/hangman";
+import Test from "./components/test"
 
 function App() {
     const [questions, setQuestions] = useState([]);
@@ -50,7 +51,6 @@ function App() {
         });
     };
 
-
     const getQuestions = async () => {
         const rawData = await axios.get("/api/getTrivia");
         setQuestions(rawData.data);
@@ -80,9 +80,9 @@ function App() {
         });
     };
 
-    return (<Router>
+    return (
         <div className="bg-blue-500 overflow-auto h-screen">
-            <div className="flex flex-row  justify-evenly">
+            <div className="flex flex-row justify-evenly">
                 <Link
                     to="/games"
                     onClick={() => {
@@ -104,6 +104,7 @@ function App() {
                         Visit our shop!
                     </h1>
                 </a>
+                <a href={"/games/test"}>Test</a>
             </div>
 
             <Routes>
@@ -170,11 +171,20 @@ function App() {
                         ads={ads}
                         currentAd={currentAds}
                         setCurrentAds={setCurrentAds}
+                        setAds={setAds}
                     ></Hangman>}
                 ></Route>
+                <Route
+                    path={"/games/test"}
+                    element={
+                        <Test/>
+                    }
+                >
+                </Route>
             </Routes>
+
         </div>
-    </Router>);
+    );
 }
 
 export default App;
