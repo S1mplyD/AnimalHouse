@@ -70,7 +70,7 @@ export default function Home({
     const setPet = async (specie, name, gender, age, medical) => {
         console.log("set pet");
     };
-    if(!lo){
+    if(!lo) {
         return( <>
             <div className="m-5 p-2 bg-white rounded ">
             <form className="bg-white flex flex-col items-center text-center">
@@ -162,7 +162,7 @@ export default function Home({
             <div className=" p-2 ">
                 <img
                     className="w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
-                    src="/archLogo.png"
+                    src="/quizImage.png"
                     alt="quiz game"
                     onClick={handleQuiz}
                 />
