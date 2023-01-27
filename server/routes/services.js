@@ -26,6 +26,8 @@ router
     .post(async (req, res) => {
         try {
             if (req.user.admin) {
+                console.log(req.body.openDays)
+                console.log(typeof req.body.openDays)
                 let days = req.body.openDays.split(",", req.body.openDays.length)
                 await Service.create({
                     name: req.body.name,
