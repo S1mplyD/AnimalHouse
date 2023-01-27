@@ -54,10 +54,11 @@ router
     .patch(async (req, res) => {
         try {
             if (req.user.admin) {
+                let days = req.body.openDays.split(",", req.body.openDays.length)
                 await Service.findByIdAndUpdate(req.query.id, {
                     name: req.body.name,
                     location: req.body.location,
-                    openDays: req.body.openDays,
+                    openDays: days,
                     openTime: req.body.openTime,
                     type: req.body.type,
                     info: req.body.info,
