@@ -109,3 +109,6 @@ dist
 
 #vscode
 .vscode
+
+#idea
+.idea
