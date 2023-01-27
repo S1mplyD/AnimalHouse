@@ -7,6 +7,7 @@
         <title>STAFF OFFICE</title>
         <link rel="stylesheet" href="style.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
     </head>
     <body>
         <header class="backoffice_header">
@@ -93,45 +94,28 @@
                         $('#main_zone').append('<button id="submit_ban" type="submit">BAN!</button></form>');
                         $('#main_zone').append('<br>');
                         $('#main_zone').append('<form id="new_serv"><label for="id1">ID of the person to make admin:</label><br><input type="text" id="id1" name="id1"><br>');
-                        $('#main_zone').append('<button id="submit_admin" type="submit">MAKE ADMIN!</button></form>');
+                        $('#main_zone').append('<button id="submit_admin" type="button">MAKE ADMIN!</button></form>');
                         $('#main_zone').append('<br>');
                         $('#main_zone').append('<form id="new_serv"><label for="id2">ID of the person to revoke admin privileges:</label><br><input type="text" id="id2" name="id2"><br>');
-                        $('#main_zone').append('<button id="submit_revoke" type="submit">REVOKE ADMIN STATUS!</button></form>');
+                        $('#main_zone').append('<button id="submit_revoke" type="button">REVOKE ADMIN STATUS!</button></form>');
                         $("#submit_ban").click(function(event){
-                            $.ajax({
-                                url: '/api/users?id=' + document.getElementById('id0').value,
-                                type: 'DELETE',
-                                success: function(result) {
+                            axios.delete('/api/users?id=' + document.getElementById('id0').value)
+                                .then((result) => {
                                     console.log(result);
-                                },
-                                error: function(err){
-                                    console.log(err);
-                                }
-                            });
+                                })
                         });
                         $("#submit_admin").click(function(event){
                             console.log(document.getElementById('id1').value);
-                            $.ajax({
-                                url: '/api/users/grantPermission?id=' + document.getElementById('id1').value,
-                                type: 'PATCH',
-                                success: function(result) {
+                            axios.patch('/api/users/grantPermission?id=' + document.getElementById('id1').value)
+                                .then((result) => {
                                     console.log(result);
-                                },
-                                error: function(err){
-                                    console.log(err);
-                                }
-                            });
+                                })
                         });
                         $("#submit_revoke").click(function(event){
-                            $.ajax({
-                                url: '/api/users/revokePermission?id=' + document.getElementById('id2').value,
-                                type: 'PATCH',
-                                success: function(result) {
+                            axios.patch( '/api/users/revokePermission?id=' + document.getElementById('id2').value)
+                                .then((result) => {
                                     console.log(result);
-                                },
-                                error: function(err){
-                                    console.log(err);
-                                }
+                                })
                             });
                         });
                     });
@@ -155,18 +139,12 @@
                         $('#main_zone').append('<input id="submit_add" type="button" value="SUBMIT!" onclick="createPost()" /></form>');
                         $('#main_zone').append('<br>');
                         $('#main_zone').append('<form id="new_serv"><label for="title1">ID of the post to remove</label><br><input type="text" id="title1" name="title1"><br>');
-                        $('#main_zone').append('<button id="submit_delete" type="submit">DELETE!</button></form>');
+                        $('#main_zone').append('<button id="submit_delete" type="button">DELETE!</button></form>');
                         $("#submit_delete").click(function(){
-                            $.ajax({
-                                url: '/api/posts?id=' + document.getElementById('title1').value,
-                                type: 'DELETE',
-                                success: function(result) {
+                           axios.delete('/api/posts?id=' + document.getElementById('title1').value)
+                               .then((result) => {
                                     console.log(result);
-                                },
-                                error: function(err){
-                                    console.log(err);
-                                }
-                            });
+                                })
                         });
                     });
                 });
@@ -183,63 +161,51 @@
                             '</tr>');
                         }
                         $('#main_zone').append('<form id="new_serv"><label for="title">Name:</label><br><input type="text" id="title" name="title"><br>');
-                        $('#main_zone').append('<label for="filename">Picture:</label><br><input type="text" id="filename" name="filename"><br>');
+                        $('#main_zone').append('<label for="filename">Picture:</label><br><input type="file" id="filename" name="filename" multiple><br>');
                         $('#main_zone').append('<label for="price">Price:</label><br><input type="text" id="price" name="price"><br>');
                         $('#main_zone').append('<label for="info">Infos:</label><br><input type="text" id="info" name="info"><br>');
                         $('#main_zone').append('<label for="cat">Categories:</label><br><input type="text" id="cat" name="cat"><br>');
-                        $('#main_zone').append('<button id="submit_add1" type="submit">ADD PRODUCT</button></form>');
+                        $('#main_zone').append('<button id="submit_add1" type="button">ADD PRODUCT</button></form>');
                         $('#main_zone').append('<form id="new_serv"><label for="title">ID of the item to delete:</label><br><input type="text" id="title" name="title">');
                         $('#main_zone').append('<button id="submit_rem" type="submit">REMOVE PRODUCT</button></form>');
                         $('#main_zone').append('<form id="new_serv"><label for="title">ID of the product to put on sale:</label><br><input type="text" id="title" name="title"><br>');
                         $('#main_zone').append('<label for="priceup">Price on sale:</label><br><input type="text" id="priceup" name="priceup"><br>');
-                        $('#main_zone').append('<button id="submit_up" type="submit">PUT NEW PRICE ON SALE </button></form>');
+                        $('#main_zone').append('<button id="submit_up" type="button">PUT NEW PRICE ON SALE </button></form>');
                         $("#submit_rem").click(function(event){
-                            $.ajax({
-                                url: '/api/products?id=' + document.getElementById('title').value,
-                                type: 'DELETE',
-                                success: function(result) {
+                            axios.delete('/api/products?id=' + document.getElementById('title').value)
+                                .then((result) => {
                                     console.log(result);
-                                },
-                                error: function(err){
-                                    console.log(err);
-                                }
+                                })
                             });
                         });
                         $("#submit_add1").click(function(event){
-                            $.ajax({
-                                url: '/api/products',
-                                type: 'POST',
-                                data: {
+                            axios.post('/api/products', {
                                     "title": document.getElementById('title').value,
-                                    "price" : document.getElementById('price'),
-                                    "info" : document.getElementById('info'),
-                                    "categories" : document.getElementById('cat'),
-                                    "photos" :[]
-                                },
-                                success: function(result) {
+                                    "price" : document.getElementById('price').value,
+                                    "info" : document.getElementById('info').value,
+                                    "categories" : document.getElementById('cat').value
+                                })
+                               .then((result) =>  {
                                     console.log(result);
-                                },
-                                error: function(err){
-                                    console.log(err);
-                                }
+                                    let formData = new FormData();
+                                    let files = document.querySelector('#filename');
+                                    for (let i = 0; i < files.length; i++) {
+                                        formData.append('images', files.files[i]);
+                                    }
+                                    axios.post('/api/images/products?id=' + result.data._id, { formData }, { headers: { "Content-Type": "multipart/form-data" } })
+                                     .then((res) => {
+                                        console.log(res);
+                                     })
+
+                                })
                             });
                         });
                         $("#submit_up").click(function(event){
-                            $.ajax({
-                                url: '/api/products?id=' + document.getElementById('title').value,
-                                type: 'PATCH',
-                                data: jQuery.param({discountedPrice: document.getElementById('priceup').value} ),
-                                success: function(result) {
+                            axios.patch( '/api/products?id=' + document.getElementById('title').value, { params: {discountedPrice: document.getElementById('priceup').value } })
+                               .then((result) =>  {
                                     console.log(result);
-                                },
-                                error: function(err){
-                                    console.log(err);
-                                }
-                            });
+                                })
                         });
-
-                    });
-                });
                 $("#realserv").click(function(event){
                     $.getJSON('/api/services', function(jd) {
                         $('#main_zone').html('<table id="table"><tr><th>Name</th><th>Location</th><th>Days of opening</th><th>Time of opening/th><th>Type</th><th>Info</th><th>Mail</th><th>Phone</th></tr>');
@@ -266,9 +232,9 @@
                         $('#main_zone').append('<label for="mail">Mail:</label><br><input type="text" id="mail" name="mail"><br>');
                         $('#main_zone').append('<label for="phone">Phone:</label><br><input type="text" id="phone" name="phone"><br>');
                         $('#main_zone').append('<label for="servImage">Images:</label><br><input type="file" id="servImage" name="servImage" multiple><br>');
-                        $('#main_zone').append('<button id="submit_butrel" type="submit">SUBMIT</button></form>');
+                        $('#main_zone').append('<button id="submit_butrel" type="button">SUBMIT</button></form>');
                         $('#main_zone').append('<form id="new_serv"><label for="title">ID of the service to delete:</label><br><input type="text" id="title" name="title">');
-                        $('#main_zone').append('<button id="submit_remrel" type="submit">REMOVE SERVICE</button></form>');
+                        $('#main_zone').append('<button id="submit_remrel" type="button">REMOVE SERVICE</button></form>');
                         $('#main_zone').append('<form id="new_serv"><label for="uptitle">ID of the service to update:</label><br><input type="text" id="uptitle" name="uptitle"><br>');
                         $('#main_zone').append('<label for="upname">Name:</label><br><input type="text" id="upname" name="upname"><br>');
                         $('#main_zone').append('<label for="uplocation">Location:</label><br><input type="text" id="uplocation" name="uplocation"><br>');
@@ -279,25 +245,16 @@
                         $('#main_zone').append('<label for="upmail">Mail:</label><br><input type="text" id="upmail" name="upmail"><br>');
                         $('#main_zone').append('<label for="upphone">Phone:</label><br><input type="text" id="upphone" name="upphone"><br>');
                         $('#main_zone').append('<label for="upservImage">Images:</label><br><input type="file" id="upservImage" name="upservImage" multiple><br>');
-                        $('#main_zone').append('<button id="update_butrel" type="submit">UPDATE</button></form>');
+                        $('#main_zone').append('<button id="update_butrel" type="button">UPDATE</button></form>');
                         $("#submit_remrel").click(function(event){
-                            $.ajax({
-                                url: '/api/services?id=' + document.getElementById('title').value,
-                                type: 'DELETE',
-                                success: function(result) {
+                            axios.delete('/api/services?id=' + document.getElementById('title').value)
+                                .then((result) => {
                                     console.log(result);
-                                },
-                                error: function(err){
-                                    console.log(err);
-                                }
+                                })
                             });
                         });
                         $("#submit_butrel").click(function(event){
-                            console.log(document.getElementById('days').value)
-                            $.ajax({
-                                url: '/api/services',
-                                type: 'POST',
-                                data: {
+                           axios.post( '/api/services', {
                                     "name": document.getElementById('name').value,
                                     "location" : document.getElementById('location').value,
                                     "openDays" : document.getElementById('days').value,
@@ -307,32 +264,23 @@
                                     "mail" : document.getElementById('mail').value,
                                     "phone" : document.getElementById('phone').value,
                                     "online" : false
-                                },
-                                success: function(result) {
+                            })
+                                .then((result) => {
                                     console.log(result);
                                     let formData = new FormData();
                                     let files = document.querySelector('#servImage');
                                     for (let i = 0; i < files.length; i++) {
-                                        formData.append('images', files.files[i])
+                                        formData.append('images', files.files[i]);
                                     }
-                                    /*$.ajax({
-                                        url: '/api/images/services?id=' + ,
-                                        type: 'POST',
-                                        data: {
-                                            formData
-                                        }
-                                    })*/
-                                },
-                                error: function(err){
-                                    console.log(err);
-                                }
+                                    axios.post('/api/images/services?id=' + result.data._id, { formData }, { headers: { "Content-Type": "multipart/form-data" } })
+                                     .then((res) => {
+                                        console.log(res);
+                                     })
+                                })
                             });
-                        });
                         $("#update_butrel").click(function(event){
-                            $.ajax({
-                                url: '/api/services?id=' + document.getElementById('uptitle').value,
-                                type: 'PATCH',
-                                data: {
+                           axios.patch('/api/services?id=' + document.getElementById('uptitle').value,
+                               {
                                     "name": document.getElementById('upname').value,
                                     "location" : document.getElementById('uplocation').value,
                                     "openDays" : document.getElementById('updays').value,
@@ -342,29 +290,18 @@
                                     "mail" : document.getElementById('upmail').value,
                                     "phone" : document.getElementById('upphone').value,
                                     "online" : false
-                                },
-                                success: function(result) {
+                                })
+                                .then((result) => {
                                     console.log(result);
                                     let formData = new FormData();
                                     let files = document.querySelector('#upservImage');
                                     for (let i = 0; i < files.length; i++) {
-                                        formData.append('images', files.files[i])
+                                        formData.append('images', files.files[i]);
                                     }
-                                    $.ajax({
-                                        url: '/api/images/services',
-                                        type: 'PATCH',
-                                        data: {
-                                            formData
-                                        }
+                                    axios.patch('/api/images/services',{ formData }, { params: { id: result.data._id } }, { headers: { "Content-Type": "multipart/form-data" } })
                                     })
-                                },
-                                error: function(err){
-                                    console.log(err);
-                                }
+                                })
                             });
-                        });
-                    });
-                });
                 $("#onlineserv").click(function(event){
                     $.getJSON('/api/services', function(jd) {
                         $('#main_zone').html('<table id="table"><tr><th>Name</th><th>Location</th><th>Time of opening/th><th>Type</th><th>Info</th></tr>');
@@ -391,9 +328,9 @@
                         $('#main_zone').append('<label for="mail">Mail:</label><br><input type="text" id="mail" name="mail"><br>');
                         $('#main_zone').append('<label for="phone">Phone:</label><br><input type="text" id="phone" name="phone"><br>');
                         $('#main_zone').append('<label for="servImage">Images:</label><br><input type="file" id="servImage" name="servImage" multiple><br>');
-                        $('#main_zone').append('<button id="submit_buton" type="submit">SUBMIT</button></form>');
+                        $('#main_zone').append('<button id="submit_buton" type="button">SUBMIT</button></form>');
                         $('#main_zone').append('<form id="new_serv"><label for="title">ID of the service to delete:</label><br><input type="text" id="title" name="title">');
-                        $('#main_zone').append('<button id="submit_remon" type="submit">REMOVE SERVICE</button></form>');
+                        $('#main_zone').append('<button id="submit_remon" type="button">REMOVE SERVICE</button></form>');
                         $('#main_zone').append('<form id="new_serv"><label for="uptitle">ID of the service to update:</label><br><input type="text" id="uptitle" name="uptitle"><br>');
                         $('#main_zone').append('<label for="upname">Name:</label><br><input type="text" id="upname" name="upname"><br>');
                         $('#main_zone').append('<label for="uplocation">Location:</label><br><input type="text" id="uplocation" name="uplocation"><br>');
@@ -404,25 +341,16 @@
                         $('#main_zone').append('<label for="upmail">Mail:</label><br><input type="text" id="upmail" name="upmail"><br>');
                         $('#main_zone').append('<label for="upphone">Phone:</label><br><input type="text" id="upphone" name="upphone"><br>');
                         $('#main_zone').append('<label for="upservImage">Images:</label><br><input type="file" id="upservImage" name="upservImage" multiple><br>');
-                        $('#main_zone').append('<button id="update_buton" type="submit">UPDATE</button></form>');
+                        $('#main_zone').append('<button id="update_buton" type="button">UPDATE</button></form>');
                         $("#submit_remon").click(function(event){
-                            $.ajax({
-                                url: '/api/services?id=' + document.getElementById('title').value,
-                                type: 'DELETE',
-                                success: function(result) {
+                            axios.delete('/api/services?id=' + document.getElementById('title').value)
+                                .then((result) => {
                                     console.log(result);
-                                },
-                                error: function(err){
-                                    console.log(err);
-                                }
+                                })
                             });
                         });
                         $("#submit_buton").click(function(event){
-                            console.log(document.getElementById('days').value)
-                            $.ajax({
-                                url: '/api/services',
-                                type: 'POST',
-                                data: {
+                           axios.post( '/api/services', {
                                     "name": document.getElementById('name').value,
                                     "location" : document.getElementById('location').value,
                                     "openDays" : document.getElementById('days').value,
@@ -431,33 +359,24 @@
                                     "info" : document.getElementById('info').value,
                                     "mail" : document.getElementById('mail').value,
                                     "phone" : document.getElementById('phone').value,
-                                    "online" : true
-                                },
-                                success: function(result) {
+                                    "online" : false
+                            })
+                                .then((result) => {
                                     console.log(result);
                                     let formData = new FormData();
                                     let files = document.querySelector('#servImage');
                                     for (let i = 0; i < files.length; i++) {
-                                        formData.append('images', files.files[i])
+                                        formData.append('images', files.files[i]);
                                     }
-                                    $.ajax({
-                                        url: '/api/images/services',
-                                        type: 'POST',
-                                        data: {
-                                            formData
-                                        }
-                                    })
-                                },
-                                error: function(err){
-                                    console.log(err);
-                                }
+                                    axios.post('/api/images/services?id=' + result.data._id, { formData }, { headers: { "Content-Type": "multipart/form-data" } })
+                                     .then((res) => {
+                                        console.log(res);
+                                     })
+                                })
                             });
-                        });
                         $("#update_buton").click(function(event){
-                            $.ajax({
-                                url: '/api/services?id=' + document.getElementById('uptitle').value,
-                                type: 'PATCH',
-                                data: {
+                           axios.patch('/api/services?id=' + document.getElementById('uptitle').value,
+                               {
                                     "name": document.getElementById('upname').value,
                                     "location" : document.getElementById('uplocation').value,
                                     "openDays" : document.getElementById('updays').value,
@@ -467,30 +386,18 @@
                                     "mail" : document.getElementById('upmail').value,
                                     "phone" : document.getElementById('upphone').value,
                                     "online" : false
-                                },
-                                success: function(result) {
+                                })
+                                .then((result) => {
                                     console.log(result);
                                     let formData = new FormData();
                                     let files = document.querySelector('#upservImage');
                                     for (let i = 0; i < files.length; i++) {
-                                        formData.append('images', files.files[i])
+                                        formData.append('images', files.files[i]);
                                     }
-                                    $.ajax({
-                                        url: '/api/images/services',
-                                        type: 'PATCH',
-                                        data: {
-                                            formData
-                                        }
+                                    axios.patch('/api/images/services',{ formData }, { params: { id: result.data._id } }, { headers: { "Content-Type": "multipart/form-data" } })
                                     })
-                                },
-                                error: function(err){
-                                    console.log(err);
-                                }
+                                })
                             });
-                        });
-                    });
-                });
-            });
-        </script>
+       </script>
     </body>
 </html>
