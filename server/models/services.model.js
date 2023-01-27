@@ -4,7 +4,7 @@ const serviceSchema = new mongoose.Schema(
   {
     name: { type: String, required: true }, //Service's name
     location: { type: String, required: true }, //City of the service
-    coordinate: { type: [Number], required: true }, //[Latitude,Longitude]
+    // coordinate: { type: [Number], required: true }, //[Latitude,Longitude]
     openDays: { type: [String], required: true }, //Open days [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
     openTime: { type: String, require: true }, // Open time of a service
     type: { type: String, required: true }, // Service's type

@@ -57,12 +57,12 @@ router
                 await Service.findByIdAndUpdate(req.query.id, {
                     name: req.body.name,
                     location: req.body.location,
-                    coordinate: req.body.coordinate,
                     openDays: req.body.openDays,
-                    openTime: new Date().setHours(req.body.openTime + 2),
-                    closeTime: new Date().setHours(req.body.closeTime + 2),
+                    openTime: req.body.openTime,
                     type: req.body.type,
                     info: req.body.info,
+                    mail: req.body.mail,
+                    phone: req.body.phone
                 }).then(() => {
                     res.sendStatus(200);
                 });
