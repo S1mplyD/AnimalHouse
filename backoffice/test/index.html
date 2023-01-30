@@ -1,403 +1,62 @@
 <!DOCTYPE html>
 
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>STAFF OFFICE</title>
-        <link rel="stylesheet" href="style.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
-    </head>
-    <body>
-        <header class="backoffice_header">
-            <b><p>ANIMAL HOUSE</p></b>
-            <nav>
-                <ul class="navigation">
-                    <li><button id="custdata">Users registry</button></li>
-                    <li><button id="commserv">Community services</button></li>
-                    <li><button id="e-commerce">E-commerce Manager</button></li>
-                    <li><button id="realserv">Real Life services</button></li>
-                    <li><button id="onlineserv">Online services</button></li>
-                </ul>
-            </nav>
-        </header>
-        <main id="main_zone">
-            <h1><b>HERE WILL BE LOADED DATA</b></h1>
-            <h1>login</h1>
-            <form>
-                <input type="text" name="mail" id="mail" placeholder="mail" />
-                <input type="password" name="password" id="pass" placeholder="password" />
-                <input type="button" value="login" onclick="login()" />
-            </form>
-        </main>
-        <footer>
-            <b><p id="text">Copyright &copy;<span id="footer"></span></p></b>
-        </footer>
-        <script>
-            async function login() {
-                const data = {
-                    username: document.getElementById("mail").value,
-                    password: document.getElementById("pass").value,
-                };
-                fetch("/auth/login", {
-                    method: "post",
-                    headers: {
-                    "Content-type": "application/json",
-                },
-                body: JSON.stringify(data),
-                }).then((res) => {
-                    console.log(res);
-                });
-            }
-            async function createPost() {
-                let data = {
-                    title: document.getElementById("title").value,
-                    post: document.getElementById("description").value,
-                };
-                data = JSON.stringify(data);
-                let images = document.querySelector("#files");
-                const formData = new FormData();
-                formData.append("data", data);
-                for (let i = 0; i < images.files.length; i++) {
-                    formData.append("images", images.files[i]);
-                }
-                console.log(images.files);
-                console.log(formData);
-                fetch("/api/posts", {
-                    method: "post",
-                    body: formData,
-                }).then((res) => {
-                    console.log(res);
-                });
-            }
-            $(document).ready(function(){
-                var date = new Date();
-                var currentYear = date.getFullYear();
-                document.getElementById('footer').innerHTML=currentYear;
-                $("#custdata").click(function(event){
-                    $.getJSON('/api/users', function(jd) {
-                        $('#main_zone').html('<table id="table"><tr><th>Name</th><th>Username</th><th>Mail</th><th>Service ID</th><th>Password</th><th>Pets</th><th>Profile Picture</th><th>Is_Admin</th></tr>');
-                        for (var i = 0; i < jd.length; i++ ) {
-                            $('#table').append('<tr>' +
-                                '<td>' + jd[i].name + '</td>' +
-                                '<td>' + jd[i].username + '</td>' +
-                                '<td>' + jd[i].mail + '</td>' +
-                                '<td>' + jd[i].serviceId + '</td>' +
-                                '<td>' + jd[i].password + '</td>'+
-                                '<td>' + jd[i].ownedAnimals + '</td>' +
-                                '<td>' + jd[i].profilePicture + '</td>' +
-                                '<td>' + jd[i].admin + '</td>' +
-                            '</tr>');
-                        }
-                        $('#main_zone').append('<form id="new_serv"><label for="id0">ID of the person to ban:</label><br><input type="text" id="id0" name="id0"><br>');
-                        $('#main_zone').append('<button id="submit_ban" type="submit">BAN!</button></form>');
-                        $('#main_zone').append('<br>');
-                        $('#main_zone').append('<form id="new_serv"><label for="id1">ID of the person to make admin:</label><br><input type="text" id="id1" name="id1"><br>');
-                        $('#main_zone').append('<button id="submit_admin" type="button">MAKE ADMIN!</button></form>');
-                        $('#main_zone').append('<br>');
-                        $('#main_zone').append('<form id="new_serv"><label for="id2">ID of the person to revoke admin privileges:</label><br><input type="text" id="id2" name="id2"><br>');
-                        $('#main_zone').append('<button id="submit_revoke" type="button">REVOKE ADMIN STATUS!</button></form>');
-                        $("#submit_ban").click(function(event){
-                            axios.delete('/api/users?id=' + document.getElementById('id0').value)
-                                .then((result) => {
-                                    console.log(result);
-                                })
-                        });
-                        $("#submit_admin").click(function(event){
-                            console.log(document.getElementById('id1').value);
-                            axios.patch('/api/users/grantPermission?id=' + document.getElementById('id1').value)
-                                .then((result) => {
-                                    console.log(result);
-                                })
-                        });
-                        $("#submit_revoke").click(function(event){
-                            axios.patch( '/api/users/revokePermission?id=' + document.getElementById('id2').value)
-                                .then((result) => {
-                                    console.log(result);
-                                })
-                            });
-                        });
-                    });
-                });
-                $("#commserv").click(function(event){
-                    $.getJSON('/api/posts', function(jd) {
-                        $('#main_zone').html('<table id="table"><tr><th>Title</th><th>User</th><th>Description</th><th>Summary</th><th>Picture</th><th>Date</th></tr>');
-                        for (var i = 0; i < jd.length; i++ ) {
-                            $('#table').append('<tr>' +
-                                '<td>' + jd[i].title + '</td>' +
-                                '<td>' + jd[i].user + '</td>' +
-                                '<td>' + jd[i].post + '</td>' +
-                                '<td>' + jd[i].post_summary + '</td>' +
-                                '<td>' + jd[i].photos + '</td>'+
-                                '<td>' + jd[i].date + '</td>' +
-                            '</tr>');
-                        }
-                        $('#main_zone').append('<form enctype="multipart/form-data"><label for="title">Title:</label><br><input type="text" name="title" id="title" placeholder="title" /><br>');
-                        $('#main_zone').append('<label for="description">Description:</label><br><input type="text" name="description" id="description" placeholder="description"/><br>');
-                        $('#main_zone').append('<label for="picture">Picture:</label><br><input type="file" value="CHoose your photos" name="picture" id="files" multiple /><br>');
-                        $('#main_zone').append('<input id="submit_add" type="button" value="SUBMIT!" onclick="createPost()" /></form>');
-                        $('#main_zone').append('<br>');
-                        $('#main_zone').append('<form id="new_serv"><label for="title1">ID of the post to remove</label><br><input type="text" id="title1" name="title1"><br>');
-                        $('#main_zone').append('<button id="submit_delete" type="button">DELETE!</button></form>');
-                        $("#submit_delete").click(function(){
-                           axios.delete('/api/posts?id=' + document.getElementById('title1').value)
-                               .then((result) => {
-                                    console.log(result);
-                                })
-                        });
-                    });
-                });
-                $("#e-commerce").click(function(event){
-                    $.getJSON('/api/products', function(jd) {
-                        $('#main_zone').html('<table id="table"><tr><th>Name of the product</th><th>Image</th><th>Price</th><th>Info</th><th>Categories</th></tr>');
-                        for (var i = 0; i < jd.length; i++ ) {
-                            $('#table').append('<tr>' +
-                                '<td>' + jd[i].title + '</td>' +
-                                '<td>' + jd[i].photos + '</td>' +
-                                '<td>' + jd[i].price + '</td>' +
-                                '<td>' + jd[i].info + '</td>' +
-                                '<td>' + jd[i].categories + '</td>' +
-                            '</tr>');
-                        }
-                        $('#main_zone').append('<form id="new_serv"><label for="title">Name:</label><br><input type="text" id="title" name="title"><br>');
-                        $('#main_zone').append('<label for="filename">Picture:</label><br><input type="file" id="filename" name="filename" multiple><br>');
-                        $('#main_zone').append('<label for="price">Price:</label><br><input type="text" id="price" name="price"><br>');
-                        $('#main_zone').append('<label for="info">Infos:</label><br><input type="text" id="info" name="info"><br>');
-                        $('#main_zone').append('<label for="cat">Categories:</label><br><input type="text" id="cat" name="cat"><br>');
-                        $('#main_zone').append('<button id="submit_add1" type="button">ADD PRODUCT</button></form>');
-                        $('#main_zone').append('<form id="new_serv"><label for="title">ID of the item to delete:</label><br><input type="text" id="title" name="title">');
-                        $('#main_zone').append('<button id="submit_rem" type="submit">REMOVE PRODUCT</button></form>');
-                        $('#main_zone').append('<form id="new_serv"><label for="title">ID of the product to put on sale:</label><br><input type="text" id="title" name="title"><br>');
-                        $('#main_zone').append('<label for="priceup">Price on sale:</label><br><input type="text" id="priceup" name="priceup"><br>');
-                        $('#main_zone').append('<button id="submit_up" type="button">PUT NEW PRICE ON SALE </button></form>');
-                        $("#submit_rem").click(function(event){
-                            axios.delete('/api/products?id=' + document.getElementById('title').value)
-                                .then((result) => {
-                                    console.log(result);
-                                })
-                            });
-                        });
-                        $("#submit_add1").click(function(event){
-                            axios.post('/api/products', {
-                                    "title": document.getElementById('title').value,
-                                    "price" : document.getElementById('price').value,
-                                    "info" : document.getElementById('info').value,
-                                    "categories" : document.getElementById('cat').value
-                                })
-                               .then((result) =>  {
-                                    console.log(result);
-                                    let formData = new FormData();
-                                    let files = document.querySelector('#filename');
-                                    for (let i = 0; i < files.length; i++) {
-                                        formData.append('images', files.files[i]);
-                                    }
-                                    axios.post('/api/images/products?id=' + result.data._id, { formData }, { headers: { "Content-Type": "multipart/form-data" } })
-                                     .then((res) => {
-                                        console.log(res);
-                                     })
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>STAFF OFFICE</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <script src="auth.js"></script>
+    <script src="communityServices.js"></script>
+    <script src="ecommerce.js"></script>
+    <script src="onlineServices.js"></script>
+    <script src="RLServices.js"></script>
+    <script src="usersRegistry.js"></script>
+</head>
+<body>
+<header class="backoffice_header">
+    <b><p>ANIMAL HOUSE</p></b>
+    <nav>
+        <ul class="navigation">
+            <li>
+                <button id="custdata" onclick="getUsers()">Users registry</button>
+            </li>
+            <li>
+                <button id="commserv" onclick="getPosts()">Community services</button>
+            </li>
+            <li>
+                <button id="e-commerce" onclick="getProducts()">E-commerce Manager</button>
+            </li>
+            <li>
+                <button id="realserv" onclick="getOfflineServices()">Real Life services</button>
+            </li>
+            <li>
+                <button id="onlineserv" onclick="getOnlineServices()">Online services</button>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main id="main_zone">
+    <h1><b>HERE WILL BE LOADED DATA</b></h1>
+    <h1>login</h1>
+    <form>
+        <input type="email" name="mail" id="mail" placeholder="mail"/>
+        <input type="password" name="password" id="pass" placeholder="password"/>
+        <input type="button" value="login" onclick="login()"/>
+    </form>
+</main>
+<footer>
+    <b><p id="text">Copyright &copy;<span id="footer"></span></p></b>
+</footer>
+<script>
 
-                                })
-                            });
-                        });
-                        $("#submit_up").click(function(event){
-                            axios.patch( '/api/products?id=' + document.getElementById('title').value, { params: {discountedPrice: document.getElementById('priceup').value } })
-                               .then((result) =>  {
-                                    console.log(result);
-                                })
-                        });
-                $("#realserv").click(function(event){
-                    $.getJSON('/api/services', function(jd) {
-                        $('#main_zone').html('<table id="table"><tr><th>Name</th><th>Location</th><th>Days of opening</th><th>Time of opening/th><th>Type</th><th>Info</th><th>Mail</th><th>Phone</th></tr>');
-                        for (var i = 0; i < jd.length; i++ ) {
-                           if (jd[i].online === false) {
-                            $('#table').append('<tr>' +
-                                '<td>' + jd[i].name + '</td>' +
-                                '<td>' + jd[i].location + '</td>' +
-                                '<td>' + jd[i].openDays + '</td>' +
-                                '<td>' + jd[i].openTime + '</td>' +
-                                '<td>' + jd[i].type + '</td>' +
-                                '<td>' + jd[i].info + '</td>'+
-                                '<td>' + jd[i].mail + '</td>'+
-                                '<td>' + jd[i].phone + '</td>'+
-                            '</tr>');
-                           }
-                        }
-                        $('#main_zone').append('<form id="new_serv"><label for="name">Name:</label><br><input type="text" id="name" name="name"><br>');
-                        $('#main_zone').append('<label for="location">Location:</label><br><input type="text" id="location" name="location"><br>');
-                        $('#main_zone').append('<label for="days">Open days (separated by a comma):</label><br><input type="text" id="days" name="days"><br>');
-                        $('#main_zone').append('<label for="time">Open time:</label><br><input type="text" id="time" name="time"><br>');
-                        $('#main_zone').append('<label for="type">Type:</label><br><input type="text" id="type" name="type"><br>');
-                        $('#main_zone').append('<label for="info">Info:</label><br><input type="text" id="info" name="info"><br>');
-                        $('#main_zone').append('<label for="mail">Mail:</label><br><input type="text" id="mail" name="mail"><br>');
-                        $('#main_zone').append('<label for="phone">Phone:</label><br><input type="text" id="phone" name="phone"><br>');
-                        $('#main_zone').append('<label for="servImage">Images:</label><br><input type="file" id="servImage" name="servImage" multiple><br>');
-                        $('#main_zone').append('<button id="submit_butrel" type="button">SUBMIT</button></form>');
-                        $('#main_zone').append('<form id="new_serv"><label for="title">ID of the service to delete:</label><br><input type="text" id="title" name="title">');
-                        $('#main_zone').append('<button id="submit_remrel" type="button">REMOVE SERVICE</button></form>');
-                        $('#main_zone').append('<form id="new_serv"><label for="uptitle">ID of the service to update:</label><br><input type="text" id="uptitle" name="uptitle"><br>');
-                        $('#main_zone').append('<label for="upname">Name:</label><br><input type="text" id="upname" name="upname"><br>');
-                        $('#main_zone').append('<label for="uplocation">Location:</label><br><input type="text" id="uplocation" name="uplocation"><br>');
-                        $('#main_zone').append('<label for="updays">Open days (separated by a comma):</label><br><input type="text" id="updays" name="updays"><br>');
-                        $('#main_zone').append('<label for="uptime">Open time:</label><br><input type="text" id="uptime" name="uptime"><br>');
-                        $('#main_zone').append('<label for="uptype">Type:</label><br><input type="text" id="uptype" name="uptype"><br>');
-                        $('#main_zone').append('<label for="upinfo">Info:</label><br><input type="text" id="upinfo" name="upinfo"><br>');
-                        $('#main_zone').append('<label for="upmail">Mail:</label><br><input type="text" id="upmail" name="upmail"><br>');
-                        $('#main_zone').append('<label for="upphone">Phone:</label><br><input type="text" id="upphone" name="upphone"><br>');
-                        $('#main_zone').append('<label for="upservImage">Images:</label><br><input type="file" id="upservImage" name="upservImage" multiple><br>');
-                        $('#main_zone').append('<button id="update_butrel" type="button">UPDATE</button></form>');
-                        $("#submit_remrel").click(function(event){
-                            axios.delete('/api/services?id=' + document.getElementById('title').value)
-                                .then((result) => {
-                                    console.log(result);
-                                })
-                            });
-                        });
-                        $("#submit_butrel").click(function(event){
-                           axios.post( '/api/services', {
-                                    "name": document.getElementById('name').value,
-                                    "location" : document.getElementById('location').value,
-                                    "openDays" : document.getElementById('days').value,
-                                    "openTime" : document.getElementById('time').value,
-                                    "type" : document.getElementById('type').value,
-                                    "info" : document.getElementById('info').value,
-                                    "mail" : document.getElementById('mail').value,
-                                    "phone" : document.getElementById('phone').value,
-                                    "online" : false
-                            })
-                                .then((result) => {
-                                    console.log(result);
-                                    let formData = new FormData();
-                                    let files = document.querySelector('#servImage');
-                                    for (let i = 0; i < files.length; i++) {
-                                        formData.append('images', files.files[i]);
-                                    }
-                                    axios.post('/api/images/services?id=' + result.data._id, { formData }, { headers: { "Content-Type": "multipart/form-data" } })
-                                     .then((res) => {
-                                        console.log(res);
-                                     })
-                                })
-                            });
-                        $("#update_butrel").click(function(event){
-                           axios.patch('/api/services?id=' + document.getElementById('uptitle').value,
-                               {
-                                    "name": document.getElementById('upname').value,
-                                    "location" : document.getElementById('uplocation').value,
-                                    "openDays" : document.getElementById('updays').value,
-                                    "openTime" : document.getElementById('uptime').value,
-                                    "type" : document.getElementById('uptype').value,
-                                    "info" : document.getElementById('upinfo').value,
-                                    "mail" : document.getElementById('upmail').value,
-                                    "phone" : document.getElementById('upphone').value,
-                                    "online" : false
-                                })
-                                .then((result) => {
-                                    console.log(result);
-                                    let formData = new FormData();
-                                    let files = document.querySelector('#upservImage');
-                                    for (let i = 0; i < files.length; i++) {
-                                        formData.append('images', files.files[i]);
-                                    }
-                                    axios.patch('/api/images/services',{ formData }, { params: { id: result.data._id } }, { headers: { "Content-Type": "multipart/form-data" } })
-                                    })
-                                })
-                            });
-                $("#onlineserv").click(function(event){
-                    $.getJSON('/api/services', function(jd) {
-                        $('#main_zone').html('<table id="table"><tr><th>Name</th><th>Location</th><th>Time of opening/th><th>Type</th><th>Info</th></tr>');
-                        for (var i = 0; i < jd.length; i++ ) {
-                            if (jd[i].online === true) {
-                                $('#table').append('<tr>' +
-                                '<td>' + jd[i].name + '</td>' +
-                                '<td>' + jd[i].location + '</td>' +
-                                '<td>' + jd[i].openDays + '</td>' +
-                                '<td>' + jd[i].openTime + '</td>' +
-                                '<td>' + jd[i].type + '</td>' +
-                                '<td>' + jd[i].info + '</td>'+
-                                '<td>' + jd[i].mail + '</td>'+
-                                '<td>' + jd[i].phone + '</td>'+
-                            '</tr>');
-                            }
-                        }
-                        $('#main_zone').append('<form id="new_serv"><label for="name">Name:</label><br><input type="text" id="name" name="name"><br>');
-                        $('#main_zone').append('<label for="location">Location:</label><br><input type="text" id="location" name="location"><br>');
-                        $('#main_zone').append('<label for="days">Open days (separated by a comma):</label><br><input type="text" id="days" name="days"><br>');
-                        $('#main_zone').append('<label for="time">Open time:</label><br><input type="text" id="time" name="time"><br>');
-                        $('#main_zone').append('<label for="type">Type:</label><br><input type="text" id="type" name="type"><br>');
-                        $('#main_zone').append('<label for="info">Info:</label><br><input type="text" id="info" name="info"><br>');
-                        $('#main_zone').append('<label for="mail">Mail:</label><br><input type="text" id="mail" name="mail"><br>');
-                        $('#main_zone').append('<label for="phone">Phone:</label><br><input type="text" id="phone" name="phone"><br>');
-                        $('#main_zone').append('<label for="servImage">Images:</label><br><input type="file" id="servImage" name="servImage" multiple><br>');
-                        $('#main_zone').append('<button id="submit_buton" type="button">SUBMIT</button></form>');
-                        $('#main_zone').append('<form id="new_serv"><label for="title">ID of the service to delete:</label><br><input type="text" id="title" name="title">');
-                        $('#main_zone').append('<button id="submit_remon" type="button">REMOVE SERVICE</button></form>');
-                        $('#main_zone').append('<form id="new_serv"><label for="uptitle">ID of the service to update:</label><br><input type="text" id="uptitle" name="uptitle"><br>');
-                        $('#main_zone').append('<label for="upname">Name:</label><br><input type="text" id="upname" name="upname"><br>');
-                        $('#main_zone').append('<label for="uplocation">Location:</label><br><input type="text" id="uplocation" name="uplocation"><br>');
-                        $('#main_zone').append('<label for="updays">Open days (separated by a comma):</label><br><input type="text" id="updays" name="updays"><br>');
-                        $('#main_zone').append('<label for="uptime">Open time:</label><br><input type="text" id="uptime" name="uptime"><br>');
-                        $('#main_zone').append('<label for="uptype">Type:</label><br><input type="text" id="uptype" name="uptype"><br>');
-                        $('#main_zone').append('<label for="upinfo">Info:</label><br><input type="text" id="upinfo" name="upinfo"><br>');
-                        $('#main_zone').append('<label for="upmail">Mail:</label><br><input type="text" id="upmail" name="upmail"><br>');
-                        $('#main_zone').append('<label for="upphone">Phone:</label><br><input type="text" id="upphone" name="upphone"><br>');
-                        $('#main_zone').append('<label for="upservImage">Images:</label><br><input type="file" id="upservImage" name="upservImage" multiple><br>');
-                        $('#main_zone').append('<button id="update_buton" type="button">UPDATE</button></form>');
-                        $("#submit_remon").click(function(event){
-                            axios.delete('/api/services?id=' + document.getElementById('title').value)
-                                .then((result) => {
-                                    console.log(result);
-                                })
-                            });
-                        });
-                        $("#submit_buton").click(function(event){
-                           axios.post( '/api/services', {
-                                    "name": document.getElementById('name').value,
-                                    "location" : document.getElementById('location').value,
-                                    "openDays" : document.getElementById('days').value,
-                                    "openTime" : document.getElementById('time').value,
-                                    "type" : document.getElementById('type').value,
-                                    "info" : document.getElementById('info').value,
-                                    "mail" : document.getElementById('mail').value,
-                                    "phone" : document.getElementById('phone').value,
-                                    "online" : false
-                            })
-                                .then((result) => {
-                                    console.log(result);
-                                    let formData = new FormData();
-                                    let files = document.querySelector('#servImage');
-                                    for (let i = 0; i < files.length; i++) {
-                                        formData.append('images', files.files[i]);
-                                    }
-                                    axios.post('/api/images/services?id=' + result.data._id, { formData }, { headers: { "Content-Type": "multipart/form-data" } })
-                                     .then((res) => {
-                                        console.log(res);
-                                     })
-                                })
-                            });
-                        $("#update_buton").click(function(event){
-                           axios.patch('/api/services?id=' + document.getElementById('uptitle').value,
-                               {
-                                    "name": document.getElementById('upname').value,
-                                    "location" : document.getElementById('uplocation').value,
-                                    "openDays" : document.getElementById('updays').value,
-                                    "openTime" : document.getElementById('uptime').value,
-                                    "type" : document.getElementById('uptype').value,
-                                    "info" : document.getElementById('upinfo').value,
-                                    "mail" : document.getElementById('upmail').value,
-                                    "phone" : document.getElementById('upphone').value,
-                                    "online" : false
-                                })
-                                .then((result) => {
-                                    console.log(result);
-                                    let formData = new FormData();
-                                    let files = document.querySelector('#upservImage');
-                                    for (let i = 0; i < files.length; i++) {
-                                        formData.append('images', files.files[i]);
-                                    }
-                                    axios.patch('/api/images/services',{ formData }, { params: { id: result.data._id } }, { headers: { "Content-Type": "multipart/form-data" } })
-                                    })
-                                })
-                            });
-       </script>
-    </body>
+    $(document).ready(function () {
+        var date = new Date();
+        var currentYear = date.getFullYear();
+        document.getElementById('footer').innerHTML = currentYear;
+    });
+</script>
+</body>
 </html>
