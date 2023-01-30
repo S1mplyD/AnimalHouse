@@ -51,24 +51,25 @@ function deleteOfflineServices(){
 };
 function createOfflineService(){
     axios.post('/api/services', {
-        "name": document.getElementById('name').value,
-        "location": document.getElementById('location').value,
-        "openDays": document.getElementById('days').value,
-        "openTime": document.getElementById('time').value,
-        "type": document.getElementById('type').value,
-        "info": document.getElementById('info').value,
-        "mail": document.getElementById('mail').value,
-        "phone": document.getElementById('phone').value,
-        "online": false
+        name: document.getElementById('name').value,
+        location: document.getElementById('location').value,
+        openDays: document.getElementById('days').value,
+        openTime: document.getElementById('time').value,
+        type: document.getElementById('type').value,
+        info: document.getElementById('info').value,
+        mail: document.getElementById('mail').value,
+        phone: document.getElementById('phone').value,
+        online: false
     })
         .then((result) => {
             console.log(result);
-            let formData = new FormData();
-            let files = document.querySelector('#servImage');
+            const formData = new FormData();
+            let files = document.querySelector("#servImage");
+            console.log(files)
             for (let i = 0; i < files.length; i++) {
                 formData.append('images', files.files[i]);
             }
-            axios.post('/api/images/services?id=' + result.data._id, {formData}, {headers: {"Content-Type": "multipart/form-data"}})
+            axios.post('/api/images/services', formData, {params: {id: result.data._id}}, {headers: {"Content-Type": "multipart/form-data"}})
                 .then((res) => {
                     console.log(res);
                 })
