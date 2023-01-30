@@ -1,6 +1,6 @@
 <template lang="en">
-    <h1>Welcome to our Newspage!</h1>
-    <div class="overflow-auto" id="forum">
+    <h1 style="color:black;">Welcome to our Newspage!</h1>
+    <div class="overflow-auto" id="news">
       <form>
         <label for="texttitle" class="form-label" style="color:white;">Do you want to search a specific news article?</label>
         <input id="texttitle" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -10,7 +10,7 @@
         <div class="row" v-for="post in posts" :key="post._id">
           <div class="col">
             <router-link :to="'/news/' + post._id">
-              <div class="card" style="width: 700px; height:260px" id="card">
+              <div class="card" style="width: 700px; height:260px" :id="'card' + post._id">
                 <div class="card-body">
                   <h5 class="card-title"><b>{{ post.title }}</b> by {{ post.user }}:</h5>
                   <p class="card-text">{{ post.post_summary }}</p>
@@ -25,7 +25,7 @@
         <div class="row" v-for="item in searched" :key="item._id">
           <div class="col">
             <router-link :to="'/news/' + item._id">
-              <div class="card" style="width: 700px; height:260px" id="card">
+              <div class="card" style="width: 700px; height:260px" :id="'card' + item._id">
                 <div class="card-body">
                   <h5 class="card-title"><b>{{ item.title }}</b> by {{ item.user }}:</h5>
                   <p class="card-text">{{ item.post_summary }}</p>
@@ -72,10 +72,7 @@ export default {
 </script>
 
 <style>
-h1 {
-  color:#09ff00;
-}
-#forum {
+#news {
   display: flex;
   background-image: url("../../assets/istockphoto-517188688-612x612.jpg");
   height: 800px;
@@ -85,13 +82,13 @@ h1 {
   scrollbar-width: none; /* for Firefox */
   border-style: none;
 }
-#forum::-webkit-scrollbar {
+#news::-webkit-scrollbar {
   display: none; /* for Chrome, Safari, and Opera */
 }
-#forum ul {
+#news ul {
   list-style: none;
 }
-#card {
+.card[id^="card"] {
   display: block;
   margin-left: auto;
   margin-right: auto;

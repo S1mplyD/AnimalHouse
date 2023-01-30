@@ -1,5 +1,5 @@
 <template lang="en">
-  <h1>Welcome to our Forum!</h1>
+  <h1 style="color:black;">Welcome to our Forum!</h1>
   <div class="overflow-auto" id="forum">
     <form>
       <div class="mb-3">
@@ -15,7 +15,7 @@
       <div class="row" v-for="post in posts" :key="post._id">
         <div class="col">
           <router-link :to="'/forum/' + post._id">
-            <div class="card" style="width: 700px; height:260px" id="card">
+            <div class="card" style="width: 700px; height:260px" :id="'card' + post._id">
               <div class="card-body">
                 <h5 class="card-title"><b>{{ post.title }}</b> by {{ post.user }}:</h5>
                 <p class="card-text">{{ post.post_summary }}</p>
@@ -99,7 +99,7 @@ export default {
   #forum ul {
     list-style: none;
   }
-  #card {
+  .card[id^="card"] {
     display: block;
     margin-left: auto;
     margin-right: auto;

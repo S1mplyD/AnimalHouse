@@ -1,31 +1,5 @@
 <template>
-<header>
-  <img alt="Logo of Animal House" src="@/assets/logo.png" height="50">
-    <b><p>ANIMAL HOUSE</p></b>
-    <nav>
-      <ul>
-        <li><router-link to="/" class="routerlink">Go back to the HOMEPAGE</router-link></li>
-        </ul>
-    </nav>
-    <nav v-if="user.length === 1" id="usersection">
-      <div class="card mb-3" style="background: rgb(60, 121, 150); width: 500px;">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img :src="user[0].profilePicture" class="img-fluid rounded-start" alt="" style="max-height: 100px; object-fit:cover;"/>
-          </div>
-          <div class="col-md-8" style="background: rgb(60, 121, 150);">
-            <div class="card-body">
-              <h5 class="card-title"><b>{{user[0].username}}</b></h5>
-            </div>
-              <a href="/test" class="card-link" v-if="user[0].admin === true">Testarea</a>
-              <a href="/backoffice" class="card-link" v-if="user[0].admin === true">Backoffice</a>
-              <router-link to="/user" class="card-link">User Area</router-link>
-              <a href="/auth/logout" class="card-link">Logout</a>
-          </div>
-        </div>
-      </div>
-    </nav>
-  </header>
+  <CartHeader />
   <body class="bodymain">
   <h1>Welcome to your Cart!</h1>
   <div class="overflow-auto" id="shop-section">
@@ -53,6 +27,7 @@
 </template>
 <script>
 import axios from 'axios'
+import CartHeader from '../headers/CartHeader.vue'
 import SiteFooter from '../SiteFooter.vue'
 import Swal from 'sweetalert2'
 export default {
@@ -79,7 +54,7 @@ export default {
         }
       })
   },
-  components: { SiteFooter },
+  components: { CartHeader, SiteFooter },
   methods: {
     async removeFromCart (item) {
       const { value: text } = await Swal.fire({

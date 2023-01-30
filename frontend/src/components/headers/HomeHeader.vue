@@ -1,7 +1,7 @@
 <template lang="en">
   <header>
     <img alt="Logo of Animal House" src="@/assets/logo.png" height="50">
-    <b><p>ANIMAL HOUSE</p></b>
+    <b><p style="color: white;">ANIMAL HOUSE</p></b>
     <nav>
       <ul>
         <li><a href="/games" class="routerlink">GAMES</a></li>
@@ -25,15 +25,15 @@
         </li>
       </ul>
     </nav>
-    <nav v-if="user.length === 1" id="usersection">
-      <div class="card mb-3" style="background: rgb(60, 121, 150); width: 500px;">
+    <nav v-if="user.length === 1" id="usersection" aria-labelledby="User">
+      <div class="card mb-3" style="background: rgb(0, 0, 190); width: 500px;">
         <div class="row g-0">
           <div class="col-md-4">
             <img :src="user[0].profilePicture" class="img-fluid rounded-start" alt="" style="max-height: 100px; object-fit:cover;"/>
           </div>
-          <div class="col-md-8" style="background: rgb(60, 121, 150);">
+          <div class="col-md-8" style="background: rgb(0, 0, 190);">
             <div class="card-body">
-              <h5 class="card-title"><b>{{user[0].username}}</b></h5>
+              <h5 class="card-title" style="color: white;"><b>{{user[0].username}}</b></h5>
             </div>
               <a href="/test" class="card-link" v-if="user[0].admin === true">Testarea</a>
               <a href="/backoffice" class="card-link" v-if="user[0].admin === true">Backoffice</a>

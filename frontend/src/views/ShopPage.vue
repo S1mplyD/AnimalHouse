@@ -1,9 +1,9 @@
 <template lang="en">
 <ShopHeaderVue />
-<h1>Welcome to our shop!</h1>
+<h1 style="color:black;">Welcome to our shop!</h1>
 <div class="overflow-auto" id="shop-section">
   <div v-for="(item, index) in products" :key="index">
-    <div class="card mb-3" style="width: 700px; height: 260px;" id="card">
+    <div class="card mb-3" style="width: 700px; height: 260px;" :id="'card' + index">
       <div class="row g-0">
         <div class="col-md-4">
           <img :src="item.mainPhoto" class="img-fluid rounded-start" style="object-fit: cover; height: 250px;" alt="...">
@@ -115,7 +115,7 @@ export default {
 #shop-section::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
 }
-#card {
+div[id^="card"] {
   display: block;
   margin-left: auto;
   margin-right: auto;
