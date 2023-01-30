@@ -15,7 +15,7 @@
     {{ option.text }}
       </option>
     </select>
-    <label for="selectservice">Check if the service is online:</label>
+    <label for="selectservice2">Check if the service is online:</label>
     <br>
     <select v-model="online" class="form-control" id="selectservice2">
       <option value="" disabled selected>Choose tif the service is online or not</option>
@@ -35,7 +35,7 @@
   <div class="overflow-auto" id="servicediv">
     <ul v-show="online === false" class="services">
       <li v-for="service in filteredRealServices">
-        <div class="card" id="servicecard">
+        <div class="card" :id="'servicecard' + service._id">
           <div class="card-body">
               <h5 class="card-title"><b>{{service.name}}</b></h5>
               <p class="card-text">{{service.info}}</p>
@@ -50,7 +50,7 @@
     </ul>
     <ul v-show="online === true" class="services">
       <li v-for="service in filteredOnlineServices">
-        <div class="card" id="servicecard">
+        <div class="card" :id="'servicecard' + service._id">
           <div class="card-body">
               <h5 class="card-title"><b>{{service.name}}</b></h5>
               <p class="card-text">{{service.info}}</p>
@@ -199,7 +199,7 @@ export default {
   .cr{
     bottom: 3px;
   }
-  #servicecard{
+  .card[id^="servicecard"]{
     margin: auto;
     width: 75%;
   }

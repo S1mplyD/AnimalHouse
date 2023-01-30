@@ -1,8 +1,8 @@
 <template lang="en">
 <HomeHeaderVue />
   <section class="body">
-    <nav class="Images">
-    <p id="shoptext">Do you want to see other pics? <router-link :to="{name: 'gallery'}" class="routerlink">Go to our Gallery!</router-link></p>
+    <nav class="Images" aria-labelledby="Gallery">
+    <p id="imagestext">Do you want to see other pics? <router-link :to="{name: 'gallery'}" class="routerlink">Go to our Gallery!</router-link></p>
     <div class="overflow-auto" id="photodiv">
       <img v-if="gallery[0]" :src="gallery[0].filename" class="ImageShow" alt="" />
       <img v-else src="@/assets/Photo-Unavailable.jpg" class="ImageShow" alt=""/>
@@ -16,25 +16,25 @@
       <img v-else src="@/assets/Photo-Unavailable.jpg" class="ImageShow" alt=""/>
     </div>
     </nav>
-    <nav class="TopPosts" >
-      <p id="shoptext">Do you want to see other posts from our community? <router-link :to="{name: 'forum'}" class="routerlink">Go to the community Forum!</router-link></p>
+    <nav class="TopPosts" aria-labelledby="Forum">
+      <p id="poststext">Do you want to see other posts from our community? <router-link :to="{name: 'forum'}" class="routerlink">Go to the community Forum!</router-link></p>
       <br>
       <div class="container d-flex flex-wrap">
-        <div class="card h-100" id="card" >
+        <div class="card h-100" id="card1" >
           <div class="card-body">
             <h5 class="card-title"><b>{{ posts[0].title }}</b> by {{ posts[0].user }}:</h5>
             <p class="card-text">{{ posts[0].post_summary }}</p>
             <p class="card-text"><small class="text-muted">{{ posts[0].date }}</small></p>
           </div>
         </div>
-        <div class="card h-100" id="card" >
+        <div class="card h-100" id="card2">
           <div class="card-body">
             <h5 class="card-title"><b>{{ posts[1].title }}</b> by {{ posts[1].user }}:</h5>
             <p class="card-text">{{ posts[1].post_summary }}</p>
             <p class="card-text"><small class="text-muted">{{ posts[1].date }}</small></p>
           </div>
         </div>
-        <div class="card h-100" id="card" >
+        <div class="card h-100" id="card3">
           <div class="card-body">
             <h5 class="card-title"><b>{{ posts[2].title }}</b> by {{ posts[2].user }}:</h5>
             <p class="card-text">{{ posts[2].post_summary }}</p>
@@ -43,7 +43,7 @@
         </div>
       </div>
     </nav>
-    <nav class="ADS">
+    <nav class="ADS" aria-labelledby="Shop">
       <div id="carousel" class="carousel carousel- slide carousel-fade" data-bs-ride="carousel">
          <div class="carousel-indicators">
           <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -54,24 +54,24 @@
         </div>
         <div class="carousel-inner" style="border-radius: 25px">
               <div class="carousel-item active">
-                <img v-if="products[0]" :src="products[0].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
-                <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image"/>
+                <img v-if="products[0]" :src="products[0].mainPhoto" class="d-block w-100" alt="" id="carousel-image1"/>
+                <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image1"/>
               </div>
               <div class="carousel-item">
-                <img v-if="products[1]" :src="products[1].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
-                <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image"/>
+                <img v-if="products[1]" :src="products[1].mainPhoto" class="d-block w-100" alt="" id="carousel-image2"/>
+                <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image2"/>
               </div>
               <div class="carousel-item">
-                <img v-if="products[2]" :src="products[2].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
-                <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image"/>
+                <img v-if="products[2]" :src="products[2].mainPhoto" class="d-block w-100" alt="" id="carousel-image3"/>
+                <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image3"/>
               </div>
               <div class="carousel-item">
-                <img v-if="products[3]" :src="products[3].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
-                <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image"/>
+                <img v-if="products[3]" :src="products[3].mainPhoto" class="d-block w-100" alt="" id="carousel-image4"/>
+                <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image4"/>
               </div>
               <div class="carousel-item">
-                <img v-if="products[4]" :src="products[4].mainPhoto" class="d-block w-100" alt="" id="carousel-image"/>
-                <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image"/>
+                <img v-if="products[4]" :src="products[4].mainPhoto" class="d-block w-100" alt="" id="carousel-image5"/>
+                <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image5"/>
               </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
@@ -192,7 +192,7 @@ export default {
   background-image: url("../assets/istockphoto-517188688-612x612.jpg");
   background-size: cover;
   padding: 20px;
-  #card{
+  #card1, #card2, #card3{
     width: 90%;
     border-radius: 0.75rem;
     object-fit: cover;
@@ -231,7 +231,7 @@ export default {
    height: 390px;
   }
 }
-#shoptext{
+#shoptext, #imagestext, #poststext{
   color: white;
 }
  #photodiv{
@@ -243,7 +243,7 @@ export default {
 #photodiv::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
 }
-#carousel-image{
+#carousel-image1, #carousel-image2, #carousel-image3, #carousel-image4, #carousel-image5{
   height: 500px;
   width: 680px;
   object-fit: cover;

@@ -1,6 +1,6 @@
 <template lang="en">
   <footer>
-    <b><p>Copyright &copy; {{ year }}</p></b>
+    <b><p style="color:white;">Copyright &copy; {{ year }}</p></b>
   </footer>
 </template>
 
