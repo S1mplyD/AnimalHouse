@@ -1,4 +1,4 @@
-function getOnlineServices(){
+function getOnlineServices() {
     $.getJSON('/api/services', function (jd) {
         const mainZone = $("#main_zone")
         mainZone.html('<table id="table"><tr><th>Name</th><th>Id</th><th>Location</th><th>Time of opening/th><th>Type</th><th>Info</th></tr>');
@@ -44,7 +44,7 @@ function getOnlineServices(){
     });
 };
 
-function deleteOnlineService () {
+function deleteOnlineService() {
     axios.delete('/api/services?id=' + document.getElementById('title').value)
         .then((result) => {
             console.log(result);
@@ -53,24 +53,24 @@ function deleteOnlineService () {
 
 function createOnlineService() {
     axios.post('/api/services', {
-        "name": document.getElementById('name').value,
-        "location": document.getElementById('location').value,
-        "openDays": document.getElementById('days').value,
-        "openTime": document.getElementById('time').value,
-        "type": document.getElementById('type').value,
-        "info": document.getElementById('info').value,
-        "mail": document.getElementById('mail').value,
-        "phone": document.getElementById('phone').value,
-        "online": false
+        name: document.getElementById('name').value,
+        location: document.getElementById('location').value,
+        openDays: document.getElementById('days').value,
+        openTime: document.getElementById('time').value,
+        type: document.getElementById('type').value,
+        info: document.getElementById('info').value,
+        mail: document.getElementById('mail').value,
+        phone: document.getElementById('phone').value,
+        online: true
     })
         .then((result) => {
             console.log(result);
             let formData = new FormData();
             let files = document.querySelector('#servImage');
-            for (let i = 0; i < files.length; i++) {
+            for (let i = 0; i < files.files.length; i++) {
                 formData.append('images', files.files[i]);
             }
-            axios.post('/api/images/services?id=' + result.data._id, {formData}, {headers: {"Content-Type": "multipart/form-data"}})
+            axios.post("/api/images/services", formData, {params: {id: result.data._id}}, {headers: {"Content-Type": "multipart/form-data"}})
                 .then((res) => {
                     console.log(res);
                 })
@@ -78,27 +78,33 @@ function createOnlineService() {
 };
 
 function updateOnlineService() {
-    axios.patch('/api/services?id=' + document.getElementById('uptitle').value,
-        {
-            name: document.getElementById('upname').value,
-            location: document.getElementById('uplocation').value,
-            openDays: document.getElementById('updays').value,
-            openTime: document.getElementById('uptime').value,
-            type: document.getElementById('uptype').value,
-            info: document.getElementById('upinfo').value,
-            mail: document.getElementById('upmail').value,
-            phone: document.getElementById('upphone').value,
-            online: false
-        })
-        .then((result) => {
-            console.log(result);
-            let formData = new FormData();
-            let files = document.querySelector('#upservImage');
-            for (let i = 0; i < files.length; i++) {
-                formData.append('images', files.files[i]);
-            }
-            axios.patch('/api/images/services', {formData}, {params: {id: result.data._id}}, {headers: {"Content-Type": "multipart/form-data"}})
-        })
+    const files = document.querySelector("#upservImage");
+    console.log(files.files)
+    if(files.files.length <= 2) {
+        const id = document.getElementById('uptitle').value
+        axios.patch('/api/services?id=' + id,
+            {
+                name: document.getElementById('upname').value,
+                location: document.getElementById('uplocation').value,
+                openDays: document.getElementById('updays').value,
+                openTime: document.getElementById('uptime').value,
+                type: document.getElementById('uptype').value,
+                info: document.getElementById('upinfo').value,
+                mail: document.getElementById('upmail').value,
+                phone: document.getElementById('upphone').value,
+                online: true
+            })
+            .then(() => {
+                const formData = new FormData();
+                for (let i = 0; i < files.files.length; i++) {
+                    console.log(files.files[i])
+                    formData.append("images", files.files[i]);
+                }
+                axios.patch("/api/images/services", formData,{params: {id: id}} ,{headers: { "Content-Type": "multipart/form-data" }})
+            })
+    } else {
+        alert("Too many files. (Max number of images is 2!)")
+    }
 }
 
 module.exports = {getOnlineServices}
