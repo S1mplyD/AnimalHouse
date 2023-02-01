@@ -50,54 +50,69 @@ function deleteOfflineServices(){
         })
 };
 function createOfflineService(){
-    axios.post('/api/services', {
-        name: document.getElementById('name').value,
-        location: document.getElementById('location').value,
-        openDays: document.getElementById('days').value,
-        openTime: document.getElementById('time').value,
-        type: document.getElementById('type').value,
-        info: document.getElementById('info').value,
-        mail: document.getElementById('mail').value,
-        phone: document.getElementById('phone').value,
-        online: false
-    })
-        .then((result) => {
-            console.log(result);
-            const formData = new FormData();
-            let files = document.querySelector("#servImage");
-            console.log(files)
-            for (let i = 0; i < files.length; i++) {
-                formData.append('images', files.files[i]);
-            }
-            axios.post('/api/images/services', formData, {params: {id: result.data._id}}, {headers: {"Content-Type": "multipart/form-data"}})
-                .then((res) => {
-                    console.log(res);
-                })
-        })
-};
-function updateOfflineService(){
-    const id = document.getElementById('uptitle').value
-    axios.patch('/api/services?id=' + id,
-        {
-            name: document.getElementById('upname').value,
-            location: document.getElementById('uplocation').value,
-            openDays: document.getElementById('updays').value,
-            openTime: document.getElementById('uptime').value,
-            type: document.getElementById('uptype').value,
-            info: document.getElementById('upinfo').value,
-            mail: document.getElementById('upmail').value,
-            phone: document.getElementById('upphone').value,
+    let files = document.querySelector("#servImage");
+    if(files.files.length <= 2){
+        axios.post('/api/services', {
+            name: document.getElementById('name').value,
+            location: document.getElementById('location').value,
+            openDays: document.getElementById('days').value,
+            openTime: document.getElementById('time').value,
+            type: document.getElementById('type').value,
+            info: document.getElementById('info').value,
+            mail: document.getElementById('mail').value,
+            phone: document.getElementById('phone').value,
             online: false
         })
-        .then((result) => {
-            console.log(result);
-            let formData = new FormData();
-            let files = document.querySelector('#upservImage');
-            for (let i = 0; i < files.length; i++) {
-                formData.append('images', files.files[i]);
-            }
-            axios.patch('/api/images/services', formData, {params: {id: id}}, {headers: {"Content-Type": "multipart/form-data"}})
-        })
+            .then((result) => {
+                console.log(result);
+                const formData = new FormData();
+
+                for (let i = 0; i < files.files.length; i++) {
+                    console.log(files.files[i])
+                    formData.append("images", files.files[i]);
+                }
+                const id = result.data._id
+                console.log(formData)
+                axios.post("/api/images/services", formData, {params: {id: id}}, {headers: { "Content-Type": "multipart/form-data" }})
+                    .then((res) => {
+                        console.log(res);
+                    })
+            })
+    } else {
+        alert("Too many files. (Max number of images is 2!)")
+    }
+
+};
+function updateOfflineService(){
+    const files = document.querySelector("#upservImage");
+    console.log(files.files)
+    if(files.files.length <= 2) {
+        const id = document.getElementById('uptitle').value
+        axios.patch('/api/services?id=' + id,
+            {
+                name: document.getElementById('upname').value,
+                location: document.getElementById('uplocation').value,
+                openDays: document.getElementById('updays').value,
+                openTime: document.getElementById('uptime').value,
+                type: document.getElementById('uptype').value,
+                info: document.getElementById('upinfo').value,
+                mail: document.getElementById('upmail').value,
+                phone: document.getElementById('upphone').value,
+                online: false
+            })
+            .then(() => {
+                const formData = new FormData();
+                const files = document.querySelector("#upservImage");
+                console.log(files.files)
+                for (let i = 0; i < files.files.length; i++) {
+                    console.log(files.files[i])
+                    formData.append("images", files.files[i]);
+                }
+                axios.patch("/api/images/services", formData,{params: {id: id}} ,{headers: { "Content-Type": "multipart/form-data" }})
+            })
+    } else {
+        alert("Too many files. (Max number of images is 2!)")
+    }
 }
 
 module.exports = {getOfflineServices}
