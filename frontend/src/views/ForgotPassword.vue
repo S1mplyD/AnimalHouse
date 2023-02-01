@@ -1,4 +1,4 @@
-<template lang="en">
+<template lang="en"> <!--Qui è possibile cambiare la propria password in modo semplice-->
     <div class="vue-template">
         <form>
             <h3>Forgot your password?</h3>

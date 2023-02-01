@@ -1,9 +1,9 @@
 <template lang="en">
-  <LeaderBoardHeader />
+  <LeaderBoardHeader /> <!--Per i commenti sull'header, si vada nel file .vue dell'header stesso -->
   <div id="mainBody">
     <div class="overflow-auto" id="leaderdiv">
       <div class="table-responsive">
-        <h1>Quiz Leaderboard</h1>
+        <h1>Quiz Leaderboard</h1> <!--Qui di seguito è presente la tabella dei punteggi del quiz (trovabile nella sezione Games del sito) -->
         <table class="table table-bordered table-hover table-success">
           <thead>
             <tr>
@@ -22,7 +22,7 @@
         </table>
       </div>
     <div class="table-responsive">
-      <h1>Memory Leaderboard</h1>
+      <h1>Memory Leaderboard</h1> <!--Qui di seguito è presente la tabella dei punteggi del memory (trovabile nella sezione Games del sito) -->
       <table class="table table-bordered table-hover table-success">
         <thead>
           <tr>
@@ -41,7 +41,7 @@
       </table>
     </div>
     <div class="table-responsive">
-      <h1>Hanged Man Leaderboard</h1>
+      <h1>Hanged Man Leaderboard</h1> <!--Qui di seguito è presente la tabella dei punteggi del gioco dell'impiccato (trovabile nella sezione Games del sito) -->
       <table class="table table-bordered table-hover table-success">
         <thead>
           <tr>
@@ -82,7 +82,7 @@ export default {
     }
   },
   mounted () {
-    axios.get('/api/leaderboard')
+    axios.get('/api/leaderboard') /* Chiamata API per ottenere i punteggi da inserire nella Leaderboard, fatta mediante axios */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           if (response.data[i].game === 'quiz') {

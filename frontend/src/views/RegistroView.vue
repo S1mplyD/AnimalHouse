@@ -1,7 +1,7 @@
 <template lang="en">
     <div class="vue-template">
         <form>
-            <h3>CREATE AN ACCOUNT</h3>
+            <h3>CREATE AN ACCOUNT</h3> <!--Qui è possibile compilare un form per registrarsi al sito Animal House -->
             <div class="form-group">
                 <label for="name">Name (and surname)</label>
                 <input id="name" type="text" class="form-control form-control-lg"/>
@@ -29,7 +29,7 @@
 <script>
 export default {
   methods: {
-    register: async function () {
+    register: async function () { /* Funzione che, mediante una chiamata API, permette di inserire nel database degli utenti, un nuovo utente */
       const data = {
         name: document.getElementById('name').value,
         username: document.getElementById('username').value,

@@ -1,10 +1,11 @@
 <template lang="en">
-  <header>
+  <header> <!--Questo header è diversa dagli altri, in quanto non presenta la scheda dell'utente, e neanche il logo del sito -->
     <div id="titlepart">
       <h1 class="title">Welcome to your personal User Area, <br> {{user[0].name}}!</h1>
       <button @click="this.$router.back()" class="btn btn-dark btn-lg btn-block" id="goBack">Go Back</button>
     </div>
   </header>
+  <!--Dati personali dell'utente, come nome, username, e-mail e lista dei propri animali domestici-->
   <section class="mainUser">
     <div class="card" id="usercard">
       <div class="card-body">
@@ -14,11 +15,11 @@
           <b>Username:</b> {{user[0].username}} <br>
           <b>Mail address:</b> {{user[0].mail}} <br>
           <b>List of pets:</b>
-            <ul v-for="pet in pets" style="list-style: none;">
+            <ul v-for="pet in pets" style="list-style: none;"> <!--Di seguito vengono visualizzati i nomi, le specie e le età degli animali domestici dell'utente. Qui è pure possibile aggiungere ed eliminare animali domestici -->
               <li>
                 <div class="card mb-3">
                   <div class="card-header text-end">
-                    <a type="button" class="btn-close" aria-label="Close" @click="removePets(pet._id)"></a>
+                    <a type="button" class="btn-close" aria-label="Close" @click="removePets(pet._id)"></a> <!--Qui c'è il tasto per eliminare un animale domestico dalla lista -->
                   </div>
                   <div class="row g-0">
                     <div class="col-md-4">
@@ -45,7 +46,7 @@
         <label for="petimg">Image of the pet to add</label>
         <input id="petimg" type="file" class="form-control form-control-lg" multiple/>
         <br>
-        <button type="button" class="btn btn-dark btn-lg btn-block" id="addpets" @click="addPets()">Add a new pet</button>
+        <button type="button" class="btn btn-dark btn-lg btn-block" id="addpets" @click="addPets()">Add a new pet</button> <!--Qua di può aggiungere un animale domestico alla lista di quelli posseduti -->
 
       </div>
     </div>
@@ -60,13 +61,13 @@ import Swal from 'sweetalert2'
 
 export default {
   name: 'UserPage',
-  mounted () {
+  mounted () { /* Qui controlla se l'utente è autenticato, altrimenti non sarebbe possibile controllarne i dati */
     axios.get('/auth/isAuthenticated')
       .then((response) => {
         this.user.push(response.data)
         console.log(this.user.length)
       })
-    axios.get('/api/users/userPets')
+    axios.get('/api/users/userPets') /* Qui si caricano gli animali domestici dell'utente, così che si possano modificare */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           this.pets.push(response.data[i])
@@ -82,7 +83,7 @@ export default {
     }
   },
   methods: {
-    addPets: async function () {
+    addPets: async function () { /* Funzione che permette di aggiungere nuovi animali domestici alla propria lista personale, mediante uso di fetch  e axios */
       const pet = {
         name: document.getElementById('petname').value,
         race: document.getElementById('petrace').value,
@@ -120,7 +121,7 @@ export default {
             )
         })
         .then(() => {
-          Swal.fire({
+          Swal.fire({ /* Notifica di successo */
             icon: 'success',
             title: 'You added the pet successfully!',
             showConfirmButton: true
@@ -130,8 +131,8 @@ export default {
             })
         })
     },
-    removePets: async function (id) {
-      Swal.fire({
+    removePets: async function (id) { /* Funzione che permette di eliminare animali domestici dalla propria lista personale, mediante uso di fetch */
+      Swal.fire({ /* Alert che chiede di confermare se l'eliminazione va fatta o meno */
         title: 'Do you want to remove this pet from the list?',
         showCancelButton: true,
         confirmButtonText: 'Yes'
@@ -145,7 +146,7 @@ export default {
             }
           })
             .then(() => {
-              Swal.fire({
+              Swal.fire({ /* Alert di conferma */
                 icon: 'success',
                 title: 'You removed the pet successfully!',
                 showConfirmButton: true

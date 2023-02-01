@@ -1,6 +1,6 @@
 <template class="gallery-main" lang="en">
-  <GalleryHeader />
-  <div class="gallery" v-if="gallery.length > 0">
+  <GalleryHeader /> <!--Per i commenti sull'header, si vada nel file .vue dell'header stesso -->
+  <div class="gallery" v-if="gallery.length > 0"> <!--Si caricano le immagini con i loro dati "anagrafici" in una card realizzata mediante Bootstrap -->
     <div class="gallery-panel" v-for="photo in gallery" :key="photo._id">
       <div class="card">
         <img :src="photo.filename" class="card-img-top" alt=""/>
@@ -17,7 +17,7 @@
       </div>
     </div>
   </div>
-  <div v-else class="gallery">
+  <div v-else class="gallery"> <!--Se non ci sono immagini, viene caricata un'immagine di emergenza -->
     <div class="card">
         <img src="@/assets/Photo-Unavailable.jpg" class="card-img-top" alt=""/>
         <div class="card-body">
@@ -26,7 +26,7 @@
         </div>
       </div>
   </div>
-  <SiteFooter />
+  <SiteFooter /> <!--Il footer è sempre lo stesso -->
 </template>
 
 <script>
@@ -36,7 +36,7 @@ import axios from 'axios'
 export default {
   name: 'GalleryPage',
   mounted () {
-    axios.get('/api/gallery')
+    axios.get('/api/gallery') /* Chiamata API con axios per ottenere le immagini per la galleria */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           console.log(response.data[i])

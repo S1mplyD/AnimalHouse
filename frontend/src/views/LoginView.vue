@@ -1,5 +1,5 @@
 <template class="log" lang="en" >
-<body class="bodymain">
+<body class="bodymain"> <!--Qui è possibile accedere al proprio account, mediante un semplice form-->
     <div class="vue-template">
         <form>
             <h3>LOG IN</h3>
@@ -28,7 +28,7 @@
 <script>
 export default {
   methods: {
-    login: async function () {
+    login: async function () { /* Funzione che fa una chiamata API in fetch per permettere di ottenere i dati e fare l'accesso  */
       const data = {
         username: document.getElementById('mail').value,
         password: document.getElementById('pass').value

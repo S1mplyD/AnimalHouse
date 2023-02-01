@@ -1,7 +1,8 @@
 <template lang="en">
-<ShopHeaderVue />
+<ShopHeaderVue /> <!--Per i commenti sull'header, si vada nel file .vue dell'header stesso -->
 <h1 style="color:black;">Welcome to our shop!</h1>
 <div class="overflow-auto" id="shop-section">
+  <!--Di seguito vengono caricati tutti i prodotti dello shop all'interno di card realizzate mediante Bootstrap -->
   <div v-for="(item, index) in products" :key="index">
     <div class="card mb-3" style="width: 700px; height: 260px;" :id="'card' + index">
       <div class="row g-0">
@@ -15,7 +16,7 @@
             <p class="card-text">Sold by {{ item.seller }}</p>
             <p class="card-text"><small>Sold at: ${{ item.price }}</small></p>
             <p class="card-text" v-show="item.price > item.discountedPrice"><small class="text-muted">Discounted: ${{ item.discountedPrice }}</small></p>
-            <button @click="addToCart(item)" class="btn btn-primary">Add to Cart</button>
+            <button @click="addToCart(item)" class="btn btn-primary">Add to Cart</button> <!--Questo tasto è utilizzato per aggiungere al carrello i prodotti scelti da acquistare -->
           </div>
         </div>
       </div>
@@ -39,7 +40,7 @@ export default {
     }
   },
   mounted () {
-    axios.get('/api/products')
+    axios.get('/api/products') /* Chiamata API mediante axios che permette di caricare i prodotti */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           console.log(response.data[i])
@@ -52,7 +53,7 @@ export default {
     SiteFooterVue
   },
   methods: {
-    async addToCart (item) {
+    async addToCart (item) { /* Funzione che permette, mediante una chiamata API con axios, di spostare il prodotto scelto nel carrello */
       console.log(item._id)
       axios.post('/api/carts', null, {
         params: {
@@ -60,7 +61,7 @@ export default {
         }
       }).then((res) => {
         console.log(res.data)
-        Swal.fire({
+        Swal.fire({ /* Qui compare un alert che avverte dell'avvenuta aggiunta al carrello dell'oggetto scelto */
           position: 'top',
           icon: 'success',
           title: 'You added the item to the cart successfully!',

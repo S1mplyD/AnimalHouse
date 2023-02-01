@@ -1,16 +1,16 @@
 <template lang="en">
-<ServiziHeaderVue />
+<ServiziHeaderVue /> <!--L'header è visibile nella cartella componeents/headers -->
 <section class="body">
  <form>
   <div class="form-group">
-    <label for="name">Name of the service</label>
+    <label for="name">Name of the service</label> <!--In questa pagina vengono caricati i servizi presenti, SOLTANTO se sono cercati. Altrimenti si presenta solo il form di ricerca -->
     <br>
-    <input type="text" v-model="name" class="form-control" id="name" placeholder="Enter the name of the service you are looking for">
+    <input type="text" v-model="name" class="form-control" id="name" placeholder="Enter the name of the service you are looking for"> <!--Filtro per il nome -->
     <br>
     <label for="selectservice">List of our services' type</label>
     <br>
     <select v-model="selected" class="form-control" id="selectservice">
-      <option value="" disabled selected>Choose the service type</option>
+      <option value="" disabled selected>Choose the service type</option> <!--Filtro per la tipologia di servizio -->
       <option v-for="option in options" :value="option.value">
     {{ option.text }}
       </option>
@@ -18,7 +18,7 @@
     <label for="selectservice2">Check if the service is online:</label>
     <br>
     <select v-model="online" class="form-control" id="selectservice2">
-      <option value="" disabled selected>Choose tif the service is online or not</option>
+      <option value="" disabled selected>Choose if the service is online or not</option> <!--Filtro per controllare se il servizio è online o no -->
       <option v-for="option in options2" :value="option.value">
     {{ option.text }}
       </option>
@@ -28,7 +28,7 @@
   <div class="form-group">
     <label for="Location">Location</label>
     <br>
-    <input type="text" v-model="search" class="form-control" id="Location" placeholder="Enter your location">
+    <input type="text" v-model="search" class="form-control" id="Location" placeholder="Enter your location"> <!--Filtro per lcontrollare dove è il servizio -->
   </div>
   <br>
   </form>
@@ -57,7 +57,7 @@
               <p class="card-text"><b>Address:</b> {{service.location}}</p>
               <p class="card-text"><b>Opened in the days:</b> {{service.openDays}}</p>
               <p class="card-text"><b>Opened from </b>{{service.openTime}} <b>to </b>{{service.closeTime}}</p>
-              <p class="card-text"><router-link to="#" class="routerlink">Go to the service</router-link></p>
+              <p class="card-text"><router-link to="#" class="routerlink">Go to the service</router-link></p> <!--AVVERTENZA: questo link è finto, non fa nulla -->
           </div>
         </div>
         <br>
@@ -65,7 +65,7 @@
     </ul>
 </div>
 </section>
-<SiteFooterVue />
+<SiteFooterVue /> <!--Il footer è uguale per tutte le pagine -->
 </template>
 
 <script>
@@ -77,7 +77,7 @@ import axios from 'axios'
 export default {
   name: 'ServiziPage',
   mounted () {
-    axios.get('/api/services')
+    axios.get('/api/services') /* Chiamata API per caricare i servizi mediante axios, in due array diversi per i servizi online ed offline */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           console.log(response.data[i])
@@ -100,13 +100,13 @@ export default {
       selected: '',
       online: '',
       name: '',
-      options: [
+      options: [ /* Qui si controllano le tipologie di servizi che si hanno a disposizione */
         { text: 'Pet Boarding', value: 'boarding' },
         { text: 'Products shop', value: 'shop' },
         { text: 'Pet Spa', value: 'spa' },
         { text: 'Pet Training Facility', value: 'training' }
       ],
-      options2: [
+      options2: [ /* Qui si controlla se un servizio è offline o meno */
         { text: 'Online', value: true },
         { text: 'Offline', value: false }
       ],
@@ -114,34 +114,34 @@ export default {
     }
   },
   computed: {
-    filteredRealServices: function () {
+    filteredRealServices: function () { /* questa funzione filtra i servizi offline, controllando se... */
       const filterType = this.selected
       const searchedLoc = this.search
       const nameService = this.name
       const filterOnline = this.online
       return this.realservices.filter((service) => {
         let filtered = true
-        if (filterType && filterType.length > 0) {
-          if (filterOnline === false) {
+        if (filterType && filterType.length > 0) { /* ... il tipo non è vuoto... */
+          if (filterOnline === false) { /* ... e se è effettivamente offline. */
             filtered = service.type === filterType
             filtered = service.online === filterOnline
           }
           filtered = service.type === filterType
         }
-        if (filtered) {
-          if (searchedLoc && searchedLoc.length > 0) {
+        if (filtered) { /* Se si ha filtrato per tipo... */
+          if (searchedLoc && searchedLoc.length > 0) { /* ... si fa lo stesso per luogo... */
             filtered = service.location === searchedLoc
           }
         }
         if (filtered) {
-          if (nameService && nameService.length > 0) {
+          if (nameService && nameService.length > 0) { /* ... e per nome. */
             filtered = service.name === nameService
           }
         }
         return filtered
       })
     },
-    filteredOnlineServices: function () {
+    filteredOnlineServices: function () { /* Funzione analoga a quella dei servizi "offline" */
       const filterType = this.selected
       const nameService = this.name
       const filterOnline = this.online

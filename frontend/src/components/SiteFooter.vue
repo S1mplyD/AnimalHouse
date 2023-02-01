@@ -1,6 +1,6 @@
 <template lang="en">
   <footer>
-    <b><p style="color:white;">Copyright &copy; {{ year }}</p></b>
+    <b><p style="color:white;">Copyright &copy; {{ year }}</p></b> <!--Testo che indica il copyrignt del sito con l'anno corrente -->
   </footer>
 </template>
 
@@ -9,7 +9,7 @@ import { computed } from 'vue'
 
 export default {
   setup () {
-    const year = computed(() => new Date().getFullYear())
+    const year = computed(() => new Date().getFullYear()) /* Questo codice permette di ottenere l'anno corrente in cui ci si trova */
     return { year }
   }
 }

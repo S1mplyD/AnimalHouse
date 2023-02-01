@@ -9,7 +9,6 @@ import NewsPage from '../views/NewsPage.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import GalleryPage from '../views/GalleryPage.vue'
 import LeaderboardPage from '../views/LeaderboardPage.vue'
-import PhotoView from '../views/PhotoView.vue'
 import NewsPost from '../components/news/NewsPost.vue'
 import UserPage from '../views/UserPage.vue'
 import CartList from '../components/shop/CartList.vue'
@@ -79,11 +78,6 @@ const routes = [
     path: '/leaderboard',
     name: 'leaderboard',
     component: LeaderboardPage
-  },
-  {
-    path: '/gallery/:id',
-    name: 'photo',
-    component: PhotoView
   },
   {
     path: '/news/:id',

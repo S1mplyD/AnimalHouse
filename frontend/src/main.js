@@ -4,19 +4,10 @@ import App from './App.vue'
 import router from './router'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
-import { createStore } from 'vuex'
-import product from './product'
-import cart from './cart'
-const store = createStore({
-  modules: {
-    product,
-    cart
-  }
-})
+/* Qui viene effettivamente creata la App che tiene in piedi il sito di Animal House */
 const app = createApp(App)
 app.use(router)
 app.use(Vue3Mq, {
   preset: 'bootstrap5'
 })
-app.use(store)
 app.mount('#app')

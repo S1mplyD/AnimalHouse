@@ -1,9 +1,10 @@
-<template lang="en">
+<template lang="en"><!--Per i commenti sull'header, si vada nel file .vue dell'header stesso -->
 <HomeHeaderVue />
   <section class="body">
+    <!--Semplice elenco "statico" di immagini, preso dall'elenco di immagini della Gallery-->
     <nav class="Images" aria-labelledby="Gallery">
-    <p id="imagestext">Do you want to see other pics? <router-link :to="{name: 'gallery'}" class="routerlink">Go to our Gallery!</router-link></p>
-    <div class="overflow-auto" id="photodiv">
+    <p id="imagestext">Do you want to see other pics? <router-link :to="{name: 'gallery'}" class="routerlink">Go to our Gallery!</router-link></p>  <!--Qui c'è il link che porta alla pagina della galleria con tutte le immagini-->
+    <div class="overflow-auto" id="photodiv">  <!--In caso l'immagine non sia disponibile, la sostituisce con una che dichiara l'assenza di immagini-->
       <img v-if="gallery[0]" :src="gallery[0].filename" class="ImageShow" alt="" />
       <img v-else src="@/assets/Photo-Unavailable.jpg" class="ImageShow" alt=""/>
       <img v-if="gallery[1]" :src="gallery[1].filename" class="ImageShow" alt="" />
@@ -16,8 +17,9 @@
       <img v-else src="@/assets/Photo-Unavailable.jpg" class="ImageShow" alt=""/>
     </div>
     </nav>
+     <!--Elenco "statico" che contiene alcuni dei post (tre, in particolare) più recenti presenti nel Forum-->
     <nav class="TopPosts" aria-labelledby="Forum">
-      <p id="poststext">Do you want to see other posts from our community? <router-link :to="{name: 'forum'}" class="routerlink">Go to the community Forum!</router-link></p>
+      <p id="poststext">Do you want to see other posts from our community? <router-link :to="{name: 'forum'}" class="routerlink">Go to the community Forum!</router-link></p>  <!--Link per la pagina del Forum-->
       <br>
       <div class="container d-flex flex-wrap">
         <div class="card h-100" id="card1" >
@@ -43,6 +45,7 @@
         </div>
       </div>
     </nav>
+     <!--Carousel di immagini contenenti le foto di alcuni prodotti dello shop. Se assenti, si mette un'immagine che comunica appunto l'assenza di immagini-->
     <nav class="ADS" aria-labelledby="Shop">
       <div id="carousel" class="carousel carousel- slide carousel-fade" data-bs-ride="carousel">
          <div class="carousel-indicators">
@@ -52,7 +55,7 @@
           <button type="button" data-bs-target="#carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
           <button type="button" data-bs-target="#carousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
         </div>
-        <div class="carousel-inner" style="border-radius: 25px">
+        <div class="carousel-inner" style="border-radius: 25px">  <!--Cinque immagini nel carousel-->
               <div class="carousel-item active">
                 <img v-if="products[0]" :src="products[0].mainPhoto" class="d-block w-100" alt="" id="carousel-image1"/>
                 <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image1"/>
@@ -74,6 +77,7 @@
                 <img v-else src="@/assets/Photo-Unavailable.jpg" class="d-block w-100" alt="" id="carousel-image5"/>
               </div>
         </div>
+         <!--Tasti del carousel che permettono di scorrere tra le foto-->
         <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
@@ -83,10 +87,11 @@
           <span class="visually-hidden">Next</span>
         </button>
       </div>
+       <!--Link allo shop-->
       <p id="shoptext">Do you want to see other items? <router-link :to="{name: 'shop'}" class="routerlink">Go to our shop</router-link> to see every products!</p>
     </nav>
   </section>
-  <SiteFooterVue/>
+  <SiteFooterVue/> <!--Per il codice del footer, andare al .vue corrispondente-->
 </template>
 
 <script>
@@ -97,7 +102,7 @@ import axios from 'axios'
 export default {
   name: 'HomeView',
   mounted () {
-    axios.get('/api/products')
+    axios.get('/api/products') /* Chiamata API con axios per ottenere 5 prodotti da inserire nel carousel */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           console.log(response.data[i])
@@ -106,7 +111,7 @@ export default {
           }
         }
       })
-    axios.get('/api/posts')
+    axios.get('/api/posts') /* Chiamata API con axios per ottenere 3 post da mettere in evidenza */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           console.log(response.data[i])
@@ -115,7 +120,7 @@ export default {
           }
         }
       })
-    axios.get('/api/gallery')
+    axios.get('/api/gallery') /* Chiamata API con axios per ottenere 5 immagini dalla galleria da mettere in evidenza */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           console.log(response.data[i])
@@ -125,21 +130,12 @@ export default {
         }
       })
   },
-  components: { HomeHeaderVue, SiteFooterVue },
+  components: { HomeHeaderVue, SiteFooterVue }, /* Controllo dei componenti e dei dati utilizzati dal file */
   data () {
     return {
       gallery: [],
       posts: [],
       products: []
-    }
-  },
-  setup () {
-    const carouselSlides = ['bg-1', 'bg-2', 'bg-3', 'bg-4', 'bg-5']
-    return { carouselSlides }
-  },
-  methods: {
-    goToShop () {
-      return this.$router.push('/shop')
     }
   }
 }
