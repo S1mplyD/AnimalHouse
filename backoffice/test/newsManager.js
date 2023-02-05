@@ -34,7 +34,7 @@ async function createNews() {
             let images = document.querySelector("#files");
             const formData = new FormData();
             for (let i = 0; i < images.files.length; i++) {
-                formData.append("images", images.files[i]);
+                formData.append("image", images.files[i]);
             }
             let id = res.data._id;
             axios
