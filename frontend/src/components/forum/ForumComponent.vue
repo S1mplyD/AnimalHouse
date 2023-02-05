@@ -9,9 +9,9 @@
         <label for="picture" class="form-label" style="color:white;">Do you want to post a picture with your post?</label>
         <input type="file" class="form-control" id="picture" multiple>
       </div>
-      <button type="button" class="btn btn-primary" @click="upload()">Submit your post</button>
+      <button type="button" class="btn btn-primary" @click="upload()">Submit your post</button> <!-- Questo tasto permette di caricare un post, basandosi sui dati inseriti nel form precedente -->
     </form>
-    <div class="container d-flex flex-wrap">
+    <div class="container d-flex flex-wrap"> <!-- Qui vengono visualizzati i singoli post. Se vi si clicca sopra, si aprirà la pagina con il post singolo esteso, e i commenti collegati a tale post -->
       <div class="row" v-for="post in posts" :key="post._id">
         <div class="col">
           <router-link :to="'/forum/' + post._id">
@@ -34,7 +34,7 @@ import axios from 'axios'
 export default {
   name: 'ForumComponent',
   mounted () {
-    axios.get('/api/posts')
+    axios.get('/api/posts') /** Qui si fa la chiamata API per ottenere dal server i post, mediante axios.get */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           console.log(response.data[i])
@@ -49,7 +49,7 @@ export default {
     }
   },
   methods: {
-    upload: async function () {
+    upload: async function () { /** Questa funzione viene usata dal tasto per fare l'upload dei post,  e tale funzione fa uso di axios.post per caricare i dati nel server */
       const data = {
         title: document.getElementById('texttitle').value,
         post: document.getElementById('textpost').value
@@ -71,7 +71,7 @@ export default {
           }
         }).then((res) => {
           console.log(res)
-          location.reload()
+          location.reload() /** Viene ricaricata la pagina, così che si possa vedere subito il risultato del caricamento dei post */
         })
       })
     }

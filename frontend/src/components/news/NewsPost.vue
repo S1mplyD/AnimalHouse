@@ -1,4 +1,4 @@
-<template lang="en">
+<template lang="en"> <!-- Questo codice è del tutto identico a quello del post, a cui è stato rimosso il codice per i commenti e le replies -->
     <div v-for="post in posts" class="lightbox" @click.self="closeLightbox">
       <div class="lightbox-info">
        <div class="card text-center" style="width: 700px; min-height:260px; max-height: 700px">
@@ -19,7 +19,7 @@ import axios from 'axios'
 export default {
   name: 'NewsPost',
   mounted () {
-    axios.get('/api/news')
+    axios.get('/api/news') /** Chiamata API per ottenere la notizia giusta, eseguita mediante axios */
       .then((response) => {
         console.log(this.$route.params.id)
         for (let i = 0; i < response.data.length; i++) {

@@ -1,6 +1,6 @@
 <template>
   <CartHeader />
-  <body class="bodymain">
+  <body class="bodymain"> <!-- Qui viene gestito il cart personale dell'utente -->
   <h1>Welcome to your Cart!</h1>
   <div class="overflow-auto" id="shop-section">
     <div v-for="(item, index) in cart" :key="index">
@@ -15,13 +15,17 @@
               <p class="card-text">You have {{ item.quantity }} of this item in your cart.</p>
               <p class="card-text"><small>Sold at: ${{ item.price }}</small></p>
               <p class="card-text" v-show="item.price > item.discountedPrice"><small class="text-muted">Discounted: ${{ item.discountedPrice }}</small></p>
-              <button @click="removeFromCart(item)" class="btn btn-primary">Remove from the Cart</button>
+              <button @click="removeFromCart(item)" class="btn btn-primary">Remove from the Cart</button> <!-- Tasto per rimuovere l'item dal cart -->
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <p> Total price of the items in the cart: <b>${{ this.totalPrice }}</b>. Discounted at: <b>${{ this.totalDiscount }}</b>. You can save <b>${{ this.totalPrice - this.totalDiscount }}.</b></p> <!-- Prezzo totale, con sconto totale, e quantità di denaro risparmiato.-->
+  <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+		<button type="button" class="btn btn-primary"><b>Proceed to buy the items</b></button> <!-- Bottone per comprare il contenuto del cart. AVVERTENZA: è solo a scopo dimostrativo. Non è funzionante. -->
+	</div>
 </body>
 <SiteFooter />
 </template>
@@ -41,22 +45,26 @@ export default {
     }
   },
   mounted () {
-    axios.get('/auth/isAuthenticated')
+    axios.get('/auth/isAuthenticated') /** Chiamata API per controllare se l'utente ha fatto l'accesso */
       .then((response) => {
         this.user.push(response.data)
         console.log(this.user.length)
       })
     axios.get('/api/carts')
       .then((response) => {
-        for (let i = 0; i < response.data.length; i++) {
+        for (let i = 0; i < response.data.length; i++) { /** Chiamata API che ottiene il contenuto del cart per quell'utente */
           console.log(response.data[i])
           this.cart.push(response.data[i])
         }
       })
+    for (let i = 0; i < cart.length; i++) { /** Calcolo del totale dei prezzi e dello sconto */
+      this.totalPrice += cart[i].price
+      this.totalDiscount += cart[i].discountedPrice
+    }
   },
   components: { CartHeader, SiteFooter },
   methods: {
-    async removeFromCart (item) {
+    async removeFromCart (item) { /** Funzione cje permette di eliminare un  */
       const { value: text } = await Swal.fire({
         customClass: { confirmButton: 'btn btn-success', cancelButton: 'btn btn-danger' },
         title: 'How many items do you want to delete?',

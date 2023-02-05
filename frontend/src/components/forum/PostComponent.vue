@@ -1,5 +1,5 @@
 <template lang="en">
-    <div v-for="post in posts" class="lightbox" @click.self="closeLightbox">
+    <div v-for="post in posts" class="lightbox" @click.self="closeLightbox"> <!-- Qui permette di gestire il ritorno alla pagina principale dei post, cliccando fuori dal post stesso -->
       <div class="lightbox-info">
        <div class="card text-center" style="width: 700px; min-height:260px; max-height: 700px">
         <div class="card-body">
@@ -21,13 +21,13 @@
               </div>
             </div>
             </div>
-            <div class="overflow-auto" id="comms">
+            <div class="overflow-auto" id="comms"> <!-- Qui vengono visualizzati i commenti del post, con anche la possibilità di commentare ulteriormente -->
               <ul class="list-group list-group-flush">
                 <li v-for="comment in comments" class="list-group-item">
                     <p class="card-text"><b>{{ comment.user }}</b> commented: {{ comment.comment }}</p>
                     <div class="btn-group btn-group-sm" role="group">
-                      <button type="button" class="btn btn-secondary" id="replier" @click="addtag(comment.user, comment._id)">Reply to this comment</button>
-                      <button type="button" class="btn btn-secondary" id="nevermind" @click="nevermind()" disabled>Nevermind...</button>
+                      <button type="button" class="btn btn-secondary" id="replier" @click="addtag(comment.user, comment._id)">Reply to this comment</button> <!-- Qui si può aggiungere un tag, per mostrare la possibilità di rispondere ad un commento -->
+                      <button type="button" class="btn btn-secondary" id="nevermind" @click="nevermind()" disabled>Nevermind...</button> <!-- Qua si clicca per rimuovere i tag -->
                     </div>
                     <div v-for="reply in answers">
                         <div v-for="id in comment.replies">
@@ -39,7 +39,7 @@
             </div>
             <form>
               <div class="mb-3">
-                <label for="textcomment" class="form-label">Do you want post a comment?</label>
+                <label for="textcomment" class="form-label">Do you want post a comment?</label> <!-- Di seguito si può scrivere un commento al post, ma anche rispondere ad un commento già presente (SOLO SE UN TAG VIENE COLLOCATO) -->
                 <textarea type="text" id="textcomment" class="form-control" aria-describedby="textComment" placeholder="Write your comment here..." cols="50" rows="3" style="resize:none;"></textarea>
               </div>
               <button type="button" class="btn btn-primary" id="comment" @click="comment()">Submit your comment</button>
@@ -55,7 +55,7 @@ import axios from 'axios'
 export default {
   name: 'PostComponent',
   mounted () {
-    axios.get('/api/posts')
+    axios.get('/api/posts') /** Qui si caricano via chiamata API fatta con axios sia il post selezionato nella pagina principale, si ai commenti collegati a tale post, sia i commenti di risposta */
       .then((response) => {
         console.log(this.$route.params.id)
         for (let i = 0; i < response.data.length; i++) {
@@ -65,14 +65,14 @@ export default {
         }
       })
       .then(() => {
-        axios.get('/api/comments', { params: { id: this.posts[0]._id } })
+        axios.get('/api/comments', { params: { id: this.posts[0]._id } }) /** Viene controllato l'id del post e si caricano i commenti corretti */
           .then((response) => {
             for (let i = 0; i < response.data.length; i++) {
               this.comments.push(response.data[i])
             }
           })
           .then(() => {
-            for (let i = 0; i < this.comments.length; i++) {
+            for (let i = 0; i < this.comments.length; i++) { /** Si controllano gli id dei commenti, in modo da caricare le risposte corrette */
               axios.get('/api/comments/reply', { params: { id: this.comments[i]._id } })
                 .then((response) => {
                   for (let i = 0; i < response.data.length; i++) {
@@ -93,16 +93,16 @@ export default {
     }
   },
   methods: {
-    closeLightbox () {
+    closeLightbox () { /** Questa funzione permette di tornare alla pagina principale del forum se si clicca fuori dal post */
       this.$router.push('/forum')
     },
-    comment: async function () {
+    comment: async function () { /** Funzione dei commenti */
       axios.post('/api/comments', { comment: document.getElementById('textcomment').value }, { params: { id: this.posts[0]._id } }).then((res) => {
         console.log(res)
         location.reload()
       })
     },
-    addtag: function (user, id) {
+    addtag: function (user, id) { /** Funzione che gestisce il tag, disattivando anche i bottoni di commento se necessario */
       document.getElementById('textcomment').innerHTML += '@' + user + ' '
       this.userName = user
       this.commentId = id
@@ -111,14 +111,14 @@ export default {
       document.getElementById('reply').disabled = false
       document.getElementById('nevermind').disabled = false
     },
-    nevermind: function () {
+    nevermind: function () { /** Funzione del tasto di reset delle reply */
       document.getElementById('textcomment').innerHTML = ''
       document.getElementById('replier').disabled = false
       document.getElementById('reply').disabled = true
       document.getElementById('comment').disabled = false
       document.getElementById('nevermind').disabled = true
     },
-    reply: async function () {
+    reply: async function () { /** Funzione per le reply */
       axios.post('/api/comments/reply', { comment: document.getElementById('textcomment').value }, { params: { id: this.commentId, user: this.userName } }).then((res) => {
         console.log(res)
         location.reload()

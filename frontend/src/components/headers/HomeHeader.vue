@@ -1,4 +1,4 @@
-<template lang="en">
+<template lang="en"> <!-- DI seguito ci sono tutti i link per passare da una pagina all'altra. PREMESSA: tutti gli header sono simili (con minuscole differenze), quindi solo questo presenterà i commenti. -->
   <header>
     <img alt="Logo of Animal House" src="@/assets/logo.png" height="50">
     <b><p style="color: white;">ANIMAL HOUSE</p></b>
@@ -12,7 +12,7 @@
         <li><router-link to="/leaderboard" class="routerlink">LEADERBOARD</router-link></li>
         </ul>
     </nav>
-    <nav v-show="user.length < 1" id="loginsection">
+    <nav v-show="user.length < 1" id="loginsection"> <!-- Se l'utente non è loggato, ci sono i tasti per fare il login e registrarsi-->
       <ul>
       <li>
     <router-link to="/login">
@@ -25,7 +25,7 @@
         </li>
       </ul>
     </nav>
-    <nav v-if="user.length === 1" id="usersection" aria-labelledby="User">
+    <nav v-if="user.length === 1" id="usersection" aria-labelledby="User"> <!-- Scheda dell'utente, con scelte per mostrare link vari. Se l'utente è admin, allora ha anche accesso al backoffice e alla area di test. -->
       <div class="card mb-3" style="background: rgb(0, 0, 190); width: 500px;">
         <div class="row g-0">
           <div class="col-md-4">
@@ -53,7 +53,7 @@ import axios from 'axios'
 export default {
   name: 'HomeHeader',
   mounted () {
-    axios.get('/auth/isAuthenticated')
+    axios.get('/auth/isAuthenticated') /** Questa chiamata API controlla che ci sia un utente che ha fatto accesso */
       .then((response) => {
         this.user.push(response.data)
         console.log(this.user.length)
@@ -63,9 +63,6 @@ export default {
     return {
       user: []
     }
-  },
-  computed: {
-
   }
 }
 </script>

@@ -42,9 +42,6 @@ export default {
     return {
       user: []
     }
-  },
-  computed: {
-
   }
 }
 </script>

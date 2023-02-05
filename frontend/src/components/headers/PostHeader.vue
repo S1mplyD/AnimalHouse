@@ -57,9 +57,6 @@
       return {
         user: []
       }
-    },
-    computed: {
-
     }
   }
   </script>

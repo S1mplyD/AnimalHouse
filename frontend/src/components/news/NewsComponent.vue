@@ -1,12 +1,12 @@
-<template lang="en">
+<template lang="en"> <!-- La pagina delle news è molto simile a quella del forum, con la differenza che non è possibile aggiungere news se si è utenti regolari. VI è la possibilità di ricercare i post con il titolo, però. -->
     <h1 style="color:black;">Welcome to our Newspage!</h1>
     <div class="overflow-auto" id="news">
       <form>
         <label for="texttitle" class="form-label" style="color:white;">Do you want to search a specific news article?</label>
         <input id="texttitle" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button type="button" class="btn btn-primary" @click="searchNews()">Search</button>
+        <button type="button" class="btn btn-primary" @click="searchNews()">Search</button> <!-- Ricerca delle news usando il titolo della news.-->
       </form>
-      <div v-if="searched.length === 0" class="container d-flex flex-wrap">
+      <div v-if="searched.length === 0" class="container d-flex flex-wrap"> <!-- Nel caso non ci siano ricerche fatte, si caricano tutte le news.-->
         <div class="row" v-for="post in posts" :key="post._id">
           <div class="col">
             <router-link :to="'/news/' + post._id">
@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <div v-if="searched.length > 0" class="container d-flex flex-wrap">
+      <div v-if="searched.length > 0" class="container d-flex flex-wrap"> <!-- Se ci sono ricerche fatte, si visualizzano solo le news con il titolo cercato -->
         <div class="row" v-for="item in searched" :key="item._id">
           <div class="col">
             <router-link :to="'/news/' + item._id">
@@ -44,7 +44,7 @@ import axios from 'axios'
 export default {
   name: 'NewsComponent',
   mounted () {
-    axios.get('/api/news')
+    axios.get('/api/news') /** Chiamata API che permette di caricare le news, mediante axios */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           console.log(response.data[i])
@@ -60,7 +60,7 @@ export default {
     }
   },
   methods: {
-    searchNews: async function () {
+    searchNews: async function () { /** Questa funzione fa si che l'array searched si riempia, così che si visualizzino solo le news ricercate */
       this.searched = []
       const newsTitle = document.getElementById('texttitle').value
       for (let i = 0; i < this.posts.length; i++) {
