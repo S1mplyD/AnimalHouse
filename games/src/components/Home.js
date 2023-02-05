@@ -6,10 +6,9 @@ import Ads from "./ADs"
 
 export default function Home() {
     const navigate = useNavigate();
-    const [lo, setLo] = useState(true)
+    const [loading, setLoading] = useState(true)
     const [services, setServices] = useState([])
     const [ads, setAds] = useState([])
-    let loading = true
     useEffect(() => {
         async function fetchData() {
             let rawServices = await getServices()
@@ -26,7 +25,7 @@ export default function Home() {
         }
 
         fetchData().then(() => {
-            setLo(false)
+            setLoading(false)
         })
     }, [])
 
@@ -42,11 +41,8 @@ export default function Home() {
         navigate("/games/hangman");
     };
 
-    if (!lo) {
+    if (!loading) {
         return (<>
-            {console.log(services)}
-            {console.log(ads)}
-
             <div className="m-5 p-2 bg-white rounded ">
                 <form className="bg-white flex flex-col items-center text-center">
                     <div className="m-2 p-2 bg-white flex flex-col">
