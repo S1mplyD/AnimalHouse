@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function getAds(specie, name, gender, age, medicalCondition) {
-    let data = await axios.get("/api/ads", {
+    let data = await axios.get("http://localhost:8000/api/ads", {
         params: {
             specie: specie, name: name, gender: gender, age: age, medicalCondition: medicalCondition
         }
@@ -16,7 +16,7 @@ export async function getAds(specie, name, gender, age, medicalCondition) {
 };
 
 export async function getServices() {
-    let data = await axios.get("/api/services")
+    let data = await axios.get("http://localhost:8000/api/services")
     for (let i = data.data.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [data.data[i], data.data[j]] = [data.data[j], data.data[i]];
@@ -25,12 +25,12 @@ export async function getServices() {
 }
 
 export async function getWords() {
-    let data = await axios.get("/api/animals/hangman")
+    let data = await axios.get("http://localhost:8000/api/animals/hangman")
     return data.data.replace(" ", "")
 };
 
 export async function getImages() {
-    const data = await axios.get("/api/animals/memory");
+    const data = await axios.get("http://localhost:8000/api/animals/memory");
     let memoryImages = [];
     data.data.map((i, index) => {
         memoryImages.push({
@@ -45,6 +45,6 @@ export async function getImages() {
 };
 
 export async function getQuestions(){
-    const rawData = await axios.get("/api/getTrivia");
+    const rawData = await axios.get("http://localhost:8000/api/getTrivia");
     return rawData
 };
