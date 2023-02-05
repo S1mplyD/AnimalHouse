@@ -22,7 +22,6 @@ const commentsRoute = require("./server/routes/comment");
 const cartRoute = require("./server/routes/cart");
 const animalRoute = require("./server/routes/animals");
 const fs = require("fs");
-const {mongo} = require("mongoose");
 
 const app = express();
 
