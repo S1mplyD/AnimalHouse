@@ -88,9 +88,12 @@ app.get("/api/getTrivia", async (req, res) => {
   });
 });
 
-app.get(/.*/, (req, res) =>
-  res.sendFile(__dirname + "/frontend/dist/index.html")
+app.get("/games/*", (req, res) =>
+    res.sendFile(__dirname + "/games/build/index.html")
 );
+app.get("*",(req,res)=>{
+  res.sendFile(__dirname + "/frontend/dist/index.html")
+})
 
 mongoose.set("strictQuery",false)
 mongoose.connect(process.env.MONGODB_PERSONAL_URI);
