@@ -24,8 +24,8 @@
   </div>
   <p> Total price of the items in the cart: <b>${{ this.totalPrice }}</b>. Discounted at: <b>${{ this.totalDiscount }}</b>. You can save <b>${{ this.totalPrice - this.totalDiscount }}.</b></p> <!-- Prezzo totale, con sconto totale, e quantità di denaro risparmiato.-->
   <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-		<button type="button" class="btn btn-primary"><b>Proceed to buy the items</b></button> <!-- Bottone per comprare il contenuto del cart. AVVERTENZA: è solo a scopo dimostrativo. Non è funzionante. -->
-	</div>
+   <button type="button" class="btn btn-primary"><b>Proceed to buy the items</b></button> <!-- Bottone per comprare il contenuto del cart. AVVERTENZA: è solo a scopo dimostrativo. Non è funzionante. -->
+  </div>
 </body>
 <SiteFooter />
 </template>
@@ -57,9 +57,9 @@ export default {
           this.cart.push(response.data[i])
         }
       })
-    for (let i = 0; i < cart.length; i++) { /** Calcolo del totale dei prezzi e dello sconto */
-      this.totalPrice += cart[i].price
-      this.totalDiscount += cart[i].discountedPrice
+    for (let i = 0; i < this.cart.length; i++) { /** Calcolo del totale dei prezzi e dello sconto */
+      this.totalPrice += this.cart[i].price
+      this.totalDiscount += this.cart[i].discountedPrice
     }
   },
   components: { CartHeader, SiteFooter },
