@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router";
 import "../../componentsCss/Quiz/Question.css";
 import decode from "html-encoder-decoder";
@@ -13,13 +13,26 @@ const Question = ({
                       score,
                       setQuestions,
                       setGame,
-                      currentAd,
-                      setCurrentAds,
-                      ads
+                      setOptions
                   }) => {
     const [selected, setSelected] = useState();
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log(questions[currentQuestion])
+        setOptions(
+            questions &&
+            handleShuffle([
+                questions[currentQuestion].correct_answer,
+                ...questions[currentQuestion].incorrect_answers,
+            ])
+        );
+    },[currentQuestion])
+
+    const handleShuffle = (options) => {
+        return options.sort(() => Math.random() - 0.5);
+    };
 
     const handleSelect = (i) => {
         if (selected === i && selected === correct) return "bg-green-500";
@@ -49,12 +62,7 @@ const Question = ({
 
     const handleNext = () => {
         if (currentQuestion > 3) {
-            if (currentAd < ads.length - 1) {
-                setCurrentAds(currentAd + 1)
-            } else {
-                setCurrentAds(0)
-            }
-            navigate("/result");
+            navigate("/games/result");
         } else if (selected) {
             setCurrentQuestion(currentQuestion + 1);
             setSelected();
@@ -64,12 +72,7 @@ const Question = ({
     const handleQuit = () => {
         setGame("");
         setCurrentQuestion(0);
-        setQuestions();
-        if (currentAd < ads.length) {
-            setCurrentAds(currentAd + 1)
-        } else {
-            setCurrentAds(0)
-        }
+        // setQuestions();
         navigate("/games");
     };
 
@@ -88,6 +91,7 @@ const Question = ({
                     {options &&
                         options.map((i) => (
                             <button
+
                                 className={` border-solid border-black border-2 rounded-md p-3 w-full m-1 ${
                                     selected && handleSelect(i)
                                 } `}
