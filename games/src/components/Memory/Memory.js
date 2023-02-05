@@ -1,13 +1,44 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router";
-import Card from "./Card";
-import ADs from "../ADs";
+import {getAds, getServices, getImages} from "../../apiCalls";
 import Ads from "../ADs";
+import Services from "../Services";
+import Card from "./Card";
 
-function Memory({images, setImages, score, setScore, setGame, currentAd, setCurrentAds, ads}) {
+function Memory({score, setScore, setGame}) {
     const navigate = useNavigate();
-
     const [show, setShow] = useState(false);
+    const [ads, setAds] = useState([])
+    const [services, setServices] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [images, setImages] = useState([])
+    //-1 nessuna carta selezionata, altrimenti id della carta
+    const [prec, setPrec] = useState(-1);
+    const [clickable, setClickable] = useState(true);
+    const [correct, setCorrect] = useState(-1);
+
+    useEffect(()=>{
+        async function fetchData() {
+            const rawServices = await getServices()
+
+            setServices(rawServices.data)
+            const rawAds = await getAds(
+                sessionStorage.getItem("specie"),
+                sessionStorage.getItem("name"),
+                sessionStorage.getItem("gender"),
+                sessionStorage.getItem("age"),
+                sessionStorage.getItem("medicalCondition")
+            )
+            setAds(rawAds.data)
+
+            const images = await getImages()
+            setImages(images)
+        }
+
+        fetchData().then(() => {
+            setLoading(false)
+        })
+    },[])
     let loaded = 0;
     const handleLoad = () => {
         if (loaded >= 15) {
@@ -19,11 +50,6 @@ function Memory({images, setImages, score, setScore, setGame, currentAd, setCurr
             loaded++;
         }
     };
-    //-1 nessuna carta selezionata, altrimenti id della carta
-    const [prec, setPrec] = useState(-1);
-    const [clickable, setClickable] = useState(true);
-    const [correct, setCorrect] = useState(-1);
-    // let correct = 0
 
     const handleClick = (index) => {
         console.log("prec: " + prec + " state: " + images[index].state);
@@ -40,13 +66,10 @@ function Memory({images, setImages, score, setScore, setGame, currentAd, setCurr
     };
 
     const handleWin = ()=>{
+        alert("you win")
+        setGame("memory")
         console.log("handle win")
-        if (currentAd < ads.length -1) {
-            setCurrentAds(currentAd + 1)
-        } else {
-            setCurrentAds(0)
-        }
-        navigate("/result");
+        navigate("/games/result");
     }
 
     const checkCard = async (id) => {
@@ -82,15 +105,17 @@ function Memory({images, setImages, score, setScore, setGame, currentAd, setCurr
         }
     };
 
+if(!loading) {
     return (
         <div className="" style={{visibility: show ? "visible" : "hidden"}}>
+            <Services service={services}></Services>
             <h1
                 className="text-xl text-center m-auto"
                 style={{display: show ? "none" : "initial", visibility: "visible"}}
             >
                 Loading
             </h1>
-            {correct > 6 ? handleWin() : null}
+
             <div
                 className="grid grid-cols-4 grid-rows-4 gap-2 p-8 border-2 border-solid rounded-3xl bg-white mt-10"
                 style={{pointerEvents: clickable ? "" : "none"}}
@@ -106,24 +131,16 @@ function Memory({images, setImages, score, setScore, setGame, currentAd, setCurr
                         ></Card>
                     ))
 
-                    /* {images.map((i, index) => (
-                    <img
-                      key={index}
-                      src={i.image}
-                      alt="img"
-                      className="memoryImage"
-                      onLoad={handleLoad}
-                      onClick={() => handleClick(index)}
-                    />
-                  ))} */
                 }
+                {correct > 6 ? handleWin() : null}
             </div>
-            {/* ads */}
             <Ads
-                ad={ads[currentAd]}
+                ad={ads}
             ></Ads>
         </div>
     );
+}
+
 }
 
 export default Memory;
