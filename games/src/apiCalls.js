@@ -48,3 +48,9 @@ export async function getQuestions(){
     const rawData = await axios.get("http://localhost:8000/api/getTrivia");
     return rawData
 };
+
+export async function getProduct(id){
+    const rawData = await axios.get(`http://localhost:8000/api/products/${id}`)
+    console.log(rawData)
+    return rawData
+}
