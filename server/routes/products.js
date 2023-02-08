@@ -123,7 +123,7 @@ router
   });
 
 router
-  .route("/product")
+  .route("/:id")
   /**
    * GET
    * Ottiene un prodotto tramite nome
@@ -132,7 +132,8 @@ router
    */
   .get(async (req, res) => {
     try {
-      await Product.findOne({ title: req.query.title }).then((product) => {
+      console.log(req.params)
+      await Product.findById(req.params.id).then((product) => {
         if (product) {
           res.status(200).send(product);
         } else {
