@@ -6,6 +6,7 @@ import Result from "./components/Quiz/Result";
 import Memory from "./components/Memory/Memory";
 import Hangman from "./components/Impiccato/hangman";
 import ProductPage from "./components/ProductPage";
+import ServicePage from "./components/ServicePage"
 
 function App() {
     const [game, setGame] = useState("")
@@ -50,6 +51,7 @@ function App() {
                         element={<Hangman setScore={setScore} setGame={setGame} score={score}/>}
                     ></Route>
                     <Route path="games/shop/:id" element={<ProductPage/>}></Route>
+                    <Route path="games/services/:id" element={<ServicePage/>}></Route>
                 </Routes>
             </div>
         </BrowserRouter>
