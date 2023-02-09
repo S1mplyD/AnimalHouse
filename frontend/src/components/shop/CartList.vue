@@ -2,29 +2,53 @@
   <CartHeader />
   <body class="bodymain"> <!-- Qui viene gestito il cart personale dell'utente -->
   <h1>Welcome to your Cart!</h1>
-  <div class="overflow-auto" id="shop-section">
-    <div v-for="(item, index) in cart" :key="index">
-      <div class="card mb-3" style="width: 700px; height: 260px;" id="card">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img :src="item.mainPhoto" class="img-fluid rounded-start" style="object-fit: cover; height: 250px;" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{ item.title }}</h5>
-              <p class="card-text">You have {{ item.quantity }} of this item in your cart.</p>
-              <p class="card-text"><small>Sold at: ${{ item.price }}</small></p>
-              <p class="card-text" v-show="item.price > item.discountedPrice"><small class="text-muted">Discounted: ${{ item.discountedPrice }}</small></p>
-              <button @click="removeFromCart(item)" class="btn btn-primary">Remove from the Cart</button> <!-- Tasto per rimuovere l'item dal cart -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <h1>Services Cart</h1>
+        <div class="overflow-auto" id="shopSection1">
+          <div v-for="(service, index) in bookedServices" :key="index">
+            <div class="card" style="width: 700px; height: 260px;" id="card">
+              <div class="card-body">
+                <h5 class="card-title"><b>{{service.name}}</b></h5>
+                <p class="card-text">{{service.info}}</p>
+                <button @click="removeService(service._id)" class="btn btn-primary">Remove from the cart</button>
+              </div>
             </div>
+          </div>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <button type="button" class="btn btn-primary"><b>Proceed pay for the services</b></button> <!-- Bottone per comprare il contenuto del cart. AVVERTENZA: è solo a scopo dimostrativo. Non è funzionante. -->
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <h1>Items Cart</h1>
+        <div class="overflow-auto" id="shopSection2">
+          <div v-for="(item, index) in cart" :key="index">
+            <div class="card mb-3" style="width: 700px; height: 260px;" id="card">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img :src="item.mainPhoto" class="img-fluid rounded-start" style="object-fit: cover; height: 250px;" alt="...">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ item.title }}</h5>
+                    <p class="card-text">You have {{ item.quantity }} of this item in your cart.</p>
+                    <p class="card-text"><small>Sold at: ${{ item.price }}</small></p>
+                    <p class="card-text" v-show="item.price > item.discountedPrice"><small class="text-muted">Discounted: ${{ item.discountedPrice }}</small></p>
+                    <button @click="removeFromCart(item)" class="btn btn-primary">Remove from the Cart</button> <!-- Tasto per rimuovere l'item dal cart -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p style="color:black;"> Total price of the items in the cart: <b>${{ this.totalPrice }}</b>. Discounted at: <b>${{ this.totalDiscount }}</b>. You can save <b>${{ this.totalPrice - this.totalDiscount }}.</b></p> <!-- Prezzo totale, con sconto totale, e quantità di denaro risparmiato.-->
+          <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <button type="button" class="btn btn-primary"><b>Proceed to buy the items</b></button> <!-- Bottone per comprare il contenuto del cart. AVVERTENZA: è solo a scopo dimostrativo. Non è funzionante. -->
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <p> Total price of the items in the cart: <b>${{ this.totalPrice }}</b>. Discounted at: <b>${{ this.totalDiscount }}</b>. You can save <b>${{ this.totalPrice - this.totalDiscount }}.</b></p> <!-- Prezzo totale, con sconto totale, e quantità di denaro risparmiato.-->
-  <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-   <button type="button" class="btn btn-primary"><b>Proceed to buy the items</b></button> <!-- Bottone per comprare il contenuto del cart. AVVERTENZA: è solo a scopo dimostrativo. Non è funzionante. -->
   </div>
 </body>
 <SiteFooter />
@@ -40,8 +64,9 @@ export default {
     return {
       cart: [],
       user: [],
-      totalPrice: null,
-      totalDiscount: null
+      bookedServices: [],
+      totalPrice: 0,
+      totalDiscount: 0
     }
   },
   mounted () {
@@ -53,12 +78,16 @@ export default {
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) { /** Chiamata API che ottiene il contenuto del cart per quell'utente */
           this.cart.push(response.data[i])
+          this.totalPrice += response.data[i].price /** Calcolo del totale dei prezzi e dello sconto */
+          this.totalDiscount += response.data[i].discountedPrice
         }
       })
-    for (let i = 0; i < this.cart.length; i++) { /** Calcolo del totale dei prezzi e dello sconto */
-      this.totalPrice += this.cart[i].price
-      this.totalDiscount += this.cart[i].discountedPrice
-    }
+    axios.get('/api/services/book')
+      .then((response) => {
+        for (let i = 0; i < response.data.length; i++) {
+          this.bookedServices.push(response.data[i])
+        }
+      })
   },
   components: { CartHeader, SiteFooter },
   methods: {
@@ -107,6 +136,23 @@ export default {
             })
         })
       }
+    },
+    removeService: async function (id) {
+      await axios.delete('/api/services/book', {
+        params: {
+          id: id
+        }
+      })
+        .then((res) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'You removed the service from your cart!',
+            showConfirmButton: true
+          })
+            .then((response) => {
+              if (response.isConfirmed) location.reload()
+            })
+        })
     }
   }
 }
@@ -151,13 +197,22 @@ header {
       color:#a6ff00;
     }
   }
-#shop-section{
+#shopSection1{
     max-height: 700px;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
     border-style: none;
   }
-#shop-section::-webkit-scrollbar {
+#shopSection1::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
+#shopSection2{
+    max-height: 700px;
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    border-style: none;
+  }
+#shopSection2::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
 }
 </style>
