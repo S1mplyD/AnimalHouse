@@ -21,7 +21,6 @@ export default {
   mounted () {
     axios.get('/api/news') /** Chiamata API per ottenere la notizia giusta, eseguita mediante axios */
       .then((response) => {
-        console.log(this.$route.params.id)
         for (let i = 0; i < response.data.length; i++) {
           if (response.data[i]._id === this.$route.params.id) {
             this.posts.push(response.data[i])

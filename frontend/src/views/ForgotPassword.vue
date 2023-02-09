@@ -6,7 +6,7 @@
                 <label for="mail">E-mail address</label>
                 <input id="mail" type="email" class="form-control form-control-lg" />
             </div>
-            <button type="button" class="btn btn-dark btn-lg btn-block">Create a new password</button>
+            <button type="button" class="btn btn-dark btn-lg btn-block">Create a new password</button> <!-- AVVERTENZA: Effettivamente questa pagina è solo dimostrativa, e non è possibile resettare la password -->
         </form>
     </div>
 </template>

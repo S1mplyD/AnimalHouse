@@ -39,7 +39,6 @@ export default {
     axios.get('/api/gallery') /* Chiamata API con axios per ottenere le immagini per la galleria */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
-          console.log(response.data[i])
           this.gallery.push(response.data[i])
         }
       })

@@ -57,7 +57,6 @@ export default {
   mounted () {
     axios.get('/api/posts') /** Qui si caricano via chiamata API fatta con axios sia il post selezionato nella pagina principale, si ai commenti collegati a tale post, sia i commenti di risposta */
       .then((response) => {
-        console.log(this.$route.params.id)
         for (let i = 0; i < response.data.length; i++) {
           if (response.data[i]._id === this.$route.params.id) {
             this.posts.push(response.data[i])
@@ -98,7 +97,6 @@ export default {
     },
     comment: async function () { /** Funzione dei commenti */
       axios.post('/api/comments', { comment: document.getElementById('textcomment').value }, { params: { id: this.posts[0]._id } }).then((res) => {
-        console.log(res)
         location.reload()
       })
     },
@@ -120,7 +118,6 @@ export default {
     },
     reply: async function () { /** Funzione per le reply */
       axios.post('/api/comments/reply', { comment: document.getElementById('textcomment').value }, { params: { id: this.commentId, user: this.userName } }).then((res) => {
-        console.log(res)
         location.reload()
       })
     }

@@ -45,10 +45,7 @@ function getOnlineServices() {
 };
 
 function deleteOnlineService() {
-    axios.delete('/api/services?id=' + document.getElementById('title').value)
-        .then((result) => {
-            console.log(result);
-        })
+    axios.delete('/api/services?id=' + document.getElementById('title').value);
 };
 
 function createOnlineService() {
@@ -64,22 +61,17 @@ function createOnlineService() {
         online: true
     })
         .then((result) => {
-            console.log(result);
             let formData = new FormData();
             let files = document.querySelector('#servImage');
             for (let i = 0; i < files.files.length; i++) {
                 formData.append('images', files.files[i]);
             }
-            axios.post("/api/images/services", formData, {params: {id: result.data._id}}, {headers: {"Content-Type": "multipart/form-data"}})
-                .then((res) => {
-                    console.log(res);
-                })
+            axios.post("/api/images/services", formData, {params: {id: result.data._id}}, {headers: {"Content-Type": "multipart/form-data"}});
         })
 };
 
 function updateOnlineService() {
     const files = document.querySelector("#upservImage");
-    console.log(files.files)
     if(files.files.length <= 2) {
         const id = document.getElementById('uptitle').value
         axios.patch('/api/services?id=' + id,
@@ -97,7 +89,6 @@ function updateOnlineService() {
             .then(() => {
                 const formData = new FormData();
                 for (let i = 0; i < files.files.length; i++) {
-                    console.log(files.files[i])
                     formData.append("images", files.files[i]);
                 }
                 axios.patch("/api/images/services", formData,{params: {id: id}} ,{headers: { "Content-Type": "multipart/form-data" }})

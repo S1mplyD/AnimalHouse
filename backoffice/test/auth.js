@@ -9,8 +9,6 @@ async function login() {
             "Content-type": "application/json",
         },
         body: JSON.stringify(data),
-    }).then((res) => {
-        console.log(res);
     });
 }
 

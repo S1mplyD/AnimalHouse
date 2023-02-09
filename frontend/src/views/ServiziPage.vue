@@ -43,6 +43,7 @@
               <p class="card-text"><b>Opened in the days:</b> {{service.openDays}}</p>
               <p class="card-text"><b>Opened from </b>{{service.openTime}} <b>to </b>{{service.closeTime}}</p>
               <p class="card-text">E-mail: {{service.mail}} - Telephone number: {{service.phone}}</p>
+              <button @click="bookService(service._id)" class="btn btn-primary">Book the service</button>
           </div>
         </div>
         <br>
@@ -57,7 +58,7 @@
               <p class="card-text"><b>Address:</b> {{service.location}}</p>
               <p class="card-text"><b>Opened in the days:</b> {{service.openDays}}</p>
               <p class="card-text"><b>Opened from </b>{{service.openTime}} <b>to </b>{{service.closeTime}}</p>
-              <p class="card-text"><router-link to="#" class="routerlink">Go to the service</router-link></p> <!--AVVERTENZA: questo link è finto, non fa nulla -->
+              <button @click="bookService(service._id)" class="btn btn-primary">Book the service</button>
           </div>
         </div>
         <br>
@@ -73,6 +74,7 @@
 import ServiziHeaderVue from '@/components/headers/ServiziHeader.vue'
 import SiteFooterVue from '@/components/SiteFooter.vue'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'ServiziPage',
@@ -80,7 +82,6 @@ export default {
     axios.get('/api/services') /* Chiamata API per caricare i servizi mediante axios, in due array diversi per i servizi online ed offline */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
-          console.log(response.data[i])
           if (response.data[i].online === false) {
             this.realservices.push(response.data[i])
           } else {
@@ -162,6 +163,24 @@ export default {
           }
         }
         return filtered
+      })
+    }
+  },
+  methods: {
+    bookService: async function (id) {
+      await axios.post('/api/services/book', null, {
+        params: {
+          id: id
+        }
+      }).then((res) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'You removed all items of this type from your cart!',
+          showConfirmButton: true
+        })
+          .then((response) => {
+            if (response.isConfirmed) location.reload()
+          })
       })
     }
   }

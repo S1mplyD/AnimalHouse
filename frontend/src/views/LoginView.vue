@@ -40,7 +40,6 @@ export default {
         },
         body: JSON.stringify(data)
       }).then((res) => {
-        console.log(res)
         this.$router.back()
       })
     }

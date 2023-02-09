@@ -47,18 +47,12 @@ async function createPost() {
                     {
                         headers: {"Content-Type": "multipart/form-data"},
                     }
-                )
-                .then((res) => {
-                    console.log(res);
-                });
+                );
         });
 }
 
 function deletePost() {
-    axios.delete('/api/posts?id=' + document.getElementById('title1').value)
-        .then((result) => {
-            console.log(result);
-        })
+    axios.delete('/api/posts?id=' + document.getElementById('title1').value);
 };
 
 module.exports = {getPosts}

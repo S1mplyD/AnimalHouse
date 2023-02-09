@@ -47,7 +47,6 @@ export default {
     axios.get('/api/news') /** Chiamata API che permette di caricare le news, mediante axios */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
-          console.log(response.data[i])
           this.posts.push(response.data[i])
         }
       })

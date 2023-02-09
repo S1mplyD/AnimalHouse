@@ -28,21 +28,14 @@ function getProducts(){
 
 };
 function updateProduct(){
-    axios.patch('/api/products?id=' + document.getElementById('newPrice').value, {params: {discountedPrice: document.getElementById('priceup').value}})
-        .then((result) => {
-            console.log(result);
-        })
+    axios.patch('/api/products?id=' + document.getElementById('newPrice').value, {params: {discountedPrice: document.getElementById('priceup').value}});
 };
 
 function deleteProduct(){
-    axios.delete('/api/products?id=' + document.getElementById('title').value)
-        .then((result) => {
-            console.log(result);
-        })
+    axios.delete('/api/products?id=' + document.getElementById('title').value);
 };
 
 function addProduct(){
-    console.log("here")
     axios
         .post("/api/products", {
             title: document.getElementById("title").value,
@@ -51,9 +44,7 @@ function addProduct(){
             categories: document.getElementById("cat").value,
         })
         .then((res) => {
-            console.log(res);
             let id = res.data._id;
-            console.log(id);
             let images = document.querySelector("#filename");
             const formData = new FormData();
             for (let i = 0; i < images.files.length; i++) {
@@ -69,10 +60,7 @@ function addProduct(){
                     {
                         headers: { "Content-Type": "multipart/form-data" },
                     }
-                )
-                .then((res) => {
-                    console.log(res);
-                });
+                );
         });
 };
 

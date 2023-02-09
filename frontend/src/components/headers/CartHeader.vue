@@ -7,7 +7,7 @@
         <li><router-link to="/" class="routerlink">Go back to the HOMEPAGE</router-link></li>
         </ul>
     </nav>
-    <nav v-if="user.length === 1" id="usersection">
+    <nav v-if="user[0] !== ''" id="usersection">
       <div class="card mb-3" style="background: rgb(0, 0, 190); width: 500px;">
         <div class="row g-0">
           <div class="col-md-4">
@@ -35,7 +35,6 @@ export default {
     axios.get('/auth/isAuthenticated')
       .then((response) => {
         this.user.push(response.data)
-        console.log(this.user.length)
       })
   },
   data () {
