@@ -37,7 +37,6 @@ export default {
     axios.get('/api/posts') /** Qui si fa la chiamata API per ottenere dal server i post, mediante axios.get */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
-          console.log(response.data[i])
           this.posts.push(response.data[i])
         }
       })
@@ -70,7 +69,6 @@ export default {
             'Content-Type': 'multipart/form-data'
           }
         }).then((res) => {
-          console.log(res)
           location.reload() /** Viene ricaricata la pagina, così che si possa vedere subito il risultato del caricamento dei post */
         })
       })

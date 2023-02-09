@@ -12,7 +12,7 @@
         <li><router-link to="/leaderboard" class="routerlink">LEADERBOARD</router-link></li>
       </ul>
     </nav>
-    <nav v-show="user.length < 1" id="loginsection">
+    <nav v-show="user[0] === ''" id="loginsection">
       <ul>
       <li>
     <router-link to="/login">
@@ -25,7 +25,7 @@
         </li>
       </ul>
     </nav>
-    <nav v-if="user.length === 1" id="usersection">
+    <nav v-if="user[0] !== ''" id="usersection">
       <div class="card mb-3" style="background: rgb(0, 0, 190); width: 500px;">
         <div class="row g-0">
           <div class="col-md-4">

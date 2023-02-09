@@ -12,7 +12,7 @@
         <li><router-link to="/leaderboard" class="routerlink">LEADERBOARD</router-link></li>
         </ul>
     </nav>
-    <nav v-show="user.length < 1" id="loginsection"> <!-- Se l'utente non è loggato, ci sono i tasti per fare il login e registrarsi-->
+    <nav v-show="user[0] === ''" id="loginsection"> <!-- Se l'utente non è loggato, ci sono i tasti per fare il login e registrarsi-->
       <ul>
       <li>
     <router-link to="/login">
@@ -25,7 +25,7 @@
         </li>
       </ul>
     </nav>
-    <nav v-if="user.length === 1" id="usersection" aria-labelledby="User"> <!-- Scheda dell'utente, con scelte per mostrare link vari. Se l'utente è admin, allora ha anche accesso al backoffice e alla area di test. -->
+    <nav v-if="user[0] !== ''" id="usersection" aria-labelledby="User"> <!-- Scheda dell'utente, con scelte per mostrare link vari. Se l'utente è admin, allora ha anche accesso al backoffice e alla area di test. -->
       <div class="card mb-3" style="background: rgb(0, 0, 190); width: 500px;">
         <div class="row g-0">
           <div class="col-md-4">
@@ -56,7 +56,6 @@ export default {
     axios.get('/auth/isAuthenticated') /** Questa chiamata API controlla che ci sia un utente che ha fatto accesso */
       .then((response) => {
         this.user.push(response.data)
-        console.log(this.user.length)
       })
   },
   data () {

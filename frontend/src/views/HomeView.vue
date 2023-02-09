@@ -105,7 +105,6 @@ export default {
     axios.get('/api/products') /* Chiamata API con axios per ottenere 5 prodotti da inserire nel carousel */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
-          console.log(response.data[i])
           if (i < 5) {
             this.products.push(response.data[i])
           }
@@ -114,7 +113,6 @@ export default {
     axios.get('/api/posts') /* Chiamata API con axios per ottenere 3 post da mettere in evidenza */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
-          console.log(response.data[i])
           if (i < 3) {
             this.posts.push(response.data[i])
           }
@@ -123,7 +121,6 @@ export default {
     axios.get('/api/gallery') /* Chiamata API con axios per ottenere 5 immagini dalla galleria da mettere in evidenza */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
-          console.log(response.data[i])
           if (i < 5) {
             this.gallery.push(response.data[i])
           }

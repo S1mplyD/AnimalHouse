@@ -48,12 +48,10 @@ export default {
     axios.get('/auth/isAuthenticated') /** Chiamata API per controllare se l'utente ha fatto l'accesso */
       .then((response) => {
         this.user.push(response.data)
-        console.log(this.user.length)
       })
     axios.get('/api/carts')
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) { /** Chiamata API che ottiene il contenuto del cart per quell'utente */
-          console.log(response.data[i])
           this.cart.push(response.data[i])
         }
       })

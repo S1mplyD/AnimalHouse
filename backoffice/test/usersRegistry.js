@@ -28,24 +28,15 @@ function getUsers(){
 };
 
 function submitBan(){
-    axios.delete('/api/users?id=' + document.getElementById('id0').value)
-        .then((result) => {
-            console.log(result);
-        })
+    axios.delete('/api/users?id=' + document.getElementById('id0').value);
 }
 
 function submitAdmin(){
     console.log(document.getElementById('id1').value);
-    axios.patch('/api/users/grantPermission?id=' + document.getElementById('id1').value)
-        .then((result) => {
-            console.log(result);
-        })
+    axios.patch('/api/users/grantPermission?id=' + document.getElementById('id1').value);
 };
 function submitRevoke(){
-    axios.patch( '/api/users/revokePermission?id=' + document.getElementById('id2').value)
-        .then((result) => {
-            console.log(result);
-        })
+    axios.patch( '/api/users/revokePermission?id=' + document.getElementById('id2').value);
 };
 
 module.exports = {getUsers}

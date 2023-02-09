@@ -80,7 +80,6 @@ export default {
     axios.get('/api/services') /* Chiamata API per caricare i servizi mediante axios, in due array diversi per i servizi online ed offline */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
-          console.log(response.data[i])
           if (response.data[i].online === false) {
             this.realservices.push(response.data[i])
           } else {

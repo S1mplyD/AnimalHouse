@@ -47,18 +47,12 @@ async function createNews() {
                     {
                         headers: {"Content-Type": "multipart/form-data"},
                     }
-                )
-                .then((res) => {
-                    console.log(res);
-                });
+                );
         });
 }
 
 function deleteNews() {
-    axios.delete('/api/news?id=' + document.getElementById('title1').value)
-        .then((result) => {
-            console.log(result);
-        })
+    axios.delete('/api/news?id=' + document.getElementById('title1').value);
 };
 
 module.exports = {getNews}

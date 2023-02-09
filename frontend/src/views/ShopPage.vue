@@ -43,7 +43,6 @@ export default {
     axios.get('/api/products') /* Chiamata API mediante axios che permette di caricare i prodotti */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
-          console.log(response.data[i])
           this.products.push(response.data[i])
         }
       })
@@ -54,13 +53,11 @@ export default {
   },
   methods: {
     async addToCart (item) { /* Funzione che permette, mediante una chiamata API con axios, di spostare il prodotto scelto nel carrello */
-      console.log(item._id)
       axios.post('/api/carts', null, {
         params: {
           productid: item._id
         }
       }).then((res) => {
-        console.log(res.data)
         Swal.fire({ /* Qui compare un alert che avverte dell'avvenuta aggiunta al carrello dell'oggetto scelto */
           position: 'top',
           icon: 'success',

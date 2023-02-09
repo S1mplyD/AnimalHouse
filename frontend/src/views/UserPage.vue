@@ -65,13 +65,11 @@ export default {
     axios.get('/auth/isAuthenticated')
       .then((response) => {
         this.user.push(response.data)
-        console.log(this.user.length)
       })
     axios.get('/api/users/userPets') /* Qui si caricano gli animali domestici dell'utente, così che si possano modificare */
       .then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           this.pets.push(response.data[i])
-          console.log(this.pets.length)
         }
       })
   },
@@ -138,7 +136,6 @@ export default {
         confirmButtonText: 'Yes'
       }).then((res) => {
         if (res.isConfirmed) {
-          console.log(document.getElementById('petname').value)
           fetch('/api/pets?pet=' + id, {
             method: 'delete',
             headers: {

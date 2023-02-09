@@ -42,8 +42,6 @@ export default {
           'Content-type': 'application/json'
         },
         body: JSON.stringify(data)
-      }).then((res) => {
-        console.log(res)
       })
       const data1 = {
         username: data.mail,
