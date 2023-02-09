@@ -44,13 +44,37 @@ export async function getImages() {
     return memoryImages
 };
 
-export async function getQuestions(){
+export async function getQuestions() {
     const rawData = await axios.get("http://localhost:8000/api/getTrivia");
     return rawData
 };
 
-export async function getProduct(id){
+export async function getProduct(id) {
     const rawData = await axios.get(`http://localhost:8000/api/products/${id}`)
-    console.log(rawData)
     return rawData
+}
+
+export async function addToCart(id, quantity) {
+    await axios.post("http://localhost:8000/api/carts", null, {params: {productid: id}})
+}
+
+export async function login(mail, password) {
+    await axios.post("http://localhost:8000/auth/login", {
+        username: mail,
+        password: password
+    })
+}
+
+export async function isAuthenticated() {
+    const user = await axios.get("http://localhost:8000/auth/isAuthenticated")
+    return user
+}
+
+export async function getService(id) {
+    const rawData = await axios.get(`http://localhost:8000/api/services/service/${id}`)
+    return rawData
+}
+
+export async function bookService(id) {
+    await axios.post("http://localhost:8000/api/services/book", null, {params: {id: id}})
 }
