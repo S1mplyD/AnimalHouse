@@ -19,7 +19,7 @@
 <body>
 <header class="backoffice_header">
     <b><p>ANIMAL HOUSE</p></b>
-    <nav>
+    <nav aria-label="Backoffice Header">
         <ul class="navigation">
             <li>
                 <button id="custdata" onclick="getUsers()">Users registry</button>
@@ -45,13 +45,15 @@
 <main id="main_zone">
     <h1><b>HERE WILL BE LOADED DATA</b></h1>
     <h1>login</h1>
-    <form>
-        <input type="email" name="mail" id="mail" placeholder="mail"/>
-        <input type="password" name="password" id="pass" placeholder="password"/>
+    <form aria-label="Login form for the Backoffice">
+        <label for="email">E-mail:</label>
+        <input id="email" type="email" name="mail" id="mail" placeholder="E-mail"/>
+        <label for="password">Password:</label>
+        <input id="password" type="password" name="password" id="pass" placeholder="Password"/>
         <input type="button" value="login" onclick="login()"/>
     </form>
 </main>
-<footer>
+<footer aria-label="Backoffice footer">
     <b><p id="text">Copyright &copy;<span id="footer"></span></p></b>
 </footer>
 <script>

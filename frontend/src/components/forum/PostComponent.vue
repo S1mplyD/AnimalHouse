@@ -1,9 +1,10 @@
 <template lang="en">
-    <div v-for="post in posts" class="lightbox" @click.self="closeLightbox"> <!-- Qui permette di gestire il ritorno alla pagina principale dei post, cliccando fuori dal post stesso -->
+  <html lang="en">
+    <div aria-label="Lightbox" v-for="post in posts" class="lightbox" @click.self="closeLightbox"> <!-- Qui permette di gestire il ritorno alla pagina principale dei post, cliccando fuori dal post stesso -->
       <div class="lightbox-info">
        <div class="card text-center" style="width: 700px; min-height:260px; max-height: 700px">
         <div class="card-body">
-            <h5 v-if="post.title && post.user" class="card-title"><b>{{ post.title }} by {{ post.user }}</b></h5>
+            <h1 v-if="post.title && post.user" class="card-title" style="color:black;"><b>{{ post.title }} by {{ post.user }}</b></h1>
             <p v-if="post.post" class="card-text">{{ post.post }}</p>
             <p v-if="post.date" class="card-text"><small class="text-muted">{{ post.date }}</small></p>
             <div class="overflow-auto" id="image">
@@ -40,7 +41,7 @@
             <form>
               <div class="mb-3">
                 <label for="textcomment" class="form-label">Do you want post a comment?</label> <!-- Di seguito si può scrivere un commento al post, ma anche rispondere ad un commento già presente (SOLO SE UN TAG VIENE COLLOCATO) -->
-                <textarea type="text" id="textcomment" class="form-control" aria-describedby="textComment" placeholder="Write your comment here..." cols="50" rows="3" style="resize:none;"></textarea>
+                <textarea type="text" id="textcomment" class="form-control" aria-label="Comment text" placeholder="Write your comment here..." cols="50" rows="3" style="resize:none;"></textarea>
               </div>
               <button type="button" class="btn btn-primary" id="comment" @click="comment()">Submit your comment</button>
               <button type="button" class="btn btn-secondary" id="reply" @click="reply()" disabled>Submit your reply</button>
@@ -49,6 +50,7 @@
        </div>
       </div>
     </div>
+  </html>
 </template>
 <script>
 import axios from 'axios'

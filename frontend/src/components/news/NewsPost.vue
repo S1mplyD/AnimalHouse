@@ -1,9 +1,10 @@
 <template lang="en"> <!-- Questo codice è del tutto identico a quello del post, a cui è stato rimosso il codice per i commenti e le replies -->
+  <html lang="en">
     <div v-for="post in posts" class="lightbox" @click.self="closeLightbox">
       <div class="lightbox-info">
        <div class="card text-center" style="width: 700px; min-height:260px; max-height: 700px">
         <div class="card-body">
-            <h5 v-if="post.title && post.user" class="card-title"><b>{{ post.title }} by {{ post.user }}</b></h5>
+            <h1 v-if="post.title && post.user" class="card-title" style="color:black;"><b>{{ post.title }} by {{ post.user }}</b></h1>
             <p v-if="post.post" class="card-text">{{ post.post }}</p>
             <p v-if="post.date" class="card-text"><small class="text-muted">{{ post.date }}</small></p>
             <div class="overflow-auto" id="comms">
@@ -13,6 +14,7 @@
        </div>
       </div>
     </div>
+    </html>
   </template>
 <script>
 import axios from 'axios'

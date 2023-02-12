@@ -6,7 +6,6 @@ import ForumPage from '../views/ForumPage.vue'
 import ShopPage from '../views/ShopPage.vue'
 import ServiziPage from '../views/ServiziPage.vue'
 import NewsPage from '../views/NewsPage.vue'
-import ForgotPassword from '../views/ForgotPassword.vue'
 import GalleryPage from '../views/GalleryPage.vue'
 import LeaderboardPage from '../views/LeaderboardPage.vue'
 import NewsPost from '../components/news/NewsPost.vue'
@@ -63,11 +62,6 @@ const routes = [
     path: '/servizi',
     name: 'servizi',
     component: ServiziPage
-  },
-  {
-    path: '/passworddimenticata',
-    name: 'passworddimenticata',
-    component: ForgotPassword
   },
   {
     path: '/gallery',

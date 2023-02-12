@@ -1,7 +1,9 @@
-<template lang="en">
+<template>
+  <html lang="en">
   <footer>
     <b><p style="color:white;">Copyright &copy; {{ year }}</p></b> <!--Testo che indica il copyrignt del sito con l'anno corrente -->
   </footer>
+  </html>
 </template>
 
 <script>

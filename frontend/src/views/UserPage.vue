@@ -1,4 +1,5 @@
 <template lang="en">
+  <html lang="en">
   <header> <!--Questo header è diversa dagli altri, in quanto non presenta la scheda dell'utente, e neanche il logo del sito -->
     <div id="titlepart">
       <h1 class="title">Welcome to your personal User Area, <br> {{user[0].name}}!</h1>
@@ -6,7 +7,7 @@
     </div>
   </header>
   <!--Dati personali dell'utente, come nome, username, e-mail e lista dei propri animali domestici-->
-  <section class="mainUser">
+  <section class="mainUser" aria-label="Main area of the User Page">
     <div class="card" id="usercard">
       <div class="card-body">
         <h2 class="card-title">Personal Data:</h2>
@@ -47,11 +48,11 @@
         <input id="petimg" type="file" class="form-control form-control-lg" multiple/>
         <br>
         <button type="button" class="btn btn-dark btn-lg btn-block" id="addpets" @click="addPets()">Add a new pet</button> <!--Qua di può aggiungere un animale domestico alla lista di quelli posseduti -->
-
       </div>
     </div>
   </section>
   <SiteFooterVue/>
+  </html>
 </template>
 
 <script>

@@ -1,4 +1,5 @@
-<template lang="en">
+<template>
+  <html lang="en">
     <header>
   <img alt="Logo of Animal House" src="@/assets/logo.png" height="50">
     <b><p style="color:white;">ANIMAL HOUSE</p></b>
@@ -17,7 +18,6 @@
             <div class="card-body">
               <h5 class="card-title" style="color:white;"><b>{{user[0].username}}</b></h5>
             </div>
-              <a href="/test" class="card-link" v-if="user[0].admin === true">Testarea</a>
               <a href="/backoffice" class="card-link" v-if="user[0].admin === true">Backoffice</a>
               <router-link to="/user" class="card-link">User Area</router-link>
               <a href="/auth/logout" class="card-link">Logout</a>
@@ -26,6 +26,7 @@
       </div>
     </nav>
   </header>
+  </html>
   </template>
 <script>
 import axios from 'axios'

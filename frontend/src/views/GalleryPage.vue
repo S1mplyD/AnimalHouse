@@ -1,8 +1,8 @@
 <template class="gallery-main" lang="en">
   <GalleryHeader /> <!--Per i commenti sull'header, si vada nel file .vue dell'header stesso -->
   <div class="gallery" v-if="gallery.length > 0"> <!--Si caricano le immagini con i loro dati "anagrafici" in una card realizzata mediante Bootstrap -->
-    <div class="gallery-panel" v-for="photo in gallery" :key="photo._id">
-      <div class="card">
+    <div class="gallery-panel" v-for="photo in gallery" :key="photo._id"  aria-label="Images panel">
+      <div class="card" aria-label="Card of the image">
         <img :src="photo.filename" class="card-img-top" alt=""/>
         <div class="card-body">
           <h5 class="card-title" v-if="photo.title">{{ photo.title }}</h5>
@@ -18,7 +18,7 @@
     </div>
   </div>
   <div v-else class="gallery"> <!--Se non ci sono immagini, viene caricata un'immagine di emergenza -->
-    <div class="card">
+    <div class="card"  aria-label="Card of the image if is unable to load the image">
         <img src="@/assets/Photo-Unavailable.jpg" class="card-img-top" alt=""/>
         <div class="card-body">
           <h5 class="card-title">Photo unavailable</h5>

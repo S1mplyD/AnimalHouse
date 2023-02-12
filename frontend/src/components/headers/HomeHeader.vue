@@ -1,15 +1,17 @@
-<template lang="en"> <!-- DI seguito ci sono tutti i link per passare da una pagina all'altra. PREMESSA: tutti gli header sono simili (con minuscole differenze), quindi solo questo presenterà i commenti. -->
+<template>
+<html lang="en"> <!-- Di seguito ci sono tutti i link per passare da una pagina all'altra. PREMESSA: tutti gli header sono simili (con minuscole differenze), quindi solo questo presenterà i commenti. -->
+<body>
   <header>
     <img alt="Logo of Animal House" src="@/assets/logo.png" height="50">
     <b><p style="color: white;">ANIMAL HOUSE</p></b>
     <nav>
       <ul>
-        <li><a href="/games" class="routerlink">GAMES</a></li>
-        <li><router-link to="forum" class="routerlink">FORUM</router-link></li>
-        <li><router-link to="/news" class="routerlink">NEWS</router-link></li>
-        <li><router-link to="/servizi" class="routerlink">SERVICES</router-link></li>
-        <li><router-link to="/shop" class="routerlink">SHOP</router-link></li>
-        <li><router-link to="/leaderboard" class="routerlink">LEADERBOARD</router-link></li>
+        <li><a href="/games" class="card-link">GAMES</a></li>
+        <li><router-link to="forum" class="card-link">FORUM</router-link></li>
+        <li><router-link to="/news" class="card-link">NEWS</router-link></li>
+        <li><router-link to="/servizi" class="card-link">SERVICES</router-link></li>
+        <li><router-link to="/shop" class="card-link">SHOP</router-link></li>
+        <li><router-link to="/leaderboard" class="card-link">LEADERBOARD</router-link></li>
         </ul>
     </nav>
     <nav v-show="user[0] === ''" id="loginsection"> <!-- Se l'utente non è loggato, ci sono i tasti per fare il login e registrarsi-->
@@ -25,7 +27,7 @@
         </li>
       </ul>
     </nav>
-    <nav v-if="user[0] !== ''" id="usersection" aria-labelledby="User"> <!-- Scheda dell'utente, con scelte per mostrare link vari. Se l'utente è admin, allora ha anche accesso al backoffice e alla area di test. -->
+    <nav v-if="user[0] !== ''" id="usersection" aria-label="User"> <!-- Scheda dell'utente, con scelte per mostrare link vari. Se l'utente è admin, allora ha anche accesso al backoffice e alla area di test. -->
       <div class="card mb-3" style="background: rgb(0, 0, 190); width: 500px;">
         <div class="row g-0">
           <div class="col-md-4">
@@ -35,7 +37,6 @@
             <div class="card-body">
               <h5 class="card-title" style="color: white;"><b>{{user[0].username}}</b></h5>
             </div>
-              <a href="/test" class="card-link" v-if="user[0].admin === true">Testarea</a>
               <a href="/backoffice" class="card-link" v-if="user[0].admin === true">Backoffice</a>
               <router-link to="/user" class="card-link">User Area</router-link>
               <router-link to="/cart" class="card-link">Go to the Cart</router-link>
@@ -45,6 +46,8 @@
       </div>
     </nav>
   </header>
+</body>
+</html>
 </template>
 
 <script>

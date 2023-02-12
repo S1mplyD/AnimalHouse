@@ -1,8 +1,10 @@
-<template lang="en">
+<template>
+  <html lang="en">
  <NewsHeader /> <!--Per i commenti sull'header, si vada nel file .vue dell'header stesso -->
  <NewsComponent /> <!--Per i commenti sul contenuto del Forum, si vada nel file .vue corretto -->
  <NewsPost /> <!--Per i commenti sui singoli post, si vada nel file .vue corretto -->
  <SiteFooter /> <!--Il footer è uguale per tutte le pagine -->
+ </html>
 </template>
 
 <script>
