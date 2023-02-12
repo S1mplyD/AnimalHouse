@@ -168,7 +168,7 @@ export default function Home() {
           <div className="p-2">
             <input
               type={"image"}
-              src={"/hangmanGame.jpg"}
+              src={"/hangmanImage.png"}
               alt={"hangman game"}
               onClick={handleHangMan}
               className={
