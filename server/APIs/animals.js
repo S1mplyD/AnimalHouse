@@ -1,9 +1,40 @@
 const Animal = require("../models/animals.model");
-const botaniczoo = require("botanic-zoo-api");
 
 async function getAllAnimals() {
   let animals = await Animal.find();
   return animals;
+}
+
+async function getAnimals(name, specie) {
+  const animals = await getAllAnimals();
+  let customAnimals = [];
+  console.log(name);
+  console.log(specie);
+  for (let i of animals) {
+    if (name != "" && i.name.toLowerCase().includes(name.toLowerCase())) {
+      customAnimals.push(i);
+    } else if (
+      specie != "" &&
+      (i.name.toLowerCase().includes(specie.toLowerCase()) ||
+        i.info.toLowerCase().includes(specie.toLowerCase()))
+    ) {
+      customAnimals.push(i);
+    }
+  }
+
+  //Remove duplicates
+  for (let i in customAnimals) {
+    for (let j = Number(i) + 1; j < customAnimals.length; j++) {
+      if (customAnimals[i]._id === customAnimals[j]._id) {
+        customAnimals.splice(Number(i), 1);
+      }
+    }
+  }
+  if (customAnimals.length < 1) {
+    return animals;
+  } else {
+    return customAnimals;
+  }
 }
 
 async function getMemoryAnimals() {
@@ -83,4 +114,9 @@ async function getHangmanWords() {
 //     });
 // }
 
-module.exports = { getAllAnimals, getMemoryAnimals, getHangmanWords };
+module.exports = {
+  getAllAnimals,
+  getMemoryAnimals,
+  getHangmanWords,
+  getAnimals,
+};
