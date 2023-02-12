@@ -1,6 +1,7 @@
-<template lang="en">
+<template>
+  <html lang="en">
     <div class="vue-template">
-        <form>
+        <form style="color:white;" aria-label="Sign in form">
             <h3>CREATE AN ACCOUNT</h3> <!--Qui è possibile compilare un form per registrarsi al sito Animal House -->
             <div class="form-group">
                 <label for="name">Name (and surname)</label>
@@ -25,6 +26,7 @@
             </p>
         </form>
     </div>
+    </html>
 </template>
 <script>
 export default {

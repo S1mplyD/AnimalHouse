@@ -1,8 +1,9 @@
 <template lang="en">
+  <html lang="en">
   <LeaderBoardHeader /> <!--Per i commenti sull'header, si vada nel file .vue dell'header stesso -->
   <div id="mainBody">
     <div class="overflow-auto" id="leaderdiv">
-      <div class="table-responsive">
+      <div class="table-responsive" aria-label="Label of the quiz game">
         <h1>Quiz Leaderboard</h1> <!--Qui di seguito è presente la tabella dei punteggi del quiz (trovabile nella sezione Games del sito) -->
         <table class="table table-bordered table-hover table-success">
           <thead>
@@ -21,7 +22,7 @@
           </tbody>
         </table>
       </div>
-    <div class="table-responsive">
+    <div class="table-responsive" aria-label="Label of the memory game">
       <h1>Memory Leaderboard</h1> <!--Qui di seguito è presente la tabella dei punteggi del memory (trovabile nella sezione Games del sito) -->
       <table class="table table-bordered table-hover table-success">
         <thead>
@@ -40,7 +41,7 @@
         </tbody>
       </table>
     </div>
-    <div class="table-responsive">
+    <div class="table-responsive" aria-label="Label of the HAnged Man game">
       <h1>Hanged Man Leaderboard</h1> <!--Qui di seguito è presente la tabella dei punteggi del gioco dell'impiccato (trovabile nella sezione Games del sito) -->
       <table class="table table-bordered table-hover table-success">
         <thead>
@@ -62,6 +63,7 @@
     </div>
   </div>
   <SiteFooterVue />
+  </html>
 </template>
 <script>
 import LeaderBoardHeader from '@/components/headers/LeaderBoardHeader.vue'

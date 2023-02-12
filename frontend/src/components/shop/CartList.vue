@@ -1,4 +1,5 @@
 <template>
+  <html lang="en">
   <CartHeader />
   <body class="bodymain"> <!-- Qui viene gestito il cart personale dell'utente -->
   <h1>Welcome to your Cart!</h1>
@@ -52,6 +53,7 @@
   </div>
 </body>
 <SiteFooter />
+</html>
 </template>
 <script>
 import axios from 'axios'

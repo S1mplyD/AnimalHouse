@@ -1,8 +1,12 @@
-<template lang="en">
- <ForumHeaderVue /> <!--Per i commenti sull'header, si vada nel file .vue dell'header stesso -->
+<template>
+  <html lang="en">
+  <header>
+    <ForumHeaderVue /> <!--Per i commenti sull'header, si vada nel file .vue dell'header stesso -->
+  </header>
  <ForumComponent/> <!--Per i commenti sul contenuto del Forum, si vada nel file .vue corretto -->
  <PostComponent /> <!--Per i commenti sui singoli post, si vada nel file .vue corretto -->
  <SiteFooterVue/> <!--Il footer è uguale per tutte le pagine -->
+ </html>
 </template>
 
 <script>

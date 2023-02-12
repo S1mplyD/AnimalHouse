@@ -1,9 +1,11 @@
-<template lang="en"><!--Per i commenti sull'header, si vada nel file .vue dell'header stesso -->
+<template>
+<html lang="en">
+<!--Per i commenti sull'header, si vada nel file .vue dell'header stesso -->
 <HomeHeaderVue />
   <section class="body">
     <!--Semplice elenco "statico" di immagini, preso dall'elenco di immagini della Gallery-->
-    <nav class="Images" aria-labelledby="Gallery">
-    <p id="imagestext">Do you want to see other pics? <router-link :to="{name: 'gallery'}" class="routerlink">Go to our Gallery!</router-link></p>  <!--Qui c'è il link che porta alla pagina della galleria con tutte le immagini-->
+    <nav class="Images" aria-label="Gallery">
+    <p id="imagestext">Do you want to see other pics? <router-link :to="{name: 'gallery'}" class="routerlink"><b>Go to our Gallery!</b></router-link></p>  <!--Qui c'è il link che porta alla pagina della galleria con tutte le immagini-->
     <div class="overflow-auto" id="photodiv">  <!--In caso l'immagine non sia disponibile, la sostituisce con una che dichiara l'assenza di immagini-->
       <img v-if="gallery[0]" :src="gallery[0].filename" class="ImageShow" alt="" />
       <img v-else src="@/assets/Photo-Unavailable.jpg" class="ImageShow" alt=""/>
@@ -18,8 +20,8 @@
     </div>
     </nav>
      <!--Elenco "statico" che contiene alcuni dei post (tre, in particolare) più recenti presenti nel Forum-->
-    <nav class="TopPosts" aria-labelledby="Forum">
-      <p id="poststext">Do you want to see other posts from our community? <router-link :to="{name: 'forum'}" class="routerlink">Go to the community Forum!</router-link></p>  <!--Link per la pagina del Forum-->
+    <nav class="TopPosts" aria-label="Forum">
+      <p id="poststext">Do you want to see other posts from our community? <router-link :to="{name: 'forum'}" class="routerlink"><b>Go to the community Forum!</b></router-link></p>  <!--Link per la pagina del Forum-->
       <br>
       <div class="container d-flex flex-wrap">
         <div class="card h-100" id="card1" >
@@ -46,7 +48,7 @@
       </div>
     </nav>
      <!--Carousel di immagini contenenti le foto di alcuni prodotti dello shop. Se assenti, si mette un'immagine che comunica appunto l'assenza di immagini-->
-    <nav class="ADS" aria-labelledby="Shop">
+    <nav class="ADS" aria-label="Shop">
       <div id="carousel" class="carousel carousel- slide carousel-fade" data-bs-ride="carousel">
          <div class="carousel-indicators">
           <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -88,10 +90,11 @@
         </button>
       </div>
        <!--Link allo shop-->
-      <p id="shoptext">Do you want to see other items? <router-link :to="{name: 'shop'}" class="routerlink">Go to our shop</router-link> to see every products!</p>
+      <p id="shoptext">Do you want to see other items? <router-link :to="{name: 'shop'}" class="routerlink"><b>Go to our shop</b></router-link> to see every products!</p>
     </nav>
   </section>
-  <SiteFooterVue/> <!--Per il codice del footer, andare al .vue corrispondente-->
+  <SiteFooterVue /> <!--Per il codice del footer, andare al .vue corrispondente-->
+  </html>
 </template>
 
 <script>

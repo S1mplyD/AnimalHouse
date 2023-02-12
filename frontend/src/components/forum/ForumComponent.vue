@@ -1,13 +1,15 @@
-<template lang="en">
-  <h1 style="color:black;">Welcome to our Forum!</h1>
+<template>
+  <html lang="en">
+  <h1 style="color:white;">Welcome to our Forum!</h1>
   <div class="overflow-auto" id="forum">
     <form>
       <div class="mb-3">
-        <label for="texttitle" class="form-label" style="color:white;">Do you want to create a post?</label>
-        <input type="text" class="form-control" id="texttitle" placeholder="Write the title here">
-        <textarea type="text" id="textpost" class="form-control" aria-describedby="textComment" placeholder="Write your post content here..." cols="50" rows="10"></textarea>
-        <label for="picture" class="form-label" style="color:white;">Do you want to post a picture with your post?</label>
-        <input type="file" class="form-control" id="picture" multiple>
+        <label for="texttitle" class="form-label" style="color:white; font-size:20px;"><b>Do you want to create a post?</b></label>
+        <input type="text" class="form-control" id="texttitle" aria-label="Post title" placeholder="Write the title here">
+        <label for="textpost" class="form-label" style="color:white; font-size:20px;"><b>What your post will say?</b></label>
+        <textarea type="text" id="textpost" class="form-control" aria-label="Post text" placeholder="Write your post content here..." cols="50" rows="10"></textarea>
+        <label for="picture" class="form-label" style="color:white; font-size:20px;"><b>Do you want to post a picture with your post?</b></label>
+        <input type="file" class="form-control" aria-label="Post image" id="picture" multiple>
       </div>
       <button type="button" class="btn btn-primary" @click="upload()">Submit your post</button> <!-- Questo tasto permette di caricare un post, basandosi sui dati inseriti nel form precedente -->
     </form>
@@ -17,7 +19,7 @@
           <router-link :to="'/forum/' + post._id">
             <div class="card" style="width: 700px; height:260px" :id="'card' + post._id">
               <div class="card-body">
-                <h5 class="card-title"><b>{{ post.title }}</b> by {{ post.user }}:</h5>
+                <h2 class="card-title"><b>{{ post.title }}</b> by {{ post.user }}:</h2>
                 <p class="card-text">{{ post.post_summary }}</p>
                 <p class="card-text"><small class="text-muted">{{ post.date }}</small></p>
               </div>
@@ -27,6 +29,7 @@
       </div>
     </div>
   </div>
+  </html>
 </template>
 <script>
 import axios from 'axios'

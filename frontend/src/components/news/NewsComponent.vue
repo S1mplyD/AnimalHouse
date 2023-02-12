@@ -1,4 +1,5 @@
-<template lang="en"> <!-- La pagina delle news è molto simile a quella del forum, con la differenza che non è possibile aggiungere news se si è utenti regolari. VI è la possibilità di ricercare i post con il titolo, però. -->
+<template>
+  <html lang="en"> <!-- La pagina delle news è molto simile a quella del forum, con la differenza che non è possibile aggiungere news se si è utenti regolari. VI è la possibilità di ricercare i post con il titolo, però. -->
     <h1 style="color:black;">Welcome to our Newspage!</h1>
     <div class="overflow-auto" id="news">
       <form>
@@ -12,7 +13,7 @@
             <router-link :to="'/news/' + post._id">
               <div class="card" style="width: 700px; height:260px" :id="'card' + post._id">
                 <div class="card-body">
-                  <h5 class="card-title"><b>{{ post.title }}</b> by {{ post.user }}:</h5>
+                  <h2 class="card-title"><b>{{ post.title }}</b> by {{ post.user }}:</h2>
                   <p class="card-text">{{ post.post_summary }}</p>
                   <p class="card-text"><small class="text-muted">{{ post.date }}</small></p>
                 </div>
@@ -27,7 +28,7 @@
             <router-link :to="'/news/' + item._id">
               <div class="card" style="width: 700px; height:260px" :id="'card' + item._id">
                 <div class="card-body">
-                  <h5 class="card-title"><b>{{ item.title }}</b> by {{ item.user }}:</h5>
+                  <h2 class="card-title"><b>{{ item.title }}</b> by {{ item.user }}:</h2>
                   <p class="card-text">{{ item.post_summary }}</p>
                   <p class="card-text"><small class="text-muted">{{ item.date }}</small></p>
                 </div>
@@ -37,6 +38,7 @@
         </div>
       </div>
     </div>
+    </html>
   </template>
 <script>
 import axios from 'axios'

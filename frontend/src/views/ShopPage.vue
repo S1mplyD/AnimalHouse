@@ -1,17 +1,18 @@
-<template lang="en">
+<template>
+  <html lang="en">
 <ShopHeaderVue /> <!--Per i commenti sull'header, si vada nel file .vue dell'header stesso -->
 <h1 style="color:black;">Welcome to our shop!</h1>
 <div class="overflow-auto" id="shop-section">
   <!--Di seguito vengono caricati tutti i prodotti dello shop all'interno di card realizzate mediante Bootstrap -->
   <div v-for="(item, index) in products" :key="index">
-    <div class="card mb-3" style="width: 700px; height: 260px;" :id="'card' + index">
+    <div class="card mb-3" style="width: 700px; height: 300px;" :id="'card' + index" aria-label="Product card">
       <div class="row g-0">
         <div class="col-md-4">
-          <img :src="item.mainPhoto" class="img-fluid rounded-start" style="object-fit: cover; height: 250px;" alt="...">
+          <img :src="item.mainPhoto" class="img-fluid rounded-start" style="object-fit: cover; height: 250px;" aria-label="Main photo of the product">
         </div>
         <div class="col-md-8">
           <div class="card-body">
-            <h5 class="card-title">{{ item.title }}</h5>
+            <h2 class="card-title">{{ item.title }}</h2>
             <p class="card-text">{{ item.info }}</p>
             <p class="card-text">Sold by {{ item.seller }}</p>
             <p class="card-text"><small>Sold at: ${{ item.price }}</small></p>
@@ -25,6 +26,7 @@
   </div>
 </div>
 <SiteFooterVue />
+</html>
 </template>
 
 <script>

@@ -2,12 +2,12 @@
 <ServiziHeaderVue /> <!--L'header è visibile nella cartella componeents/headers -->
 <section class="body">
  <form>
-  <div class="form-group">
-    <label for="name">Name of the service</label> <!--In questa pagina vengono caricati i servizi presenti, SOLTANTO se sono cercati. Altrimenti si presenta solo il form di ricerca -->
+  <div class="form-group" aria-label="Form to select the main infos about the service">
+    <label for="name" style="color:white;">Name of the service</label> <!--In questa pagina vengono caricati i servizi presenti, SOLTANTO se sono cercati. Altrimenti si presenta solo il form di ricerca -->
     <br>
     <input type="text" v-model="name" class="form-control" id="name" placeholder="Enter the name of the service you are looking for"> <!--Filtro per il nome -->
     <br>
-    <label for="selectservice">List of our services' type</label>
+    <label for="selectservice" style="color:white;">List of our services' type</label>
     <br>
     <select v-model="selected" class="form-control" id="selectservice">
       <option value="" disabled selected>Choose the service type</option> <!--Filtro per la tipologia di servizio -->
@@ -15,7 +15,7 @@
     {{ option.text }}
       </option>
     </select>
-    <label for="selectservice2">Check if the service is online:</label>
+    <label for="selectservice2" style="color:white;">Check if the service is online:</label>
     <br>
     <select v-model="online" class="form-control" id="selectservice2">
       <option value="" disabled selected>Choose if the service is online or not</option> <!--Filtro per controllare se il servizio è online o no -->
@@ -25,8 +25,8 @@
     </select>
   </div>
   <br>
-  <div class="form-group">
-    <label for="Location">Location</label>
+  <div class="form-group" aria-label="Form to select the location">
+    <label for="Location" style="color:white;">Location</label>
     <br>
     <input type="text" v-model="search" class="form-control" id="Location" placeholder="Enter your location"> <!--Filtro per lcontrollare dove è il servizio -->
   </div>
