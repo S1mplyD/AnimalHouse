@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { getAds, getServices, getImages } from "../../apiCalls";
+import { getAds, getServices, getImages, getFunFact } from "../../apiCalls";
 import Ads from "../ADs";
 import Services from "../Services";
 import Card from "./Card";
@@ -16,7 +16,9 @@ function Memory({ score, setScore, setGame }) {
   const [prec, setPrec] = useState(-1);
   const [clickable, setClickable] = useState(true);
   const [correct, setCorrect] = useState(-1);
-
+  const [funFact, setFunFact] = useState([]);
+  const [funFactLoad, setFunFactLoad] = useState(false);
+  const [random, setRandom] = useState(0);
   useEffect(() => {
     async function fetchData() {
       const rawServices = await getServices();
@@ -30,13 +32,21 @@ function Memory({ score, setScore, setGame }) {
         sessionStorage.getItem("medicalCondition")
       );
       setAds(rawAds.data);
-
+      const rawFunFact = await getFunFact(
+        sessionStorage.getItem("name"),
+        sessionStorage.getItem("specie")
+      );
+      setRandom(Math.floor(Math.random() * rawFunFact.data.length));
+      setFunFact(rawFunFact.data);
       const images = await getImages();
       setImages(images);
     }
 
     fetchData().then(() => {
-      setLoading(false);
+      setFunFactLoad(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
     });
   }, []);
   let loaded = 0;
@@ -131,10 +141,12 @@ function Memory({ score, setScore, setGame }) {
         <Ads ad={ads}></Ads>
       </div>
     );
-  } else {
+  } else if (funFactLoad) {
     return (
-      <div>
-        <h1 className="text-xl text-center m-auto">Loading</h1>
+      <div role={"alert"}>
+        <h1 aria-live={"assertive"} role={"heading"} aria-level={1}>
+          {funFact[random].name}: {funFact[random].funFact}
+        </h1>
       </div>
     );
   }

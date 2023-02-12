@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Ads from "../ADs";
-import { getAds, getServices, getWords } from "../../apiCalls";
+import { getAds, getFunFact, getServices, getWords } from "../../apiCalls";
 import Services from "../Services";
 
 export default function Hangman({ setGame, score, setScore }) {
@@ -13,7 +13,9 @@ export default function Hangman({ setGame, score, setScore }) {
   const [ads, setAds] = useState([]);
   const [services, setServices] = useState([]);
   const [hangmanState, setHangmanState] = useState(0);
-
+  const [funFact, setFunFact] = useState([]);
+  const [funFactLoad, setFunFactLoad] = useState(false);
+  const [random, setRandom] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,6 +30,12 @@ export default function Hangman({ setGame, score, setScore }) {
         sessionStorage.getItem("medicalCondition")
       );
       setAds(rawAds.data);
+      const rawFunFact = await getFunFact(
+        sessionStorage.getItem("name"),
+        sessionStorage.getItem("specie")
+      );
+      setRandom(Math.floor(Math.random() * rawFunFact.data.length));
+      setFunFact(rawFunFact.data);
       let words = await getWords();
       let arr = words.split("");
       console.log(arr);
@@ -40,7 +48,10 @@ export default function Hangman({ setGame, score, setScore }) {
     }
 
     fetchData().then(() => {
-      setLoading(false);
+      setFunFactLoad(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
     });
   }, []);
 
@@ -147,6 +158,19 @@ export default function Hangman({ setGame, score, setScore }) {
           <Ads ad={ads}></Ads>
         </div>
       </>
+    );
+  } else if (funFactLoad) {
+    return (
+      <div role={"alert"}>
+        <h1
+          aria-live={"assertive"}
+          role={"heading"}
+          aria-level={1}
+          className={"text-3xl text-white text-center m-auto"}
+        >
+          {funFact[random].name}: {funFact[random].funFact}
+        </h1>
+      </div>
     );
   }
 }
