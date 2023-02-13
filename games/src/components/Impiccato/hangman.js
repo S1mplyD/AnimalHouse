@@ -161,15 +161,20 @@ export default function Hangman({ setGame, score, setScore }) {
     );
   } else if (funFactLoad) {
     return (
-      <div role={"alert"}>
-        <h1
-          aria-live={"assertive"}
-          role={"heading"}
-          aria-level={1}
-          className={"text-3xl text-white text-center m-auto"}
-        >
-          {funFact[random].name}: {funFact[random].funFact}
-        </h1>
+      <div
+        role={"alert"}
+        className={"flex flex-col items-center justify-center h-full"}
+      >
+        <div className={"bg-white rounded"}>
+          <h1
+            aria-live={"assertive"}
+            role={"heading"}
+            aria-level={1}
+            className={"text-3xl text-center m-auto"}
+          >
+            {funFact[random].name}: {funFact[random].funFact}
+          </h1>
+        </div>
       </div>
     );
   }
