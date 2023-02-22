@@ -32,53 +32,11 @@ router
             name: req.body.photographer.name,
             url: req.body.photographer.url,
           },
-          filename: req.body.filename,
+          filename: "placeholder",
           username: req.user.username,
         }).then((gallery) => {
           res.status(201).send(gallery);
         });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  })
-  /**
-   * PATCH
-   * edit an image details
-   */
-  .patch(async (req, res) => {
-    try {
-      if (req.user != null) {
-        if (req.user.admin) {
-          await Gallery.findByIdAndUpdate(req.query.id, {
-            title: req.body.title,
-            location: req.body.location,
-            photographer: {
-              name: req.body.photographername,
-              url: req.body.photographerurl,
-            },
-          }).then(() => {
-            res.sendStatus(200);
-          });
-        } else {
-          await Gallery.findOneAndUpdate(
-            {
-              $and: [{ _id: req.query.id }, { username: req.user.username }],
-            },
-            {
-              title: req.body.title,
-              location: req.body.location,
-              photographer: {
-                name: req.body.photographer.name,
-                url: req.body.photographer.url,
-              },
-            }
-          ).then(() => {
-            res.sendStatus(200);
-          });
-        }
-      } else {
-        res.sendStatus(401);
       }
     } catch (error) {
       console.log(error);
