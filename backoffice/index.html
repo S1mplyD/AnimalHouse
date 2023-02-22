@@ -15,6 +15,7 @@
     <script src="RLServices.js"></script>
     <script src="usersRegistry.js"></script>
     <script src="newsManager.js"></script>
+    <script src="gallery.js"></script>
 </head>
 <body>
 <header class="backoffice_header">
@@ -39,6 +40,9 @@
             <li>
                 <button id="news" onclick="getNews()">News</button>
             </li>
+            <li>
+                <button id="gallery" onclick="getGallery()">Gallery</button>
+            </li>
         </ul>
     </nav>
 </header>
@@ -47,9 +51,9 @@
     <h1>login</h1>
     <form aria-label="Login form for the Backoffice">
         <label for="email">E-mail:</label>
-        <input id="email" type="email" name="mail" id="mail" placeholder="E-mail"/>
+        <input type="email" name="mail" id="mail" placeholder="E-mail"/>
         <label for="password">Password:</label>
-        <input id="password" type="password" name="password" id="pass" placeholder="Password"/>
+        <input type="password" name="password" id="pass" placeholder="Password"/>
         <input type="button" value="login" onclick="login()"/>
     </form>
 </main>
@@ -62,6 +66,7 @@
         var date = new Date();
         var currentYear = date.getFullYear();
         document.getElementById('footer').innerHTML = currentYear;
+
     });
 </script>
 </body>
