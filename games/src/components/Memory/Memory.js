@@ -1,12 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { getAds, getServices, getImages, getFunFact } from "../../apiCalls";
+import Ads from "../ADs";
+import Services from "../Services";
 import Card from "./Card";
-import ADs from "../ADs";
 
-function Memory({ images, setImages, score, setScore }) {
+function Memory({ score, setScore, setGame }) {
   const navigate = useNavigate();
-
   const [show, setShow] = useState(false);
+  const [ads, setAds] = useState([]);
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [images, setImages] = useState([]);
+  //-1 nessuna carta selezionata, altrimenti id della carta
+  const [prec, setPrec] = useState(-1);
+  const [clickable, setClickable] = useState(true);
+  const [correct, setCorrect] = useState(-1);
+  const [funFact, setFunFact] = useState([]);
+  const [funFactLoad, setFunFactLoad] = useState(false);
+  const [random, setRandom] = useState(0);
+  useEffect(() => {
+    async function fetchData() {
+      const rawServices = await getServices();
+
+      setServices(rawServices.data);
+      const rawAds = await getAds(
+        sessionStorage.getItem("specie"),
+        sessionStorage.getItem("name"),
+        sessionStorage.getItem("gender"),
+        sessionStorage.getItem("age"),
+        sessionStorage.getItem("medicalCondition")
+      );
+      setAds(rawAds.data);
+      const rawFunFact = await getFunFact(
+        sessionStorage.getItem("name"),
+        sessionStorage.getItem("specie")
+      );
+      setRandom(Math.floor(Math.random() * rawFunFact.data.length));
+      setFunFact(rawFunFact.data);
+      const images = await getImages();
+      setImages(images);
+    }
+
+    fetchData().then(() => {
+      setFunFactLoad(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+    });
+  }, []);
   let loaded = 0;
   const handleLoad = () => {
     if (loaded >= 15) {
@@ -18,20 +60,12 @@ function Memory({ images, setImages, score, setScore }) {
       loaded++;
     }
   };
-  //-1 nessuna carta selezionata, altrimenti id della carta
-  const [prec, setPrec] = useState(-1);
-  const [clickable, setClickable] = useState(true);
-  const [correct, setCorrect] = useState(-1);
 
   const handleClick = (index) => {
     console.log("prec: " + prec + " state: " + images[index].state);
-    console.log(correct);
-    if (correct > 6) {
-      console.log("endgame");
-
-      navigate("/result");
-    } else if (prec === -1) {
-      if (images[index].state != "correct") {
+    console.log("correct: " + correct);
+    if (prec === -1) {
+      if (images[index].state !== "correct") {
         images[index].state = "active";
         setImages([...images]);
         setPrec(index);
@@ -41,27 +75,36 @@ function Memory({ images, setImages, score, setScore }) {
     }
   };
 
+  const handleWin = () => {
+    alert("you win");
+    setGame("memory");
+    console.log("handle win");
+    navigate("/games/result");
+  };
+
   const checkCard = async (id) => {
     //stessa immagine
     console.log("id: " + id);
     console.log("score: " + score);
-    if (images[id].id == images[prec].id) {
-      if (images[id].state != "active") {
+    if (images[id].id === images[prec].id) {
+      if (images[id].state !== "active") {
         images[id].state = images[prec].state = "correct";
         setImages([...images]);
         setPrec(-1);
-        setScore(score + 1);
+        setScore(score + 2);
         setCorrect(correct + 1);
       }
     }
 
     //carta sbagliata
     else {
-      if (images[id].state != "correct") {
+      if (images[id].state !== "correct") {
         images[id].state = images[prec].state = "wrong";
         setImages([...images]);
         setClickable(false);
-        setScore(score - 1);
+        if (score > 0) {
+          setScore(score - 1);
+        }
         setTimeout(() => {
           images[id].state = images[prec].state = "";
           setImages([...images]);
@@ -72,20 +115,23 @@ function Memory({ images, setImages, score, setScore }) {
     }
   };
 
-  return (
-    <div className="" style={{ visibility: show ? "visible" : "hidden" }}>
-      <h1
-        className="text-xl text-center m-auto"
-        style={{ display: show ? "none" : "initial", visibility: "visible" }}
-      >
-        Loading
-      </h1>
+  if (!loading) {
+    return (
       <div
-        className="grid grid-cols-4 grid-rows-4 gap-2 p-8 border-2 border-solid rounded-3xl bg-white mt-10"
-        style={{ pointerEvents: clickable ? "" : "none" }}
+        className="flex flex-col justify-evenly items-center"
+        style={{ visibility: show ? "visible" : "hidden" }}
       >
-        {
-          images.map((i, index) => (
+        {services.length > 0 ? (
+          <div className={"flex flex-row justify-evenly"}>
+            <Services service={services}></Services>
+          </div>
+        ) : null}
+
+        <div
+          className="grid grid-cols-4 grid-rows-4 gap-2 p-8 border-2 border-solid rounded-3xl bg-white mt-10"
+          style={{ pointerEvents: clickable ? "" : "none" }}
+        >
+          {images.map((i, index) => (
             <Card
               key={index}
               item={i}
@@ -93,26 +139,35 @@ function Memory({ images, setImages, score, setScore }) {
               handleClick={() => handleClick(index)}
               handleLoad={handleLoad}
             ></Card>
-          ))
-
-          /* {images.map((i, index) => (
-          <img
-            key={index}
-            src={i.image}
-            alt="img"
-            className="memoryImage"
-            onLoad={handleLoad}
-            onClick={() => handleClick(index)}
-          />
-        ))} */
-        }
+          ))}
+          {correct > 6 ? handleWin() : null}
+        </div>
+        {ads.length > 0 ? (
+          <div className={"flex flex-row justify-evenly"}>
+            <Ads ad={ads}></Ads>
+          </div>
+        ) : null}
       </div>
-      {/* ads */}
-      <div>
-        <ADs></ADs>
+    );
+  } else if (funFactLoad) {
+    return (
+      <div
+        role={"alert"}
+        className={"flex flex-col items-center justify-center h-full"}
+      >
+        <div className={"bg-white rounded"}>
+          <h1
+            aria-live={"assertive"}
+            role={"heading"}
+            aria-level={1}
+            className={"text-3xl text-center m-auto"}
+          >
+            {funFact[random].name}: {funFact[random].funFact}
+          </h1>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Memory;

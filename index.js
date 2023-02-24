@@ -31,7 +31,6 @@ app.use(cors());
 app.use(express.json());
 
 // Cookies
-//TODO: cookieSession is deprecated
 app.use(
   cookieSession({
     maxAge: 24 * 60 * 60 * 1000, //Un giorno
@@ -51,10 +50,9 @@ fs.readdir(__dirname, (err, files) => {
   }
 });
 
-app.use("/test", express.static(path.join(__dirname, "test")));
 app.use("/games", express.static(path.join(__dirname, "games/build")));
 app.use("/", express.static(path.join(__dirname, "frontend/dist")));
-app.use("/backoffice", express.static(path.join(__dirname, "backoffice/test")));
+app.use("/backoffice", express.static(path.join(__dirname, "backoffice")));
 app.use(express.static(path.join(__dirname, "public")));
 /**
  * API routes
@@ -81,16 +79,20 @@ app.get("/api/getHolidays", async (req, res) => {
   );
   res.json(holiday);
 });
-app.get("/api/getTrivia/:difficulty", async (req, res) => {
-  await getTrivia(req.params.difficulty).then((response) => {
+app.get("/api/getTrivia", async (req, res) => {
+  await getTrivia().then((response) => {
     res.json(response);
   });
 });
 
-app.get(/.*/, (req, res) =>
-  res.sendFile(__dirname + "/frontend/dist/index.html")
+app.get("/games/*", (req, res) =>
+  res.sendFile(__dirname + "/games/build/index.html")
 );
+app.get("*", (req, res) => {
+  res.sendFile(__dirname + "/frontend/dist/index.html");
+});
 
+mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGODB_PERSONAL_URI);
 
 app.listen(port, () => {

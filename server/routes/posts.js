@@ -29,10 +29,14 @@ router
           $and: [{ post: req.body.post }, { user: req.user.username }],
         }).then(async (post) => {
           if (!post) {
+            let date = new Date();
+            let day = `${date.getDate()}/${
+              date.getMonth() + 1
+            }/${date.getFullYear()}`;
             await Post.create({
               title: req.body.title,
               user: req.user.username,
-              date: Date(),
+              date: day,
               post: req.body.post,
               post_summary: `${req.body.post.slice(0, 141)}...`,
             }).then((post) => {
@@ -56,13 +60,17 @@ router
   .patch(async (req, res) => {
     try {
       if (req.user != null) {
+        let date = new Date();
+        let day = `${date.getDate()}/${
+          date.getMonth() + 1
+        }/${date.getFullYear()}`;
         await Post.findOneAndUpdate(
           {
             $and: [{ title: req.body.oldtitle }, { author: req.user.username }],
           },
           {
             title: req.body.title,
-            date: Date(),
+            date: day,
             post: req.body.post,
             post_summary: `${req.body.post.slice(0, 141)}...`,
           }
@@ -126,9 +134,9 @@ router
     }
   });
 
-router.route("/post").get(async (req, res) => {
+router.route("/post/:postid").get(async (req, res) => {
   try {
-    await Post.findById(req.query.id).then((post) => {
+    await Post.findById(req.params.id).then((post) => {
       res.send(post);
     });
   } catch (error) {

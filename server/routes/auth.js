@@ -157,7 +157,7 @@ router.route("/isAuthenticated").get(async (req, res) => {
   if (req.user != null) {
     res.send(req.user);
   } else {
-    res.sendStatus(404);
+    res.send("")
   }
 });
 

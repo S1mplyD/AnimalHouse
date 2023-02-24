@@ -3,17 +3,15 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegistroView from '../views/RegistroView.vue'
 import ForumPage from '../views/ForumPage.vue'
-import GamePage from '../views/GamePage.vue'
 import ShopPage from '../views/ShopPage.vue'
 import ServiziPage from '../views/ServiziPage.vue'
 import NewsPage from '../views/NewsPage.vue'
-import ForgotPassword from '../views/ForgotPassword.vue'
 import GalleryPage from '../views/GalleryPage.vue'
-import AdsPage from '../views/AdsPage.vue'
-import PhotoView from '../views/PhotoView.vue'
-import PostNewsView from '../views/PostNewsView.vue'
+import LeaderboardPage from '../views/LeaderboardPage.vue'
+import NewsPost from '../components/news/NewsPost.vue'
 import UserPage from '../views/UserPage.vue'
 import CartList from '../components/shop/CartList.vue'
+import PostComponent from '../components/forum/PostComponent.vue'
 const routes = [
   {
     path: '/',
@@ -36,9 +34,9 @@ const routes = [
     component: ForumPage
   },
   {
-    path: '/gioca',
-    name: 'gioca',
-    component: GamePage
+    path: '/forum/:id',
+    name: 'post',
+    component: PostComponent
   },
   {
     path: '/user',
@@ -66,29 +64,19 @@ const routes = [
     component: ServiziPage
   },
   {
-    path: '/passworddimenticata',
-    name: 'passworddimenticata',
-    component: ForgotPassword
-  },
-  {
     path: '/gallery',
     name: 'gallery',
     component: GalleryPage
   },
   {
-    path: '/ads',
-    name: 'ads',
-    component: AdsPage
-  },
-  {
-    path: '/gallery/:id',
-    name: 'photo',
-    component: PhotoView
+    path: '/leaderboard',
+    name: 'leaderboard',
+    component: LeaderboardPage
   },
   {
     path: '/news/:id',
     name: 'newspost',
-    component: PostNewsView
+    component: NewsPost
   }
 
 ]

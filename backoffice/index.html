@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>STAFF OFFICE</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <script src="auth.js"></script>
+    <script src="communityServices.js"></script>
+    <script src="ecommerce.js"></script>
+    <script src="onlineServices.js"></script>
+    <script src="RLServices.js"></script>
+    <script src="usersRegistry.js"></script>
+    <script src="newsManager.js"></script>
+    <script src="gallery.js"></script>
+</head>
+<body>
+<header class="backoffice_header">
+    <b><p>ANIMAL HOUSE</p></b>
+    <nav aria-label="Backoffice Header">
+        <ul class="navigation">
+            <li>
+                <button id="custdata" onclick="getUsers()">Users registry</button>
+            </li>
+            <li>
+                <button id="commserv" onclick="getPosts()">Community services</button>
+            </li>
+            <li>
+                <button id="e-commerce" onclick="getProducts()">E-commerce Manager</button>
+            </li>
+            <li>
+                <button id="realserv" onclick="getOfflineServices()">Real Life services</button>
+            </li>
+            <li>
+                <button id="onlineserv" onclick="getOnlineServices()">Online services</button>
+            </li>
+            <li>
+                <button id="news" onclick="getNews()">News</button>
+            </li>
+            <li>
+                <button id="gallery" onclick="getGallery()">Gallery</button>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main id="main_zone">
+    <h1><b>HERE WILL BE LOADED DATA</b></h1>
+    <h1>login</h1>
+    <form aria-label="Login form for the Backoffice">
+        <label for="email">E-mail:</label>
+        <input type="email" name="mail" id="mail" placeholder="E-mail"/>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="pass" placeholder="Password"/>
+        <input type="button" value="login" onclick="login()"/>
+    </form>
+</main>
+<footer aria-label="Backoffice footer">
+    <b><p id="text">Copyright &copy;<span id="footer"></span></p></b>
+</footer>
+<script>
+
+    $(document).ready(function () {
+        var date = new Date();
+        var currentYear = date.getFullYear();
+        document.getElementById('footer').innerHTML = currentYear;
+
+    });
+</script>
+</body>
+</html>

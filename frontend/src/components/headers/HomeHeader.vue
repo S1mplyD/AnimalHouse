@@ -1,17 +1,20 @@
-<template lang="en">
+<template>
+<html lang="en"> <!-- Di seguito ci sono tutti i link per passare da una pagina all'altra. PREMESSA: tutti gli header sono simili (con minuscole differenze), quindi solo questo presenterà i commenti. -->
+<body>
   <header>
     <img alt="Logo of Animal House" src="@/assets/logo.png" height="50">
-    <b><p>ANIMAL HOUSE</p></b>
+    <b><p style="color: white;">ANIMAL HOUSE</p></b>
     <nav>
       <ul>
-        <li><a href="/games" class="routerlink">GAMES</a></li>
-        <li><router-link to="forum" class="routerlink">FORUM</router-link></li>
-        <li><router-link to="/news" class="routerlink">NEWS</router-link></li>
-        <li><router-link to="/servizi" class="routerlink">SERVICES</router-link></li>
-        <li><router-link to="/shop" class="routerlink">SHOP</router-link></li>
+        <li><a href="/games" class="card-link">GAMES</a></li>
+        <li><router-link to="forum" class="card-link">FORUM</router-link></li>
+        <li><router-link to="/news" class="card-link">NEWS</router-link></li>
+        <li><router-link to="/servizi" class="card-link">SERVICES</router-link></li>
+        <li><router-link to="/shop" class="card-link">SHOP</router-link></li>
+        <li><router-link to="/leaderboard" class="card-link">LEADERBOARD</router-link></li>
         </ul>
     </nav>
-    <nav v-show="user.length < 1" id="loginsection">
+    <nav v-show="user[0] === ''" id="loginsection"> <!-- Se l'utente non è loggato, ci sono i tasti per fare il login e registrarsi-->
       <ul>
       <li>
     <router-link to="/login">
@@ -24,17 +27,16 @@
         </li>
       </ul>
     </nav>
-    <nav v-if="user.length === 1" id="usersection">
-      <div class="card mb-3" style="background: rgb(60, 121, 150); width: 500px;">
+    <nav v-if="user[0] !== ''" id="usersection" aria-label="User"> <!-- Scheda dell'utente, con scelte per mostrare link vari. Se l'utente è admin, allora ha anche accesso al backoffice e alla area di test. -->
+      <div class="card mb-3" style="background: rgb(0, 0, 190); width: 500px;">
         <div class="row g-0">
           <div class="col-md-4">
             <img :src="user[0].profilePicture" class="img-fluid rounded-start" alt="" style="max-height: 100px; object-fit:cover;"/>
           </div>
-          <div class="col-md-8" style="background: rgb(60, 121, 150);">
+          <div class="col-md-8" style="background: rgb(0, 0, 190);">
             <div class="card-body">
-              <h5 class="card-title"><b>{{user[0].username}}</b></h5>
+              <h5 class="card-title" style="color: white;"><b>{{user[0].username}}</b></h5>
             </div>
-              <a href="/test" class="card-link" v-if="user[0].admin === true">Testarea</a>
               <a href="/backoffice" class="card-link" v-if="user[0].admin === true">Backoffice</a>
               <router-link to="/user" class="card-link">User Area</router-link>
               <router-link to="/cart" class="card-link">Go to the Cart</router-link>
@@ -44,6 +46,8 @@
       </div>
     </nav>
   </header>
+</body>
+</html>
 </template>
 
 <script>
@@ -52,19 +56,15 @@ import axios from 'axios'
 export default {
   name: 'HomeHeader',
   mounted () {
-    axios.get('/auth/isAuthenticated')
+    axios.get('/auth/isAuthenticated') /** Questa chiamata API controlla che ci sia un utente che ha fatto accesso */
       .then((response) => {
         this.user.push(response.data)
-        console.log(this.user.length)
       })
   },
   data () {
     return {
       user: []
     }
-  },
-  computed: {
-
   }
 }
 </script>
@@ -73,7 +73,7 @@ export default {
 header {
     display: flex;
     border-bottom: 1px solid rgb(3, 3, 3);
-    background-color: rgb(0, 68, 40);
+    background-color: rgb(41, 109, 64);
     padding: .5rem 1rem;
 
     p {

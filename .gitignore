@@ -109,3 +109,8 @@ dist
 
 #vscode
 .vscode
+
+#idea
+.idea
+.idea/*
+.idea/AnimalHouse.iml

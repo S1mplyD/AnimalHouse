@@ -1,8 +1,8 @@
-<template lang="en">
-  <body class="bodymain">
+<template>
+  <html lang="en">
     <div class="vue-template">
-        <form>
-            <h3>CREATE AN ACCOUNT</h3>
+        <form style="color:white;" aria-label="Sign in form">
+            <h3>CREATE AN ACCOUNT</h3> <!--Qui è possibile compilare un form per registrarsi al sito Animal House -->
             <div class="form-group">
                 <label for="name">Name (and surname)</label>
                 <input id="name" type="text" class="form-control form-control-lg"/>
@@ -26,12 +26,12 @@
             </p>
         </form>
     </div>
-  </body>
+    </html>
 </template>
 <script>
 export default {
   methods: {
-    register: async function () {
+    register: async function () { /* Funzione che, mediante una chiamata API, permette di inserire nel database degli utenti, un nuovo utente */
       const data = {
         name: document.getElementById('name').value,
         username: document.getElementById('username').value,
@@ -44,8 +44,6 @@ export default {
           'Content-type': 'application/json'
         },
         body: JSON.stringify(data)
-      }).then((res) => {
-        console.log(res)
       })
       const data1 = {
         username: data.mail,

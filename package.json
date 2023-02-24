@@ -6,7 +6,10 @@
   "main": "index.js",
   "scripts": {
     "api": "nodemon ./index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd frontend && npm run build && cd ../games && npm run build && cd .. && npm run api",
+    "frontend": "cd frontend && npm run build && cd .. && npm run api",
+    "games": "cd games && npm run build && cd .. && npm run api"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +31,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
+    "vue-i18n": "^9.2.2",
     "vue3-mq": "^3.1.3"
   }
 }

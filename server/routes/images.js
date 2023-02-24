@@ -400,7 +400,7 @@ router
     try {
       if (req.user != null) {
         if (req.user.admin) {
-          const upload = multer({ storage: storage }).array("images");
+          const upload = multer({ storage: storage }).array("images", 3);
           upload(req, res, async (err) => {
             if (err) {
               console.log(err);
@@ -409,47 +409,58 @@ router
               for (let i = 0; i < res.req.files.length; i++) {
                 imagesAddr.push(res.req.files[i].filename);
               }
-              await Post.findOneAndUpdate(
-                {
-                  _id: req.query.id,
-                },
-                {
-                  $push: {
-                    photos: {
-                      $each: imagesAddr,
+              await Post.findById(req.query.id).then(async (post) => {
+                if (post.photos.length < 3) {
+                  await Post.updateOne(
+                    {
+                      _id: post.id,
                     },
-                  },
+                    {
+                      $push: {
+                        photos: {
+                          $each: imagesAddr,
+                        },
+                      },
+                    }
+                  ).then(() => {
+                    res.status(200).send("images uploaded correctly");
+                  });
+                } else {
+                  res.send("Max number of images reached");
                 }
-              );
-              res.status(200).send("images uploaded correctly");
+              });
             }
           });
         } else {
-          const upload = multer({ storage: storage }).array("images");
+          const upload = multer({ storage: storage }).array("images", 3);
           upload(req, res, async (err) => {
             if (err) {
               console.log(err);
             } else {
               const imagesAddr = [];
               for (let i = 0; i < res.req.files.length; i++) {
-                imagesAddr.push(element.filename);
+                imagesAddr.push(res.req.files[i].filename);
               }
-              await Post.findOneAndUpdate(
-                {
-                  $and: [
-                    { _id: req.query.id },
-                    { username: req.user.username },
-                  ],
-                },
-                {
-                  $push: {
-                    photos: {
-                      $each: imagesAddr,
-                    },
-                  },
+              await Post.findOne({
+                $and: [{ _id: req.query.id }, { username: req.user.username }],
+              }).then(async (post) => {
+                if (post.photos.length < 3) {
+                  await Post.updateOne(
+                    { _id: post.id },
+                    {
+                      $push: {
+                        photos: {
+                          $each: imagesAddr,
+                        },
+                      },
+                    }
+                  ).then(() => {
+                    res.status(200).send("images uploaded correctly");
+                  });
+                } else {
+                  res.send("Max number of images reached");
                 }
-              );
-              res.status(200).send("images uploaded correctly");
+              });
             }
           });
         }
@@ -487,18 +498,6 @@ router
                   ).then(() => {
                     res.sendStatus(200);
                   });
-                } else {
-                  for (let i = 0; i < res.req.files.length; i++) {
-                    await fs.unlink(
-                      path.join(publicUploadsPath, res.req.files[i].filename),
-                      (err) => {
-                        if (err) console.log(err);
-                        else {
-                          res.sendStatus(500);
-                        }
-                      }
-                    );
-                  }
                 }
               });
             }
@@ -515,7 +514,7 @@ router
    * PATCH
    * edit service's photos
    */
-  //TODO: change one or more photos
+
   .patch(async (req, res) => {
     try {
       if (req.user != null && req.user.admin) {
@@ -523,19 +522,33 @@ router
         upload(req, res, async (err) => {
           if (err) console.log(err);
           else {
+            console.log(res.req.files)
+            const imagesAddr = [];
+            for (let i = 0; i < res.req.files.length; i++) {
+              imagesAddr.push(res.req.files[i].filename);
+            }
             await Service.findById(req.query.id).then(async (service) => {
-              console.log(req.query.length);
-              for (let i = 0; i < service.pictures; i++) {
+              for (let i = 0; i < service.pictures.length; i++) {
                 fs.unlink(
                   path.join(publicUploadsPath, service.pictures[i]),
-                  (err) => {
-                    if (err) console.log(err);
-                    else {
-                      res.sendStatus(200);
+                  async (err) => {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      await Service.findByIdAndUpdate(service._id, {
+                        $pull: { pictures: { $in: service.pictures } },
+                      }).then(async (service) => {
+                        console.log(imagesAddr)
+                        await Service.findByIdAndUpdate(req.query.id, {
+                          $push: { pictures: { $each: imagesAddr } },
+                        })
+                      })
                     }
                   }
                 );
               }
+            }).finally(()=>{
+              res.sendStatus(200)
             });
           }
         });
@@ -546,12 +559,6 @@ router
       console.log(error);
     }
   })
-  /**
-   * DELETE
-   *
-   * delete a picture
-   */
-  .delete();
 
 router
   .route("/news")

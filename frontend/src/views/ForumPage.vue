@@ -1,49 +1,26 @@
-<template lang="en">
-<body class="bodymain">
- <ForumHeaderVue />
- <ForumComponent class="forum-view"/>
- <SiteFooterVue/>
- </body>
+<template>
+  <html lang="en">
+  <header>
+    <ForumHeaderVue /> <!--Per i commenti sull'header, si vada nel file .vue dell'header stesso -->
+  </header>
+ <ForumComponent/> <!--Per i commenti sul contenuto del Forum, si vada nel file .vue corretto -->
+ <PostComponent /> <!--Per i commenti sui singoli post, si vada nel file .vue corretto -->
+ <SiteFooterVue/> <!--Il footer è uguale per tutte le pagine -->
+ </html>
 </template>
 
 <script>
-// @ is an alias to /src
 import ForumHeaderVue from '@/components/headers/ForumHeader.vue'
 import ForumComponent from '@/components/forum/ForumComponent.vue'
+import PostComponent from '@/components/forum/PostComponent.vue'
 import SiteFooterVue from '@/components/SiteFooter.vue'
 export default {
   name: 'ForumPage',
   components: {
     ForumHeaderVue,
     ForumComponent,
+    PostComponent,
     SiteFooterVue
   }
 }
 </script>
-
-<style lang="scss">
-  .forum {
-    display: flex;
-    border-bottom: 1px solid #ccc;
-    padding: .5rem 1rem;
-
-    p {
-      margin-left: 1rem;
-    }
-  }
-  nav {
-    margin-left: auto;
-
-    ul {
-      list-style: none;
-    }
-
-    ul li {
-      display: inline-flex;
-      margin-left: 1rem;
-    }
-  }
-  .cr{
-    bottom: 3px;
-  }
-</style>>

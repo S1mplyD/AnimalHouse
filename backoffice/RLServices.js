@@ -1,0 +1,187 @@
+async function getOfflineServices() {
+  const login = await axios.get("/auth/isAuthenticated");
+  if (login.data != "") {
+    $.getJSON("/api/services", function (jd) {
+      const mainZone = $("#main_zone");
+      mainZone.html(
+        '<table id="table"><tr><th>Name</th><th>Id</th><th>Location</th><th>Days of opening</th><th>Time of opening/th><th>Type</th><th>Info</th><th>Mail</th><th>Phone</th></tr>'
+      );
+      for (var i = 0; i < jd.length; i++) {
+        if (jd[i].online === false) {
+          $("#table").append(
+            "<tr>" +
+              "<td>" +
+              jd[i].name +
+              "</td>" +
+              "<td>" +
+              jd[i]._id +
+              "</td>" +
+              "<td>" +
+              jd[i].location +
+              "</td>" +
+              "<td>" +
+              jd[i].openDays +
+              "</td>" +
+              "<td>" +
+              jd[i].openTime +
+              "</td>" +
+              "<td>" +
+              jd[i].type +
+              "</td>" +
+              "<td>" +
+              jd[i].info +
+              "</td>" +
+              "<td>" +
+              jd[i].mail +
+              "</td>" +
+              "<td>" +
+              jd[i].phone +
+              "</td>" +
+              "</tr>"
+          );
+        }
+      }
+      mainZone.append(
+        '<form id="new_serv"><label for="name">Name:</label><br><input type="text" id="name" name="name" placeholder="name"><br>'
+      );
+      mainZone.append(
+        '<label for="location">Location:</label><br><input type="text" id="location" name="location" placeholder="location"><br>'
+      );
+      mainZone.append(
+        '<label for="days">Open days (separated by a comma):</label><br><input type="text" id="days" name="days" placeholder="open days"><br>'
+      );
+      mainZone.append(
+        '<label for="time">Open time:</label><br><input type="text" id="time" name="time" placeholder="open time"><br>'
+      );
+      mainZone.append(
+        '<label for="type">Type:</label><br><input type="text" id="type" name="type" placeholder="spa, boarding, training, shop"><br>'
+      );
+      mainZone.append(
+        '<label for="info">Info:</label><br><input type="text" id="info" name="info" placeholder="info"><br>'
+      );
+      mainZone.append(
+        '<label for="mail">Mail:</label><br><input type="text" id="mail" name="mail" placeholder="mail"><br>'
+      );
+      mainZone.append(
+        '<label for="phone">Phone:</label><br><input type="text" id="phone" name="phone" placeholder="phone"><br>'
+      );
+      mainZone.append(
+        '<label for="servImage">Images:</label><br><input type="file" id="servImage" name="servImage" multiple><br>'
+      );
+      mainZone.append(
+        '<button id="submit_butrel" type="button" onclick="createOfflineService()">SUBMIT</button></form>'
+      );
+      mainZone.append(
+        '<form id="new_serv"><label for="title">ID of the service to delete:</label><br><input type="text" id="title" name="title" placeholder="id">'
+      );
+      mainZone.append(
+        '<button id="submit_remrel" type="button" onclick="deleteOfflineServices()">REMOVE SERVICE</button></form>'
+      );
+      mainZone.append(
+        '<form id="new_serv"><label for="uptitle">ID of the service to update:</label><br><input type="text" id="uptitle" name="uptitle" placeholder="id"><br>'
+      );
+      mainZone.append(
+        '<label for="upname">Name:</label><br><input type="text" id="upname" name="upname" placeholder="name"><br>'
+      );
+      mainZone.append(
+        '<label for="uplocation">Location:</label><br><input type="text" id="uplocation" name="uplocation" placeholder="location"><br>'
+      );
+      mainZone.append(
+        '<label for="updays">Open days (separated by a comma):</label><br><input type="text" id="updays" name="updays" placeholder="open days"><br>'
+      );
+      mainZone.append(
+        '<label for="uptime">Open time:</label><br><input type="text" id="uptime" name="uptime" placeholder="open time"><br>'
+      );
+      mainZone.append(
+        '<label for="uptype">Type:</label><br><input type="text" id="uptype" name="uptype" placeholder="spa, boarding, training, shop"><br>'
+      );
+      mainZone.append(
+        '<label for="upinfo">Info:</label><br><input type="text" id="upinfo" name="upinfo" placeholder="info"><br>'
+      );
+      mainZone.append(
+        '<label for="upmail">Mail:</label><br><input type="text" id="upmail" name="upmail" placeholder="mail"><br>'
+      );
+      mainZone.append(
+        '<label for="upphone">Phone:</label><br><input type="text" id="upphone" name="upphone" placeholder="phone"><br>'
+      );
+      mainZone.append(
+        '<label for="upservImage">Images:</label><br><input type="file" id="upservImage" name="upservImage" multiple><br>'
+      );
+      mainZone.append(
+        '<button id="update_butrel" type="button" onclick="updateOfflineService()">UPDATE</button></form>'
+      );
+    });
+  }
+}
+
+function deleteOfflineServices() {
+  axios.delete("/api/services?id=" + document.getElementById("title").value);
+}
+function createOfflineService() {
+  let files = document.querySelector("#servImage");
+  if (files.files.length <= 2) {
+    axios
+      .post("/api/services", {
+        name: document.getElementById("name").value,
+        location: document.getElementById("location").value,
+        openDays: document.getElementById("days").value,
+        openTime: document.getElementById("time").value,
+        type: document.getElementById("type").value,
+        info: document.getElementById("info").value,
+        mail: document.getElementById("mail").value,
+        phone: document.getElementById("phone").value,
+        online: false,
+      })
+      .then((result) => {
+        const formData = new FormData();
+
+        for (let i = 0; i < files.files.length; i++) {
+          formData.append("images", files.files[i]);
+        }
+        const id = result.data._id;
+        axios.post(
+          "/api/images/services",
+          formData,
+          { params: { id: id } },
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
+      });
+  } else {
+    alert("Too many files. (Max number of images is 2!)");
+  }
+}
+function updateOfflineService() {
+  const files = document.querySelector("#upservImage");
+  if (files.files.length <= 2) {
+    const id = document.getElementById("uptitle").value;
+    axios
+      .patch("/api/services?id=" + id, {
+        name: document.getElementById("upname").value,
+        location: document.getElementById("uplocation").value,
+        openDays: document.getElementById("updays").value,
+        openTime: document.getElementById("uptime").value,
+        type: document.getElementById("uptype").value,
+        info: document.getElementById("upinfo").value,
+        mail: document.getElementById("upmail").value,
+        phone: document.getElementById("upphone").value,
+        online: false,
+      })
+      .then(() => {
+        const formData = new FormData();
+        const files = document.querySelector("#upservImage");
+        for (let i = 0; i < files.files.length; i++) {
+          formData.append("images", files.files[i]);
+        }
+        axios.patch(
+          "/api/images/services",
+          formData,
+          { params: { id: id } },
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
+      });
+  } else {
+    alert("Too many files. (Max number of images is 2!)");
+  }
+}
+
+module.exports = { getOfflineServices };

@@ -22,13 +22,14 @@ router
    */
   .post(async (req, res) => {
     try {
+      const categories = req.body.categories.replaceAll(" ", "").split(",");
       if (req.user != null && req.user.admin) {
         await Product.create({
           title: req.body.title,
           info: req.body.info,
           price: req.body.price,
           discountedPrice: req.body.discountedPrice,
-          categories: req.body.categories,
+          categories: categories,
           seller: req.user.username,
           mainPhoto: "placeholder",
         }).then((product) => {
@@ -80,7 +81,7 @@ router
     try {
       if (req.user != null) {
         if (req.user.admin) {
-          await Product.findOneAndDelete(req.query.id)
+          await Product.findByIdAndDelete(req.query.id)
             .then(async (product) => {
               for (let i = 0; i < product.photos.length; i++) {
                 await fs.unlink(
@@ -123,7 +124,7 @@ router
   });
 
 router
-  .route("/product")
+  .route("/:id")
   /**
    * GET
    * Ottiene un prodotto tramite nome
@@ -132,7 +133,8 @@ router
    */
   .get(async (req, res) => {
     try {
-      await Product.findOne({ title: req.query.title }).then((product) => {
+      console.log(req.params);
+      await Product.findById(req.params.id).then((product) => {
         if (product) {
           res.status(200).send(product);
         } else {
