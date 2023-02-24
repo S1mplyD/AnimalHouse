@@ -52,7 +52,7 @@ fs.readdir(__dirname, (err, files) => {
 
 app.use("/games", express.static(path.join(__dirname, "games/build")));
 app.use("/", express.static(path.join(__dirname, "frontend/dist")));
-app.use("/backoffice", express.static(path.join(__dirname, "backoffice/test")));
+app.use("/backoffice", express.static(path.join(__dirname, "backoffice")));
 app.use(express.static(path.join(__dirname, "public")));
 /**
  * API routes
@@ -93,7 +93,7 @@ app.get("*", (req, res) => {
 });
 
 mongoose.set("strictQuery", false);
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_PERSONAL_URI);
 
 app.listen(port, () => {
   console.log(`server started on port ${port}`);
