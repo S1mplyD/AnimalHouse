@@ -27,7 +27,7 @@ export default function ProductPage() {
   if (!loading) {
     if (authenticated) {
       return (
-        <div className="flex flex-col bg-white rounded">
+        <div className="flex flex-col bg-white rounded h-fit w-fit items-center m-auto">
           <h1>{product.title}</h1>
           <h2>{product.info}</h2>
           <img
@@ -35,6 +35,7 @@ export default function ProductPage() {
               product.mainPhoto !== "placeholder" ? `/${product.mainPhoto}` : ""
             }
             alt={product.title}
+            className={"w-96 h-96"}
           />
           <label htmlFor={"quantity"}>Quantity</label>
           <input type={"number"} id={"quantity"} name={"quantity"} />
