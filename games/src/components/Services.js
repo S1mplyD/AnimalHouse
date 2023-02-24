@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Services(service) {
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white">
+    <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white flex flex-col items-center">
       <Link to={`/games/services/${service.service[0]._id}`}>
         <img
           src={`/${service.service[0].pictures[0]}`}

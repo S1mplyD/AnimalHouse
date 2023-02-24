@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function Ads(ad) {
   const random = Math.floor(Math.random() * ad.ad.length);
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white">
+    <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white flex flex-col items-center">
       <Link to={`/games/shop/${ad.ad[random]._id}`}>
         <img
           src={`/${ad.ad[random].mainPhoto}`}
