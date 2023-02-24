@@ -32,8 +32,8 @@ router.route("/hangman").get(async (req, res) => {
   });
 });
 
-// router.route("/populate").get(async (req, res) => {
-//   animals.populateDb();
-// });
+router.route("/populate").get(async (req, res) => {
+  animals.populateDb();
+});
 
 module.exports = router;
