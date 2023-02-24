@@ -49,7 +49,7 @@ async function getProducts() {
         '<button id="submit_add1" type="button" onclick="addProduct()">ADD PRODUCT</button></form>'
       );
       mainZone.append(
-        '<form id="new_serv"><label for="title">ID of the item to delete:</label><br><input type="text" id="title" name="title" placeholder="id">'
+        '<form id="new_serv"><label for="delid">ID of the item to delete:</label><br><input type="text" id="delid" name="delet id" placeholder="id">'
       );
       mainZone.append(
         '<button id="submit_rem" type="submit" onclick="deleteProduct()">REMOVE PRODUCT</button></form>'
@@ -73,7 +73,7 @@ function updateProduct() {
 }
 
 function deleteProduct() {
-  axios.delete("/api/products?id=" + document.getElementById("title").value);
+  axios.delete("/api/products?id=" + document.getElementById("delid").value);
 }
 
 function addProduct() {
