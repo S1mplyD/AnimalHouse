@@ -4,7 +4,7 @@ async function getPosts() {
     $.getJSON("/api/posts", function (jd) {
       const mainZone = $("#main_zone");
       mainZone.html(
-        '<table id="table"><tr><th>Title</th><th>Id</th><th>User</th><th>Description</th><th>Summary</th><th>Picture</th><th>Date</th></tr>'
+        '<table id="table"><tr><th>Title</th><th>Id</th><th>User</th><th>Description</th><th>Summary</th><th>Date</th></tr>'
       );
       for (var i = 0; i < jd.length; i++) {
         $("#table").append(
@@ -23,9 +23,6 @@ async function getPosts() {
             "</td>" +
             "<td>" +
             jd[i].post_summary +
-            "</td>" +
-            "<td>" +
-            jd[i].photos +
             "</td>" +
             "<td>" +
             jd[i].date +

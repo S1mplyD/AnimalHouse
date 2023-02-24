@@ -4,7 +4,7 @@ async function getProducts() {
     $.getJSON("/api/products", function (jd) {
       const mainZone = $("#main_zone");
       mainZone.html(
-        '<table id="table"><tr><th>Name of the product</th><th>Id</th><th>Image</th><th>Price</th><th>Info</th><th>Categories</th></tr>'
+        '<table id="table"><tr><th>Name of the product</th><th>Id</th><th>Price</th><th>Info</th><th>Categories</th></tr>'
       );
       for (var i = 0; i < jd.length; i++) {
         $("#table").append(
@@ -14,9 +14,6 @@ async function getProducts() {
             "</td>" +
             "<td>" +
             jd[i]._id +
-            "</td>" +
-            "<td>" +
-            jd[i].photos +
             "</td>" +
             "<td>" +
             jd[i].price +

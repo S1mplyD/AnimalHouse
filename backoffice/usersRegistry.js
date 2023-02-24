@@ -2,7 +2,7 @@ function getUsers() {
   $.getJSON("/api/users", function (jd) {
     const mainZone = $("#main_zone");
     mainZone.html(
-      '<table id="table"><tr><th>Name</th><th>Username</th><th>Id</th><th>Mail</th><th>Service ID</th><th>Password</th><th>Pets</th><th>Profile Picture</th><th>Is_Admin</th></tr>'
+      '<table id="table"><tr><th>Name</th><th>Username</th><th>Id</th><th>Mail</th><th>Service ID</th><th>Password</th><th>Pets</th><th>Is_Admin</th></tr>'
     );
     for (var i = 0; i < jd.length; i++) {
       $("#table").append(
@@ -27,9 +27,6 @@ function getUsers() {
           "</td>" +
           "<td>" +
           jd[i].ownedAnimals +
-          "</td>" +
-          "<td>" +
-          jd[i].profilePicture +
           "</td>" +
           "<td>" +
           jd[i].admin +
