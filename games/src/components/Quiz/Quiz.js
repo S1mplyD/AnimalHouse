@@ -56,7 +56,11 @@ export default function Quiz({ score, setScore, setGame }) {
     return (
       <>
         <div className="flex flex-col items-center ">
-          <Services service={services}></Services>
+          {services.length > 0 ? (
+            <div className={"flex flex-row justify-evenly"}>
+              <Services service={services}></Services>
+            </div>
+          ) : null}
           <Question
             currentQuestion={currentQuestion}
             setCurrentQuestion={setCurrentQuestion}
@@ -68,7 +72,11 @@ export default function Quiz({ score, setScore, setGame }) {
             setScore={setScore}
             setGame={setGame}
           />
-          <Ads ad={ads}></Ads>
+          {ads.length > 0 ? (
+            <div className={"flex flex-row justify-evenly"}>
+              <Ads ad={ads}></Ads>
+            </div>
+          ) : null}
         </div>
       </>
     );

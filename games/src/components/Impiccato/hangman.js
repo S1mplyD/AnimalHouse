@@ -115,9 +115,11 @@ export default function Hangman({ setGame, score, setScore }) {
   if (!loading) {
     return (
       <>
-        <div className={"flex flex-row justify-evenly"}>
-          <Services service={services}></Services>
-        </div>
+        {services.length > 0 ? (
+          <div className={"flex flex-row justify-evenly"}>
+            <Services service={services}></Services>
+          </div>
+        ) : null}
         <div className="flex flex-col items-center bg-white rounded m-2 my-20 md:mx-52">
           <img
             src={require(`./Images/${hangmanState}.png`)}
@@ -154,9 +156,11 @@ export default function Hangman({ setGame, score, setScore }) {
             </button>
           </div>
         </div>
-        <div className={"flex flex-row justify-evenly"}>
-          <Ads ad={ads}></Ads>
-        </div>
+        {ads.length > 0 ? (
+          <div className={"flex flex-row justify-evenly"}>
+            <Ads ad={ads}></Ads>
+          </div>
+        ) : null}
       </>
     );
   } else if (funFactLoad) {

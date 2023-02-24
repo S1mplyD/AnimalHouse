@@ -42,9 +42,11 @@ export default function Home() {
   if (!loading) {
     return (
       <>
-        <div className={"flex flex-row justify-evenly"}>
-          <Services service={services}></Services>
-        </div>
+        {services.length > 0 ? (
+          <div className={"flex flex-row justify-evenly"}>
+            <Services service={services}></Services>
+          </div>
+        ) : null}
         <div className="m-5 p-2 bg-white rounded ">
           <form className="bg-white flex flex-col items-center text-center">
             <div className="m-2 p-2 bg-white flex flex-col">
@@ -151,7 +153,7 @@ export default function Home() {
             <input
               type={"image"}
               className="w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
-              src="/quizImage.png"
+              src={require("../quizImage.png")}
               alt="quiz game"
               onClick={handleQuiz}
             />
@@ -160,7 +162,7 @@ export default function Home() {
             <input
               type={"image"}
               className=" w-80 h-80 object-cover bg-white cursor-pointer rounded-xl"
-              src="/memoryImage.png"
+              src={require("../memoryImage.png")}
               alt="memory game"
               onClick={handleMemory}
             />
@@ -168,7 +170,7 @@ export default function Home() {
           <div className="p-2">
             <input
               type={"image"}
-              src={"/hangmanImage.png"}
+              src={require("../hangmanImage.png")}
               alt={"hangman game"}
               onClick={handleHangMan}
               className={
@@ -177,9 +179,11 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className={"flex flex-row justify-evenly"}>
-          <Ads ad={ads}></Ads>
-        </div>
+        {ads.length > 0 ? (
+          <div className={"flex flex-row justify-evenly"}>
+            <Ads ad={ads}></Ads>
+          </div>
+        ) : null}
       </>
     );
   }

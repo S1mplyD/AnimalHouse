@@ -121,7 +121,11 @@ function Memory({ score, setScore, setGame }) {
         className="flex flex-col justify-evenly items-center"
         style={{ visibility: show ? "visible" : "hidden" }}
       >
-        <Services service={services}></Services>
+        {services.length > 0 ? (
+          <div className={"flex flex-row justify-evenly"}>
+            <Services service={services}></Services>
+          </div>
+        ) : null}
 
         <div
           className="grid grid-cols-4 grid-rows-4 gap-2 p-8 border-2 border-solid rounded-3xl bg-white mt-10"
@@ -138,7 +142,11 @@ function Memory({ score, setScore, setGame }) {
           ))}
           {correct > 6 ? handleWin() : null}
         </div>
-        <Ads ad={ads}></Ads>
+        {ads.length > 0 ? (
+          <div className={"flex flex-row justify-evenly"}>
+            <Ads ad={ads}></Ads>
+          </div>
+        ) : null}
       </div>
     );
   } else if (funFactLoad) {
