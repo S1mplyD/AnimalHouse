@@ -7,7 +7,7 @@ export default function Ads(ad) {
     <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white">
       <Link to={`/games/shop/${ad.ad[random]._id}`}>
         <img
-          src={`/${ad.ad[random].image}`}
+          src={`/${ad.ad[random].mainPhoto}`}
           alt={ad.ad[random].title}
           className="w-80 h-80"
         />
